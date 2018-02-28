@@ -1,0 +1,18 @@
+﻿<Window x:Class="TestTree.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestTree"
+        mc:Ignorable="d"
+        Title="Test Tree" Height="350" Width="274.5">
+    <Grid>
+        <TreeView ItemsSource="{Binding Tree}" Margin="10" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=TreeNodes}">
+                    <TextBlock Text="{Binding Task.TaskName}" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </Grid>
+</Window>
