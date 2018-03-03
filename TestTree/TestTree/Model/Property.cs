@@ -12,26 +12,25 @@ namespace TestTree.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Task
+    public partial class Property
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Task()
+        public Property()
         {
+            this.PropDataTypes = new HashSet<PropDataType>();
             this.PropValues = new HashSet<PropValue>();
-            this.Tasks1 = new HashSet<Task>();
-            this.TaskTTypes = new HashSet<TaskTType>();
+            this.TTypeProps = new HashSet<TTypeProp>();
         }
     
-        public System.Guid TaskID { get; set; }
-        public string TaskName { get; set; }
-        public Nullable<System.Guid> ParentTaskID { get; set; }
+        public System.Guid PropID { get; set; }
+        public string DataType { get; set; }
+        public string PropName { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PropDataType> PropDataTypes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PropValue> PropValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Task> Tasks1 { get; set; }
-        public virtual Task Task1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TaskTType> TaskTTypes { get; set; }
+        public virtual ICollection<TTypeProp> TTypeProps { get; set; }
     }
 }

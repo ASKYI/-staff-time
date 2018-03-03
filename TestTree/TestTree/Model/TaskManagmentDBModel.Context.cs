@@ -25,6 +25,12 @@ namespace TestTree.Model
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<PropDataType> PropDataTypes { get; set; }
+        public virtual DbSet<Property> Properties { get; set; }
+        public virtual DbSet<PropValue> PropValues { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
+        public virtual DbSet<TaskTType> TaskTTypes { get; set; }
+        public virtual DbSet<TTypeProp> TTypeProps { get; set; }
+        public virtual DbSet<TType> TTypes { get; set; }
     }
 }

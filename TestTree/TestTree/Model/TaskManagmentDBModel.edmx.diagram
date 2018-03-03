@@ -4,9 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a87b2361d3824dcfb15db91ad4ac9030" Name="Diagram1">
-        <EntityTypeShape EntityType="TaskManagmentDBModel.Task" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="6ec21ebc422c47e5ae21d0b3d8f5c59a" Name="Diagram1">
+        <EntityTypeShape EntityType="TaskManagmentDBModel.PropDataType" Width="1.5" PointX="3" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.Property" Width="1.5" PointX="0.75" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.PropValue" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.Task" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.TaskTType" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.TTypeProp" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.TType" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_PropDataTypes_Properties" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_PropValues_Properties" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_TTypeProps_Properties" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_PropValues_Tasks" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_Tasks_Tasks" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_TaskTTypes_Tasks" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_TaskTTypes_TTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_TTypeProps_TTypes" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

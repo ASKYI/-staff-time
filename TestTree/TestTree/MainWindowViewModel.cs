@@ -10,7 +10,9 @@ namespace TestTree
 {
     public class MainWindowViewModel
     {
+        private Dictionary<System.Guid, TreeNode> _taskNodesDictionary;
         public ObservableCollection<TreeNode> Tree { get; set; }
+        public ObservableCollection<TreeNode> FavTasks { get; set; }
         private void GenerateTree()
         {
             using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
@@ -18,7 +20,7 @@ namespace TestTree
                 //Генерируется список смежности. Корни в коллекции Tree.
                 //Словарь используется для быстрого доступа к узлам по идентификатору задачи.
                 Tree = new ObservableCollection<TreeNode>();
-                Dictionary<System.Guid, TreeNode> taskNodes = new Dictionary<Guid, TreeNode>();
+                _taskNodesDictionary  = new Dictionary<Guid, TreeNode>();
 
                 //В таблице ссылка на родителя может содержать идентификатор на задачу, 
                 //которая еще не встречалась в таблице при последовательном чтении.
@@ -28,28 +30,67 @@ namespace TestTree
                 foreach (Model.Task task in ctx.Tasks)
                 {
                     System.Guid id = (System.Guid)task.TaskID;
-                    if (!taskNodes.ContainsKey(id))
-                        taskNodes.Add(id, new TreeNode(task));
+                    if (!_taskNodesDictionary.ContainsKey(id))
+                        _taskNodesDictionary.Add(id, new TreeNode(task));
                     else
-                        taskNodes[id].Task = task;
+                        _taskNodesDictionary[id].Task = task;
 
                     if (task.ParentTaskID == null)
-                        Tree.Add(taskNodes[id]); //Это корень
+                        Tree.Add(_taskNodesDictionary[id]); //Это корень
                     else
                     {
                         System.Guid parentId = (System.Guid)task.ParentTaskID;
-                        if (!taskNodes.ContainsKey(parentId))
-                            taskNodes.Add(parentId, new TreeNode());
-                        taskNodes[parentId].TreeNodes.Add(taskNodes[id]);
-                        taskNodes[id].ParentNode = taskNodes[parentId];
+                        if (!_taskNodesDictionary.ContainsKey(parentId))
+                            _taskNodesDictionary.Add(parentId, new TreeNode());
+                        _taskNodesDictionary[parentId].TreeNodes.Add(_taskNodesDictionary[id]);
+                        _taskNodesDictionary[id].ParentNode = _taskNodesDictionary[parentId];
                     }
                 }
             }
         }
+        private void GenerateFavTask()
+        {
+            if (_taskNodesDictionary == null)
+                throw new Exception("Dictionary has not been generated");
+            FavTasks = ConvertTasksIntoNodes(GetTasksByProp("Favorite", "True"));
+        }
+       
+        private ObservableCollection<TreeNode> ConvertTasksIntoNodes(List<System.Guid> t)
+        {
+            if (_taskNodesDictionary == null)
+                throw new Exception();
+            ObservableCollection<TreeNode> tasksNodes = new ObservableCollection<TreeNode>();
+            foreach(var q in t)
+                tasksNodes.Add(_taskNodesDictionary[q]);
+            return tasksNodes;
+        }
+
+        private List<System.Guid> GetTasksByProp(string propName, string propValue)
+        { 
+            if (_taskNodesDictionary == null)
+                throw new Exception("Dictionary has not been generated");
+            using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
+            {
+                Model.Property favProp = (from p in ctx.Properties where p.PropName == propName select p).FirstOrDefault();
+                return (from p in ctx.PropValues where p.Value == propValue select p.TaskID).ToList<System.Guid>();
+            }
+        }
+
+        private List<System.Guid> GetTasksByProp(System.Guid propID, string propValue)
+        {
+            if (_taskNodesDictionary == null)
+                throw new Exception("Dictionary has not been generated");
+            using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
+            {
+                Model.Property favProp = (from p in ctx.Properties where p.PropID == propID select p).FirstOrDefault();
+                return (from p in ctx.PropValues where p.Value == propValue select p.TaskID).ToList<System.Guid>();
+            }
+        } 
 
         public MainWindowViewModel()
         {
             GenerateTree();
+            GenerateFavTask();
         }
     }
 }
