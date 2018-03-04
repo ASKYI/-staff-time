@@ -13,18 +13,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using System.Collections.ObjectModel;
-
-namespace TestTree
+namespace TestTree.View
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для Tree.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TreeView : UserControl
     {
-        public MainWindow()
+        ViewModel.TreeViewModel treeVM = new ViewModel.TreeViewModel();
+        public TreeView()
         {
             InitializeComponent();
+            DataContext = treeVM;
         }
     }
 }

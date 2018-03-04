@@ -13,24 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TestTree
+namespace TestTree.View
 {
     /// <summary>
-    /// Логика взаимодействия для Breadcrumb.xaml
+    /// Логика взаимодействия для Fave.xaml
     /// </summary>
-    public partial class Breadcrumb : UserControl
+    public partial class FaveView : UserControl
     {
-        //Just a TextBlock
-        //TODO: Make it an actual BreadCrumb
-        public Breadcrumb()
+        public FaveView()
         {
             InitializeComponent();
-        }
 
-        public string BreadcrumbTextBoxToolTip
-        {
-            get { return this.TextBlockToolTip.Text; }
-            set { TextBlockToolTip.Text = value; }
         }
     }
 }

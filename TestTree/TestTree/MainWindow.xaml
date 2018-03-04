@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestTree"
+        xmlns:view="clr-namespace:TestTree.View"
         mc:Ignorable="d"
         Title="Test Tree" Height="350" Width="274.5">
     <Grid>
@@ -11,14 +12,7 @@
             <RowDefinition Height="5*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TreeView Grid.Row="0" ItemsSource="{Binding Tree}" Margin="5" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Path=TreeNodes}">
-                    <TextBlock Text="{Binding Task.TaskName}" />
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
-        <Label Content="Избранное:" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
-        <local:Breadcrumb Grid.Row="1" x:Name="newB" BreadcrumbTextBoxToolTip="Test"></local:Breadcrumb> 
+        <view:TreeView Grid.Row="0" ></view:TreeView>
+        <view:FaveView Grid.Row="1"></view:FaveView>
     </Grid>
 </Window>
