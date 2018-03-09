@@ -8,10 +8,11 @@ using System.Collections.ObjectModel;
 using TestTree.Model;
 using System.Windows.Input;
 using System.ComponentModel;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace TestTree.ViewModel 
 {
-    public class FaveViewModel : BaseViewModel, INotifyPropertyChanged
+    public class FaveViewModel : MainViewModel, INotifyPropertyChanged
     {
         public ObservableCollection<TreeNode> FavTasks { get; set; }
         private TreeNode _selectedTask;
@@ -65,7 +66,7 @@ namespace TestTree.ViewModel
         }
         private void SelectTask(object obj)
         {
- 
+            MessengerInstance.Send(new NotificationMessage<TreeNode>(SelectedTask, "TaskSelection"));
         }
 
 

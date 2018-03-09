@@ -7,11 +7,12 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 
 using TestTree.Model;
+using GalaSoft.MvvmLight;
 
-namespace TestTree.ViewModel
+namespace TestTree.ViewModel 
 {
     //Этот класс должен быть один. Singleton?
-    public class BaseViewModel : INotifyPropertyChanged
+    public class MainViewModel : ViewModelBase, INotifyPropertyChanged
     {
         //Так как с задачами удобнее работать как с узлами дерева (имея доступ ко всем наследникам и предку), 
         //они хранятся в виде узлов дерева.
@@ -48,7 +49,7 @@ namespace TestTree.ViewModel
                 }
             }
         }
-        public BaseViewModel()
+        public MainViewModel()
         {
             Generate_TaskNodesDictionary();
         }

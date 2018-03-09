@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
 using TestTree.Model;
+using System.Windows.Input;
+using System.ComponentModel;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace TestTree.ViewModel
 {
-    public class TreeViewModel : BaseViewModel
+    public class TreeViewModel : MainViewModel
     { 
         public ObservableCollection<TreeNode> Tree { get; set; }
 
@@ -26,9 +29,30 @@ namespace TestTree.ViewModel
                     Tree.Add(taskNode.Value); //Это корень
             }
         }
+        private readonly ICommand _selectTaskCommand;
+        public ICommand SelectTaskCommand
+        {
+            get
+            {
+                return _selectTaskCommand;
+            }
+        }
         public TreeViewModel() : base()
         {
             Generate_Tree();
+            _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
+        }
+
+        private bool CanSelectTask(object obj)
+        {
+            return true;
+        }
+        private void SelectTask(object obj)
+        {
+            MessengerInstance.Register<NotificationMessage<TreeNode>>(this, (selectedTask) =>
+            {
+
+            });
         }
     }
 }
