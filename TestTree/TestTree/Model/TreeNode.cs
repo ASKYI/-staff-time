@@ -10,7 +10,6 @@ namespace TestTree.Model
     public class TreeNode
     {
         public Model.Task Task {get; set;} 
-
         public TreeNode ParentNode { get; set; }
         public ObservableCollection<TreeNode> TreeNodes { get; set; }
 

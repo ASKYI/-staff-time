@@ -20,10 +20,11 @@ namespace TestTree.View
     /// </summary>
     public partial class FaveView : UserControl
     {
+        TestTree.ViewModel.FaveViewModel faveVM = new TestTree.ViewModel.FaveViewModel();
         public FaveView()
         {
             InitializeComponent();
-
+            DataContext = faveVM;
         }
     }
 }

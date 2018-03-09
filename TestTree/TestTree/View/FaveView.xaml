@@ -4,9 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TestTree.View"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Label Content="Избранное:" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
+        <DataGrid ItemsSource="{Binding FavTasks}" SelectedItem="{Binding SelectedTask}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Избранное:" Binding="{Binding Task.TaskName}" Width="*" IsReadOnly="True" ></DataGridTextColumn>
+            </DataGrid.Columns>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectTaskCommand }" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </DataGrid>
     </Grid>
 </UserControl>

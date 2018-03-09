@@ -48,7 +48,6 @@ namespace TestTree.ViewModel
                 }
             }
         }
-
         public BaseViewModel()
         {
             Generate_TaskNodesDictionary();
