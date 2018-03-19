@@ -61,6 +61,14 @@
           <Property Name="TTypeID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TypeName" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Works">
+          <Key>
+            <PropertyRef Name="WorkID" />
+          </Key>
+          <Property Name="WorkID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WorkName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TaskID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <Association Name="FK_PropDataTypes_Properties">
           <End Role="Properties" Type="Self.Properties" Multiplicity="1" />
           <End Role="PropDataTypes" Type="Self.PropDataTypes" Multiplicity="*" />
@@ -157,6 +165,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Works_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
+          <End Role="Works" Type="Self.Works" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="TaskID" />
+            </Principal>
+            <Dependent Role="Works">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище TaskManagmentDBModelContainer">
           <EntitySet Name="PropDataTypes" EntityType="Self.PropDataTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Properties" EntityType="Self.Properties" Schema="dbo" store:Type="Tables" />
@@ -165,6 +185,7 @@
           <EntitySet Name="TaskTTypes" EntityType="Self.TaskTTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TTypeProps" EntityType="Self.TTypeProps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TTypes" EntityType="Self.TTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Works" EntityType="Self.Works" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_PropDataTypes_Properties" Association="Self.FK_PropDataTypes_Properties">
             <End Role="Properties" EntitySet="Properties" />
             <End Role="PropDataTypes" EntitySet="PropDataTypes" />
@@ -196,6 +217,10 @@
           <AssociationSet Name="FK_TTypeProps_TTypes" Association="Self.FK_TTypeProps_TTypes">
             <End Role="TTypes" EntitySet="TTypes" />
             <End Role="TTypeProps" EntitySet="TTypeProps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Works_Tasks" Association="Self.FK_Works_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="Works" EntitySet="Works" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -245,6 +270,7 @@
           <NavigationProperty Name="Tasks1" Relationship="Self.FK_Tasks_Tasks" FromRole="Tasks" ToRole="Tasks1" />
           <NavigationProperty Name="Task1" Relationship="Self.FK_Tasks_Tasks" FromRole="Tasks1" ToRole="Tasks" />
           <NavigationProperty Name="TaskTTypes" Relationship="Self.FK_TaskTTypes_Tasks" FromRole="Tasks" ToRole="TaskTTypes" />
+          <NavigationProperty Name="Works" Relationship="Self.FK_Works_Tasks" FromRole="Tasks" ToRole="Works" />
         </EntityType>
         <EntityType Name="TaskTType">
           <Key>
@@ -274,6 +300,15 @@
           <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="TaskTTypes" Relationship="Self.FK_TaskTTypes_TTypes" FromRole="TTypes" ToRole="TaskTTypes" />
           <NavigationProperty Name="TTypeProps" Relationship="Self.FK_TTypeProps_TTypes" FromRole="TTypes" ToRole="TTypeProps" />
+        </EntityType>
+        <EntityType Name="Work">
+          <Key>
+            <PropertyRef Name="WorkID" />
+          </Key>
+          <Property Name="WorkID" Type="Guid" Nullable="false" />
+          <Property Name="WorkName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TaskID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Task" Relationship="Self.FK_Works_Tasks" FromRole="Works" ToRole="Tasks" />
         </EntityType>
         <Association Name="FK_PropDataTypes_Properties">
           <End Role="Properties" Type="Self.Property" Multiplicity="1" />
@@ -347,6 +382,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Works_Tasks">
+          <End Role="Tasks" Type="Self.Task" Multiplicity="1" />
+          <End Role="Works" Type="Self.Work" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="TaskID" />
+            </Principal>
+            <Dependent Role="Works">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TaskTTypes_TTypes">
           <End Role="TTypes" Type="Self.TType" Multiplicity="1" />
           <End Role="TaskTTypes" Type="Self.TaskTType" Multiplicity="*" />
@@ -379,6 +426,7 @@
           <EntitySet Name="TaskTTypes" EntityType="Self.TaskTType" />
           <EntitySet Name="TTypeProps" EntityType="Self.TTypeProp" />
           <EntitySet Name="TTypes" EntityType="Self.TType" />
+          <EntitySet Name="Works" EntityType="Self.Work" />
           <AssociationSet Name="FK_PropDataTypes_Properties" Association="Self.FK_PropDataTypes_Properties">
             <End Role="Properties" EntitySet="Properties" />
             <End Role="PropDataTypes" EntitySet="PropDataTypes" />
@@ -402,6 +450,10 @@
           <AssociationSet Name="FK_TaskTTypes_Tasks" Association="Self.FK_TaskTTypes_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="TaskTTypes" EntitySet="TaskTTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Works_Tasks" Association="Self.FK_Works_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="Works" EntitySet="Works" />
           </AssociationSet>
           <AssociationSet Name="FK_TaskTTypes_TTypes" Association="Self.FK_TaskTTypes_TTypes">
             <End Role="TTypes" EntitySet="TTypes" />
@@ -478,6 +530,15 @@
               <MappingFragment StoreEntitySet="TTypes">
                 <ScalarProperty Name="TTypeID" ColumnName="TTypeID" />
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Works">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.Work">
+              <MappingFragment StoreEntitySet="Works">
+                <ScalarProperty Name="WorkID" ColumnName="WorkID" />
+                <ScalarProperty Name="WorkName" ColumnName="WorkName" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -20,6 +20,7 @@ namespace TestTree.Model
             this.PropValues = new HashSet<PropValue>();
             this.Tasks1 = new HashSet<Task>();
             this.TaskTTypes = new HashSet<TaskTType>();
+            this.Works = new HashSet<Work>();
         }
     
         public System.Guid TaskID { get; set; }
@@ -33,5 +34,7 @@ namespace TestTree.Model
         public virtual Task Task1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TaskTType> TaskTTypes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Work> Works { get; set; }
     }
 }
