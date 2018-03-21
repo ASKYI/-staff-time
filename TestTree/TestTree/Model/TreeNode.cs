@@ -12,6 +12,7 @@ namespace TestTree.Model
         public Model.Task Task {get; set;} 
         public TreeNode ParentNode { get; set; }
         public ObservableCollection<TreeNode> TreeNodes { get; set; }
+        public string Path { get; set; }
 
         public TreeNode()
         {

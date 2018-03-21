@@ -36,12 +36,35 @@ namespace TestTree.ViewModel
                 return _selectTaskCommand;
             }
         }
-        private void Generate_FavTask()
+        private void Generate_FavTaskPaths()
         {
             if (TaskNodesDictionary == null)
                 throw new Exception("Dictionary has not been generated");
             FavTasks = ConvertTasksIntoNodes(GetTasksByProp("Favorite", "True"));
-        } 
+
+            foreach (var ft in FavTasks)
+            {
+                string stringPath = "";
+                List<string> path = new List<string>();
+
+                TreeNode t = ft;
+                while (t.ParentNode != null)
+                {
+                    path.Add(t.Task.TaskName);
+                    t = t.ParentNode;
+                }
+                path.Add(t.Task.TaskName);
+
+                path.Reverse();
+                for(int i = 0; i < path.Count; ++i)
+                {
+                    if (i != 0)
+                        stringPath += "->"; //HACK: Может долго работать, исправить
+                    stringPath += path[i];
+                }
+                ft.Path = stringPath;
+            }
+        }
 
         public FaveViewModel() : base()
         {
@@ -49,7 +72,7 @@ namespace TestTree.ViewModel
             _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
             try
             {
-                Generate_FavTask();
+                Generate_FavTaskPaths();
             }
             catch
             {
