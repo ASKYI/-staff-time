@@ -8,22 +8,25 @@ using System.Collections.ObjectModel;
 
 using TestTree.Model;
 using GalaSoft.MvvmLight;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace TestTree.ViewModel 
 {
+    enum TaskPropDataType { ValueText, ValueInt, ValueDate, ValueTime };
     //Этот класс должен быть один. Singleton?
     public class MainViewModel : ViewModelBase, INotifyPropertyChanged
     {
         //Так как с задачами удобнее работать как с узлами дерева (имея доступ ко всем наследникам и предку), 
         //они хранятся в виде узлов дерева.
         //Словарь для облегчения доступа
-        protected Dictionary<System.Guid, TreeNode> TaskNodesDictionary { get; set; }
+        protected Dictionary<int, TreeNode> TaskNodesDictionary { get; set; }
 
         private void Generate_TaskNodesDictionary()
         {
             using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
             {
-                TaskNodesDictionary = new Dictionary<Guid, TreeNode>();
+                TaskNodesDictionary = new Dictionary<int, TreeNode>();
 
                 //В таблице ссылка на родителя может содержать идентификатор на задачу, 
                 //которая еще не встречалась в таблице при последовательном чтении.
@@ -32,7 +35,7 @@ namespace TestTree.ViewModel
 
                 foreach (Model.Task task in ctx.Tasks)
                 {
-                    System.Guid id = (System.Guid)task.TaskID;
+                    int id = task.ID;
                     if (!TaskNodesDictionary.ContainsKey(id))
                         TaskNodesDictionary.Add(id, new TreeNode(task));
                     else
@@ -40,7 +43,7 @@ namespace TestTree.ViewModel
 
                     if (task.ParentTaskID != null)
                     {
-                        System.Guid parentId = (System.Guid)task.ParentTaskID;
+                        int parentId = (int)task.ParentTaskID; //Из Nullable<int> в int, проверка на null уже была
                         if (!TaskNodesDictionary.ContainsKey(parentId))
                             TaskNodesDictionary.Add(parentId, new TreeNode());
                         TaskNodesDictionary[parentId].TreeNodes.Add(TaskNodesDictionary[id]);
@@ -54,7 +57,7 @@ namespace TestTree.ViewModel
             Generate_TaskNodesDictionary();
         }
 
-        protected ObservableCollection<TreeNode> ConvertTasksIntoNodes(List<System.Guid> t)
+        protected ObservableCollection<TreeNode> ConvertTasksIntoNodes(List<int> t)
         {
             if (TaskNodesDictionary == null)
                 throw new Exception("Dictionary has not been generated");
@@ -63,22 +66,35 @@ namespace TestTree.ViewModel
                 tasksNodes.Add(TaskNodesDictionary[q]);
             return tasksNodes;
         }
-        protected List<System.Guid> GetTasksByProp(string propName, string propValue)
-        {
-            using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
-            {
-                Model.Property favProp = (from p in ctx.Properties where p.PropName == propName select p).FirstOrDefault();
-                return (from p in ctx.PropValues where p.Value == propValue select p.TaskID).ToList<System.Guid>();
+        //protected List<int> GetTasksByProp(string propName, string propValueText = null, int? propValueInt = null,
+          //  DateTime? propValueDateTime = null)  
+        protected List<int> GetTasksByProp(string propName, string propValueText = null, Nullable<int> propValueInt = null, 
+            Nullable<DateTime> propValueDateTime = null)
+          {
+              using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
+              {
+                  //HACK: Возможно есть вариант поиска значения в соотвествие с типом проще или короче
+                  Model.Property favProp = (from p in ctx.Properties where p.PropName == propName select p).FirstOrDefault();
+                  if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueText)
+                    return (from p in ctx.PropValues where p.ValueText == propValueText select p.TaskID).ToList<int>();
+                  if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueInt)
+                    return (from p in ctx.PropValues where p.ValueInt == propValueInt select p.TaskID).ToList<int>();
+                  if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueDate)
+                    return (from p in ctx.PropValues where p.ValueDate == DbFunctions.TruncateTime(propValueDateTime) select p.TaskID).ToList<int>();
+                  if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueTime) 
+                    return (from p in ctx.PropValues where Convert.ToDateTime(p.ValueTime) == propValueDateTime select p.TaskID).ToList<int>();
             }
+            return null;
         }
-        protected List<System.Guid> GetTasksByProp(System.Guid propID, string propValue)
-        {
-            using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
-            {
-                Model.Property favProp = (from p in ctx.Properties where p.PropID == propID select p).FirstOrDefault();
-                return (from p in ctx.PropValues where p.Value == propValue select p.TaskID).ToList<System.Guid>();
+        protected List<int> GetTasksByProp(int propID, string propValueText = null, Nullable<int> propValueInt = null,
+            Nullable<DateTime> propValueDateTime = null)
+          {
+              using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
+              {
+                  Model.Property favProp = (from p in ctx.Properties where p.ID == propID select p).FirstOrDefault();
+                  return GetTasksByProp(favProp.ID, propValueText, propValueInt, propValueDateTime);
             }
-        }
+          }
 
         #region INotifyPropertyChanged Members
 

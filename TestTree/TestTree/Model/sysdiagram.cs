@@ -12,18 +12,12 @@ namespace TestTree.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class PropValue
+    public partial class sysdiagram
     {
-        public int ID { get; set; }
-        public int DataType { get; set; }
-        public int PropID { get; set; }
-        public int TaskID { get; set; }
-        public string ValueText { get; set; }
-        public Nullable<int> ValueInt { get; set; }
-        public Nullable<System.DateTime> ValueDate { get; set; }
-        public Nullable<System.TimeSpan> ValueTime { get; set; }
-    
-        public virtual Property Property { get; set; }
-        public virtual Task Task { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

@@ -12,24 +12,21 @@ namespace TestTree.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Task
+    public partial class WorkType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Task()
+        public WorkType()
         {
-            this.PropValues = new HashSet<PropValue>();
             this.Works = new HashSet<Work>();
+            this.WorkTypeAttrs = new HashSet<WorkTypeAttr>();
         }
     
-        public string TaskName { get; set; }
-        public Nullable<int> TaskTypeID { get; set; }
+        public string WTypeName { get; set; }
         public int ID { get; set; }
-        public Nullable<int> ParentTaskID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PropValue> PropValues { get; set; }
-        public virtual TaskType TaskType { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Work> Works { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkTypeAttr> WorkTypeAttrs { get; set; }
     }
 }

@@ -14,10 +14,20 @@ namespace TestTree.Model
     
     public partial class Work
     {
-        public System.Guid WorkID { get; set; }
-        public string WorkName { get; set; }
-        public System.Guid TaskID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Work()
+        {
+            this.AttrValues = new HashSet<AttrValue>();
+        }
     
+        public string WorkName { get; set; }
+        public int ID { get; set; }
+        public int TaskID { get; set; }
+        public Nullable<int> WorkTypeID { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AttrValue> AttrValues { get; set; }
         public virtual Task Task { get; set; }
+        public virtual WorkType WorkType { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace TestTree.ViewModel
             if (TaskNodesDictionary == null)
                 throw new Exception("Dictionary has not been generated");
             FavTasks = ConvertTasksIntoNodes(GetTasksByProp("Favorite", "True"));
-        }
+        } 
 
         public FaveViewModel() : base()
         {
@@ -68,20 +68,5 @@ namespace TestTree.ViewModel
         {
             MessengerInstance.Send(new NotificationMessage<TreeNode>(SelectedTask, "TaskSelection"));
         }
-
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion
     }
 }

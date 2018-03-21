@@ -12,21 +12,21 @@ namespace TestTree.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class TType
+    public partial class TaskType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TType()
+        public TaskType()
         {
-            this.TaskTTypes = new HashSet<TaskTType>();
-            this.TTypeProps = new HashSet<TTypeProp>();
+            this.Tasks = new HashSet<Task>();
+            this.TaskTypeProps = new HashSet<TaskTypeProp>();
         }
     
-        public System.Guid TTypeID { get; set; }
         public string TypeName { get; set; }
+        public int ID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TaskTType> TaskTTypes { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TTypeProp> TTypeProps { get; set; }
+        public virtual ICollection<TaskTypeProp> TaskTypeProps { get; set; }
     }
 }

@@ -12,13 +12,13 @@ namespace TestTree.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class TTypeProp
+    public partial class TaskTypeProp
     {
-        public System.Guid TTypePropID { get; set; }
-        public System.Guid TTypeID { get; set; }
-        public System.Guid PropID { get; set; }
+        public int ID { get; set; }
+        public int TaskTypeID { get; set; }
+        public int PropID { get; set; }
     
         public virtual Property Property { get; set; }
-        public virtual TType TType { get; set; }
+        public virtual TaskType TaskType { get; set; }
     }
 }

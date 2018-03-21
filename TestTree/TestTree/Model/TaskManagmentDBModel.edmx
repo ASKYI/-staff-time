@@ -5,76 +5,139 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="Хранилище TaskManagmentDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attributes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AttrValues">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Value" Type="bit" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AttrID" Type="int" Nullable="false" />
+          <Property Name="WorkID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="PropDataTypes">
           <Key>
-            <PropertyRef Name="PropDataTypeID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="PropDataTypeID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="PropID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="DataValue" Type="varchar(max)" Nullable="false" />
+          <Property Name="Data" Type="varchar(max)" Nullable="false" />
+          <Property Name="PropID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="Properties">
           <Key>
-            <PropertyRef Name="PropID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="PropID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="DataType" Type="varchar(max)" Nullable="false" />
+          <Property Name="DataType" Type="int" Nullable="false" />
           <Property Name="PropName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="PropValues">
           <Key>
-            <PropertyRef Name="PropValueID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="PropValueID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="TaskID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="PropID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Value" Type="varchar(max)" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataType" Type="int" Nullable="false" />
+          <Property Name="PropID" Type="int" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="ValueText" Type="nvarchar(max)" />
+          <Property Name="ValueInt" Type="int" />
+          <Property Name="ValueDate" Type="date" />
+          <Property Name="ValueTime" Type="time" Precision="7" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Tasks">
           <Key>
-            <PropertyRef Name="TaskID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TaskID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TaskName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="ParentTaskID" Type="uniqueidentifier" />
+          <Property Name="TaskTypeID" Type="int" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentTaskID" Type="int" />
         </EntityType>
-        <EntityType Name="TaskTTypes">
+        <EntityType Name="TaskTypeProps">
           <Key>
-            <PropertyRef Name="TaskTTypeID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TaskTTypeID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="TaskID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="TTypeID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskTypeID" Type="int" Nullable="false" />
+          <Property Name="PropID" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="TTypeProps">
+        <EntityType Name="TaskTypes">
           <Key>
-            <PropertyRef Name="TTypePropID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TTypePropID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="TTypeID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="PropID" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
-        <EntityType Name="TTypes">
-          <Key>
-            <PropertyRef Name="TTypeID" />
-          </Key>
-          <Property Name="TTypeID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TypeName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Works">
           <Key>
-            <PropertyRef Name="WorkID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="WorkID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="WorkName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="TaskID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="WorkTypeID" Type="int" />
         </EntityType>
+        <EntityType Name="WorkTypeAttrs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WorkTypeID" Type="int" Nullable="false" />
+          <Property Name="AttrID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="WTypeName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AttrValues_Attributes1">
+          <End Role="Attributes" Type="Self.Attributes" Multiplicity="1" />
+          <End Role="AttrValues" Type="Self.AttrValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttrValues">
+              <PropertyRef Name="AttrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttrValues_Works">
+          <End Role="Works" Type="Self.Works" Multiplicity="1" />
+          <End Role="AttrValues" Type="Self.AttrValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Works">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttrValues">
+              <PropertyRef Name="WorkID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PropDataTypes_Properties">
           <End Role="Properties" Type="Self.Properties" Multiplicity="1" />
           <End Role="PropDataTypes" Type="Self.PropDataTypes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Properties">
-              <PropertyRef Name="PropID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="PropDataTypes">
               <PropertyRef Name="PropID" />
@@ -86,7 +149,7 @@
           <End Role="PropValues" Type="Self.PropValues" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Properties">
-              <PropertyRef Name="PropID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="PropValues">
               <PropertyRef Name="PropID" />
@@ -98,70 +161,46 @@
           <End Role="PropValues" Type="Self.PropValues" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tasks">
-              <PropertyRef Name="TaskID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="PropValues">
               <PropertyRef Name="TaskID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tasks_Tasks">
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="0..1" />
-          <End Role="Tasks1" Type="Self.Tasks" Multiplicity="*" />
+        <Association Name="FK_Tasks_TaskTypes">
+          <End Role="TaskTypes" Type="Self.TaskTypes" Multiplicity="0..1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Tasks">
-              <PropertyRef Name="TaskID" />
+            <Principal Role="TaskTypes">
+              <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Tasks1">
-              <PropertyRef Name="ParentTaskID" />
+            <Dependent Role="Tasks">
+              <PropertyRef Name="TaskTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TaskTTypes_Tasks">
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
-          <End Role="TaskTTypes" Type="Self.TaskTTypes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tasks">
-              <PropertyRef Name="TaskID" />
-            </Principal>
-            <Dependent Role="TaskTTypes">
-              <PropertyRef Name="TaskID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TaskTTypes_TTypes">
-          <End Role="TTypes" Type="Self.TTypes" Multiplicity="1" />
-          <End Role="TaskTTypes" Type="Self.TaskTTypes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TTypes">
-              <PropertyRef Name="TTypeID" />
-            </Principal>
-            <Dependent Role="TaskTTypes">
-              <PropertyRef Name="TTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TTypeProps_Properties">
+        <Association Name="FK_TaskTypeProps_Properties">
           <End Role="Properties" Type="Self.Properties" Multiplicity="1" />
-          <End Role="TTypeProps" Type="Self.TTypeProps" Multiplicity="*" />
+          <End Role="TaskTypeProps" Type="Self.TaskTypeProps" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Properties">
-              <PropertyRef Name="PropID" />
+              <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TTypeProps">
+            <Dependent Role="TaskTypeProps">
               <PropertyRef Name="PropID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TTypeProps_TTypes">
-          <End Role="TTypes" Type="Self.TTypes" Multiplicity="1" />
-          <End Role="TTypeProps" Type="Self.TTypeProps" Multiplicity="*" />
+        <Association Name="FK_TaskTypeProps_TaskTypes">
+          <End Role="TaskTypes" Type="Self.TaskTypes" Multiplicity="1" />
+          <End Role="TaskTypeProps" Type="Self.TaskTypeProps" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TTypes">
-              <PropertyRef Name="TTypeID" />
+            <Principal Role="TaskTypes">
+              <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TTypeProps">
-              <PropertyRef Name="TTypeID" />
+            <Dependent Role="TaskTypeProps">
+              <PropertyRef Name="TaskTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -170,22 +209,70 @@
           <End Role="Works" Type="Self.Works" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tasks">
-              <PropertyRef Name="TaskID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Works">
               <PropertyRef Name="TaskID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Works_WorkTypes">
+          <End Role="WorkTypes" Type="Self.WorkTypes" Multiplicity="0..1" />
+          <End Role="Works" Type="Self.Works" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Works">
+              <PropertyRef Name="WorkTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkTypeAttrs_Attributes">
+          <End Role="Attributes" Type="Self.Attributes" Multiplicity="1" />
+          <End Role="WorkTypeAttrs" Type="Self.WorkTypeAttrs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkTypeAttrs">
+              <PropertyRef Name="AttrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkTypeAttrs_WorkTypes">
+          <End Role="WorkTypes" Type="Self.WorkTypes" Multiplicity="1" />
+          <End Role="WorkTypeAttrs" Type="Self.WorkTypeAttrs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkTypeAttrs">
+              <PropertyRef Name="WorkTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище TaskManagmentDBModelContainer">
+          <EntitySet Name="Attributes" EntityType="Self.Attributes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AttrValues" EntityType="Self.AttrValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PropDataTypes" EntityType="Self.PropDataTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Properties" EntityType="Self.Properties" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PropValues" EntityType="Self.PropValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TaskTTypes" EntityType="Self.TaskTTypes" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TTypeProps" EntityType="Self.TTypeProps" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TTypes" EntityType="Self.TTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskTypeProps" EntityType="Self.TaskTypeProps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskTypes" EntityType="Self.TaskTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Works" EntityType="Self.Works" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkTypeAttrs" EntityType="Self.WorkTypeAttrs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkTypes" EntityType="Self.WorkTypes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AttrValues_Attributes1" Association="Self.FK_AttrValues_Attributes1">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="AttrValues" EntitySet="AttrValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttrValues_Works" Association="Self.FK_AttrValues_Works">
+            <End Role="Works" EntitySet="Works" />
+            <End Role="AttrValues" EntitySet="AttrValues" />
+          </AssociationSet>
           <AssociationSet Name="FK_PropDataTypes_Properties" Association="Self.FK_PropDataTypes_Properties">
             <End Role="Properties" EntitySet="Properties" />
             <End Role="PropDataTypes" EntitySet="PropDataTypes" />
@@ -198,29 +285,33 @@
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="PropValues" EntitySet="PropValues" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tasks_Tasks" Association="Self.FK_Tasks_Tasks">
+          <AssociationSet Name="FK_Tasks_TaskTypes" Association="Self.FK_Tasks_TaskTypes">
+            <End Role="TaskTypes" EntitySet="TaskTypes" />
             <End Role="Tasks" EntitySet="Tasks" />
-            <End Role="Tasks1" EntitySet="Tasks" />
           </AssociationSet>
-          <AssociationSet Name="FK_TaskTTypes_Tasks" Association="Self.FK_TaskTTypes_Tasks">
-            <End Role="Tasks" EntitySet="Tasks" />
-            <End Role="TaskTTypes" EntitySet="TaskTTypes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TaskTTypes_TTypes" Association="Self.FK_TaskTTypes_TTypes">
-            <End Role="TTypes" EntitySet="TTypes" />
-            <End Role="TaskTTypes" EntitySet="TaskTTypes" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TTypeProps_Properties" Association="Self.FK_TTypeProps_Properties">
+          <AssociationSet Name="FK_TaskTypeProps_Properties" Association="Self.FK_TaskTypeProps_Properties">
             <End Role="Properties" EntitySet="Properties" />
-            <End Role="TTypeProps" EntitySet="TTypeProps" />
+            <End Role="TaskTypeProps" EntitySet="TaskTypeProps" />
           </AssociationSet>
-          <AssociationSet Name="FK_TTypeProps_TTypes" Association="Self.FK_TTypeProps_TTypes">
-            <End Role="TTypes" EntitySet="TTypes" />
-            <End Role="TTypeProps" EntitySet="TTypeProps" />
+          <AssociationSet Name="FK_TaskTypeProps_TaskTypes" Association="Self.FK_TaskTypeProps_TaskTypes">
+            <End Role="TaskTypes" EntitySet="TaskTypes" />
+            <End Role="TaskTypeProps" EntitySet="TaskTypeProps" />
           </AssociationSet>
           <AssociationSet Name="FK_Works_Tasks" Association="Self.FK_Works_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="Works" EntitySet="Works" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Works_WorkTypes" Association="Self.FK_Works_WorkTypes">
+            <End Role="WorkTypes" EntitySet="WorkTypes" />
+            <End Role="Works" EntitySet="Works" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkTypeAttrs_Attributes" Association="Self.FK_WorkTypeAttrs_Attributes">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="WorkTypeAttrs" EntitySet="WorkTypeAttrs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkTypeAttrs_WorkTypes" Association="Self.FK_WorkTypeAttrs_WorkTypes">
+            <End Role="WorkTypes" EntitySet="WorkTypes" />
+            <End Role="WorkTypeAttrs" EntitySet="WorkTypeAttrs" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -228,94 +319,175 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TaskManagmentDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Attribute">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="AttrValues" Relationship="Self.FK_AttrValues_Attributes1" FromRole="Attributes" ToRole="AttrValues" />
+          <NavigationProperty Name="WorkTypeAttrs" Relationship="Self.FK_WorkTypeAttrs_Attributes" FromRole="Attributes" ToRole="WorkTypeAttrs" />
+        </EntityType>
+        <EntityType Name="AttrValue">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Value" Type="Boolean" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AttrID" Type="Int32" Nullable="false" />
+          <Property Name="WorkID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Attribute" Relationship="Self.FK_AttrValues_Attributes1" FromRole="AttrValues" ToRole="Attributes" />
+          <NavigationProperty Name="Work" Relationship="Self.FK_AttrValues_Works" FromRole="AttrValues" ToRole="Works" />
+        </EntityType>
         <EntityType Name="PropDataType">
           <Key>
-            <PropertyRef Name="PropDataTypeID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="PropDataTypeID" Type="Guid" Nullable="false" />
-          <Property Name="PropID" Type="Guid" Nullable="false" />
-          <Property Name="DataValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Data" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PropID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Property" Relationship="Self.FK_PropDataTypes_Properties" FromRole="PropDataTypes" ToRole="Properties" />
         </EntityType>
         <EntityType Name="Property">
           <Key>
-            <PropertyRef Name="PropID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="PropID" Type="Guid" Nullable="false" />
-          <Property Name="DataType" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DataType" Type="Int32" Nullable="false" />
           <Property Name="PropName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="PropDataTypes" Relationship="Self.FK_PropDataTypes_Properties" FromRole="Properties" ToRole="PropDataTypes" />
           <NavigationProperty Name="PropValues" Relationship="Self.FK_PropValues_Properties" FromRole="Properties" ToRole="PropValues" />
-          <NavigationProperty Name="TTypeProps" Relationship="Self.FK_TTypeProps_Properties" FromRole="Properties" ToRole="TTypeProps" />
+          <NavigationProperty Name="TaskTypeProps" Relationship="Self.FK_TaskTypeProps_Properties" FromRole="Properties" ToRole="TaskTypeProps" />
         </EntityType>
         <EntityType Name="PropValue">
           <Key>
-            <PropertyRef Name="PropValueID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="PropValueID" Type="Guid" Nullable="false" />
-          <Property Name="TaskID" Type="Guid" Nullable="false" />
-          <Property Name="PropID" Type="Guid" Nullable="false" />
-          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataType" Type="Int32" Nullable="false" />
+          <Property Name="PropID" Type="Int32" Nullable="false" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="ValueText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ValueInt" Type="Int32" />
+          <Property Name="ValueDate" Type="DateTime" Precision="0" />
+          <Property Name="ValueTime" Type="Time" Precision="7" />
           <NavigationProperty Name="Property" Relationship="Self.FK_PropValues_Properties" FromRole="PropValues" ToRole="Properties" />
           <NavigationProperty Name="Task" Relationship="Self.FK_PropValues_Tasks" FromRole="PropValues" ToRole="Tasks" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="Task">
           <Key>
-            <PropertyRef Name="TaskID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TaskID" Type="Guid" Nullable="false" />
           <Property Name="TaskName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ParentTaskID" Type="Guid" />
+          <Property Name="TaskTypeID" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentTaskID" Type="Int32" />
           <NavigationProperty Name="PropValues" Relationship="Self.FK_PropValues_Tasks" FromRole="Tasks" ToRole="PropValues" />
-          <NavigationProperty Name="Tasks1" Relationship="Self.FK_Tasks_Tasks" FromRole="Tasks" ToRole="Tasks1" />
-          <NavigationProperty Name="Task1" Relationship="Self.FK_Tasks_Tasks" FromRole="Tasks1" ToRole="Tasks" />
-          <NavigationProperty Name="TaskTTypes" Relationship="Self.FK_TaskTTypes_Tasks" FromRole="Tasks" ToRole="TaskTTypes" />
+          <NavigationProperty Name="TaskType" Relationship="Self.FK_Tasks_TaskTypes" FromRole="Tasks" ToRole="TaskTypes" />
           <NavigationProperty Name="Works" Relationship="Self.FK_Works_Tasks" FromRole="Tasks" ToRole="Works" />
         </EntityType>
-        <EntityType Name="TaskTType">
+        <EntityType Name="TaskTypeProp">
           <Key>
-            <PropertyRef Name="TaskTTypeID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TaskTTypeID" Type="Guid" Nullable="false" />
-          <Property Name="TaskID" Type="Guid" Nullable="false" />
-          <Property Name="TTypeID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="Task" Relationship="Self.FK_TaskTTypes_Tasks" FromRole="TaskTTypes" ToRole="Tasks" />
-          <NavigationProperty Name="TType" Relationship="Self.FK_TaskTTypes_TTypes" FromRole="TaskTTypes" ToRole="TTypes" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskTypeID" Type="Int32" Nullable="false" />
+          <Property Name="PropID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Property" Relationship="Self.FK_TaskTypeProps_Properties" FromRole="TaskTypeProps" ToRole="Properties" />
+          <NavigationProperty Name="TaskType" Relationship="Self.FK_TaskTypeProps_TaskTypes" FromRole="TaskTypeProps" ToRole="TaskTypes" />
         </EntityType>
-        <EntityType Name="TTypeProp">
+        <EntityType Name="TaskType">
           <Key>
-            <PropertyRef Name="TTypePropID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TTypePropID" Type="Guid" Nullable="false" />
-          <Property Name="TTypeID" Type="Guid" Nullable="false" />
-          <Property Name="PropID" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="Property" Relationship="Self.FK_TTypeProps_Properties" FromRole="TTypeProps" ToRole="Properties" />
-          <NavigationProperty Name="TType" Relationship="Self.FK_TTypeProps_TTypes" FromRole="TTypeProps" ToRole="TTypes" />
-        </EntityType>
-        <EntityType Name="TType">
-          <Key>
-            <PropertyRef Name="TTypeID" />
-          </Key>
-          <Property Name="TTypeID" Type="Guid" Nullable="false" />
           <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="TaskTTypes" Relationship="Self.FK_TaskTTypes_TTypes" FromRole="TTypes" ToRole="TaskTTypes" />
-          <NavigationProperty Name="TTypeProps" Relationship="Self.FK_TTypeProps_TTypes" FromRole="TTypes" ToRole="TTypeProps" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_TaskTypes" FromRole="TaskTypes" ToRole="Tasks" />
+          <NavigationProperty Name="TaskTypeProps" Relationship="Self.FK_TaskTypeProps_TaskTypes" FromRole="TaskTypes" ToRole="TaskTypeProps" />
         </EntityType>
         <EntityType Name="Work">
           <Key>
-            <PropertyRef Name="WorkID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="WorkID" Type="Guid" Nullable="false" />
           <Property Name="WorkName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="TaskID" Type="Guid" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="WorkTypeID" Type="Int32" />
+          <NavigationProperty Name="AttrValues" Relationship="Self.FK_AttrValues_Works" FromRole="Works" ToRole="AttrValues" />
           <NavigationProperty Name="Task" Relationship="Self.FK_Works_Tasks" FromRole="Works" ToRole="Tasks" />
+          <NavigationProperty Name="WorkType" Relationship="Self.FK_Works_WorkTypes" FromRole="Works" ToRole="WorkTypes" />
         </EntityType>
+        <EntityType Name="WorkTypeAttr">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WorkTypeID" Type="Int32" Nullable="false" />
+          <Property Name="AttrID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Attribute" Relationship="Self.FK_WorkTypeAttrs_Attributes" FromRole="WorkTypeAttrs" ToRole="Attributes" />
+          <NavigationProperty Name="WorkType" Relationship="Self.FK_WorkTypeAttrs_WorkTypes" FromRole="WorkTypeAttrs" ToRole="WorkTypes" />
+        </EntityType>
+        <EntityType Name="WorkType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="WTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Works" Relationship="Self.FK_Works_WorkTypes" FromRole="WorkTypes" ToRole="Works" />
+          <NavigationProperty Name="WorkTypeAttrs" Relationship="Self.FK_WorkTypeAttrs_WorkTypes" FromRole="WorkTypes" ToRole="WorkTypeAttrs" />
+        </EntityType>
+        <Association Name="FK_AttrValues_Attributes1">
+          <End Role="Attributes" Type="Self.Attribute" Multiplicity="1" />
+          <End Role="AttrValues" Type="Self.AttrValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttrValues">
+              <PropertyRef Name="AttrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkTypeAttrs_Attributes">
+          <End Role="Attributes" Type="Self.Attribute" Multiplicity="1" />
+          <End Role="WorkTypeAttrs" Type="Self.WorkTypeAttr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkTypeAttrs">
+              <PropertyRef Name="AttrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttrValues_Works">
+          <End Role="Works" Type="Self.Work" Multiplicity="1" />
+          <End Role="AttrValues" Type="Self.AttrValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Works">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttrValues">
+              <PropertyRef Name="WorkID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PropDataTypes_Properties">
           <End Role="Properties" Type="Self.Property" Multiplicity="1" />
           <End Role="PropDataTypes" Type="Self.PropDataType" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Properties">
-              <PropertyRef Name="PropID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="PropDataTypes">
               <PropertyRef Name="PropID" />
@@ -327,21 +499,21 @@
           <End Role="PropValues" Type="Self.PropValue" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Properties">
-              <PropertyRef Name="PropID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="PropValues">
               <PropertyRef Name="PropID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TTypeProps_Properties">
+        <Association Name="FK_TaskTypeProps_Properties">
           <End Role="Properties" Type="Self.Property" Multiplicity="1" />
-          <End Role="TTypeProps" Type="Self.TTypeProp" Multiplicity="*" />
+          <End Role="TaskTypeProps" Type="Self.TaskTypeProp" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Properties">
-              <PropertyRef Name="PropID" />
+              <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TTypeProps">
+            <Dependent Role="TaskTypeProps">
               <PropertyRef Name="PropID" />
             </Dependent>
           </ReferentialConstraint>
@@ -351,34 +523,22 @@
           <End Role="PropValues" Type="Self.PropValue" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tasks">
-              <PropertyRef Name="TaskID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="PropValues">
               <PropertyRef Name="TaskID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tasks_Tasks">
-          <End Role="Tasks" Type="Self.Task" Multiplicity="0..1" />
-          <End Role="Tasks1" Type="Self.Task" Multiplicity="*" />
+        <Association Name="FK_Tasks_TaskTypes">
+          <End Role="TaskTypes" Type="Self.TaskType" Multiplicity="0..1" />
+          <End Role="Tasks" Type="Self.Task" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Tasks">
-              <PropertyRef Name="TaskID" />
+            <Principal Role="TaskTypes">
+              <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Tasks1">
-              <PropertyRef Name="ParentTaskID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TaskTTypes_Tasks">
-          <End Role="Tasks" Type="Self.Task" Multiplicity="1" />
-          <End Role="TaskTTypes" Type="Self.TaskTType" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tasks">
-              <PropertyRef Name="TaskID" />
-            </Principal>
-            <Dependent Role="TaskTTypes">
-              <PropertyRef Name="TaskID" />
+            <Dependent Role="Tasks">
+              <PropertyRef Name="TaskTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -387,46 +547,74 @@
           <End Role="Works" Type="Self.Work" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tasks">
-              <PropertyRef Name="TaskID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Works">
               <PropertyRef Name="TaskID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TaskTTypes_TTypes">
-          <End Role="TTypes" Type="Self.TType" Multiplicity="1" />
-          <End Role="TaskTTypes" Type="Self.TaskTType" Multiplicity="*" />
+        <Association Name="FK_TaskTypeProps_TaskTypes">
+          <End Role="TaskTypes" Type="Self.TaskType" Multiplicity="1" />
+          <End Role="TaskTypeProps" Type="Self.TaskTypeProp" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TTypes">
-              <PropertyRef Name="TTypeID" />
+            <Principal Role="TaskTypes">
+              <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TaskTTypes">
-              <PropertyRef Name="TTypeID" />
+            <Dependent Role="TaskTypeProps">
+              <PropertyRef Name="TaskTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TTypeProps_TTypes">
-          <End Role="TTypes" Type="Self.TType" Multiplicity="1" />
-          <End Role="TTypeProps" Type="Self.TTypeProp" Multiplicity="*" />
+        <Association Name="FK_Works_WorkTypes">
+          <End Role="WorkTypes" Type="Self.WorkType" Multiplicity="0..1" />
+          <End Role="Works" Type="Self.Work" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TTypes">
-              <PropertyRef Name="TTypeID" />
+            <Principal Role="WorkTypes">
+              <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="TTypeProps">
-              <PropertyRef Name="TTypeID" />
+            <Dependent Role="Works">
+              <PropertyRef Name="WorkTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkTypeAttrs_WorkTypes">
+          <End Role="WorkTypes" Type="Self.WorkType" Multiplicity="1" />
+          <End Role="WorkTypeAttrs" Type="Self.WorkTypeAttr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkTypeAttrs">
+              <PropertyRef Name="WorkTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="TaskManagmentDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attributes" EntityType="Self.Attribute" />
+          <EntitySet Name="AttrValues" EntityType="Self.AttrValue" />
           <EntitySet Name="PropDataTypes" EntityType="Self.PropDataType" />
           <EntitySet Name="Properties" EntityType="Self.Property" />
           <EntitySet Name="PropValues" EntityType="Self.PropValue" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Tasks" EntityType="Self.Task" />
-          <EntitySet Name="TaskTTypes" EntityType="Self.TaskTType" />
-          <EntitySet Name="TTypeProps" EntityType="Self.TTypeProp" />
-          <EntitySet Name="TTypes" EntityType="Self.TType" />
+          <EntitySet Name="TaskTypeProps" EntityType="Self.TaskTypeProp" />
+          <EntitySet Name="TaskTypes" EntityType="Self.TaskType" />
           <EntitySet Name="Works" EntityType="Self.Work" />
+          <EntitySet Name="WorkTypeAttrs" EntityType="Self.WorkTypeAttr" />
+          <EntitySet Name="WorkTypes" EntityType="Self.WorkType" />
+          <AssociationSet Name="FK_AttrValues_Attributes1" Association="Self.FK_AttrValues_Attributes1">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="AttrValues" EntitySet="AttrValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkTypeAttrs_Attributes" Association="Self.FK_WorkTypeAttrs_Attributes">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="WorkTypeAttrs" EntitySet="WorkTypeAttrs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttrValues_Works" Association="Self.FK_AttrValues_Works">
+            <End Role="Works" EntitySet="Works" />
+            <End Role="AttrValues" EntitySet="AttrValues" />
+          </AssociationSet>
           <AssociationSet Name="FK_PropDataTypes_Properties" Association="Self.FK_PropDataTypes_Properties">
             <End Role="Properties" EntitySet="Properties" />
             <End Role="PropDataTypes" EntitySet="PropDataTypes" />
@@ -435,33 +623,33 @@
             <End Role="Properties" EntitySet="Properties" />
             <End Role="PropValues" EntitySet="PropValues" />
           </AssociationSet>
-          <AssociationSet Name="FK_TTypeProps_Properties" Association="Self.FK_TTypeProps_Properties">
+          <AssociationSet Name="FK_TaskTypeProps_Properties" Association="Self.FK_TaskTypeProps_Properties">
             <End Role="Properties" EntitySet="Properties" />
-            <End Role="TTypeProps" EntitySet="TTypeProps" />
+            <End Role="TaskTypeProps" EntitySet="TaskTypeProps" />
           </AssociationSet>
           <AssociationSet Name="FK_PropValues_Tasks" Association="Self.FK_PropValues_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="PropValues" EntitySet="PropValues" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tasks_Tasks" Association="Self.FK_Tasks_Tasks">
+          <AssociationSet Name="FK_Tasks_TaskTypes" Association="Self.FK_Tasks_TaskTypes">
+            <End Role="TaskTypes" EntitySet="TaskTypes" />
             <End Role="Tasks" EntitySet="Tasks" />
-            <End Role="Tasks1" EntitySet="Tasks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TaskTTypes_Tasks" Association="Self.FK_TaskTTypes_Tasks">
-            <End Role="Tasks" EntitySet="Tasks" />
-            <End Role="TaskTTypes" EntitySet="TaskTTypes" />
           </AssociationSet>
           <AssociationSet Name="FK_Works_Tasks" Association="Self.FK_Works_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="Works" EntitySet="Works" />
           </AssociationSet>
-          <AssociationSet Name="FK_TaskTTypes_TTypes" Association="Self.FK_TaskTTypes_TTypes">
-            <End Role="TTypes" EntitySet="TTypes" />
-            <End Role="TaskTTypes" EntitySet="TaskTTypes" />
+          <AssociationSet Name="FK_TaskTypeProps_TaskTypes" Association="Self.FK_TaskTypeProps_TaskTypes">
+            <End Role="TaskTypes" EntitySet="TaskTypes" />
+            <End Role="TaskTypeProps" EntitySet="TaskTypeProps" />
           </AssociationSet>
-          <AssociationSet Name="FK_TTypeProps_TTypes" Association="Self.FK_TTypeProps_TTypes">
-            <End Role="TTypes" EntitySet="TTypes" />
-            <End Role="TTypeProps" EntitySet="TTypeProps" />
+          <AssociationSet Name="FK_Works_WorkTypes" Association="Self.FK_Works_WorkTypes">
+            <End Role="WorkTypes" EntitySet="WorkTypes" />
+            <End Role="Works" EntitySet="Works" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkTypeAttrs_WorkTypes" Association="Self.FK_WorkTypeAttrs_WorkTypes">
+            <End Role="WorkTypes" EntitySet="WorkTypes" />
+            <End Role="WorkTypeAttrs" EntitySet="WorkTypeAttrs" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -470,75 +658,118 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Хранилище TaskManagmentDBModelContainer" CdmEntityContainer="TaskManagmentDBEntities">
+          <EntitySetMapping Name="Attributes">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.Attribute">
+              <MappingFragment StoreEntitySet="Attributes">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AttrValues">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.AttrValue">
+              <MappingFragment StoreEntitySet="AttrValues">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AttrID" ColumnName="AttrID" />
+                <ScalarProperty Name="WorkID" ColumnName="WorkID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="PropDataTypes">
             <EntityTypeMapping TypeName="TaskManagmentDBModel.PropDataType">
               <MappingFragment StoreEntitySet="PropDataTypes">
-                <ScalarProperty Name="PropDataTypeID" ColumnName="PropDataTypeID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="PropID" ColumnName="PropID" />
-                <ScalarProperty Name="DataValue" ColumnName="DataValue" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Properties">
             <EntityTypeMapping TypeName="TaskManagmentDBModel.Property">
               <MappingFragment StoreEntitySet="Properties">
-                <ScalarProperty Name="PropID" ColumnName="PropID" />
                 <ScalarProperty Name="DataType" ColumnName="DataType" />
                 <ScalarProperty Name="PropName" ColumnName="PropName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PropValues">
             <EntityTypeMapping TypeName="TaskManagmentDBModel.PropValue">
               <MappingFragment StoreEntitySet="PropValues">
-                <ScalarProperty Name="PropValueID" ColumnName="PropValueID" />
-                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DataType" ColumnName="DataType" />
                 <ScalarProperty Name="PropID" ColumnName="PropID" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="ValueText" ColumnName="ValueText" />
+                <ScalarProperty Name="ValueInt" ColumnName="ValueInt" />
+                <ScalarProperty Name="ValueDate" ColumnName="ValueDate" />
+                <ScalarProperty Name="ValueTime" ColumnName="ValueTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="TaskManagmentDBModel.Task">
               <MappingFragment StoreEntitySet="Tasks">
-                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
                 <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="TaskTypeID" ColumnName="TaskTypeID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ParentTaskID" ColumnName="ParentTaskID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TaskTTypes">
-            <EntityTypeMapping TypeName="TaskManagmentDBModel.TaskTType">
-              <MappingFragment StoreEntitySet="TaskTTypes">
-                <ScalarProperty Name="TaskTTypeID" ColumnName="TaskTTypeID" />
-                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
-                <ScalarProperty Name="TTypeID" ColumnName="TTypeID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TTypeProps">
-            <EntityTypeMapping TypeName="TaskManagmentDBModel.TTypeProp">
-              <MappingFragment StoreEntitySet="TTypeProps">
-                <ScalarProperty Name="TTypePropID" ColumnName="TTypePropID" />
-                <ScalarProperty Name="TTypeID" ColumnName="TTypeID" />
+          <EntitySetMapping Name="TaskTypeProps">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.TaskTypeProp">
+              <MappingFragment StoreEntitySet="TaskTypeProps">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TaskTypeID" ColumnName="TaskTypeID" />
                 <ScalarProperty Name="PropID" ColumnName="PropID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TTypes">
-            <EntityTypeMapping TypeName="TaskManagmentDBModel.TType">
-              <MappingFragment StoreEntitySet="TTypes">
-                <ScalarProperty Name="TTypeID" ColumnName="TTypeID" />
+          <EntitySetMapping Name="TaskTypes">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.TaskType">
+              <MappingFragment StoreEntitySet="TaskTypes">
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Works">
             <EntityTypeMapping TypeName="TaskManagmentDBModel.Work">
               <MappingFragment StoreEntitySet="Works">
-                <ScalarProperty Name="WorkID" ColumnName="WorkID" />
                 <ScalarProperty Name="WorkName" ColumnName="WorkName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="WorkTypeID" ColumnName="WorkTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkTypeAttrs">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.WorkTypeAttr">
+              <MappingFragment StoreEntitySet="WorkTypeAttrs">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="WorkTypeID" ColumnName="WorkTypeID" />
+                <ScalarProperty Name="AttrID" ColumnName="AttrID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkTypes">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.WorkType">
+              <MappingFragment StoreEntitySet="WorkTypes">
+                <ScalarProperty Name="WTypeName" ColumnName="WTypeName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

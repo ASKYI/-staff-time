@@ -19,18 +19,18 @@ namespace TestTree.Model
         {
             this.PropDataTypes = new HashSet<PropDataType>();
             this.PropValues = new HashSet<PropValue>();
-            this.TTypeProps = new HashSet<TTypeProp>();
+            this.TaskTypeProps = new HashSet<TaskTypeProp>();
         }
     
-        public System.Guid PropID { get; set; }
-        public string DataType { get; set; }
+        public int DataType { get; set; }
         public string PropName { get; set; }
+        public int ID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PropDataType> PropDataTypes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PropValue> PropValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TTypeProp> TTypeProps { get; set; }
+        public virtual ICollection<TaskTypeProp> TaskTypeProps { get; set; }
     }
 }

@@ -81,6 +81,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Attribute.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AttrValue.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\PropDataType.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
@@ -88,6 +94,9 @@
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\PropValue.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\sysdiagram.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Task.cs">
@@ -108,16 +117,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\TaskTType.cs">
+    <Compile Include="Model\TaskType.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TType.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\TTypeProp.cs">
+    <Compile Include="Model\TaskTypeProp.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Work.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\WorkType.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\WorkTypeAttr.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\MainViewModel.cs" />

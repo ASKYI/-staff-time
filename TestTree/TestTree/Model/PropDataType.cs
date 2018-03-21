@@ -14,9 +14,9 @@ namespace TestTree.Model
     
     public partial class PropDataType
     {
-        public System.Guid PropDataTypeID { get; set; }
-        public System.Guid PropID { get; set; }
-        public string DataValue { get; set; }
+        public string Data { get; set; }
+        public int PropID { get; set; }
+        public int ID { get; set; }
     
         public virtual Property Property { get; set; }
     }
