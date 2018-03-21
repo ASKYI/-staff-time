@@ -14,6 +14,8 @@ using System.Data.Entity.Infrastructure;
 namespace TestTree.ViewModel 
 {
     enum TaskPropDataType { ValueText, ValueInt, ValueDate, ValueTime };
+    enum TaskType { Customer, Сompany, Сontract, Direction } //Заказчик Предприятие Договор Направление
+
     //Этот класс должен быть один. Singleton?
     public class MainViewModel : ViewModelBase, INotifyPropertyChanged
     {

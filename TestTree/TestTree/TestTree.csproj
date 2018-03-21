@@ -87,6 +87,7 @@
     <Compile Include="Model\AttrValue.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Customer.cs" />
     <Compile Include="Model\PropDataType.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
@@ -132,6 +133,8 @@
     <Compile Include="Model\WorkTypeAttr.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Сompany.cs" />
+    <Compile Include="Model\Сontract.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\FaveViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
