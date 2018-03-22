@@ -88,6 +88,9 @@
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\Direction.cs" />
+    <Compile Include="Model\ITaskFactory.cs" />
+    <Compile Include="Model\PartTask.cs" />
     <Compile Include="Model\PropDataType.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
@@ -103,6 +106,7 @@
     <Compile Include="Model\Task.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\TaskFactory.cs" />
     <Compile Include="Model\TaskManagmentDBModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

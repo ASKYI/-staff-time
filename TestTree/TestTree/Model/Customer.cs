@@ -8,5 +8,7 @@ namespace TestTree.Model
 {
     public class Customer : Task
     {
+        public Customer() : base() { }
+        public Customer(Task task) : base(task) { }
     }
 }

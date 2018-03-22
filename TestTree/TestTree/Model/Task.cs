@@ -22,7 +22,7 @@ namespace TestTree.Model
         }
     
         public string TaskName { get; set; }
-        public Nullable<int> TaskTypeID { get; set; }
+        public int TaskTypeID { get; set; }
         public int ID { get; set; }
         public Nullable<int> ParentTaskID { get; set; }
     

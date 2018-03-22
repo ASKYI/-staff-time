@@ -65,7 +65,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="TaskName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="TaskTypeID" Type="int" />
+          <Property Name="TaskTypeID" Type="int" Nullable="false" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ParentTaskID" Type="int" />
         </EntityType>
@@ -168,8 +168,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tasks_TaskTypes">
-          <End Role="TaskTypes" Type="Self.TaskTypes" Multiplicity="0..1" />
+        <Association Name="FK_Tasks_TaskTypes1">
+          <End Role="TaskTypes" Type="Self.TaskTypes" Multiplicity="1" />
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TaskTypes">
@@ -285,7 +285,7 @@
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="PropValues" EntitySet="PropValues" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tasks_TaskTypes" Association="Self.FK_Tasks_TaskTypes">
+          <AssociationSet Name="FK_Tasks_TaskTypes1" Association="Self.FK_Tasks_TaskTypes1">
             <End Role="TaskTypes" EntitySet="TaskTypes" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
@@ -389,11 +389,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="TaskName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="TaskTypeID" Type="Int32" />
+          <Property Name="TaskTypeID" Type="Int32" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ParentTaskID" Type="Int32" />
           <NavigationProperty Name="PropValues" Relationship="Self.FK_PropValues_Tasks" FromRole="Tasks" ToRole="PropValues" />
-          <NavigationProperty Name="TaskType" Relationship="Self.FK_Tasks_TaskTypes" FromRole="Tasks" ToRole="TaskTypes" />
+          <NavigationProperty Name="TaskType" Relationship="Self.FK_Tasks_TaskTypes1" FromRole="Tasks" ToRole="TaskTypes" />
           <NavigationProperty Name="Works" Relationship="Self.FK_Works_Tasks" FromRole="Tasks" ToRole="Works" />
         </EntityType>
         <EntityType Name="TaskTypeProp">
@@ -412,7 +412,7 @@
           </Key>
           <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_TaskTypes" FromRole="TaskTypes" ToRole="Tasks" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_TaskTypes1" FromRole="TaskTypes" ToRole="Tasks" />
           <NavigationProperty Name="TaskTypeProps" Relationship="Self.FK_TaskTypeProps_TaskTypes" FromRole="TaskTypes" ToRole="TaskTypeProps" />
         </EntityType>
         <EntityType Name="Work">
@@ -530,8 +530,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tasks_TaskTypes">
-          <End Role="TaskTypes" Type="Self.TaskType" Multiplicity="0..1" />
+        <Association Name="FK_Tasks_TaskTypes1">
+          <End Role="TaskTypes" Type="Self.TaskType" Multiplicity="1" />
           <End Role="Tasks" Type="Self.Task" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TaskTypes">
@@ -631,7 +631,7 @@
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="PropValues" EntitySet="PropValues" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tasks_TaskTypes" Association="Self.FK_Tasks_TaskTypes">
+          <AssociationSet Name="FK_Tasks_TaskTypes1" Association="Self.FK_Tasks_TaskTypes1">
             <End Role="TaskTypes" EntitySet="TaskTypes" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>

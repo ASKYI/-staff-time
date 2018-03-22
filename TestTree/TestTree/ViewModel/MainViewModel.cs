@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 
@@ -13,8 +12,8 @@ using System.Data.Entity.Infrastructure;
 
 namespace TestTree.ViewModel 
 {
-    enum TaskPropDataType { ValueText, ValueInt, ValueDate, ValueTime };
-    enum TaskType { Customer, Сompany, Сontract, Direction } //Заказчик Предприятие Договор Направление
+    public enum TaskPropDataType { ValueText, ValueInt, ValueDate, ValueTime };
+    public enum TaskType { None, Customer, Сompany, Сontract, Direction } //Заказчик Предприятие Договор Направление
 
     //Этот класс должен быть один. Singleton?
     public class MainViewModel : ViewModelBase, INotifyPropertyChanged
@@ -35,8 +34,13 @@ namespace TestTree.ViewModel
                 //В таком случае создается узел с пустым значением задачи, которая заполнится, когда задача встретится.
                 //В бд невозможно добавить ссылку на несуществующую задачу (стоит свойство)
 
-                foreach (Model.Task task in ctx.Tasks)
+                TaskFactory factory = new Model.TaskFactory();
+                foreach (Model.Task taskDB in ctx.Tasks)
                 {
+                    TaskType type = (TaskType)taskDB.TaskTypeID;
+                    Task task = factory.CreateTask(type);
+                    task = taskDB;
+
                     int id = task.ID;
                     if (!TaskNodesDictionary.ContainsKey(id))
                         TaskNodesDictionary.Add(id, new TreeNode(task));
@@ -77,18 +81,20 @@ namespace TestTree.ViewModel
           {
               using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
               {
-                  //HACK: Возможно есть вариант поиска значения в соотвествие с типом проще или короче
                   Model.Property favProp = (from p in ctx.Properties where p.PropName == propName select p).FirstOrDefault();
                 if (favProp != null)
                 {
-                    if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueText)
-                        return (from p in ctx.PropValues where p.ValueText == propValueText select p.TaskID).ToList<int>();
-                    if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueInt)
-                        return (from p in ctx.PropValues where p.ValueInt == propValueInt select p.TaskID).ToList<int>();
-                    if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueDate)
-                        return (from p in ctx.PropValues where p.ValueDate == DbFunctions.TruncateTime(propValueDateTime) select p.TaskID).ToList<int>();
-                    if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueTime)
-                        return (from p in ctx.PropValues where Convert.ToDateTime(p.ValueTime) == propValueDateTime select p.TaskID).ToList<int>();
+                    switch((TaskPropDataType)favProp.DataType)
+                    {
+                        case TaskPropDataType.ValueText:
+                            return (from p in ctx.PropValues where p.ValueText == propValueText select p.TaskID).ToList<int>();
+                        case TaskPropDataType.ValueInt:
+                            return (from p in ctx.PropValues where p.ValueInt == propValueInt select p.TaskID).ToList<int>();
+                        case TaskPropDataType.ValueDate:
+                            return (from p in ctx.PropValues where p.ValueDate == DbFunctions.TruncateTime(propValueDateTime) select p.TaskID).ToList<int>();
+                        case TaskPropDataType.ValueTime:
+                            return (from p in ctx.PropValues where Convert.ToDateTime(p.ValueTime) == propValueDateTime select p.TaskID).ToList<int>();
+                    }
                 }
             }
             return null;

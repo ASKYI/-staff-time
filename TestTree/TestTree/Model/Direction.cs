@@ -8,5 +8,7 @@ namespace TestTree.Model
 {
     public class Direction : Task
     {
+        public Direction() : base() { }
+        public Direction(Task task) : base(task) { }
     }
 }
