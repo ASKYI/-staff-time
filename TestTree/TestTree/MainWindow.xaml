@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TestTree"
         xmlns:view="clr-namespace:TestTree.View"
         mc:Ignorable="d"
-        Title="Test Tree" Height="350" Width="274.5">
+        Title="Test Tree" Height="636.572" Width="1025.701">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"></RowDefinition>

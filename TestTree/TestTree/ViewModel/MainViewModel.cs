@@ -63,9 +63,11 @@ namespace TestTree.ViewModel
         {
             if (TaskNodesDictionary == null)
                 throw new Exception("Dictionary has not been generated");
+
             ObservableCollection<TreeNode> tasksNodes = new ObservableCollection<TreeNode>();
-            foreach (var q in t)
-                tasksNodes.Add(TaskNodesDictionary[q]);
+            if (t != null)            
+                foreach (var q in t)
+                    tasksNodes.Add(TaskNodesDictionary[q]);
             return tasksNodes;
         }
         //protected List<int> GetTasksByProp(string propName, string propValueText = null, int? propValueInt = null,
@@ -77,14 +79,17 @@ namespace TestTree.ViewModel
               {
                   //HACK: Возможно есть вариант поиска значения в соотвествие с типом проще или короче
                   Model.Property favProp = (from p in ctx.Properties where p.PropName == propName select p).FirstOrDefault();
-                  if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueText)
-                    return (from p in ctx.PropValues where p.ValueText == propValueText select p.TaskID).ToList<int>();
-                  if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueInt)
-                    return (from p in ctx.PropValues where p.ValueInt == propValueInt select p.TaskID).ToList<int>();
-                  if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueDate)
-                    return (from p in ctx.PropValues where p.ValueDate == DbFunctions.TruncateTime(propValueDateTime) select p.TaskID).ToList<int>();
-                  if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueTime) 
-                    return (from p in ctx.PropValues where Convert.ToDateTime(p.ValueTime) == propValueDateTime select p.TaskID).ToList<int>();
+                if (favProp != null)
+                {
+                    if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueText)
+                        return (from p in ctx.PropValues where p.ValueText == propValueText select p.TaskID).ToList<int>();
+                    if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueInt)
+                        return (from p in ctx.PropValues where p.ValueInt == propValueInt select p.TaskID).ToList<int>();
+                    if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueDate)
+                        return (from p in ctx.PropValues where p.ValueDate == DbFunctions.TruncateTime(propValueDateTime) select p.TaskID).ToList<int>();
+                    if ((TaskPropDataType)favProp.DataType == TaskPropDataType.ValueTime)
+                        return (from p in ctx.PropValues where Convert.ToDateTime(p.ValueTime) == propValueDateTime select p.TaskID).ToList<int>();
+                }
             }
             return null;
         }
