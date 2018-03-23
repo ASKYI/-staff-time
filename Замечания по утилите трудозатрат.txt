@@ -1,0 +1,49 @@
+Замечания:
+1. Перечисления TaskPropDataType и TaskType относятся к самой предметной модели, а не ViewModel
+
+2. class TreeNode как раз относится к ViewModel
+
+3. найти специальную функцию у string
+	for(int i = 0; i < path.Count; ++i)
+	{
+		if (i != 0)
+			stringPath += "->"; //HACK: Может долго работать, исправить
+		stringPath += path[i];
+	}
+	
+4. Написать более коротко
+	private bool CanSelectTask(object obj)
+	{
+		if (SelectedTask == null)
+			return false;
+		return true;
+	}
+
+5. Переписать, чтобы не было нескольких разадресаций одного и того же
+	foreach (Model.Task task in ctx.Tasks)
+	{
+		int id = task.ID;
+		if (!TaskNodesDictionary.ContainsKey(id))
+			TaskNodesDictionary.Add(id, new TreeNode(task));
+		else
+			TaskNodesDictionary[id].Task = task;
+
+		if (task.ParentTaskID != null)
+		{
+			int parentId = (int)task.ParentTaskID; //Из Nullable<int> в int, проверка на null уже была
+			if (!TaskNodesDictionary.ContainsKey(parentId))
+				TaskNodesDictionary.Add(parentId, new TreeNode());
+			TaskNodesDictionary[parentId].TreeNodes.Add(TaskNodesDictionary[id]);
+			TaskNodesDictionary[id].ParentNode = TaskNodesDictionary[parentId];
+		}
+	}
+
+6. Свойство Favorite не будет лежать в таблице Props
+FavTasks = ConvertTasksIntoNodes(GetTasksByProp("Favorite", "True"));
+
+7. Имена - TaskCustormer, TaskDirection...
+
+8. Зачем бросать исключение, если его не отлавливать
+throw new Exception("Dictionary has not been generated");
+
+9. Интерфейс на русском, стало быть и сообщения на русском надо, считаем что пользователи не знаю англ.
