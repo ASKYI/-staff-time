@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace TestTree.Model
 {
-    public class Contract : Task
+    public class TaskContract : Task
     {
-        //TOFIX:
-        // public Сontract() :base() { } 
-        // public Сontract(Task task) : base(task) { }
+        public TaskContract() :base() { } 
+        public TaskContract(Task task) : base(task) { }
     }
 }

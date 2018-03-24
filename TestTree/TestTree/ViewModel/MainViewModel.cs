@@ -12,9 +12,6 @@ using System.Data.Entity.Infrastructure;
 
 namespace TestTree.ViewModel 
 {
-    public enum TaskPropDataType { ValueText, ValueInt, ValueDate, ValueTime };
-    public enum TaskType { None, Customer, Сompany, Сontract, Direction } //Заказчик Предприятие Договор Направление
-
     //Этот класс должен быть один. Singleton?
     public class MainViewModel : ViewModelBase, INotifyPropertyChanged
     {
@@ -34,10 +31,10 @@ namespace TestTree.ViewModel
                 //В таком случае создается узел с пустым значением задачи, которая заполнится, когда задача встретится.
                 //В бд невозможно добавить ссылку на несуществующую задачу (стоит свойство)
 
-                TaskFactory factory = new Model.TaskFactory();
-                foreach (Model.Task taskDB in ctx.Tasks)
+                TaskFactory factory = new TaskFactory();
+                foreach (Task taskDB in ctx.Tasks)
                 {
-                    TaskType type = (TaskType)taskDB.TaskTypeID;
+                    TaskTypeEnum type = (TaskTypeEnum)taskDB.TaskTypeID;
                     Task task = factory.CreateTask(type);
                     task = taskDB;
 

@@ -6,40 +6,42 @@ using System.Threading.Tasks;
 
 namespace TestTree.Model
 {
+    public enum TaskPropDataType { ValueText, ValueInt, ValueDate, ValueTime };
+    public enum TaskTypeEnum { TaskNone, TaskCustomer, TaskСompany, TaskСontract, TaskDirection } //Заказчик Предприятие Договор Направление
     public class TaskFactory : ITaskFactory
     {
-        public Task CreateTask(TestTree.ViewModel.TaskType type) //Factory Pattern
+        public Task CreateTask(TaskTypeEnum type) //Factory Pattern
         {
             switch (type)
             {
-                case ViewModel.TaskType.None:
+                case TaskTypeEnum.TaskNone:
                     return new Task();
-                case ViewModel.TaskType.Customer:
-                    return new Customer();
-                case ViewModel.TaskType.Direction:
-                    return new Direction();
-                case ViewModel.TaskType.Сompany:
-                    return new Company();
-                case ViewModel.TaskType.Сontract:
-                    return new Contract();
+                case TaskTypeEnum.TaskCustomer:
+                    return new TaskCustomer();
+                case TaskTypeEnum.TaskDirection:
+                    return new TaskDirection();
+                case TaskTypeEnum.TaskСompany:
+                    return new TaskCompany();
+                case TaskTypeEnum.TaskСontract:
+                    return new TaskContract();
             }
             return new Task();
         }
         public Task CreateTask(Task task)
         {
-            TestTree.ViewModel.TaskType type = (TestTree.ViewModel.TaskType)task.TaskTypeID;
+            TaskTypeEnum type = (TaskTypeEnum)task.TaskTypeID;
             switch (type)
             {
-                case ViewModel.TaskType.None:
+                case TaskTypeEnum.TaskNone:
                     return new Task(task);
-                case ViewModel.TaskType.Customer:
-                    return new Customer(task);
-                case ViewModel.TaskType.Direction:
-                    return new Direction(task);
-                case ViewModel.TaskType.Сompany:
-                    return new Company(task);
-              //  case ViewModel.TaskType.Сontract: TOFIX
-                    //return new Contract(task);
+                case TaskTypeEnum.TaskCustomer:
+                    return new TaskCustomer(task);
+                case TaskTypeEnum.TaskDirection:
+                    return new TaskDirection(task);
+                case TaskTypeEnum.TaskСompany:
+                    return new TaskCompany(task);
+                case TaskTypeEnum.TaskСontract:
+                    return new TaskContract(task);
             }
             return new Task(task);
         }

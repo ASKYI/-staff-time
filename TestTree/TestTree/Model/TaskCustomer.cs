@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TestTree.Model
 {
-    public class Direction : Task
+    public class TaskCustomer : Task
     {
-        public Direction() : base() { }
-        public Direction(Task task) : base(task) { }
+        public TaskCustomer() : base() { }
+        public TaskCustomer(Task task) : base(task) { }
     }
 }

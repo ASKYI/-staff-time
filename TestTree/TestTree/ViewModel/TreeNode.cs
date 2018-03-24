@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
 
-namespace TestTree.Model
+using System.Collections.ObjectModel;
+using TestTree.Model;
+
+namespace TestTree.ViewModel
 {
     public class TreeNode
     {
-        public Model.Task Task {get; set;} 
+        public Task Task { get; set; }
         public TreeNode ParentNode { get; set; }
         public ObservableCollection<TreeNode> TreeNodes { get; set; }
         public string Path { get; set; }
@@ -18,10 +19,9 @@ namespace TestTree.Model
         {
             TreeNodes = new ObservableCollection<TreeNode>();
         }
-        public TreeNode(Model.Task task) : this()
+        public TreeNode(Task task) : this()
         {
             Task = task;
         }
-        
     }
 }

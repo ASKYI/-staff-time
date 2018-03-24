@@ -8,7 +8,7 @@ namespace TestTree.Model
 {
     public interface ITaskFactory
     {
-        Task CreateTask(TestTree.ViewModel.TaskType type);
+        Task CreateTask(TaskTypeEnum type);
         Task CreateTask(Task task);
     }
 }
