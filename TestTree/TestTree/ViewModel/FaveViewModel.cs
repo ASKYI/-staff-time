@@ -38,9 +38,12 @@ namespace TestTree.ViewModel
         }
         private void Generate_FavTaskPaths()
         {
+            /*
             /*if (TaskNodesDictionary == null)
                 throw new Exception("Dictionary has not been generated");*/
-            FavTasks = ConvertTasksIntoNodes(GetTasksByProp("Favorite", "True"));
+
+            //TODO: ПЕРЕПИСАТЬ
+            //FavTasks = ConvertTasksIntoNodes(GetTasksByProp("Favorite", "True")); 
 
             foreach (var ft in FavTasks)
             {
