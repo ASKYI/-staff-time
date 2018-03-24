@@ -14,10 +14,10 @@ namespace TestTree.ViewModel
 
         public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
-            if (execute == null || canExecute == null)
+           /* if (execute == null || canExecute == null)
             {
                 throw new ArgumentNullException("Execute");
-            }
+            } */
             _execute = execute;
             _canExecute = canExecute;
         }

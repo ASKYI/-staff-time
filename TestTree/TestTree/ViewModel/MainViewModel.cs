@@ -39,18 +39,27 @@ namespace TestTree.ViewModel
                     task = taskDB;
 
                     int id = task.ID;
-                    if (!TaskNodesDictionary.ContainsKey(id))
-                        TaskNodesDictionary.Add(id, new TreeNode(task));
-                    else
-                        TaskNodesDictionary[id].Task = task;
+                    TreeNode treeNode;
+                    if (!TaskNodesDictionary.ContainsKey(id)) {
+                        treeNode = new TreeNode(task);
+                        TaskNodesDictionary.Add(id, treeNode);
+                    }
+                    else {
+                        treeNode = TaskNodesDictionary[id];
+                        treeNode.Task = task;
+                    }
 
                     if (task.ParentTaskID != null)
                     {
-                        int parentId = (int)task.ParentTaskID; //Из Nullable<int> в int, проверка на null уже была
+                        int parentId = (int)task.ParentTaskID; //Из Nullable<int> в int, проверка на null уже была                        
+
                         if (!TaskNodesDictionary.ContainsKey(parentId))
                             TaskNodesDictionary.Add(parentId, new TreeNode());
-                        TaskNodesDictionary[parentId].TreeNodes.Add(TaskNodesDictionary[id]);
-                        TaskNodesDictionary[id].ParentNode = TaskNodesDictionary[parentId];
+
+                        TreeNode parentTreeNode = TaskNodesDictionary[parentId];
+
+                        parentTreeNode.TreeNodes.Add(treeNode);
+                        treeNode.ParentNode = parentTreeNode;
                     }
                 }
             }
@@ -62,8 +71,8 @@ namespace TestTree.ViewModel
 
         protected ObservableCollection<TreeNode> ConvertTasksIntoNodes(List<int> t)
         {
-            if (TaskNodesDictionary == null)
-                throw new Exception("Dictionary has not been generated");
+           /* if (TaskNodesDictionary == null)
+                throw new Exception("Dictionary has not been generated");*/
 
             ObservableCollection<TreeNode> tasksNodes = new ObservableCollection<TreeNode>();
             if (t != null)            
