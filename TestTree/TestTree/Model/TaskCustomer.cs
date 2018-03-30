@@ -8,7 +8,11 @@ namespace TestTree.Model
 {
     public class TaskCustomer : Task
     {
-        public TaskCustomer() : base() { }
-        public TaskCustomer(Task task) : base(task) { }
+        public TaskCustomer() : base() {
+            this.TaskName += "_customer";
+        }
+        public TaskCustomer(Task task) : base(task) {
+            this.TaskName += "_customer";
+        }
     }
 }

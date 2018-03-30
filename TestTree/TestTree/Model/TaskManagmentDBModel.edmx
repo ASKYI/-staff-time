@@ -84,6 +84,21 @@
           <Property Name="TypeName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="UserTasks">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Works">
           <Key>
             <PropertyRef Name="ID" />
@@ -204,6 +219,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserTasks_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
+          <End Role="UserTasks" Type="Self.UserTasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserTasks">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTasks_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserTasks" Type="Self.UserTasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserTasks">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Works_Tasks">
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
           <End Role="Works" Type="Self.Works" Multiplicity="*" />
@@ -262,6 +301,8 @@
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskTypeProps" EntityType="Self.TaskTypeProps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskTypes" EntityType="Self.TaskTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserTasks" EntityType="Self.UserTasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Works" EntityType="Self.Works" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkTypeAttrs" EntityType="Self.WorkTypeAttrs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkTypes" EntityType="Self.WorkTypes" Schema="dbo" store:Type="Tables" />
@@ -296,6 +337,14 @@
           <AssociationSet Name="FK_TaskTypeProps_TaskTypes" Association="Self.FK_TaskTypeProps_TaskTypes">
             <End Role="TaskTypes" EntitySet="TaskTypes" />
             <End Role="TaskTypeProps" EntitySet="TaskTypeProps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTasks_Tasks" Association="Self.FK_UserTasks_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="UserTasks" EntitySet="UserTasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTasks_Users" Association="Self.FK_UserTasks_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserTasks" EntitySet="UserTasks" />
           </AssociationSet>
           <AssociationSet Name="FK_Works_Tasks" Association="Self.FK_Works_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
@@ -394,6 +443,7 @@
           <Property Name="ParentTaskID" Type="Int32" />
           <NavigationProperty Name="PropValues" Relationship="Self.FK_PropValues_Tasks" FromRole="Tasks" ToRole="PropValues" />
           <NavigationProperty Name="TaskType" Relationship="Self.FK_Tasks_TaskTypes1" FromRole="Tasks" ToRole="TaskTypes" />
+          <NavigationProperty Name="UserTasks" Relationship="Self.FK_UserTasks_Tasks" FromRole="Tasks" ToRole="UserTasks" />
           <NavigationProperty Name="Works" Relationship="Self.FK_Works_Tasks" FromRole="Tasks" ToRole="Works" />
         </EntityType>
         <EntityType Name="TaskTypeProp">
@@ -414,6 +464,24 @@
           <Property Name="ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_TaskTypes1" FromRole="TaskTypes" ToRole="Tasks" />
           <NavigationProperty Name="TaskTypeProps" Relationship="Self.FK_TaskTypeProps_TaskTypes" FromRole="TaskTypes" ToRole="TaskTypeProps" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="UserTasks" Relationship="Self.FK_UserTasks_Users" FromRole="Users" ToRole="UserTasks" />
+        </EntityType>
+        <EntityType Name="UserTask">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Task" Relationship="Self.FK_UserTasks_Tasks" FromRole="UserTasks" ToRole="Tasks" />
+          <NavigationProperty Name="User" Relationship="Self.FK_UserTasks_Users" FromRole="UserTasks" ToRole="Users" />
         </EntityType>
         <EntityType Name="Work">
           <Key>
@@ -542,6 +610,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserTasks_Tasks">
+          <End Role="Tasks" Type="Self.Task" Multiplicity="1" />
+          <End Role="UserTasks" Type="Self.UserTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserTasks">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Works_Tasks">
           <End Role="Tasks" Type="Self.Task" Multiplicity="1" />
           <End Role="Works" Type="Self.Work" Multiplicity="*" />
@@ -563,6 +643,18 @@
             </Principal>
             <Dependent Role="TaskTypeProps">
               <PropertyRef Name="TaskTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTasks_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="UserTasks" Type="Self.UserTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserTasks">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -600,6 +692,8 @@
           <EntitySet Name="Tasks" EntityType="Self.Task" />
           <EntitySet Name="TaskTypeProps" EntityType="Self.TaskTypeProp" />
           <EntitySet Name="TaskTypes" EntityType="Self.TaskType" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserTasks" EntityType="Self.UserTask" />
           <EntitySet Name="Works" EntityType="Self.Work" />
           <EntitySet Name="WorkTypeAttrs" EntityType="Self.WorkTypeAttr" />
           <EntitySet Name="WorkTypes" EntityType="Self.WorkType" />
@@ -635,6 +729,10 @@
             <End Role="TaskTypes" EntitySet="TaskTypes" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserTasks_Tasks" Association="Self.FK_UserTasks_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="UserTasks" EntitySet="UserTasks" />
+          </AssociationSet>
           <AssociationSet Name="FK_Works_Tasks" Association="Self.FK_Works_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="Works" EntitySet="Works" />
@@ -642,6 +740,10 @@
           <AssociationSet Name="FK_TaskTypeProps_TaskTypes" Association="Self.FK_TaskTypeProps_TaskTypes">
             <End Role="TaskTypes" EntitySet="TaskTypes" />
             <End Role="TaskTypeProps" EntitySet="TaskTypeProps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTasks_Users" Association="Self.FK_UserTasks_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserTasks" EntitySet="UserTasks" />
           </AssociationSet>
           <AssociationSet Name="FK_Works_WorkTypes" Association="Self.FK_Works_WorkTypes">
             <End Role="WorkTypes" EntitySet="WorkTypes" />
@@ -743,6 +845,23 @@
               <MappingFragment StoreEntitySet="TaskTypes">
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTasks">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.UserTask">
+              <MappingFragment StoreEntitySet="UserTasks">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

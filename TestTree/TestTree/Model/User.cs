@@ -12,27 +12,18 @@ namespace TestTree.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Task
+    public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Task()
+        public User()
         {
-            this.PropValues = new HashSet<PropValue>();
             this.UserTasks = new HashSet<UserTask>();
-            this.Works = new HashSet<Work>();
         }
     
-        public string TaskName { get; set; }
-        public int TaskTypeID { get; set; }
         public int ID { get; set; }
-        public Nullable<int> ParentTaskID { get; set; }
+        public string UserName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PropValue> PropValues { get; set; }
-        public virtual TaskType TaskType { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserTask> UserTasks { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Work> Works { get; set; }
     }
 }

@@ -34,6 +34,8 @@ namespace TestTree.Model
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<TaskTypeProp> TaskTypeProps { get; set; }
         public virtual DbSet<TaskType> TaskTypes { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserTask> UserTasks { get; set; }
         public virtual DbSet<Work> Works { get; set; }
         public virtual DbSet<WorkTypeAttr> WorkTypeAttrs { get; set; }
         public virtual DbSet<WorkType> WorkTypes { get; set; }

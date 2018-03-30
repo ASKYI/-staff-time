@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
 using TestTree.Model;
@@ -14,7 +13,7 @@ namespace TestTree.ViewModel
 {
     public class FaveViewModel : MainViewModel, INotifyPropertyChanged
     {
-        public ObservableCollection<TreeNode> FavTasks { get; set; }
+        public ObservableCollection<TreeNode> FavTaskNodes { get; set; }
         private TreeNode _selectedTask;
         public TreeNode SelectedTask
         {
@@ -36,6 +35,17 @@ namespace TestTree.ViewModel
                 return _selectTaskCommand;
             }
         }
+
+        private void Generate_FavTaskNodes()
+        {
+            List<int> faveTasks = new List<int>();
+            using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
+            {
+                faveTasks = (from t in ctx.UserTasks where t.UserID == CurUser.ID select t.TaskID).ToList<int>();
+            }
+            FavTaskNodes = ConvertTasksIntoNodes(faveTasks);
+            Generate_FavTaskPaths();
+        }
         private void Generate_FavTaskPaths()
         {
             /*
@@ -45,7 +55,7 @@ namespace TestTree.ViewModel
             //TODO: ПЕРЕПИСАТЬ
             //FavTasks = ConvertTasksIntoNodes(GetTasksByProp("Favorite", "True")); 
 
-            foreach (var ft in FavTasks)
+            foreach (var ft in FavTaskNodes)
             {
                 string stringPath = "";
                 List<string> path = new List<string>();
@@ -75,7 +85,7 @@ namespace TestTree.ViewModel
             _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
             try
             {
-                Generate_FavTaskPaths();
+                Generate_FavTaskNodes();
             }
             catch
             {

@@ -8,7 +8,13 @@ namespace TestTree.Model
 {
     public class TaskCompany : Task
     {
-        public TaskCompany() :base() { }
-        public TaskCompany(Task task) : base(task) { }
+        public TaskCompany() :base()
+        {
+            this.TaskName += "_company";
+        }
+        public TaskCompany(Task task) : base(task)
+        {
+            this.TaskName += "_company";
+        }
     }
 }

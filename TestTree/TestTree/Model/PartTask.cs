@@ -8,7 +8,7 @@ namespace TestTree.Model
 {
     public partial class Task
     {
-        public Task(Task task) //IClonable? 
+        public Task(Task task)
         {
             this.TaskName = task.TaskName;
             this.TaskTypeID = task.TaskTypeID;
@@ -16,6 +16,7 @@ namespace TestTree.Model
             this.PropValues = task.PropValues;
             this.TaskType = task.TaskType;
             this.Works = task.Works;
+            this.ParentTaskID = task.ParentTaskID;
         }
     }
 }

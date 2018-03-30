@@ -8,7 +8,13 @@ namespace TestTree.Model
 {
     public class TaskDirection : Task
     {
-        public TaskDirection() : base() { }
-        public TaskDirection(Task task) : base(task) { }
+        public TaskDirection() : base()
+        { 
+            this.TaskName += "_direction";
+        }
+        public TaskDirection(Task task) : base(task)
+        { 
+            this.TaskName += "_direction";
+        }
     }
 }

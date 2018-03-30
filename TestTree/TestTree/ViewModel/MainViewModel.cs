@@ -15,6 +15,7 @@ namespace TestTree.ViewModel
     //Этот класс должен быть один. Singleton?
     public class MainViewModel : ViewModelBase, INotifyPropertyChanged
     {
+        protected User CurUser { get; set; }   
         //Так как с задачами удобнее работать как с узлами дерева (имея доступ ко всем наследникам и предку), 
         //они хранятся в виде узлов дерева.
         //Словарь для облегчения доступа
@@ -34,9 +35,7 @@ namespace TestTree.ViewModel
                 TaskFactory factory = new TaskFactory();
                 foreach (Task taskDB in ctx.Tasks)
                 {
-                    TaskTypeEnum type = (TaskTypeEnum)taskDB.TaskTypeID;
-                    Task task = factory.CreateTask(type);
-                    task = taskDB;
+                    Task task = factory.CreateTask(taskDB);
 
                     int id = task.ID;
                     TreeNode treeNode;
@@ -67,6 +66,12 @@ namespace TestTree.ViewModel
         public MainViewModel()
         {
             Generate_TaskNodesDictionary();
+
+            //temp
+            using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
+            {
+                CurUser = (from u in ctx.Users where u.ID == 1 select u).FirstOrDefault();
+            }
         }
 
         protected ObservableCollection<TreeNode> ConvertTasksIntoNodes(List<int> t)

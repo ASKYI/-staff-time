@@ -87,10 +87,6 @@
     <Compile Include="Model\AttrValue.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TaskCustomer.cs" />
-    <Compile Include="Model\TaskDirection.cs" />
-    <Compile Include="Model\ITaskFactory.cs" />
-    <Compile Include="Model\PartTask.cs" />
     <Compile Include="Model\PropDataType.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
@@ -106,6 +102,10 @@
     <Compile Include="Model\Task.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\TaskCustomer.cs" />
+    <Compile Include="Model\TaskDirection.cs" />
+    <Compile Include="Model\ITaskFactory.cs" />
+    <Compile Include="Model\PartTask.cs" />
     <Compile Include="Model\TaskFactory.cs" />
     <Compile Include="Model\TaskManagmentDBModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -128,6 +128,14 @@
     <Compile Include="Model\TaskTypeProp.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\TaskСompany.cs" />
+    <Compile Include="Model\TaskСontract.cs" />
+    <Compile Include="Model\User.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\UserTask.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Work.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
@@ -137,8 +145,6 @@
     <Compile Include="Model\WorkTypeAttr.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TaskСompany.cs" />
-    <Compile Include="Model\TaskСontract.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\FaveViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />

@@ -9,7 +9,7 @@
         Title="Test Tree" Height="636.572" Width="1025.701">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="2.5*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>

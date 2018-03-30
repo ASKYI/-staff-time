@@ -8,7 +8,13 @@ namespace TestTree.Model
 {
     public class TaskContract : Task
     {
-        public TaskContract() :base() { } 
-        public TaskContract(Task task) : base(task) { }
+        public TaskContract() :base()
+        {
+            this.TaskName += "_contract";
+        } 
+        public TaskContract(Task task) : base(task)
+        {
+            this.TaskName += "_contract";
+        }
     }
 }
