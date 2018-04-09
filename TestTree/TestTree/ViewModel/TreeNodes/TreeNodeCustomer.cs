@@ -10,6 +10,6 @@ namespace TestTree.ViewModel
     {
         public TreeNodeCustomer() : base() { }
         public TreeNodeCustomer(TestTree.Model.Task task) : base(task) { }
-        public TreeNodeCustomer(TreeNode node) : base(node) { }
+        public TreeNodeCustomer(TreeNode treeNode) : base(treeNode) { }
     }
 }

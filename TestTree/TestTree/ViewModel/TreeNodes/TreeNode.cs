@@ -18,13 +18,13 @@ namespace TestTree.ViewModel
         {
             Task = task;
         }
-        public TreeNode(TreeNode node) : this()
+        public TreeNode(TreeNode treeNode) : this()
         {
-            Task = node.Task;
-            ParentNode = node.ParentNode;
-            TreeNodes = node.TreeNodes;
-            TreeNodeCustomers = node.TreeNodeCustomers;
-            Path = node.Path;
+            Task = treeNode.Task;
+            ParentNode = treeNode.ParentNode;
+            TreeNodes = treeNode.TreeNodes;
+            TreeNodeCustomers = treeNode.TreeNodeCustomers;
+            Path = treeNode.Path;
         }
 
         public Task Task { get; set; }

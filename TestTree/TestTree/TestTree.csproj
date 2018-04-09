@@ -103,7 +103,7 @@
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Tasks\TaskCustomer.cs" />
-    <Compile Include="Model\Tasks\TaskDirection.cs" />
+    <Compile Include="Model\Tasks\TaskSpecialty.cs" />
     <Compile Include="Model\ITaskFactory.cs" />
     <Compile Include="Model\PartTask.cs" />
     <Compile Include="Model\TaskFactory.cs" />
@@ -150,9 +150,12 @@
     <Compile Include="ViewModel\FaveViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\TabItemViewModel.cs" />
+    <Compile Include="ViewModel\TreeNodes\TreeNodeSpecialty.cs" />
     <Compile Include="ViewModel\TreeNodes\TreeNode.cs" />
     <Compile Include="ViewModel\TreeNodes\TreeNodeCustomer.cs" />
     <Compile Include="ViewModel\TreeNodeFactory.cs" />
+    <Compile Include="ViewModel\TreeNodeСompany.cs" />
+    <Compile Include="ViewModel\TreeNodeСontract.cs" />
     <Compile Include="ViewModel\TreeViewModel.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel.cs" />
     <Compile Include="View\FaveView.xaml.cs">

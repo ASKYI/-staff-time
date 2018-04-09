@@ -22,7 +22,7 @@ namespace TestTree.Model
                 case TaskTypeEnum.TaskCustomer:
                     return new TaskCustomer();
                 case TaskTypeEnum.TaskDirection:
-                    return new TaskDirection();
+                    return new TaskSpecialty();
                 case TaskTypeEnum.TaskСompany:
                     return new TaskCompany();
                 case TaskTypeEnum.TaskСontract:
@@ -40,7 +40,7 @@ namespace TestTree.Model
                 case TaskTypeEnum.TaskCustomer:
                     return new TaskCustomer(task);
                 case TaskTypeEnum.TaskDirection:
-                    return new TaskDirection(task);
+                    return new TaskSpecialty(task);
                 case TaskTypeEnum.TaskСompany:
                     return new TaskCompany(task);
                 case TaskTypeEnum.TaskСontract:
