@@ -102,6 +102,7 @@ namespace TestTree.ViewModel
         }
         private void SelectTask(object obj)
         {
+            this.ChangeStatus("Отправлен выбранный узел\n");
             MessengerInstance.Send(new NotificationMessage<TreeNode>(SelectedTask, "TaskSelection"));
         }
     }

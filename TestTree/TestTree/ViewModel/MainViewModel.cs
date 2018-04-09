@@ -21,7 +21,15 @@ namespace TestTree.ViewModel
         public string Status
         {
             get { return _status; }
-            set { SetField(ref _status, value); }
+            set {
+                _status = value;
+                RaisePropertyChanged("Status");
+                //SetField(ref _status, value);
+            }
+        }
+        public void ChangeStatus(string s)
+        {
+            Status += s;
         }
         protected User CurUser { get; set; }
         
@@ -31,7 +39,7 @@ namespace TestTree.ViewModel
         protected Dictionary<int, TreeNode> TaskNodesDictionary { get; set; }
         public MainViewModel()
         {
-            Status = "Запуск";
+            ChangeStatus("Запуск\n");
             Generate_TaskNodesDictionary();
 
             //Временно

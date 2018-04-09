@@ -14,33 +14,48 @@ namespace TestTree.ViewModel
 {
     public class TreeViewModel : MainViewModel
     {
-        // public TreeNode TreeRoot { get; set; }
-        public ObservableCollection<TreeNode> Tree {get; set;}
+        private ReadOnlyObservableCollection<TreeNode> _treeRoot;
+        public ReadOnlyObservableCollection<TreeNode> TreeRoot
+        {
+            get { return _treeRoot; }
+            set { SetField(ref _treeRoot, value); }
+        }
 
         //Можно объединить с BaseViewModel.Generate_TaskNodesDictionary(), что может ускорить, 
         //но противоречит логике организации кода (если она у меня есть).
         private void Generate_Tree()
         {
-           /* TreeRoot = new TreeNode();
+            TreeNode root = TreeRoot[0];
+
             foreach (var taskNode in TaskNodesDictionary)
             {
                 if (taskNode.Value.ParentNode == null)
                 {
                     if (taskNode.Value.Task.ID == 1)
-                        TreeRoot.TreeNodeCustomers.Add((TreeNodeCustomer)taskNode.Value);
+                        root.TreeNodeCustomers.Add((TreeNodeCustomer)taskNode.Value);
                     else
-                        TreeRoot.TreeNodes.Add(taskNode.Value);
+                        root.TreeNodes.Add(taskNode.Value);
                 }
-            }*/
-            
-            //Генерируется список смежности. Корни в коллекции Tree.
-            Tree = new ObservableCollection<TreeNode>();
-
-            foreach (var taskNode in TaskNodesDictionary)
-            {
-               if (taskNode.Value.ParentNode == null)
-                    Tree.Add(taskNode.Value); //Это корень
             }
+
+            /* TreeRoot = new TreeNode();
+             foreach (var taskNode in TaskNodesDictionary)
+             {
+                 if (taskNode.Value.ParentNode == null)
+                 {
+                     if (taskNode.Value.Task.ID == 1)
+                         TreeRoot.TreeNodeCustomers.Add((TreeNodeCustomer)taskNode.Value);
+                     else
+                         TreeRoot.TreeNodes.Add(taskNode.Value);
+                 }
+             }
+
+             \
+             foreach (var taskNode in TaskNodesDictionary)
+             {
+                if (taskNode.Value.ParentNode == null)
+                     Tree.Add(taskNode.Value); //Это корень
+             }*/
         }
         private readonly ICommand _selectTaskCommand;
         public ICommand SelectTaskCommand
@@ -52,6 +67,12 @@ namespace TestTree.ViewModel
         }
         public TreeViewModel() : base()
         {
+            //Создание узла дерева типа нулевой задачи
+            //HACK: Если можно привязать узел к TreeView, а не коллекцию узлов первого уровня
+            ObservableCollection<TreeNode> root = new ObservableCollection<TreeNode>();
+            root.Add(new TreeNode());
+            TreeRoot = new ReadOnlyObservableCollection<TreeNode>(root);
+
             Generate_Tree();
             _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
         }
@@ -64,7 +85,7 @@ namespace TestTree.ViewModel
         {
             MessengerInstance.Register<NotificationMessage<TreeNode>>(this, (selectedTask) =>
             {
-
+                Status += "Получен выбранный узел\n";
             });
         }
     }

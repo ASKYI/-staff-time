@@ -8,15 +8,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <DataGrid ItemsSource="{Binding FavTaskNodes}" SelectedItem="{Binding SelectedTask}" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding FavTaskNodes}" SelectedItem="{Binding SelectedTask}" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="True">
+            <DataGrid.InputBindings>
+                <MouseBinding
+                 MouseAction="LeftDoubleClick"
+                 Command="{Binding SelectTaskCommand}"
+                 CommandParameter="{Binding FavTaskNodes/}"/>
+            </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Избранное:"  Binding="{Binding Path}" Width="*" IsReadOnly="True" ></DataGridTextColumn>
             </DataGrid.Columns>
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding SelectTaskCommand }" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
         </DataGrid>
     </Grid>
 </UserControl>

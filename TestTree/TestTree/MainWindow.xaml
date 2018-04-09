@@ -23,7 +23,7 @@
 
         <Border BorderBrush="Black" BorderThickness="1" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
             <ScrollViewer>
-                <TextBlock Name="StatusTextBlock" IsEnabled="False" Text="{Binding Status}" ></TextBlock>
+                <Label Name="StatusTextBlock" Content="{Binding Status, Mode=TwoWay}" ></Label>
             </ScrollViewer>
         </Border>
     </Grid>
