@@ -102,8 +102,8 @@
     <Compile Include="Model\Task.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TaskCustomer.cs" />
-    <Compile Include="Model\TaskDirection.cs" />
+    <Compile Include="Model\Task\TaskCustomer.cs" />
+    <Compile Include="Model\Task\TaskDirection.cs" />
     <Compile Include="Model\ITaskFactory.cs" />
     <Compile Include="Model\PartTask.cs" />
     <Compile Include="Model\TaskFactory.cs" />
@@ -128,8 +128,8 @@
     <Compile Include="Model\TaskTypeProp.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TaskСompany.cs" />
-    <Compile Include="Model\TaskСontract.cs" />
+    <Compile Include="Model\Task\TaskСompany.cs" />
+    <Compile Include="Model\Task\TaskСontract.cs" />
     <Compile Include="Model\User.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
