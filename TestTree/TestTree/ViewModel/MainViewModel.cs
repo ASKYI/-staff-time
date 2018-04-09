@@ -59,7 +59,10 @@ namespace TestTree.ViewModel
                     int id = task.ID;
                     TreeNode treeNode;
                     if (!TaskNodesDictionary.ContainsKey(id)) {
-                        treeNode = new TreeNode(task);
+                        if (taskDB.TaskType.ID == 1)
+                            treeNode = new TreeNodeCustomer(task);
+                        else
+                            treeNode = new TreeNode(task);
                         TaskNodesDictionary.Add(id, treeNode);
                     }
                     else {
@@ -76,7 +79,12 @@ namespace TestTree.ViewModel
 
                         TreeNode parentTreeNode = TaskNodesDictionary[parentId];
 
-                        parentTreeNode.TreeNodes.Add(treeNode);
+                        // parentTreeNode.TreeNodes.Add(treeNode);
+                        // parentTreeNode.AddTreeNode(treeNode);
+                        if (treeNode.Task.ID == 1)
+                            parentTreeNode.TreeNodeCustomers.Add((TreeNodeCustomer)treeNode);
+                        else
+                            parentTreeNode.TreeNodes.Add(treeNode);
                         treeNode.ParentNode = parentTreeNode;
                     }
                 }

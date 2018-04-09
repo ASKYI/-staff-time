@@ -13,6 +13,7 @@ namespace TestTree.ViewModel
         public Task Task { get; set; }
         public TreeNode ParentNode { get; set; }
         public ObservableCollection<TreeNode> TreeNodes { get; set; }
+        public ObservableCollection<TreeNodeCustomer> TreeNodeCustomers { get; set; }
         public string Path { get; set; }
 
         public TreeNode()
@@ -22,6 +23,32 @@ namespace TestTree.ViewModel
         public TreeNode(Task task) : this()
         {
             Task = task;
+        }
+        public TreeNode(TreeNode node) : this()
+        {
+            Task = node.Task;
+            ParentNode = node.ParentNode;
+            TreeNodes = node.TreeNodes;
+            TreeNodeCustomers = node.TreeNodeCustomers;
+            Path = node.Path;
+        }
+
+        public void AddTreeNode(TreeNode node)
+        {
+            if (node is TreeNodeCustomer)
+            {
+                TreeNodeCustomer c = (TreeNodeCustomer)node;
+                TreeNodeCustomers.Add(c);
+            }
+            else
+                TreeNodes.Add(node);
+            /*
+            if (node.Task.TaskType.ID == 1)
+            {
+                TreeNodeCustomers.Add();
+            }
+            else
+                TreeNodes.Add(node);*/
         }
     }
 }

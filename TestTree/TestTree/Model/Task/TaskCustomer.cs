@@ -9,6 +9,8 @@ namespace TestTree.Model
     public class TaskCustomer : Task
     {
         public TaskCustomer() : base() {}
-        public TaskCustomer(Task task) : base(task) {}
+        public TaskCustomer(Task task) : base(task) {
+            TaskName += "_c";
+        }
     }
 }

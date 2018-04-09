@@ -13,19 +13,32 @@ using GalaSoft.MvvmLight.Messaging;
 namespace TestTree.ViewModel
 {
     public class TreeViewModel : MainViewModel
-    { 
-        public ObservableCollection<TreeNode> Tree { get; set; }
+    {
+        // public TreeNode TreeRoot { get; set; }
+        public ObservableCollection<TreeNode> Tree {get; set;}
 
         //Можно объединить с BaseViewModel.Generate_TaskNodesDictionary(), что может ускорить, 
         //но противоречит логике организации кода (если она у меня есть).
         private void Generate_Tree()
         {
+           /* TreeRoot = new TreeNode();
+            foreach (var taskNode in TaskNodesDictionary)
+            {
+                if (taskNode.Value.ParentNode == null)
+                {
+                    if (taskNode.Value.Task.ID == 1)
+                        TreeRoot.TreeNodeCustomers.Add((TreeNodeCustomer)taskNode.Value);
+                    else
+                        TreeRoot.TreeNodes.Add(taskNode.Value);
+                }
+            }*/
+            
             //Генерируется список смежности. Корни в коллекции Tree.
             Tree = new ObservableCollection<TreeNode>();
 
             foreach (var taskNode in TaskNodesDictionary)
             {
-                if (taskNode.Value.ParentNode == null)
+               if (taskNode.Value.ParentNode == null)
                     Tree.Add(taskNode.Value); //Это корень
             }
         }
