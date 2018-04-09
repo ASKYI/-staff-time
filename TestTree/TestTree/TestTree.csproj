@@ -148,9 +148,11 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\FaveViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="ViewModel\TabItemViewModel.cs" />
     <Compile Include="ViewModel\TreeNode.cs" />
     <Compile Include="ViewModel\TreeNodeCustomer.cs" />
     <Compile Include="ViewModel\TreeViewModel.cs" />
+    <Compile Include="ViewModel\WorkspaceViewModel.cs" />
     <Compile Include="View\FaveView.xaml.cs">
       <DependentUpon>FaveView.xaml</DependentUpon>
     </Compile>

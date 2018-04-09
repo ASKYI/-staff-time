@@ -12,10 +12,10 @@
         <TreeView Grid.Row="0" ItemsSource="{Binding TreeRoot}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type taskNodes:TreeNodeCustomer}" ItemsSource="{Binding Path=TreeNodeCustomers}">
-                    <Button Content="{Binding Task.TaskName}"></Button>
+                    <TextBox Text="{Binding Task.TaskName}"></TextBox>
                 </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type taskNodes:TreeNode}" ItemsSource="{Binding Path=TreeNodes}">
-                    <TextBlock Text="{Binding Task.TaskName}" FontSize="20"></TextBlock>
+                    <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
         </TreeView>

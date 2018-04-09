@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-
 using TestTree.Model;
 using GalaSoft.MvvmLight;
 using System.Data.Entity;
@@ -22,9 +22,7 @@ namespace TestTree.ViewModel
         {
             get { return _status; }
             set {
-                _status = value;
-                RaisePropertyChanged("Status");
-                //SetField(ref _status, value);
+                SetField(ref _status, value);
             }
         }
         public void ChangeStatus(string s)

@@ -81,6 +81,11 @@ namespace TestTree.ViewModel
 
         public FaveViewModel() : base()
         {
+            MessengerInstance.Register<NotificationMessage<TreeNode>>(this, (selectedTask) =>
+            {
+                Status += "Получен выбранный узел\n";
+            });
+
             SelectedTask = null;
             _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
             try
@@ -105,5 +110,6 @@ namespace TestTree.ViewModel
             this.ChangeStatus("Отправлен выбранный узел\n");
             MessengerInstance.Send(new NotificationMessage<TreeNode>(SelectedTask, "TaskSelection"));
         }
+        
     }
 }

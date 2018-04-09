@@ -20,9 +20,11 @@ namespace TestTree.View
     /// </summary>
     public partial class Workspace : UserControl
     {
+        TestTree.ViewModel.WorkspaceViewModel workspaceVM = new ViewModel.WorkspaceViewModel();
         public Workspace()
         {
             InitializeComponent();
+            DataContext = workspaceVM;
         }
     }
 }
