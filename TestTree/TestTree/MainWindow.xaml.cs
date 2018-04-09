@@ -22,9 +22,11 @@ namespace TestTree
     /// </summary>
     public partial class MainWindow : Window
     {
+        TestTree.ViewModel.MainViewModel mainVM = new ViewModel.MainViewModel();
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = mainVM;
         }
     }
 }

@@ -15,9 +15,16 @@
             <Grid.RowDefinitions>
             <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="0.25*"></RowDefinition>
         </Grid.RowDefinitions>
         <view:Workspace Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></view:Workspace>
         <view:TreeView Grid.Column="1" Grid.Row="0" ></view:TreeView>
         <view:FaveView Grid.Column="1" Grid.Row="1"></view:FaveView>
+
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+            <ScrollViewer>
+                <TextBlock Name="StatusTextBlock" IsEnabled="False" Text="{Binding Status}" ></TextBlock>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </Window>

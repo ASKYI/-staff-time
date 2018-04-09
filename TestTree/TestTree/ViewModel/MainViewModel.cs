@@ -9,18 +9,37 @@ using TestTree.Model;
 using GalaSoft.MvvmLight;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Runtime.CompilerServices;
 
 namespace TestTree.ViewModel 
 {
     //Этот класс должен быть один. Singleton?
     public class MainViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        protected User CurUser { get; set; }   
+        //Временно
+        private string _status;
+        public string Status
+        {
+            get { return _status; }
+            set { SetField(ref _status, value); }
+        }
+        protected User CurUser { get; set; }
+        
         //Так как с задачами удобнее работать как с узлами дерева (имея доступ ко всем наследникам и предку), 
         //они хранятся в виде узлов дерева.
         //Словарь для облегчения доступа
         protected Dictionary<int, TreeNode> TaskNodesDictionary { get; set; }
+        public MainViewModel()
+        {
+            Status = "Запуск";
+            Generate_TaskNodesDictionary();
 
+            //Временно
+            using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
+            {
+                CurUser = (from u in ctx.Users where u.ID == 1 select u).FirstOrDefault();
+            }
+        }
         private void Generate_TaskNodesDictionary()
         {
             using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
@@ -63,30 +82,14 @@ namespace TestTree.ViewModel
                 }
             }
         }
-        public MainViewModel()
-        {
-            Generate_TaskNodesDictionary();
-
-            //temp
-            using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
-            {
-                CurUser = (from u in ctx.Users where u.ID == 1 select u).FirstOrDefault();
-            }
-        }
-
         protected ObservableCollection<TreeNode> ConvertTasksIntoNodes(List<int> t)
         {
-           /* if (TaskNodesDictionary == null)
-                throw new Exception("Dictionary has not been generated");*/
-
             ObservableCollection<TreeNode> tasksNodes = new ObservableCollection<TreeNode>();
             if (t != null)            
                 foreach (var q in t)
                     tasksNodes.Add(TaskNodesDictionary[q]);
             return tasksNodes;
         }
-        //protected List<int> GetTasksByProp(string propName, string propValueText = null, int? propValueInt = null,
-          //  DateTime? propValueDateTime = null)  
         protected List<int> GetTasksByProp(string propName, string propValueText = null, Nullable<int> propValueInt = null, 
             Nullable<DateTime> propValueDateTime = null)
           {
@@ -130,6 +133,14 @@ namespace TestTree.ViewModel
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+        protected bool SetField<T>(ref T field, T value,
+            [CallerMemberName] string propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            RaisePropertyChanged(propertyName);
+            return true;
         }
 
         #endregion
