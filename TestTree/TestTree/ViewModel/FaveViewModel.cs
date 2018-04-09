@@ -13,20 +13,31 @@ namespace TestTree.ViewModel
 {
     public class FaveViewModel : MainViewModel, INotifyPropertyChanged
     {
+        public FaveViewModel() : base()
+        {
+          /*  MessengerInstance.Register<NotificationMessage<TreeNode>>(this, (selectedTask) =>
+            {
+                Status += "Получен выбранный узел\n";
+            }); */
+
+            SelectedTask = null;
+            _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
+
+            Generate_FavTaskNodes();
+        }
         public ObservableCollection<TreeNode> FavTaskNodes { get; set; }
+
+        #region Select Task
         private TreeNode _selectedTask;
         public TreeNode SelectedTask
         {
-            get
-            {
-                return _selectedTask;
-            }
+            get { return _selectedTask; }
             set
             {
-                _selectedTask = value;
-                RaisePropertyChanged("SelectedTask");
+                SetField(ref _selectedTask, value);
             }
         }
+
         private readonly ICommand _selectTaskCommand;
         public ICommand SelectTaskCommand
         {
@@ -35,7 +46,19 @@ namespace TestTree.ViewModel
                 return _selectTaskCommand;
             }
         }
+        private bool CanSelectTask(object obj)
+        {
+            if (SelectedTask == null)
+                return false;
+            return true;
+        }
+        private void SelectTask(object obj)
+        {
+            MessengerInstance.Send(new NotificationMessage<TreeNode>(SelectedTask, "TaskSelection"));
+        }
+        #endregion
 
+        #region Generate
         private void Generate_FavTaskNodes()
         {
             List<int> faveTasks = new List<int>();
@@ -48,13 +71,6 @@ namespace TestTree.ViewModel
         }
         private void Generate_FavTaskPaths()
         {
-            /*
-            /*if (TaskNodesDictionary == null)
-                throw new Exception("Dictionary has not been generated");*/
-
-            //TODO: ПЕРЕПИСАТЬ
-            //FavTasks = ConvertTasksIntoNodes(GetTasksByProp("Favorite", "True")); 
-
             foreach (var ft in FavTaskNodes)
             {
                 string stringPath = "";
@@ -78,38 +94,6 @@ namespace TestTree.ViewModel
                 ft.Path = stringPath;
             }
         }
-
-        public FaveViewModel() : base()
-        {
-            MessengerInstance.Register<NotificationMessage<TreeNode>>(this, (selectedTask) =>
-            {
-                Status += "Получен выбранный узел\n";
-            });
-
-            SelectedTask = null;
-            _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
-            try
-            {
-                Generate_FavTaskNodes();
-            }
-            catch
-            {
-
-            }
-
-        }
-
-        private bool CanSelectTask(object obj)
-        {
-            if (SelectedTask == null)
-                return false;
-            return true;
-        }
-        private void SelectTask(object obj)
-        {
-            this.ChangeStatus("Отправлен выбранный узел\n");
-            MessengerInstance.Send(new NotificationMessage<TreeNode>(SelectedTask, "TaskSelection"));
-        }
-        
+        #endregion
     }
 }

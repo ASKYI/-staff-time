@@ -17,6 +17,7 @@ namespace TestTree.ViewModel
         {
             TabName = tabName_DayOfWeek;
         }
+
         private string _tabName;
         public string TabName
         {

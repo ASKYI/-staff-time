@@ -15,6 +15,15 @@ namespace TestTree.ViewModel
             Generate_Week();
         }
 
+        private ObservableCollection<TabItemViewModel> _weekTabs;
+        public ObservableCollection<TabItemViewModel> WeekTabs
+        {
+            get { return _weekTabs; }
+            set
+            {
+                SetField(ref _weekTabs, value);
+            }
+        }
         private void Generate_Week()
         {
             WeekTabs = new ObservableCollection<TabItemViewModel>();
@@ -24,16 +33,6 @@ namespace TestTree.ViewModel
             WeekTabs.Add(new TabItemViewModel("Четверг"));
             WeekTabs.Add(new TabItemViewModel("Пятница"));
             WeekTabs.Add(new TabItemViewModel("Суббота"));
-        }
-
-        private ObservableCollection<TabItemViewModel> _weekTabs;
-        public ObservableCollection<TabItemViewModel> WeekTabs
-        {
-            get { return _weekTabs; }
-            set
-            {
-                SetField(ref _weekTabs, value);
-            }
         }
     }
 }

@@ -17,16 +17,19 @@
         </StackPanel>
 
         <TabControl Grid.Column="1" ItemsSource="{Binding WeekTabs}">
+            
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding TabName}"/>
                 </DataTemplate>
             </TabControl.ItemTemplate>
+            
             <TabControl.ContentTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding TabName}"/>
                 </DataTemplate>
             </TabControl.ContentTemplate>
+            
         </TabControl>
     </Grid>
 </UserControl>

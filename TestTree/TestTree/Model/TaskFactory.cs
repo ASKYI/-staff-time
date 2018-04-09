@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 namespace TestTree.Model
 {
     public enum TaskPropDataType { ValueText, ValueInt, ValueDate, ValueTime };
-    public enum TaskTypeEnum { TaskNone, TaskCustomer, TaskСompany, TaskСontract, TaskDirection } //Заказчик Предприятие Договор Направление
+    
+    //Заказчик Предприятие Договор Направление
+    public enum TaskTypeEnum { TaskNone, TaskCustomer, TaskСompany, TaskСontract, TaskDirection } 
+
     public class TaskFactory : ITaskFactory
     {
         public Task CreateTask(TaskTypeEnum type) //Factory Pattern

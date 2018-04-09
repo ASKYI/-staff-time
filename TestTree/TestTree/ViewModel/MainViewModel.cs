@@ -16,28 +16,9 @@ namespace TestTree.ViewModel
     //Этот класс должен быть один. Singleton?
     public class MainViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        //Временно
-        private string _status;
-        public string Status
-        {
-            get { return _status; }
-            set {
-                SetField(ref _status, value);
-            }
-        }
-        public void ChangeStatus(string s)
-        {
-            Status += s;
-        }
-        protected User CurUser { get; set; }
-        
-        //Так как с задачами удобнее работать как с узлами дерева (имея доступ ко всем наследникам и предку), 
-        //они хранятся в виде узлов дерева.
-        //Словарь для облегчения доступа
-        protected Dictionary<int, TreeNode> TaskNodesDictionary { get; set; }
         public MainViewModel()
         {
-            ChangeStatus("Запуск\n");
+            Status += "Запуск/n";
             Generate_TaskNodesDictionary();
 
             //Временно
@@ -46,6 +27,12 @@ namespace TestTree.ViewModel
                 CurUser = (from u in ctx.Users where u.ID == 1 select u).FirstOrDefault();
             }
         }
+
+        protected User CurUser { get; set; }
+        //Так как с задачами удобнее работать как с узлами дерева (имея доступ ко всем наследникам и предку), 
+        //они хранятся в виде узлов дерева.
+        //Словарь для облегчения доступа
+        protected Dictionary<int, TreeNode> TaskNodesDictionary { get; set; }
         private void Generate_TaskNodesDictionary()
         {
             using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
@@ -96,6 +83,8 @@ namespace TestTree.ViewModel
                 }
             }
         }
+
+        #region Functions for Tasks Lists
         protected ObservableCollection<TreeNode> ConvertTasksIntoNodes(List<int> t)
         {
             ObservableCollection<TreeNode> tasksNodes = new ObservableCollection<TreeNode>();
@@ -137,6 +126,8 @@ namespace TestTree.ViewModel
             }
           }
 
+        #endregion
+
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -158,5 +149,16 @@ namespace TestTree.ViewModel
         }
 
         #endregion
+
+        //Временно
+        private string _status;
+        public string Status
+        {
+            get { return _status; }
+            set
+            {
+                SetField(ref _status, value);
+            }
+        }
     }
 }
