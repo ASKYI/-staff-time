@@ -154,8 +154,8 @@
     <Compile Include="ViewModel\TreeNodes\TreeNode.cs" />
     <Compile Include="ViewModel\TreeNodes\TreeNodeCustomer.cs" />
     <Compile Include="ViewModel\TreeNodeFactory.cs" />
-    <Compile Include="ViewModel\TreeNodeСompany.cs" />
-    <Compile Include="ViewModel\TreeNodeСontract.cs" />
+    <Compile Include="ViewModel\TreeNodes\TreeNodeСompany.cs" />
+    <Compile Include="ViewModel\TreeNodes\TreeNodeСontract.cs" />
     <Compile Include="ViewModel\TreeViewModel.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel.cs" />
     <Compile Include="View\FaveView.xaml.cs">

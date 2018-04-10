@@ -44,23 +44,23 @@ namespace TestTree.ViewModel
                 //В таком случае создается узел с пустым значением задачи, которая заполнится, когда задача встретится.
                 //В бд невозможно добавить ссылку на несуществующую задачу (стоит свойство)
 
-                TaskFactory factory = new TaskFactory();
+                TaskFactory taskFactory = new TaskFactory();
+                TreeNodeFactory treeNodeFactory = new TreeNodeFactory();
                 foreach (Task taskDB in ctx.Tasks)
                 {
-                    Task task = factory.CreateTask(taskDB);
+                    Task task = taskFactory.CreateTask(taskDB);
 
                     int id = task.ID;
                     TreeNode treeNode;
                     if (!TaskNodesDictionary.ContainsKey(id)) {
-                        if (taskDB.TaskType.ID == 1)
-                            treeNode = new TreeNodeCustomer(task);
-                        else
-                            treeNode = new TreeNode(task);
+                        treeNode = treeNodeFactory.CreateTreeNode(task);
                         TaskNodesDictionary.Add(id, treeNode);
                     }
                     else {
+                        TaskNodesDictionary[id].Task = task;
                         treeNode = TaskNodesDictionary[id];
-                        treeNode.Task = task;
+                        treeNodeFactory.ChangeType(ref treeNode, task);
+                        //treeNode.Task = task;
                     }
 
                     if (task.ParentTaskID != null)
@@ -72,12 +72,8 @@ namespace TestTree.ViewModel
 
                         TreeNode parentTreeNode = TaskNodesDictionary[parentId];
 
-                        // parentTreeNode.TreeNodes.Add(treeNode);
-                        // parentTreeNode.AddTreeNode(treeNode);
-                        if (treeNode.Task.ID == 1)
-                            parentTreeNode.TreeNodeCustomers.Add((TreeNodeCustomer)treeNode);
-                        else
-                            parentTreeNode.TreeNodes.Add(treeNode);
+
+                        parentTreeNode.AddChild(treeNode);
                         treeNode.ParentNode = parentTreeNode;
                     }
                 }

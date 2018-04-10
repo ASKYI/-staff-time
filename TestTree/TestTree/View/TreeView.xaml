@@ -11,15 +11,35 @@
     <Grid>
         <TreeView Grid.Row="0" ItemsSource="{Binding TreeRoot}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
             <TreeView.Resources>
-                
+
                 <HierarchicalDataTemplate DataType="{x:Type taskNodes:TreeNodeCustomer}" ItemsSource="{Binding Path=TreeNodeCustomers}">
-                    <TextBox Text="{Binding Task.TaskName}"></TextBox>
+                    <TextBox Text="{Binding Task.TaskName}" Background="Azure"></TextBox>
                 </HierarchicalDataTemplate>
-                
+
+                <HierarchicalDataTemplate DataType="{x:Type taskNodes:TreeNodeSpecialty}" ItemsSource="{Binding Path=TreeNodeSpecialties}">
+                    <Button Content="{Binding Task.TaskName}"></Button>
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type taskNodes:TreeNodeСompany}" ItemsSource="{Binding Path= TreeNodeCompanies}">
+                    <Label Content="{Binding Task.TaskName}" Background="AliceBlue"></Label>
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type taskNodes:TreeNodeСontract}" ItemsSource="{Binding Path=TreeNodeContracts}">
+                    <TextBox Text="{Binding Task.TaskName}" Background="AntiqueWhite"></TextBox>
+                </HierarchicalDataTemplate>
+
                 <HierarchicalDataTemplate DataType="{x:Type taskNodes:TreeNode}" ItemsSource="{Binding Path=TreeNodes}">
                     <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
                 </HierarchicalDataTemplate>
-                
+
+                <!--<HierarchicalDataTemplate DataType="{x:Type taskNodes:TreeNodeCustomer}" ItemsSource="{Binding Path=TreeNodeCustomers}">
+                    <TextBox Text="{Binding Task.TaskName}"></TextBox>
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type taskNodes:TreeNode}" ItemsSource="{Binding Path=TreeNodes}">
+                    <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+                </HierarchicalDataTemplate>-->
+
             </TreeView.Resources>
         </TreeView>
     </Grid>

@@ -40,10 +40,7 @@ namespace TestTree.ViewModel
             {
                 if (taskNode.Value.ParentNode == null)
                 {
-                    if (taskNode.Value.Task.ID == 1)
-                        root.TreeNodeCustomers.Add((TreeNodeCustomer)taskNode.Value);
-                    else
-                        root.TreeNodes.Add(taskNode.Value);
+                    root.AddChild(taskNode.Value);
                 }
             }
         }

@@ -9,7 +9,7 @@ namespace TestTree.ViewModel
     public class TreeNodeSpecialty : TreeNode
     {
         public TreeNodeSpecialty() : base() { }
-        public TreeNodeSpecialty(TestTree.Model.Task task) : base() { }
+        public TreeNodeSpecialty(TestTree.Model.Task task) : base(task) { }
         public TreeNodeSpecialty(TreeNode treeNode) : base(treeNode) { }
     }
 }

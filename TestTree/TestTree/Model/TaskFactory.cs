@@ -9,7 +9,7 @@ namespace TestTree.Model
     public enum TaskPropDataType { ValueText, ValueInt, ValueDate, ValueTime };
     
     //Заказчик Предприятие Договор Направление
-    public enum TaskTypeEnum { TaskNone, TaskCustomer, TaskСompany, TaskСontract, TaskDirection } 
+    public enum TaskTypeEnum { TaskNone, TaskCustomer, TaskСompany, TaskСontract, TaskSpecialty } 
 
     public class TaskFactory : ITaskFactory
     {
@@ -21,7 +21,7 @@ namespace TestTree.Model
                     return new Task();
                 case TaskTypeEnum.TaskCustomer:
                     return new TaskCustomer();
-                case TaskTypeEnum.TaskDirection:
+                case TaskTypeEnum.TaskSpecialty:
                     return new TaskSpecialty();
                 case TaskTypeEnum.TaskСompany:
                     return new TaskCompany();
@@ -39,7 +39,7 @@ namespace TestTree.Model
                     return new Task(task);
                 case TaskTypeEnum.TaskCustomer:
                     return new TaskCustomer(task);
-                case TaskTypeEnum.TaskDirection:
+                case TaskTypeEnum.TaskSpecialty:
                     return new TaskSpecialty(task);
                 case TaskTypeEnum.TaskСompany:
                     return new TaskCompany(task);
