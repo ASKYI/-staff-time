@@ -150,6 +150,7 @@
     <Compile Include="ViewModel\FaveViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\TabItemViewModel.cs" />
+    <Compile Include="ViewModel\TreeNodeConverter.cs" />
     <Compile Include="ViewModel\TreeNodes\TreeNodeSpecialty.cs" />
     <Compile Include="ViewModel\TreeNodes\TreeNode.cs" />
     <Compile Include="ViewModel\TreeNodes\TreeNodeCustomer.cs" />
