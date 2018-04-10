@@ -11,11 +11,12 @@ using System.Runtime.CompilerServices;
 
 namespace TestTree.ViewModel
 {
-    public class TabItemViewModel : ViewModelBase, INotifyPropertyChanged
+    public class TabItem : ViewModelBase, INotifyPropertyChanged
     {
-        public TabItemViewModel(string tabName_DayOfWeek)
+        public TabItem(string tabName_DayOfWeek, DateTime dateTime)
         {
             TabName = tabName_DayOfWeek;
+            Date = dateTime;
         }
 
         private string _tabName;

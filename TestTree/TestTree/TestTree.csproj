@@ -146,10 +146,11 @@
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\ITreeNodeFactory.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\FaveViewModel.cs" />
+    <Compile Include="ViewModel\TabItemHeaderConverter.cs" />
+    <Compile Include="ViewModel\ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModel\ViewModels\FaveViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
-    <Compile Include="ViewModel\TabItemViewModel.cs" />
+    <Compile Include="ViewModel\TabItem.cs" />
     <Compile Include="ViewModel\TreeNodeConverter.cs" />
     <Compile Include="ViewModel\TreeNodes\TreeNodeSpecialty.cs" />
     <Compile Include="ViewModel\TreeNodes\TreeNode.cs" />
@@ -157,8 +158,8 @@
     <Compile Include="ViewModel\TreeNodeFactory.cs" />
     <Compile Include="ViewModel\TreeNodes\TreeNodeСompany.cs" />
     <Compile Include="ViewModel\TreeNodes\TreeNodeСontract.cs" />
-    <Compile Include="ViewModel\TreeViewModel.cs" />
-    <Compile Include="ViewModel\WorkspaceViewModel.cs" />
+    <Compile Include="ViewModel\ViewModels\TreeViewModel.cs" />
+    <Compile Include="ViewModel\ViewModels\WorkspaceViewModel.cs" />
     <Compile Include="View\FaveView.xaml.cs">
       <DependentUpon>FaveView.xaml</DependentUpon>
     </Compile>
