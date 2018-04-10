@@ -10,79 +10,73 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <vm:TreeNodeConverter x:Key="treeNodeConverter"></vm:TreeNodeConverter>
+
+        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}">
+            <HierarchicalDataTemplate.ItemsSource>
+                <MultiBinding Converter="{StaticResource treeNodeConverter}">
+                    <Binding Path="TreeNodeCustomers"></Binding>
+                    <Binding Path="TreeNodeSpecialties"></Binding>
+                    <Binding Path="TreeNodeCompanies"></Binding>
+                    <Binding Path="TreeNodeContracts"></Binding>
+                    <Binding Path="TreeNodes"></Binding>
+                </MultiBinding>
+            </HierarchicalDataTemplate.ItemsSource>
+            <TextBox Text="{Binding Task.TaskName}" Background="Azure"></TextBox>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}">
+            <HierarchicalDataTemplate.ItemsSource>
+                <MultiBinding Converter="{StaticResource treeNodeConverter}">
+                    <Binding Path="TreeNodeCustomers"></Binding>
+                    <Binding Path="TreeNodeSpecialties"></Binding>
+                    <Binding Path="TreeNodeCompanies"></Binding>
+                    <Binding Path="TreeNodeContracts"></Binding>
+                    <Binding Path="TreeNodes"></Binding>
+                </MultiBinding>
+            </HierarchicalDataTemplate.ItemsSource>
+            <Button Content="{Binding Task.TaskName}"></Button>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}">
+            <HierarchicalDataTemplate.ItemsSource>
+                <MultiBinding Converter="{StaticResource treeNodeConverter}">
+                    <Binding Path="TreeNodeCustomers"></Binding>
+                    <Binding Path="TreeNodeSpecialties"></Binding>
+                    <Binding Path="TreeNodeCompanies"></Binding>
+                    <Binding Path="TreeNodeContracts"></Binding>
+                    <Binding Path="TreeNodes"></Binding>
+                </MultiBinding>
+            </HierarchicalDataTemplate.ItemsSource>
+            <Label Content="{Binding Task.TaskName}" Background="AliceBlue"></Label>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}">
+            <HierarchicalDataTemplate.ItemsSource>
+                <MultiBinding Converter="{StaticResource treeNodeConverter}">
+                    <Binding Path="TreeNodeCustomers"></Binding>
+                    <Binding Path="TreeNodeSpecialties"></Binding>
+                    <Binding Path="TreeNodeCompanies"></Binding>
+                    <Binding Path="TreeNodeContracts"></Binding>
+                    <Binding Path="TreeNodes"></Binding>
+                </MultiBinding>
+            </HierarchicalDataTemplate.ItemsSource>
+            <TextBox Text="{Binding Task.TaskName}" Background="AntiqueWhite"></TextBox>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNode}">
+            <HierarchicalDataTemplate.ItemsSource>
+                <MultiBinding Converter="{StaticResource treeNodeConverter}">
+                    <Binding Path="TreeNodeCustomers"></Binding>
+                    <Binding Path="TreeNodeSpecialties"></Binding>
+                    <Binding Path="TreeNodeCompanies"></Binding>
+                    <Binding Path="TreeNodeContracts"></Binding>
+                    <Binding Path="TreeNodes"></Binding>
+                </MultiBinding>
+            </HierarchicalDataTemplate.ItemsSource>
+            <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+        </HierarchicalDataTemplate>
     </UserControl.Resources>
     <Grid>
-        <TreeView Grid.Row="0" ItemsSource="{Binding TreeRoot}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
-            <TreeView.Resources>
-                <vm:TreeNodeConverter x:Key="treeNodeConverter"></vm:TreeNodeConverter>
-                
-                <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}">
-                    <HierarchicalDataTemplate.ItemsSource>
-                        <MultiBinding Converter="{StaticResource treeNodeConverter}">
-                            <Binding Path="TreeNodeCustomers"></Binding>
-                            <Binding Path="TreeNodeSpecialties"></Binding>
-                            <Binding Path="TreeNodeCompanies"></Binding>
-                            <Binding Path="TreeNodeContracts"></Binding>
-                            <Binding Path="TreeNodes"></Binding>
-                        </MultiBinding>
-                    </HierarchicalDataTemplate.ItemsSource>
-                    <TextBox Text="{Binding Task.TaskName}" Background="Azure"></TextBox>
-                </HierarchicalDataTemplate>
-
-                <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}">
-                    <HierarchicalDataTemplate.ItemsSource>
-                        <MultiBinding Converter="{StaticResource treeNodeConverter}">
-                            <Binding Path="TreeNodeCustomers"></Binding>
-                            <Binding Path="TreeNodeSpecialties"></Binding>
-                            <Binding Path="TreeNodeCompanies"></Binding>
-                            <Binding Path="TreeNodeContracts"></Binding>
-                            <Binding Path="TreeNodes"></Binding>
-                        </MultiBinding>
-                    </HierarchicalDataTemplate.ItemsSource>
-                    <Button Content="{Binding Task.TaskName}"></Button>
-                </HierarchicalDataTemplate>
-
-                <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}">
-                    <HierarchicalDataTemplate.ItemsSource>
-                        <MultiBinding Converter="{StaticResource treeNodeConverter}">
-                            <Binding Path="TreeNodeCustomers"></Binding>
-                            <Binding Path="TreeNodeSpecialties"></Binding>
-                            <Binding Path="TreeNodeCompanies"></Binding>
-                            <Binding Path="TreeNodeContracts"></Binding>
-                            <Binding Path="TreeNodes"></Binding>
-                        </MultiBinding>
-                    </HierarchicalDataTemplate.ItemsSource>
-                    <Label Content="{Binding Task.TaskName}" Background="AliceBlue"></Label>
-                </HierarchicalDataTemplate>
-
-                <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}">
-                    <HierarchicalDataTemplate.ItemsSource>
-                        <MultiBinding Converter="{StaticResource treeNodeConverter}">
-                            <Binding Path="TreeNodeCustomers"></Binding>
-                            <Binding Path="TreeNodeSpecialties"></Binding>
-                            <Binding Path="TreeNodeCompanies"></Binding>
-                            <Binding Path="TreeNodeContracts"></Binding>
-                            <Binding Path="TreeNodes"></Binding>
-                        </MultiBinding>
-                    </HierarchicalDataTemplate.ItemsSource>
-                    <TextBox Text="{Binding Task.TaskName}" Background="AntiqueWhite"></TextBox>
-                </HierarchicalDataTemplate>
-
-                <HierarchicalDataTemplate DataType="{x:Type vm:TreeNode}">
-                    <HierarchicalDataTemplate.ItemsSource>
-                        <MultiBinding Converter="{StaticResource treeNodeConverter}">
-                            <Binding Path="TreeNodeCustomers"></Binding>
-                            <Binding Path="TreeNodeSpecialties"></Binding>
-                            <Binding Path="TreeNodeCompanies"></Binding>
-                            <Binding Path="TreeNodeContracts"></Binding>
-                            <Binding Path="TreeNodes"></Binding>
-                        </MultiBinding>
-                    </HierarchicalDataTemplate.ItemsSource>
-                    <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                    </HierarchicalDataTemplate>
-
-
-            </TreeView.Resources>
-        </TreeView>
+        <TreeView Grid.Row="0" ItemsSource="{Binding TreeRoot}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
     </Grid>
 </UserControl>

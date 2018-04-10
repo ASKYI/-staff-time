@@ -20,13 +20,6 @@ namespace TestTree.ViewModel
             ObservableCollection<TreeNode> root = new ObservableCollection<TreeNode>();
             root.Add(new TreeNode());
             root[0].Task = new Task(); root[0].Task.TaskName = "Задачи";
-            root.Add(new TreeNodeCustomer());
-            root[1].Task = new TaskCustomer(); root[1].Task.TaskName = "Тест";
-            root[1].TreeNodeContracts.Add(new TreeNodeСontract());
-            root[1].TreeNodeContracts[0].Task = new Task(); root[1].TreeNodeContracts[0].Task.TaskName = "Тест2";
-            root.Add(new TreeNodeCustomer());
-            root[2].TreeNodeCustomers.Add(new TreeNodeCustomer());
-            root[2].TreeNodeCustomers[0].Task = new TaskCustomer(); root[2].TreeNodeCustomers[0].Task.TaskName = "Тест однотипные дети-предки";
             TreeRoot = new ReadOnlyObservableCollection<TreeNode>(root);
 
             Generate_Tree();
