@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.ComponentModel;
+using System.Windows.Input;
 using System.Collections.ObjectModel;
 
 namespace TestTree.ViewModel
@@ -14,6 +15,8 @@ namespace TestTree.ViewModel
         public WorkspaceViewModel() : base() {
             WeekTabs = new ObservableCollection<TabItem>();
             Generate_Week(DateTime.Today);
+
+            _changeDateCommand = new RelayCommand(ChangeDate, CanChangeDate);
         }
 
         #region Week
@@ -31,6 +34,26 @@ namespace TestTree.ViewModel
             {
                 WeekTabs.Add(new TabItem(DaysOfWeek[i], startDay.AddDays(i)));
             }
+        }
+        #endregion
+
+        #region Select Date
+        public Nullable<DateTime> SelectedDate;
+        private readonly ICommand _changeDateCommand;
+        public ICommand ChangeDateCommand
+        {
+            get
+            {
+                return _changeDateCommand;
+            }
+        }
+        private bool CanChangeDate(object obj)
+        {
+            return SelectedDate != null;
+        }
+        private void ChangeDate(object obj)
+        {
+            Generate_Week((DateTime)SelectedDate);
         }
         #endregion
     }

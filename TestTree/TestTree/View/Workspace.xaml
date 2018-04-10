@@ -5,13 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TestTree.View"
              xmlns:vm="clr-namespace:TestTree.ViewModel"
+                          xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-       
-        
-    </UserControl.Resources>
-    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.05*"></ColumnDefinition>
@@ -19,7 +15,14 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0">
-            <DatePicker IsDropDownOpen="True"/>
+            <DatePicker IsDropDownOpen="True" SelectedDate="{Binding SelectedDate}" > 
+                <i:Interaction.Triggers>
+                    <i:EventTrigger  EventName="MouseDown">
+                        <i:InvokeCommandAction Command="{Binding ChangeDateCommand}"
+                                   CommandParameter="{Binding ElementName=dpEventDate, Path=SelectedDate}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </DatePicker>
         </StackPanel>
 
         <TabControl Grid.Column="1" ItemsSource="{Binding WeekTabs}">

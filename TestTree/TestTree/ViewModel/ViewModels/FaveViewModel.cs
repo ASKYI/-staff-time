@@ -27,6 +27,44 @@ namespace TestTree.ViewModel
         }
         public ObservableCollection<TreeNode> FavTaskNodes { get; set; }
 
+        #region Generate
+        private void Generate_FavTaskNodes()
+        {
+            List<int> faveTasks = new List<int>();
+            using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
+            {
+                faveTasks = (from t in ctx.UserTasks where t.UserID == CurUser.ID select t.TaskID).ToList<int>();
+            }
+            FavTaskNodes = ConvertTasksIntoNodes(faveTasks);
+            Generate_FavTaskPaths();
+        }
+        private void Generate_FavTaskPaths()
+        {
+            foreach (var ft in FavTaskNodes)
+            {
+                StringBuilder stringPath = new StringBuilder();
+                List<string> path = new List<string>();
+
+                TreeNode t = ft;
+                while (t.ParentNode != null)
+                {
+                    path.Add(t.Task.TaskName);
+                    t = t.ParentNode;
+                }
+                path.Add(t.Task.TaskName);
+
+                path.Reverse();
+                for(int i = 0; i < path.Count; ++i)
+                {
+                    if (i != 0)
+                        stringPath.Append("->");
+                    stringPath.Append(path[i]);
+                }
+                ft.Path = stringPath.ToString();
+            }
+        }
+        #endregion
+
         #region Select Task
         private TreeNode _selectedTask;
         public TreeNode SelectedTask
@@ -48,51 +86,11 @@ namespace TestTree.ViewModel
         }
         private bool CanSelectTask(object obj)
         {
-            if (SelectedTask == null)
-                return false;
-            return true;
+            return SelectedTask != null;
         }
         private void SelectTask(object obj)
         {
             MessengerInstance.Send(new NotificationMessage<TreeNode>(SelectedTask, "TaskSelection"));
-        }
-        #endregion
-
-        #region Generate
-        private void Generate_FavTaskNodes()
-        {
-            List<int> faveTasks = new List<int>();
-            using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
-            {
-                faveTasks = (from t in ctx.UserTasks where t.UserID == CurUser.ID select t.TaskID).ToList<int>();
-            }
-            FavTaskNodes = ConvertTasksIntoNodes(faveTasks);
-            Generate_FavTaskPaths();
-        }
-        private void Generate_FavTaskPaths()
-        {
-            foreach (var ft in FavTaskNodes)
-            {
-                string stringPath = "";
-                List<string> path = new List<string>();
-
-                TreeNode t = ft;
-                while (t.ParentNode != null)
-                {
-                    path.Add(t.Task.TaskName);
-                    t = t.ParentNode;
-                }
-                path.Add(t.Task.TaskName);
-
-                path.Reverse();
-                for(int i = 0; i < path.Count; ++i)
-                {
-                    if (i != 0)
-                        stringPath += "->"; //HACK: Может долго работать, исправить
-                    stringPath += path[i];
-                }
-                ft.Path = stringPath;
-            }
         }
         #endregion
     }
