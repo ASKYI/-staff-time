@@ -102,11 +102,11 @@
     <Compile Include="Model\Task.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Tasks\TaskCustomer.cs" />
-    <Compile Include="Model\Tasks\TaskSpecialty.cs" />
-    <Compile Include="Model\ITaskFactory.cs" />
-    <Compile Include="Model\PartTask.cs" />
-    <Compile Include="Model\TaskFactory.cs" />
+    <Compile Include="Model\TaskModel\Tasks\TaskCustomer.cs" />
+    <Compile Include="Model\TaskModel\Tasks\TaskSpecialty.cs" />
+    <Compile Include="Model\TaskModel\ITaskFactory.cs" />
+    <Compile Include="Model\TaskModel\PartTask.cs" />
+    <Compile Include="Model\TaskModel\TaskFactory.cs" />
     <Compile Include="Model\TaskManagmentDBModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -128,8 +128,8 @@
     <Compile Include="Model\TaskTypeProp.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Tasks\TaskСompany.cs" />
-    <Compile Include="Model\Tasks\TaskСontract.cs" />
+    <Compile Include="Model\TaskModel\Tasks\TaskСompany.cs" />
+    <Compile Include="Model\TaskModel\Tasks\TaskСontract.cs" />
     <Compile Include="Model\User.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
@@ -151,7 +151,6 @@
     <Compile Include="ViewModel\ViewModels\FaveViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\TabItem.cs" />
-    <Compile Include="ViewModel\TreeNodeConverter.cs" />
     <Compile Include="ViewModel\TreeNodes\TreeNodeSpecialty.cs" />
     <Compile Include="ViewModel\TreeNodes\TreeNode.cs" />
     <Compile Include="ViewModel\TreeNodes\TreeNodeCustomer.cs" />

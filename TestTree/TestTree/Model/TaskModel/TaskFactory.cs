@@ -8,7 +8,7 @@ namespace TestTree.Model
 {
     public enum TaskPropDataType { ValueText, ValueInt, ValueDate, ValueTime };
     
-    //Заказчик Предприятие Договор Направление
+    // Нет Заказчик Предприятие Договор Направление
     public enum TaskTypeEnum { TaskNone, TaskCustomer, TaskСompany, TaskСontract, TaskSpecialty } 
 
     public class TaskFactory : ITaskFactory
