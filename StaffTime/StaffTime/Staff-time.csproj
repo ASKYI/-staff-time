@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{35BBFA2F-3F3E-48B0-A826-5A580A421247}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>TestTree</RootNamespace>
+    <AssemblyName>TestTree</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net45\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.4.1.0, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Windows.Design.Interaction, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=x86" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Model\Attribute.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AttrValue.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ModelDB\TaskTable\TaskTable.Fave.cs" />
+    <Compile Include="Model\ModelDB\WorkTable\WorkTable.cs" />
+    <Compile Include="Model\PropDataType.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Property.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PropValue.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\sysdiagram.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Task.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TaskModel\Tasks\TaskCustomer.cs" />
+    <Compile Include="Model\TaskModel\Tasks\TaskSpecialty.cs" />
+    <Compile Include="Model\TaskModel\ITaskFactory.cs" />
+    <Compile Include="Model\TaskModel\PartTask.cs" />
+    <Compile Include="Model\TaskModel\TaskFactory.cs" />
+    <Compile Include="Model\TaskManagmentDBModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskManagmentDBModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TaskManagmentDBModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TaskManagmentDBModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ModelDB\TaskTable\TasksTable.cs" />
+    <Compile Include="Model\ModelDB\TaskTable\TaskTable.Prop.cs" />
+    <Compile Include="Model\TaskType.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TaskTypeProp.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TaskModel\Tasks\TaskСompany.cs" />
+    <Compile Include="Model\TaskModel\Tasks\TaskСontract.cs" />
+    <Compile Include="Model\User.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\UserTask.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Work.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\WorkType.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\WorkTypeAttr.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\ITreeNodeFactory.cs" />
+    <Compile Include="ViewModel\TabItemHeaderConverter.cs" />
+    <Compile Include="ViewModel\ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModel\ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModel\ViewModels\FaveViewModel.cs" />
+    <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="ViewModel\TabItem.cs" />
+    <Compile Include="ViewModel\TreeNodes\TreeNodeSpecialty.cs" />
+    <Compile Include="ViewModel\TreeNodes\TreeNode.cs" />
+    <Compile Include="ViewModel\TreeNodes\TreeNodeCustomer.cs" />
+    <Compile Include="ViewModel\TreeNodeFactory.cs" />
+    <Compile Include="ViewModel\TreeNodes\TreeNodeСompany.cs" />
+    <Compile Include="ViewModel\TreeNodes\TreeNodeСontract.cs" />
+    <Compile Include="ViewModel\ViewModels\TreeViewModel.cs" />
+    <Compile Include="ViewModel\ViewModels\WorkspaceViewModel.cs" />
+    <Compile Include="View\FaveView.xaml.cs">
+      <DependentUpon>FaveView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TreeView.xaml.cs">
+      <DependentUpon>TreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Workspace.xaml.cs">
+      <DependentUpon>Workspace.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="View\FaveView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Workspace.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EntityDeploy Include="Model\TaskManagmentDBModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TaskManagmentDBModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Model\TaskManagmentDBModel.edmx.diagram">
+      <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Model\TaskManagmentDBModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
+      <LastGenOutput>TaskManagmentDBModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model\TaskManagmentDBModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
+      <LastGenOutput>TaskManagmentDBModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
