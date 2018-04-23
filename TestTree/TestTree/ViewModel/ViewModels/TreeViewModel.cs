@@ -63,7 +63,7 @@ namespace TestTree.ViewModel
         {
             MessengerInstance.Register<NotificationMessage<TreeNode>>(this, (selectedTask) =>
             {
-                Status += "Получен выбранный узел\n";
+                
             });
         }
         #endregion

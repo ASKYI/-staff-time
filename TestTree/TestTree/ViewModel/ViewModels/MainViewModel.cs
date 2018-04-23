@@ -13,13 +13,12 @@ using System.Runtime.CompilerServices;
 
 namespace TestTree.ViewModel 
 {
-    //Этот класс должен быть один. Singleton?
-    public class MainViewModel : ViewModelBase, INotifyPropertyChanged
+    public class MainViewModel : BaseViewModel
     {
         public MainViewModel()
         {
-            Status += "Запуск/n";
-            Generate_TaskNodesDictionary();
+            TaskNodesDictionary = TasksTableInteraction.Generate_TaskNodesDictionary();
+           // Generate_TaskNodesDictionary();
 
             //Временно
             using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
@@ -28,12 +27,12 @@ namespace TestTree.ViewModel
             }
         }
 
-        protected User CurUser { get; set; }
+        protected static User CurUser { get; set; }
         //Так как с задачами удобнее работать как с узлами дерева (имея доступ ко всем наследникам и предку), 
         //они хранятся в виде узлов дерева.
         //Словарь для облегчения доступа
-        protected Dictionary<int, TreeNode> TaskNodesDictionary { get; set; }
-        private void Generate_TaskNodesDictionary()
+        protected static Dictionary<int, TreeNode> TaskNodesDictionary { get; set; }
+    /*    private static void Generate_TaskNodesDictionary()
         {
             using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
             {
@@ -78,7 +77,7 @@ namespace TestTree.ViewModel
                     }
                 }
             }
-        }
+        } */
 
         #region Functions for Tasks Lists
         protected ObservableCollection<TreeNode> ConvertTasksIntoNodes(List<int> t)
@@ -89,7 +88,7 @@ namespace TestTree.ViewModel
                     tasksNodes.Add(TaskNodesDictionary[q]);
             return tasksNodes;
         }
-        protected List<int> GetTasksByProp(string propName, string propValueText = null, Nullable<int> propValueInt = null, 
+        protected static List<int> GetTasksByProp(string propName, string propValueText = null, Nullable<int> propValueInt = null, 
             Nullable<DateTime> propValueDateTime = null)
           {
               using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
@@ -112,7 +111,7 @@ namespace TestTree.ViewModel
             }
             return null;
         }
-        protected List<int> GetTasksByProp(int propID, string propValueText = null, Nullable<int> propValueInt = null,
+        protected static List<int> GetTasksByProp(int propID, string propValueText = null, Nullable<int> propValueInt = null,
             Nullable<DateTime> propValueDateTime = null)
           {
               using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
@@ -124,37 +123,7 @@ namespace TestTree.ViewModel
 
         #endregion
 
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        protected bool SetField<T>(ref T field, T value,
-            [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            RaisePropertyChanged(propertyName);
-            return true;
-        }
-
-        #endregion
-
         //Временно
-        private string _status;
-        public string Status
-        {
-            get { return _status; }
-            set
-            {
-                SetField(ref _status, value);
-            }
-        }
+        protected static string _status;
     }
 }
