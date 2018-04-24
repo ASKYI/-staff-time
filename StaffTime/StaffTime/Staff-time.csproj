@@ -92,6 +92,10 @@
     <Compile Include="Model\ModelDB\TasksTable\TasksTable.Prop.cs" />
     <Compile Include="Model\TaskModel\Tasks\TaskСompany.cs" />
     <Compile Include="Model\TaskModel\Tasks\TaskСontract.cs" />
+    <Compile Include="Model\WorkModel\WorkConsultationsByPhone.cs" />
+    <Compile Include="Model\WorkModel\WorkError.cs" />
+    <Compile Include="Model\WorkModel\WorkPatch.cs" />
+    <Compile Include="Model\WorkModel\WorkRefractoring.cs" />
     <Compile Include="ViewModel\TreeNodesVM\ITreeNodeFactory.cs" />
     <Compile Include="ViewModel\TabsVM\TabItemHeaderConverter.cs" />
     <Compile Include="ViewModel\TreeNodesVM\TreeNodes\TreeNodeCustomer.cs" />
