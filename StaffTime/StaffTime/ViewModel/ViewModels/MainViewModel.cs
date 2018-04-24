@@ -3,91 +3,100 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using System.ComponentModel;
-using System.Collections.ObjectModel;
 using StaffTime.Model;
-using GalaSoft.MvvmLight;
 using System.Data.Entity;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using GalaSoft.MvvmLight;
+
 using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
 
 namespace StaffTime.ViewModel 
 {
-    public class MainViewModel : BaseViewModel
+    public class MainViewModel : ViewModelBase, INotifyPropertyChanged
     {
         public MainViewModel()
         {
-            TaskNodesDictionary = TasksTable.Generate_TaskNodesDictionary();
-           // Generate_TaskNodesDictionary();
+            _get_TestUser();
+            
+            TasksTable.Read_TaskNodesDictionary();
+            _generate_TreeNodesDictionary();
+        }
 
-            //Временно
+        #region Users
+        protected static User CurUser { get; set; }
+        private static void _get_TestUser()
+        {
             using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
             {
                 CurUser = (from u in ctx.Users where u.ID == 1 select u).FirstOrDefault();
             }
         }
+        #endregion
 
-        protected static User CurUser { get; set; }
+        #region TreeNodes
         //Так как с задачами удобнее работать как с узлами дерева (имея доступ ко всем наследникам и предку), 
-        //они хранятся в виде узлов дерева.
-        //Словарь для облегчения доступа
+        //они хранятся в виде узлов, узлы задач хранятся в словаре для облегчения доступа.
         protected static Dictionary<int, TreeNode> TaskNodesDictionary { get; set; }
-    /*    private static void Generate_TaskNodesDictionary()
+
+        private static void _generate_TreeNodesDictionary()
         {
-            using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
+            TaskNodesDictionary = new Dictionary<int, StaffTime.ViewModel.TreeNode>();
+            //В Tasks ссылка на родителя может содержать идентификатор на задачу, 
+            //которая еще не встречалась в таблице при последовательном чтении.
+            //В таком случае создается узел с пустым значением задачи, которая заполнится, когда задача встретится.
+            //В бд невозможно добавить ссылку на несуществующую задачу (стоит свойство), 
+            //TODO: При удалении задачи, ссылки на нее удаляются.
+
+            TaskFactory taskFactory = new TaskFactory();
+            StaffTime.ViewModel.TreeNodeFactory treeNodeFactory = new StaffTime.ViewModel.TreeNodeFactory();
+            foreach (Task taskDB in TasksTable.Tasks)
             {
-                TaskNodesDictionary = new Dictionary<int, TreeNode>();
+                Task task = taskFactory.CreateTask(taskDB);
 
-                //В таблице ссылка на родителя может содержать идентификатор на задачу, 
-                //которая еще не встречалась в таблице при последовательном чтении.
-                //В таком случае создается узел с пустым значением задачи, которая заполнится, когда задача встретится.
-                //В бд невозможно добавить ссылку на несуществующую задачу (стоит свойство)
-
-                TaskFactory taskFactory = new TaskFactory();
-                TreeNodeFactory treeNodeFactory = new TreeNodeFactory();
-                foreach (Task taskDB in ctx.Tasks)
+                int id = task.ID;
+                StaffTime.ViewModel.TreeNode treeNode;
+                if (!TaskNodesDictionary.ContainsKey(id))
                 {
-                    Task task = taskFactory.CreateTask(taskDB);
+                    treeNode = treeNodeFactory.CreateTreeNode(task);
+                    TaskNodesDictionary.Add(id, treeNode);
+                }
+                else
+                {
+                    TaskNodesDictionary[id].Task = task;
+                    treeNode = TaskNodesDictionary[id];
+                    treeNodeFactory.ChangeType(treeNode, task);
+                }
 
-                    int id = task.ID;
-                    TreeNode treeNode;
-                    if (!TaskNodesDictionary.ContainsKey(id)) {
-                        treeNode = treeNodeFactory.CreateTreeNode(task);
-                        TaskNodesDictionary.Add(id, treeNode);
-                    }
-                    else {
-                        TaskNodesDictionary[id].Task = task;
-                        treeNode = TaskNodesDictionary[id];
-                        treeNodeFactory.ChangeType(ref treeNode, task);
-                        //treeNode.Task = task;
-                    }
+                if (task.ParentTaskID != null)
+                {
+                    int parentId = (int)task.ParentTaskID; //Из Nullable<int> в int, проверка на null уже была                        
 
-                    if (task.ParentTaskID != null)
-                    {
-                        int parentId = (int)task.ParentTaskID; //Из Nullable<int> в int, проверка на null уже была                        
+                    if (!TaskNodesDictionary.ContainsKey(parentId))
+                        TaskNodesDictionary.Add(parentId, new StaffTime.ViewModel.TreeNode());
 
-                        if (!TaskNodesDictionary.ContainsKey(parentId))
-                            TaskNodesDictionary.Add(parentId, new TreeNode());
+                    StaffTime.ViewModel.TreeNode parentTreeNode = TaskNodesDictionary[parentId];
 
-                        TreeNode parentTreeNode = TaskNodesDictionary[parentId];
+                    parentTreeNode.AddChild(treeNode);
+                    treeNode.ParentNode = parentTreeNode;
 
-
-                        parentTreeNode.AddChild(treeNode);
-                        treeNode.ParentNode = parentTreeNode;
-                    }
                 }
             }
-        } */
+        }
 
-        #region Functions for Tasks Lists
-        protected ObservableCollection<TreeNode> ConvertTasksIntoNodes(List<int> t)
+        protected static ObservableCollection<TreeNode> Convert_TasksIntoNodes(List<int> t)
         {
             ObservableCollection<TreeNode> tasksNodes = new ObservableCollection<TreeNode>();
-            if (t != null)            
+            if (t != null)
                 foreach (var q in t)
                     tasksNodes.Add(TaskNodesDictionary[q]);
             return tasksNodes;
         }
+        #endregion
+
+        #region TODO: Move to model
+
         protected static List<int> GetTasksByProp(string propName, string propValueText = null, Nullable<int> propValueInt = null, 
             Nullable<DateTime> propValueDateTime = null)
           {
@@ -123,7 +132,15 @@ namespace StaffTime.ViewModel
 
         #endregion
 
-        //Временно
-        protected static string _status;
+        #region INotifyPropertyChanged Member
+        protected bool SetField<T>(ref T field, T value,
+            [CallerMemberName] string propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            RaisePropertyChanged(propertyName);
+            return true;
+        }
+        #endregion
     }
 }

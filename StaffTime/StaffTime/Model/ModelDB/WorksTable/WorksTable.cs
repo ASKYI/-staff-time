@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StaffTime.Model
-{
-    public static partial class TasksTable
-    {
+using System.Data.Entity;
 
+namespace StaffTime.Model.ModelDB.WorkTable
+{
+    public static partial class WorksTable
+    {
     }
 }

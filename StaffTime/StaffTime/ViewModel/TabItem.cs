@@ -40,17 +40,7 @@ namespace StaffTime.ViewModel
 
         public ObservableCollection<StaffTime.Model.Work> Works;
 
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+        #region INotifyPropertyChanged Member
         protected bool SetField<T>(ref T field, T value,
             [CallerMemberName] string propertyName = null)
         {
@@ -59,7 +49,6 @@ namespace StaffTime.ViewModel
             RaisePropertyChanged(propertyName);
             return true;
         }
-
         #endregion
     }
 }

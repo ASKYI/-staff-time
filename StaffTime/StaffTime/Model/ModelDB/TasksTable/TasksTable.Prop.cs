@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StaffTime.Model.ModelDB.WorkTable
+using System.Data.Entity;
+
+namespace StaffTime.Model
 {
-    public static partial class WorkTable
+    public static partial class TasksTable
     {
+
     }
 }

@@ -15,8 +15,6 @@ namespace StaffTime.ViewModel
     {
         public TreeViewModel() : base()
         {
-            //Создание узла дерева типа нулевой задачи
-            //HACK: Если можно привязать узел к TreeView, а не коллекцию узлов первого уровня
             ObservableCollection<TreeNode> root = new ObservableCollection<TreeNode>();
             root.Add(new TreeNode());
             root[0].Task = new Task(); root[0].Task.TaskName = "Задачи";

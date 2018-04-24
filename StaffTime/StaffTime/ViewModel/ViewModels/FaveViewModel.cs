@@ -15,32 +15,25 @@ namespace StaffTime.ViewModel
     {
         public FaveViewModel() : base()
         {
-          /*  MessengerInstance.Register<NotificationMessage<TreeNode>>(this, (selectedTask) =>
-            {
-                Status += "Получен выбранный узел\n";
-            }); */
+            TasksTable.Read_FaveTasks(CurUser.ID);
+            _generate_FavTaskNodes();
 
             SelectedTask = null;
+
             _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
-
-            Generate_FavTaskNodes();
         }
-        public ObservableCollection<TreeNode> FavTaskNodes { get; set; }
 
-        #region Generate
-        private void Generate_FavTaskNodes()
+        #region Fave Tasks
+        public static ObservableCollection<TreeNode> FaveTaskNodes { get; set; }
+
+        private static void _generate_FavTaskNodes()
         {
-            List<int> faveTasks = new List<int>();
-            using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
-            {
-                faveTasks = (from t in ctx.UserTasks where t.UserID == CurUser.ID select t.TaskID).ToList<int>();
-            }
-            FavTaskNodes = ConvertTasksIntoNodes(faveTasks);
-            Generate_FavTaskPaths();
+            FaveTaskNodes = Convert_TasksIntoNodes(TasksTable.FaveTasks);
+            _generate_FaveTaskPaths();
         }
-        private void Generate_FavTaskPaths()
+        private static void _generate_FaveTaskPaths()
         {
-            foreach (var ft in FavTaskNodes)
+            foreach (var ft in FaveTaskNodes)
             {
                 StringBuilder stringPath = new StringBuilder();
                 List<string> path = new List<string>();
