@@ -64,7 +64,7 @@ namespace StaffTime.ViewModel
             return new TreeNode(task);
         }
 
-        public TreeNode ChangeType(ref TreeNode treeNode,Task task)
+        public TreeNode ChangeType(TreeNode treeNode,Task task)
         {
             TaskTypeEnum type = (TaskTypeEnum)treeNode.Task.TaskTypeID;
             switch (type)

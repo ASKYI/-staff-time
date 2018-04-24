@@ -11,7 +11,8 @@ namespace StaffTime.ViewModel
     {
         TreeNode CreateTreeNode(TaskTypeEnum type);
         TreeNode CreateTreeNode(TreeNode treeNode);
-
         TreeNode CreateTreeNode(Task task);
+
+        TreeNode ChangeType(TreeNode treeNode, Task task);
     }
 }
