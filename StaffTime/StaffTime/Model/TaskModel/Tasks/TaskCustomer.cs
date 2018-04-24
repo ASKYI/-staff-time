@@ -8,11 +8,7 @@ namespace StaffTime.Model
 {
     public class TaskCustomer : Task
     {
-        public TaskCustomer() : base() {
-            TaskName += "_c";
-        }
-        public TaskCustomer(Task task) : base(task) {
-            TaskName += "_c";
-        }
+        public TaskCustomer() : base() {}
+        public TaskCustomer(Task task) : base(task) {}
     }
 }

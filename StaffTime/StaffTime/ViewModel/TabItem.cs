@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.ComponentModel;
+using StaffTime.Model;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using GalaSoft.MvvmLight;
 using System.Runtime.CompilerServices;
 
 namespace StaffTime.ViewModel
 {
-    public class TabItem : ViewModelBase, INotifyPropertyChanged
+    public class TabItem : ViewModelBase
     {
         public TabItem(string tabName_DayOfWeek, DateTime dateTime)
         {
@@ -19,35 +20,17 @@ namespace StaffTime.ViewModel
             Date = dateTime;
         }
 
-        private string _tabName;
-        public string TabName
-        {
-            get { return _tabName; }
-            set
-            {
-                SetField(ref _tabName, value);
-            }
-        }
-        private DateTime _date; 
-        public DateTime Date
-        {
-            get { return _date; }
-            set
-            {
-                SetField(ref _date, value);
-            }
-        }
+        #region Tab Data
+        public string TabName { get; set; }
+        public DateTime Date { get; set; }
+        #endregion
 
-        public ObservableCollection<StaffTime.Model.Work> Works;
+        #region Works
+        public ObservableCollection<Work> Works { get; set; }
 
-        #region INotifyPropertyChanged Member
-        protected bool SetField<T>(ref T field, T value,
-            [CallerMemberName] string propertyName = null)
+        private void _generate_WorksForDate()
         {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            RaisePropertyChanged(propertyName);
-            return true;
+
         }
         #endregion
     }

@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 
 using StaffTime.Model;
-using System.Data.Entity;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using GalaSoft.MvvmLight;
 
 using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
+
+using System.Data.Entity;
 
 namespace StaffTime.ViewModel 
 {

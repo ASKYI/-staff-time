@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using System.Collections.ObjectModel;
 using StaffTime.Model;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.ComponentModel;
 using GalaSoft.MvvmLight.Messaging;
@@ -15,33 +15,25 @@ namespace StaffTime.ViewModel
     {
         public TreeViewModel() : base()
         {
-            ObservableCollection<TreeNode> root = new ObservableCollection<TreeNode>();
-            root.Add(new TreeNode());
-            root[0].Task = new Task(); root[0].Task.TaskName = "Задачи";
-            TreeRoot = new ReadOnlyObservableCollection<TreeNode>(root);
+            _generate_Tree();
 
-            Generate_Tree();
             _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
         }
 
-        private ReadOnlyObservableCollection<TreeNode> _treeRoot;
-        public ReadOnlyObservableCollection<TreeNode> TreeRoot
+        #region Tree Data
+        public ObservableCollection<TreeNode> TreeRoots { get; set; }
+        private void _generate_Tree()
         {
-            get { return _treeRoot; }
-            set { SetField(ref _treeRoot, value); }
-        }     
-        private void Generate_Tree()
-        {
-            TreeNode root = TreeRoot[0];
-
+            TreeRoots = new ObservableCollection<TreeNode>();
             foreach (var taskNode in TaskNodesDictionary)
             {
                 if (taskNode.Value.ParentNode == null)
                 {
-                    root.AddChild(taskNode.Value);
+                    TreeRoots.Add(taskNode.Value);
                 }
             }
         }
+        #endregion
 
         #region Select Task
         private readonly ICommand _selectTaskCommand;

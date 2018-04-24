@@ -30,6 +30,6 @@
         </HierarchicalDataTemplate>
     </UserControl.Resources>
     <Grid>
-        <TreeView Grid.Row="0" ItemsSource="{Binding TreeRoot}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
+        <TreeView Grid.Row="0" ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
     </Grid>
 </UserControl>

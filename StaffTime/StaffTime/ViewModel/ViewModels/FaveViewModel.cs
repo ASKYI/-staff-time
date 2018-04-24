@@ -19,7 +19,6 @@ namespace StaffTime.ViewModel
             _generate_FavTaskNodes();
 
             SelectedTask = null;
-
             _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
         }
 

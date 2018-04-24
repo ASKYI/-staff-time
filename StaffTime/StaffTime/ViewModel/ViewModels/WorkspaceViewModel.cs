@@ -4,32 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using StaffTime.Model;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
-using System.Collections.ObjectModel;
 
 namespace StaffTime.ViewModel
 {
     public class WorkspaceViewModel : MainViewModel
     {
         public WorkspaceViewModel() : base() {
-            WeekTabs = new ObservableCollection<TabItem>();
-            Generate_Week(DateTime.Today);
+            _generate_Week(DateTime.Today);
 
+            SelectedDate = null;
             _changeDateCommand = new RelayCommand(ChangeDate, CanChangeDate);
         }
 
         #region Week
-        public ObservableCollection<TabItem> WeekTabs { get; set; }
+        private static readonly string[] DaysOfWeek = new string[6] { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота" };
 
-        private string[] DaysOfWeek = new string[6] { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота" };
-
-        private void Generate_Week(DateTime date)
+        public static ObservableCollection<TabItem> WeekTabs { get; set; }
+        private static void _generate_Week(DateTime date)
         {
+            WeekTabs = new ObservableCollection<TabItem>();
+
             int dayOfWeek = (int)date.DayOfWeek;
-
             DateTime startDay = date.AddDays(-dayOfWeek + 1);
-
             for (int i = 0; i < 6; ++i)
             {
                 WeekTabs.Add(new TabItem(DaysOfWeek[i], startDay.AddDays(i)));
@@ -53,7 +53,7 @@ namespace StaffTime.ViewModel
         }
         private void ChangeDate(object obj)
         {
-            Generate_Week((DateTime)SelectedDate);
+            _generate_Week((DateTime)SelectedDate);
         }
         #endregion
     }

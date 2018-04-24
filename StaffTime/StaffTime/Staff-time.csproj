@@ -81,74 +81,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\Attribute.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AttrValue.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\ModelDB\TasksTable\TasksTable.Fave.cs" />
-    <Compile Include="Model\ModelDB\WorkTable\WorkTable.cs" />
-    <Compile Include="Model\PropDataType.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Property.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\PropValue.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\sysdiagram.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Task.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Model\ModelDB\WorksTable\WorksTable.cs" />
     <Compile Include="Model\TaskModel\Tasks\TaskCustomer.cs" />
     <Compile Include="Model\TaskModel\Tasks\TaskSpecialty.cs" />
     <Compile Include="Model\TaskModel\ITaskFactory.cs" />
     <Compile Include="Model\TaskModel\PartTask.cs" />
     <Compile Include="Model\TaskModel\TaskFactory.cs" />
-    <Compile Include="Model\TaskManagmentDBModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TaskManagmentDBModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\TaskManagmentDBModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\TaskManagmentDBModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Model\ModelDB\TasksTable\TasksTable.cs" />
     <Compile Include="Model\ModelDB\TasksTable\TasksTable.Prop.cs" />
-    <Compile Include="Model\TaskType.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\TaskTypeProp.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\TaskModel\Tasks\TaskСompany.cs" />
     <Compile Include="Model\TaskModel\Tasks\TaskСontract.cs" />
-    <Compile Include="Model\User.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\UserTask.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Work.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\WorkType.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\WorkTypeAttr.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="ViewModel\TreeNodesVM\ITreeNodeFactory.cs" />
     <Compile Include="ViewModel\TabItemHeaderConverter.cs" />
     <Compile Include="ViewModel\TreeNodesVM\TreeNodes\TreeNodeCustomer.cs" />
@@ -215,13 +158,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="Model\TaskManagmentDBModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TaskManagmentDBModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Model\TaskManagmentDBModel.edmx.diagram">
-      <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -233,18 +169,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Model\TaskManagmentDBModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
-      <LastGenOutput>TaskManagmentDBModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Model\TaskManagmentDBModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
-      <LastGenOutput>TaskManagmentDBModel.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
