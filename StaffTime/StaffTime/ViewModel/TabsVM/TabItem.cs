@@ -30,7 +30,7 @@ namespace StaffTime.ViewModel
 
         private void _generate_WorksForDate()
         {
-
+            
         }
         #endregion
     }

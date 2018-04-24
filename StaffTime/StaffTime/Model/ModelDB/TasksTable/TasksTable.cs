@@ -16,7 +16,7 @@ namespace StaffTime.Model
         {
             //TODO
         }
-        public static void Read_TaskNodesDictionary()
+        public static void Read_Tasks()
         {
             using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
             {

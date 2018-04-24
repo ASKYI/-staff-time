@@ -21,7 +21,7 @@ namespace StaffTime.ViewModel
         {
             _get_TestUser();
             
-            TasksTable.Read_TaskNodesDictionary();
+            TasksTable.Read_Tasks();
             _generate_TreeNodesDictionary();
         }
 

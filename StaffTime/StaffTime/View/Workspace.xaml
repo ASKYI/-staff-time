@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:StaffTime.View"
              xmlns:vm="clr-namespace:StaffTime.ViewModel"
-                          xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                        xmlns:m="clr-namespace:StaffTime.Model"
+                        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -43,10 +44,20 @@
                     </TextBlock>
                 </DataTemplate>
             </TabControl.ItemTemplate>
-            
+
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding TabName}"/>
+                    <StackPanel>
+                        <ItemsControl ItemsSource="{Binding Works}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type m:Work}">
+                                   
+                <!--!!!!-->              <Label Content="{Binding }"></Label>
+                               
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
                 </DataTemplate>
             </TabControl.ContentTemplate>
             
