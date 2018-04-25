@@ -17,6 +17,7 @@ namespace Staff_time.ViewModel
         {
             TabName = tabName_DayOfWeek;
             Date = dateTime;
+            _generate_WorksForDate();
         }
 
         #region Tab Data
@@ -29,7 +30,7 @@ namespace Staff_time.ViewModel
 
         private void _generate_WorksForDate()
         {
-
+            Works = new ObservableCollection<Work>(WorksTable.Read_WorksForDate(Date));
         }
         #endregion
     }

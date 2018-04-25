@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Staff_time.Model.WorkModel
+namespace Staff_time.Model
 {
     public class WorkFactory : IWorkFactory
     {

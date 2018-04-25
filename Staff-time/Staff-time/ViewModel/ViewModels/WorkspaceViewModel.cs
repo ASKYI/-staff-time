@@ -16,6 +16,7 @@ namespace Staff_time.ViewModel
     {
         public WorkspaceViewModel() : base()
         {
+            WorksTable.Read_Works();
             _generate_Week(DateTime.Today);
 
             SelectedDate = null;
@@ -23,7 +24,7 @@ namespace Staff_time.ViewModel
         }
 
         #region Week
-        private static readonly string[] DaysOfWeek = new string[6] { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота" };
+        private static readonly string[] DaysOfWeek = new string[7] { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье" };
 
         public static ObservableCollection<TabItem> WeekTabs { get; set; }
         private static void _generate_Week(DateTime date)
@@ -32,7 +33,7 @@ namespace Staff_time.ViewModel
 
             int dayOfWeek = (int)date.DayOfWeek;
             DateTime startDay = date.AddDays(-dayOfWeek + 1);
-            for (int i = 0; i < 6; ++i)
+            for (int i = 0; i < 7; ++i)
             {
                 WeekTabs.Add(new TabItem(DaysOfWeek[i], startDay.AddDays(i)));
             }

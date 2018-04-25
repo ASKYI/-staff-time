@@ -22,9 +22,7 @@ namespace Staff_time.Model
             List<Task> tasksDB = new List<Task>();
             using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
             {
-                
-                tasksDB = (from x in ctx.Tasks.Include(s => s.Works).Include(s => s.TaskType).Include(s => s.PropValues).Include(s => s.UserTasks)
-                          select x).ToList();
+                tasksDB = ctx.Tasks.Include(s => s.Works).Include(s => s.Works).Include(s => s.TaskType).Include(s => s.PropValues).Include(s => s.UserTasks).ToList();
             }
             TaskFactory taskFactory = new TaskFactory();
             foreach (Task t in tasksDB)

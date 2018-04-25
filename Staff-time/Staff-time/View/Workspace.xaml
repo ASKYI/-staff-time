@@ -53,10 +53,12 @@
                         <ItemsControl ItemsSource="{Binding Works}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type m:Work}">
-
-                                    <!--!!!!-->
-                                    <Label Content="{Binding }"></Label>
-
+                                    <Border BorderBrush="Black" BorderThickness="2">
+                                        <StackPanel>
+                                            <!--!!!!-->
+                                            <Label Content="{Binding WorkName}"></Label>
+                                        </StackPanel>
+                                    </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
