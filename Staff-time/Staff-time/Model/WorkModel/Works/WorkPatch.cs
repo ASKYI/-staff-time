@@ -5,7 +5,9 @@ using System.Text;
 
 namespace Staff_time.Model
 {
-    public class WorkError : Work
+    public class WorkPatch : Work
     {
+        public WorkPatch() : base() { }
+        public WorkPatch(Work work) : base(work) { }
     }
 }

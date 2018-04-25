@@ -2,12 +2,12 @@ USE [TaskManagmentDB]
 GO
 
 INSERT [dbo].[TaskTypes] ([ID], [TypeName])
-	VALUES (0, 'None')
+	VALUES (0, 'Нет')
 INSERT [dbo].[TaskTypes] ([ID], [TypeName])
-	VALUES (1, 'Customer')
+	VALUES (1, 'Заказчик')
 INSERT [dbo].[TaskTypes] ([ID], [TypeName])
-	VALUES (2, 'Сompany')
+	VALUES (2, 'Предприятие')
 INSERT [dbo].[TaskTypes] ([ID], [TypeName])
-	VALUES (3, 'Сontract')
+	VALUES (3, 'Контракт')
 INSERT [dbo].[TaskTypes] ([ID], [TypeName])
-	VALUES (4, 'Direction')
+	VALUES (4, 'Направление')

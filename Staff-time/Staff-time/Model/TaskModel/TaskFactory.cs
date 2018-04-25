@@ -5,14 +5,9 @@ using System.Text;
 
 namespace Staff_time.Model
 {
-    public enum TaskPropDataType { ValueText, ValueInt, ValueDate, ValueTime };
-
-    // Нет Заказчик Предприятие Договор Направление
-    public enum TaskTypeEnum { TaskNone, TaskCustomer, TaskСompany, TaskСontract, TaskSpecialty }
-
     public class TaskFactory : ITaskFactory
     {
-        public Task CreateTask(TaskTypeEnum type) //Factory Pattern
+        public Task CreateTask(TaskTypeEnum type)
         {
             switch (type)
             {

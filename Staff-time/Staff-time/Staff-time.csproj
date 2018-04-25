@@ -80,6 +80,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Enums.cs" />
+    <Compile Include="Model\WorkModel\IWorkFactory.cs" />
+    <Compile Include="Model\WorkModel\WorkFactory.cs" />
+    <Compile Include="Model\WorkModel\Works\Work.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\TabsVM\TabItem.cs" />
     <Compile Include="ViewModel\TabsVM\TabItemHeaderConverter.cs" />
@@ -138,7 +142,7 @@
     <Compile Include="Model\TaskModel\ITaskFactory.cs" />
     <Compile Include="Model\ModelDB\TasksTable\TasksTable.Fave.cs" />
     <Compile Include="Model\ModelDB\WorksTable\WorksTable.cs" />
-    <Compile Include="Model\TaskModel\Tasks\PartTask.cs" />
+    <Compile Include="Model\TaskModel\Tasks\Task.cs" />
     <Compile Include="Model\PropDataType.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
@@ -191,10 +195,10 @@
     <Compile Include="Model\Work.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\WorkModel\WorkConsultationsByPhone.cs" />
-    <Compile Include="Model\WorkModel\WorkError.cs" />
-    <Compile Include="Model\WorkModel\WorkPatch.cs" />
-    <Compile Include="Model\WorkModel\WorkRefractoring.cs" />
+    <Compile Include="Model\WorkModel\Works\WorkConsultationsByPhone.cs" />
+    <Compile Include="Model\WorkModel\Works\WorkError.cs" />
+    <Compile Include="Model\WorkModel\Works\WorkPatch.cs" />
+    <Compile Include="Model\WorkModel\Works\WorkRefractoring.cs" />
     <Compile Include="Model\WorkType.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>

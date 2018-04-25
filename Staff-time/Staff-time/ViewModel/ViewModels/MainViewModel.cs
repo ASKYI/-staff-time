@@ -51,11 +51,11 @@ namespace Staff_time.ViewModel
             //В бд невозможно добавить ссылку на несуществующую задачу (стоит свойство), 
             //TODO: При удалении задачи, ссылки на нее удаляются.
 
-            TaskFactory taskFactory = new TaskFactory();
+           // TaskFactory taskFactory = new TaskFactory();
             TreeNodeFactory treeNodeFactory = new TreeNodeFactory();
-            foreach (Task taskDB in TasksTable.Tasks)
+            foreach (Task task in TasksTable.Tasks)
             {
-                Task task = taskFactory.CreateTask(taskDB);
+                //Task task = taskFactory.CreateTask(taskDB);
 
                 int id = task.ID;
                 TreeNode treeNode;

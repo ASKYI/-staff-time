@@ -7,5 +7,7 @@ namespace Staff_time.Model
 {
     public class WorkRefractoring : Work
     {
+        public WorkRefractoring() : base() { }
+        public WorkRefractoring(Work work) : base() { }
     }
 }

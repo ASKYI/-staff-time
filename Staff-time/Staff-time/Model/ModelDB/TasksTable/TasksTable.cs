@@ -18,12 +18,18 @@ namespace Staff_time.Model
         }
         public static void Read_Tasks()
         {
+            _tasks = new List<Task>();
+            List<Task> tasksDB = new List<Task>();
             using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
             {
-                _tasks = new List<Task>();
-
-                _tasks = (from x in ctx.Tasks.Include(s => s.Works).Include(s => s.TaskType).Include(s => s.PropValues).Include(s => s.UserTasks)
+                
+                tasksDB = (from x in ctx.Tasks.Include(s => s.Works).Include(s => s.TaskType).Include(s => s.PropValues).Include(s => s.UserTasks)
                           select x).ToList();
+            }
+            TaskFactory taskFactory = new TaskFactory();
+            foreach (Task t in tasksDB)
+            {
+                _tasks.Add(taskFactory.CreateTask(t));
             }
         }
         public static void Update_Task(int taskId)

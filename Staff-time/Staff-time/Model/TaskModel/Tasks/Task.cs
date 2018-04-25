@@ -7,7 +7,7 @@ namespace Staff_time.Model
 {
     public partial class Task
     {
-        public Task(Task task)
+        public Task(Task task) 
         {
             this.TaskName = task.TaskName;
             this.TaskTypeID = task.TaskTypeID;
