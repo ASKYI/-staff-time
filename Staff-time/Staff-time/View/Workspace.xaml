@@ -11,6 +11,43 @@
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type m:Work}">
+            <Border BorderBrush="Black" BorderThickness="2">
+                <StackPanel>
+                    <Label Content="{Binding WorkName}"></Label>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type m:WorkConsultationsByPhone}">
+            <Border BorderBrush="Aqua" BorderThickness="2">
+                <StackPanel>
+                    <Label Content="{Binding WorkName}"></Label>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type m:WorkError}">
+            <Border BorderBrush="Red" BorderThickness="2">
+                <StackPanel>
+                    <Label Content="{Binding WorkName}"></Label>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type m:WorkPatch}">
+            <Border BorderBrush="Bisque" BorderThickness="2">
+                <StackPanel>
+                    <Label Content="{Binding WorkName}"></Label>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type m:WorkRefractoring}">
+            <Border BorderBrush="LightCoral" BorderThickness="2">
+                <StackPanel>
+                    <Label Content="{Binding WorkName}"></Label>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.05*"></ColumnDefinition>
@@ -50,18 +87,7 @@
             <TabControl.ContentTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <ItemsControl ItemsSource="{Binding Works}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="{x:Type m:Work}">
-                                    <Border BorderBrush="Black" BorderThickness="2">
-                                        <StackPanel>
-                                            <!--!!!!-->
-                                            <Label Content="{Binding WorkName}"></Label>
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding Works}"></ItemsControl>
                     </StackPanel>
                 </DataTemplate>
             </TabControl.ContentTemplate>

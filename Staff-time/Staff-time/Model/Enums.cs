@@ -14,8 +14,8 @@ namespace Staff_time.Model
     #endregion
 
     #region Works
-    //Нет Консультация по телефону Ошибка Заплатка Рефракторинг
-    public enum WorkTypeEnum { WorkNone, WorkConsultationsByPhone, WorkError, WorkPatch, WorkRefractoring }
+    //Нет Ошибка Рефракторинг Консультация по телефону  Заплатка 
+    public enum WorkTypeEnum { WorkNone, WorkError, WorkRefractoring, WorkConsultationsByPhone, WorkPatch}
     #endregion
 
 }
