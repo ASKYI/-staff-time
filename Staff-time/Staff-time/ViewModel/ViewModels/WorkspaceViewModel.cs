@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using Staff_time.Model;
 using System.Collections.ObjectModel;
@@ -32,7 +31,8 @@ namespace Staff_time.ViewModel
             WeekTabs = new ObservableCollection<TabItem>();
 
             int dayOfWeek = (int)date.DayOfWeek;
-            DateTime startDay = date.AddDays(-dayOfWeek + 1);
+            dayOfWeek = (dayOfWeek + 6) % 7;
+            DateTime startDay = date.AddDays(-dayOfWeek);
             for (int i = 0; i < 7; ++i)
             {
                 WeekTabs.Add(new TabItem(DaysOfWeek[i], startDay.AddDays(i)));

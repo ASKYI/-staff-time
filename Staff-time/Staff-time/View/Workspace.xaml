@@ -30,6 +30,7 @@
             <Border BorderBrush="Red" BorderThickness="2">
                 <StackPanel>
                     <Label Content="{Binding WorkName}"></Label>
+                    <Button Content="Редактировать"></Button>
                 </StackPanel>
             </Border>
         </DataTemplate>

@@ -56,9 +56,16 @@ namespace Staff_time.Model
             return worksForDate;
         }
         #endregion
-        public static void Update_Work()
+        public static void Update_Work(int id, Work work)
         {
-            //TODO
+            using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
+            {
+                var workDB = ctx.Works.Where(x => x.ID == id).FirstOrDefault();
+                workDB = work;
+                ctx.SaveChanges();
+            }
+            //Clone? Is it needed?
+            Read_Works();
         }
         public static void Delete_Work(int workId)
         {
