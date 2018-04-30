@@ -98,11 +98,15 @@
     <Compile Include="ViewModel\ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\TreeViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\WorkspaceViewModel.cs" />
+    <Compile Include="ViewModel\WorkViewModel.cs" />
     <Compile Include="View\FaveView.xaml.cs">
       <DependentUpon>FaveView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TreeView.xaml.cs">
       <DependentUpon>TreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WorkControl.xaml.cs">
+      <DependentUpon>WorkControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Workspace.xaml.cs">
       <DependentUpon>Workspace.xaml</DependentUpon>
@@ -124,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\TreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WorkControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

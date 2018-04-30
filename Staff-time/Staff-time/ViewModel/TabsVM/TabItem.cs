@@ -29,11 +29,16 @@ namespace Staff_time.ViewModel
         #endregion
 
         #region Works
-        public ObservableCollection<Work> Works { get; set; }
+        public ObservableCollection<WorkViewModel> Works { get; set; }
 
         private void _generate_WorksForDate()
         {
-            Works = new ObservableCollection<Work>(WorksTable.Read_WorksForDate(Date));
+            List<Work> works = WorksTable.Read_WorksForDate(Date);
+            Works = new ObservableCollection<WorkViewModel>();
+            foreach (Work w in works)
+            {
+                Works.Add(new WorkViewModel(w));
+            } 
         }
         #endregion
 

@@ -12,40 +12,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type m:Work}">
+        <DataTemplate DataType="{x:Type vm:WorkViewModel}">
             <Border BorderBrush="Black" BorderThickness="2">
-                <StackPanel>
-                    <Label Content="{Binding WorkName}"></Label>
-                </StackPanel>
-            </Border>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type m:WorkConsultationsByPhone}">
-            <Border BorderBrush="Aqua" BorderThickness="2">
-                <StackPanel>
-                    <Label Content="{Binding WorkName}"></Label>
-                </StackPanel>
-            </Border>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type m:WorkError}">
-            <Border BorderBrush="Red" BorderThickness="2">
-                <StackPanel>
-                    <Label Content="{Binding WorkName}"></Label>
-                    <Button Content="Редактировать"></Button>
-                </StackPanel>
-            </Border>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type m:WorkPatch}">
-            <Border BorderBrush="Bisque" BorderThickness="2">
-                <StackPanel>
-                    <Label Content="{Binding WorkName}"></Label>
-                </StackPanel>
-            </Border>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type m:WorkRefractoring}">
-            <Border BorderBrush="LightCoral" BorderThickness="2">
-                <StackPanel>
-                    <Label Content="{Binding WorkName}"></Label>
-                </StackPanel>
+                <local:WorkControl></local:WorkControl>
             </Border>
         </DataTemplate>
     </UserControl.Resources>
@@ -92,7 +61,6 @@
                     </StackPanel>
                 </DataTemplate>
             </TabControl.ContentTemplate>
-
         </TabControl>
     </Grid>
 </UserControl>

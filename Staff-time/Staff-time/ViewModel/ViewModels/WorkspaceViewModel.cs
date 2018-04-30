@@ -16,7 +16,7 @@ namespace Staff_time.ViewModel
         public WorkspaceViewModel() : base()
         {
             WorksTable.Read_Works();
-            _generate_Week(DateTime.Today);
+            _generate_Week(DateTime.Today.AddDays(-1));
 
             SelectedDate = null;
             _changeDateCommand = new RelayCommand(ChangeDate, CanChangeDate);
