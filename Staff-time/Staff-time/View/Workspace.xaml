@@ -12,9 +12,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type vm:WorkViewModel}">
+        <DataTemplate DataType="{x:Type vm:WorkInTab}">
             <Border BorderBrush="Black" BorderThickness="2">
-                <local:WorkControl></local:WorkControl>
+                <local:WorkControl DataContext="{Binding WorkControlDataContext}"></local:WorkControl>
             </Border>
         </DataTemplate>
     </UserControl.Resources>
@@ -57,7 +57,7 @@
             <TabControl.ContentTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <ItemsControl ItemsSource="{Binding Works}"></ItemsControl>
+                        <ItemsControl ItemsSource="{Binding WorksInTab}"></ItemsControl>
                     </StackPanel>
                 </DataTemplate>
             </TabControl.ContentTemplate>

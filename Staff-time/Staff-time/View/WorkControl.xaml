@@ -7,6 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Label Content="Helo!"></Label>
+        <Label Content="{Binding a}"></Label>
+        <Label Content="hm"></Label>
     </Grid>
 </UserControl>
+ 
