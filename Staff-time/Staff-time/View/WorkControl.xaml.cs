@@ -20,9 +20,11 @@ namespace Staff_time.View
     /// </summary>
     public partial class WorkControl : UserControl
     {
+        ViewModel.WorkControlViewModel workVM = new ViewModel.WorkControlViewModel(); 
         public WorkControl()
         {
             InitializeComponent();
+            DataContext = workVM;
         }
     }
 }

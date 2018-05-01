@@ -97,6 +97,7 @@
     <Compile Include="ViewModel\ViewModels\FaveViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\TreeViewModel.cs" />
+    <Compile Include="ViewModel\ViewModels\WorkControlViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\WorkspaceViewModel.cs" />
     <Compile Include="ViewModel\WorkViewModel.cs" />
     <Compile Include="View\FaveView.xaml.cs">
