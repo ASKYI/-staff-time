@@ -8,6 +8,18 @@
              xmlns:m="clr-namespace:Staff_time.Model"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="EditButtonStyle" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsEdititig}" Value="True">
+                    <Setter Property="Background" Value="White"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsEdititig}" Value="False">
+                    <Setter Property="Background" Value="LightCoral"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Border BorderBrush="Black" BorderThickness="1" Margin="3">
         <Grid>
             <Grid.RowDefinitions>
@@ -15,16 +27,18 @@
                 <RowDefinition Height="4*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            
-            <Label Content="{Binding Work.WorkName}" Grid.Row="0"></Label>
+
+            <TextBox IsReadOnly="{Binding IsEdititig}" Text="{Binding Work.WorkName}" Grid.Row="0"></TextBox>
 
             <Border BorderBrush="DarkGreen" BorderThickness="0.5" Grid.Row="1" Margin="2">
                 <StackPanel Grid.Row="1">
-                    <Label Content="Properties"></Label>
+                    <TextBox IsReadOnly="{Binding IsEdititig}" Text="Properties"></TextBox>
+                    <TextBox IsReadOnly="{Binding IsEdititig}" Text="Properties"></TextBox>
+                    <TextBox IsReadOnly="{Binding IsEdititig}" Text="Properties"></TextBox>
                 </StackPanel>
             </Border>
 
-            <Button Grid.Row="2" Content="Редактировать"></Button>
+            <Button Grid.Row="2" Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}"></Button>
         </Grid>
     </Border>
 </UserControl>

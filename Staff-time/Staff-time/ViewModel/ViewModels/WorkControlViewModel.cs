@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Staff_time.Model;
+using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using GalaSoft.MvvmLight;
@@ -15,6 +16,14 @@ namespace Staff_time.ViewModel
 {
     public class WorkControlViewModel : ViewModelBase, INotifyPropertyChanged
     {
+        public WorkControlViewModel(Work work)
+        {
+            Work = work;
+
+            IsEdititig = true;
+            _editCommand = new RelayCommand(Edit, CanEdit);
+        }
+
         private Work _work;
         public Work Work
         {
@@ -24,10 +33,41 @@ namespace Staff_time.ViewModel
                 SetField(ref _work, value);
             }
         }
-        public WorkControlViewModel(Work work)
+
+        #region Edit Command
+        private Boolean _isEditing; //false = edit
+        public Boolean IsEdititig
         {
-            Work = work;
+            get { return _isEditing; }
+            set
+            {
+                SetField(ref _isEditing, value);
+            }
         }
+
+        private readonly ICommand _editCommand;
+        public ICommand EditCommand
+        {
+            get
+            {
+                return _editCommand;
+            }
+        }
+        private bool CanEdit(object obj)
+        {
+            return true;
+        }
+        private void Edit(object obj)
+        {
+            if (!IsEdititig)
+            {
+                WorksTable.Update_Work(Work.ID, Work);
+                IsEdititig = true;
+            }
+            else
+                IsEdititig = false;
+        }
+        #endregion
 
         #region INotifyPropertyChanged Members
         protected bool SetField<T>(ref T field, T value,

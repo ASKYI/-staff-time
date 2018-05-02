@@ -61,10 +61,12 @@ namespace Staff_time.Model
             using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
             {
                 var workDB = ctx.Works.Where(x => x.ID == id).FirstOrDefault();
-                workDB = work;
+                workDB.WorkName = work.WorkName;
+                //...
+                // ctx.Works(work).State = EntityState.Modified;
                 ctx.SaveChanges();
             }
-            //Clone? Is it needed?
+            //?
             Read_Works();
         }
         public static void Delete_Work(int workId)
