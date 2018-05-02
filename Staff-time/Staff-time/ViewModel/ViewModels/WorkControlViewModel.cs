@@ -8,51 +8,36 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using GalaSoft.MvvmLight;
 
-using System.Windows;
+using System.Data.Entity.Infrastructure;
+using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
 {
-    public class WorkControlViewModel : DependencyObject, INotifyPropertyChanged
+    public class WorkControlViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        private string _a = "OMG";
-        public string a
-        {
-            get { return _a; }
-            set
-            {
-                _a = value;
-                RaisePropertyChanged("a");
-            }
-        }
         private Work _work;
         public Work Work
         {
             get { return _work; }
             set
             {
-                //SetField(ref _work, value);
+                SetField(ref _work, value);
             }
         }
         public WorkControlViewModel(Work work)
         {
             Work = work;
-            a = "OMG WORKS!!!!"; 
         }
-
-        public WorkControlViewModel() { }
 
         #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void RaisePropertyChanged(string propertyName)
+        protected bool SetField<T>(ref T field, T value,
+         [CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            RaisePropertyChanged(propertyName);
+            return true;
         }
-
         #endregion
     }
 }

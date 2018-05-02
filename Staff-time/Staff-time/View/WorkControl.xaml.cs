@@ -23,7 +23,6 @@ namespace Staff_time.View
         public WorkControl()
         {
             InitializeComponent();
-         //   DataContext = new ViewModel.WorkControlViewModel();
         }
     }
 }

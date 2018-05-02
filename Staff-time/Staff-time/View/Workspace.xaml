@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Staff_time.View"
              xmlns:vm="clr-namespace:Staff_time.ViewModel"
-             xmlns:m="clr-namespace:Staff_time.Model"
              
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              
@@ -13,9 +12,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type vm:WorkInTab}">
-            <Border BorderBrush="Black" BorderThickness="2">
-                <local:WorkControl DataContext="{Binding WorkControlDataContext}"></local:WorkControl>
-            </Border>
+            <local:WorkControl DataContext="{Binding WorkControlDataContext}"></local:WorkControl>
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
@@ -56,9 +53,11 @@
 
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <ItemsControl ItemsSource="{Binding WorksInTab}"></ItemsControl>
-                    </StackPanel>
+                    <ScrollViewer>
+                        <StackPanel>
+                            <ItemsControl ItemsSource="{Binding WorksInTab}"></ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
