@@ -25,7 +25,13 @@ namespace Staff_time.Model
         }
         public List<Task> Read_AllTasks()
         {
-            return Tasks.ToList<Task>();
+            List<Task> tasks = new List<Task>();
+            TaskFactory taskFactory = new TaskFactory();
+            foreach (Task t in Tasks)
+            {
+                tasks.Add(taskFactory.CreateTask(t));
+            }
+            return tasks;
         }
         public List<int> Read_FaveTasks(int curUserID)
         {

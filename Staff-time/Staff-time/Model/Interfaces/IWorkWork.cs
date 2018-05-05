@@ -10,9 +10,9 @@ namespace Staff_time.Model.Interfaces
     {
         void Create_Work(int taskID, Work work);
         List<Work> Read_AllWorks();
-        List<Work> Read_WorksForDate(DateTime date));
+        List<Work> Read_WorksForDate(DateTime date);
         List<Work> Read_WorksForTask(int taskID);
-        List<Work> Update_Work(Work work);
+        void Update_Work(Work work);
         void Delete_Work(int workID);
     }
 }

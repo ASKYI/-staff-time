@@ -6,6 +6,7 @@ using System.Text;
 using System.Data.Entity;
 
 using Staff_time.Model;
+using Staff_time.Model.Interfaces;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using GalaSoft.MvvmLight;
@@ -18,11 +19,26 @@ namespace Staff_time.ViewModel
 
     public class MainViewModel : ViewModelBase, INotifyPropertyChanged
     {
+        #region Context
+        private static TaskManagmentDBEntities _context;
+        protected static ITaskWork taskWork;
+        protected static IWorkWork workWork;
+
+        private static void _initialize_Context()
+        {
+            _context = new TaskManagmentDBEntities();
+            taskWork = _context;
+            workWork = _context;
+        }
+
+        #endregion
+
         public MainViewModel()
         {
             _get_TestUser();
+            _initialize_Context();
 
-            TasksTable.Read_Tasks();
+            //TasksTable.Read_Tasks();
             _generate_TreeNodesDictionary();
         }
 
@@ -52,7 +68,8 @@ namespace Staff_time.ViewModel
             //TODO: При удалении задачи, ссылки на нее удаляются.
 
             TreeNodeFactory treeNodeFactory = new TreeNodeFactory();
-            foreach (Task task in TasksTable.Tasks)
+            List<Task> tasks = taskWork.Read_AllTasks();
+            foreach (Task task in tasks) 
             {
                 int id = task.ID;
                 TreeNode treeNode;
@@ -94,7 +111,7 @@ namespace Staff_time.ViewModel
         }
         #endregion
 
-        #region TODO: Move to model
+   /*     #region TODO: Move to model
 
         protected static List<int> GetTasksByProp(string propName, string propValueText = null, Nullable<int> propValueInt = null,
             Nullable<DateTime> propValueDateTime = null)
@@ -129,7 +146,7 @@ namespace Staff_time.ViewModel
             }
         }
 
-        #endregion
+        #endregion*/
 
         #region INotifyPropertyChanged Member
         protected bool SetField<T>(ref T field, T value,

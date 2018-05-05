@@ -12,7 +12,7 @@ using GalaSoft.MvvmLight;
 
 namespace Staff_time.ViewModel
 {
-    public class TabItem : ViewModelBase
+    public class TabItem : MainViewModel
     {
         public TabItem(string tabName_DayOfWeek, DateTime dateTime)
         {
@@ -33,7 +33,7 @@ namespace Staff_time.ViewModel
 
         private void _generate_WorksForDate()
         {
-            List<Work> works = WorksTable.Read_WorksForDate(Date);
+            List<Work> works = workWork.Read_WorksForDate(Date);
             WorksInTab = new ObservableCollection<WorkInTab>();
             foreach (Work w in works)
             {
