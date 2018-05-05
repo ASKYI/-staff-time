@@ -81,6 +81,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Enums.cs" />
+    <Compile Include="Model\Interfaces\ITaskWork.cs" />
+    <Compile Include="Model\Interfaces\IWorkWork.cs" />
     <Compile Include="Model\WorkModel\IWorkFactory.cs" />
     <Compile Include="Model\WorkModel\WorkFactory.cs" />
     <Compile Include="Model\WorkModel\Works\Work.cs" />
