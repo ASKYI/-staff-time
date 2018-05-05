@@ -15,7 +15,7 @@ namespace Staff_time.ViewModel
     {
         public FaveViewModel() : base()
         {
-            TasksTable.Read_FaveTasks(CurUser.ID);
+            //TasksTable.Read_FaveTasks(CurUser.ID);
             _generate_FavTaskNodes();
 
             SelectedTask = null;

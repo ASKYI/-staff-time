@@ -70,7 +70,9 @@ namespace Staff_time.Model
         }
         public void Update_Work(Work work)
         {
-            Entry(work).State = EntityState.Modified;
+            // Entry(work).State = EntityState.Modified;
+            var workDB = Works.Where(x => x.ID == work.ID).FirstOrDefault();
+            workDB.WorkName = work.WorkName;
             SaveChanges();
         }
         public void Delete_Work(int workID)

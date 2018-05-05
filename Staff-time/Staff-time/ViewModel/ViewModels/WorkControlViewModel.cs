@@ -14,7 +14,7 @@ using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
 {
-    public class WorkControlViewModel : ViewModelBase, INotifyPropertyChanged
+    public class WorkControlViewModel : MainViewModel
     {
         public WorkControlViewModel(Work work)
         {
@@ -61,22 +61,12 @@ namespace Staff_time.ViewModel
         {
             if (!IsEdititig)
             {
-                WorksTable.Update_Work(Work.ID, Work);
+                //WorksTable.Update_Work(Work.ID, Work);
+                workWork.Update_Work(Work);
                 IsEdititig = true;
             }
             else
                 IsEdititig = false;
-        }
-        #endregion
-
-        #region INotifyPropertyChanged Members
-        protected bool SetField<T>(ref T field, T value,
-         [CallerMemberName] string propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            RaisePropertyChanged(propertyName);
-            return true;
         }
         #endregion
     }

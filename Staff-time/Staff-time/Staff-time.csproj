@@ -152,8 +152,6 @@
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TaskModel\ITaskFactory.cs" />
-    <Compile Include="Model\ModelDB\TasksTable\TasksTable.Fave.cs" />
-    <Compile Include="Model\ModelDB\WorksTable\WorksTable.cs" />
     <Compile Include="Model\TaskModel\Tasks\Task.cs" />
     <Compile Include="Model\PropDataType.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
@@ -187,8 +185,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\ModelDB\TasksTable\TasksTable.cs" />
-    <Compile Include="Model\ModelDB\TasksTable\TasksTable.Prop.cs" />
     <Compile Include="Model\TaskModel\Tasks\TaskSpecialty.cs" />
     <Compile Include="Model\TaskType.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
