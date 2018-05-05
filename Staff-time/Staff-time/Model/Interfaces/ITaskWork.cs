@@ -10,8 +10,8 @@ namespace Staff_time.Model.Interfaces
     {
         void Create_Task(Task task);
         void Create_TaskToFave(int taskID, int curUserID);
-        void Read_AllTasks();
-        void Read_FaveTasks(int curUser);
+        List<Task> Read_AllTasks();
+        List<int> Read_FaveTasks(int curUser);
         void Update_Task(Task task);
         void Delete_Task(int taskID);
         void Delete_TaskFromFave(int taskID);
