@@ -15,10 +15,9 @@ namespace Staff_time.ViewModel
     {
         public WorkspaceViewModel() : base()
         {
-            WorksTable.Read_Works();
-            _generate_Week(DateTime.Today.AddDays(-5));
+            //WorksTable.Read_Works();
+            SelectedDate = DateTime.Today.AddDays(-7);
 
-            SelectedDate = null;
             _changeDateCommand = new RelayCommand(ChangeDate, CanChangeDate);
         }
 
@@ -41,7 +40,16 @@ namespace Staff_time.ViewModel
         #endregion
 
         #region Select Date
-        public Nullable<DateTime> SelectedDate;
+        private DateTime _selectedDate;
+        public DateTime SelectedDate
+        {
+            get { return _selectedDate; }
+            set
+            {
+                SetField<DateTime>(ref _selectedDate, value);
+                _generate_Week(SelectedDate);
+            }
+        }
         private readonly ICommand _changeDateCommand;
         public ICommand ChangeDateCommand
         {

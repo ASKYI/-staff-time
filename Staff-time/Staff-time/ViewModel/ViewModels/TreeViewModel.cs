@@ -16,6 +16,7 @@ namespace Staff_time.ViewModel
         public TreeViewModel() : base()
         {
             _generate_Tree();
+            SelectedTask = null;
 
             _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
         }
@@ -36,6 +37,16 @@ namespace Staff_time.ViewModel
         #endregion
 
         #region Select Task
+        private TreeNode _selectedTask;
+        public TreeNode SelectedTask
+        {
+            get { return _selectedTask; }
+            set
+            {
+                SetField<TreeNode>(ref _selectedTask, value);
+            }
+        }
+
         private readonly ICommand _selectTaskCommand;
         public ICommand SelectTaskCommand
         {

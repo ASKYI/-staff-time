@@ -103,6 +103,9 @@
     <Compile Include="ViewModel\ViewModels\WorkControlViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\WorkspaceViewModel.cs" />
     <Compile Include="ViewModel\TabsVM\WorkInTab.cs" />
+    <Compile Include="View\ExtendedTreeView.xaml.cs">
+      <DependentUpon>ExtendedTreeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FaveView.xaml.cs">
       <DependentUpon>FaveView.xaml</DependentUpon>
     </Compile>
@@ -127,6 +130,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\ExtendedTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\FaveView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

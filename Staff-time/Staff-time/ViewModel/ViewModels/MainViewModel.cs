@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using System.Data.Entity;
-
 using Staff_time.Model;
 using Staff_time.Model.Interfaces;
 using System.Collections.ObjectModel;
