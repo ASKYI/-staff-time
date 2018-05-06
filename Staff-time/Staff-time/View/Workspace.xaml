@@ -32,7 +32,7 @@
             </DatePicker>
         </StackPanel>
 
-        <TabControl Grid.Column="1" ItemsSource="{Binding WeekTabs}">
+        <TabControl Grid.Column="1" ItemsSource="{Binding WeekTabs}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
 
             <TabControl.Resources>
                 <vm:TabItemHeaderConverter x:Key="tabItemHeaderConverter"></vm:TabItemHeaderConverter>

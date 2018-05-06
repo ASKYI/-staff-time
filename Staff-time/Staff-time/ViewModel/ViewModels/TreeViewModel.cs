@@ -19,6 +19,7 @@ namespace Staff_time.ViewModel
             SelectedTask = null;
 
             _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
+            _addWorkCommand = new RelayCommand(AddWork, CanAddWork);
         }
 
         #region Tree Data
@@ -67,6 +68,32 @@ namespace Staff_time.ViewModel
 
             });
         }
+        #endregion
+
+        #region Add Work
+
+        private readonly ICommand _addWorkCommand;
+        public ICommand AddWorkCommand
+        {
+            get
+            {
+                return _addWorkCommand;
+            }
+        }
+
+        private bool CanAddWork(object obj)
+        {
+            return true;
+        }
+        private void AddWork(object obj)
+        {
+            Work newWork = new Work();
+            newWork.WorkName = "Новая работа";
+            newWork.TaskID = SelectedTask.Task.ID;
+            newWork.Date = CurDate.Date;
+            workWork.Create_Work(newWork);
+        }
+
         #endregion
     }
 }

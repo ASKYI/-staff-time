@@ -40,7 +40,7 @@ namespace Staff_time.ViewModel
             _generate_TreeNodesDictionary();
         }
 
-        #region Users
+        #region Current Users, Date
         protected static User CurUser { get; set; }
         private static void _get_TestUser()
         {
@@ -49,6 +49,7 @@ namespace Staff_time.ViewModel
                 CurUser = (from u in ctx.Users where u.ID == 1 select u).FirstOrDefault();
             }
         }
+        protected static DateTime CurDate { get; set; }
         #endregion
 
         #region TreeNodes

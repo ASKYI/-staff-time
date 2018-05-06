@@ -52,9 +52,10 @@ namespace Staff_time.Model
         #endregion
 
         #region IWorkWork
-        public void Create_Work(int taskID, Work work)
+        public void Create_Work(Work work)
         {
-            throw new NotImplementedException();
+            Works.Add(work);
+            SaveChanges();
         }
         public List<Work> Read_AllWorks()
         {

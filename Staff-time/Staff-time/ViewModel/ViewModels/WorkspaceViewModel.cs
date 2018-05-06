@@ -39,7 +39,7 @@ namespace Staff_time.ViewModel
         }
         #endregion
 
-        #region Select Date
+        #region Selected Data Picker Date
         private DateTime _selectedDate;
         public DateTime SelectedDate
         {
@@ -67,5 +67,16 @@ namespace Staff_time.ViewModel
             _generate_Week((DateTime)SelectedDate);
         }
         #endregion
+
+        private int _selectedIndex;
+        public int SelectedIndex
+        {
+            get { return _selectedIndex;}
+            set
+            {
+                SetField<int>(ref _selectedIndex, value);
+                CurDate = WeekTabs[_selectedIndex].Date;
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Staff_time.Model.Interfaces
 {
     public interface IWorkWork
     {
-        void Create_Work(int taskID, Work work);
+        void Create_Work(Work work);
         List<Work> Read_AllWorks();
         List<Work> Read_WorksForDate(DateTime date);
         List<Work> Read_WorksForTask(int taskID);
