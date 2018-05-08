@@ -35,8 +35,7 @@ namespace Staff_time.ViewModel
         {
             _get_TestUser();
             _initialize_Context();
-
-            //TasksTable.Read_Tasks();
+            
             _generate_TreeNodesDictionary();
         }
 
@@ -155,6 +154,16 @@ namespace Staff_time.ViewModel
             field = value;
             RaisePropertyChanged(propertyName);
             return true;
+        }
+
+        public static event PropertyChangedEventHandler PropertyChanged_static;
+
+        public static void OnPropertyChanged_static(string name)
+        {
+            if (PropertyChanged_static != null)
+            {
+                PropertyChanged_static(null, new PropertyChangedEventArgs(name));
+            }
         }
         #endregion
     }

@@ -23,7 +23,16 @@ namespace Staff_time.ViewModel
         #region Week
         private static readonly string[] DaysOfWeek = new string[7] { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье" };
 
-        public static ObservableCollection<TabItem> WeekTabs { get; set; }
+        private static ObservableCollection<TabItem> _weekTabs;
+        public static ObservableCollection<TabItem> WeekTabs
+        {
+            get { return _weekTabs; }
+            set
+            {
+                _weekTabs = value;
+                OnPropertyChanged_static("WeekTabs");
+            }
+        }
         public static void Generate_Week(DateTime date)
         {
             WeekTabs = new ObservableCollection<TabItem>();
@@ -68,19 +77,17 @@ namespace Staff_time.ViewModel
         #endregion
 
         #region Selected Tab
-        private int _selectedIndex;
-        public int SelectedIndex
+        private static int _selectedIndex;
+        public static int SelectedIndex
         {
-            get { return _selectedIndex;}
+            get { return _selectedIndex; }
             set
             {
-                SetField<int>(ref _selectedIndex, value);
-
-                CurDate = WeekTabs[_selectedIndex].Date;
-                selectedIndexStatic = value;
+                _selectedIndex = value;
+                OnPropertyChanged_static("SelectedIndex");
+                CurDate = WeekTabs[value].Date;
             }
         }
-        public static int selectedIndexStatic;
         #endregion
     }
 }

@@ -29,7 +29,15 @@ namespace Staff_time.ViewModel
         #endregion
 
         #region Works
-        public ObservableCollection<WorkInTab> WorksInTab { get; set; }
+        private ObservableCollection<WorkInTab> _worksInTab;
+        public ObservableCollection<WorkInTab> WorksInTab
+        {
+            get { return _worksInTab; }
+            set
+            {
+                SetField<ObservableCollection<WorkInTab>>(ref _worksInTab, value);
+            }
+        }
 
         public void Generate_WorksForDate()
         {
