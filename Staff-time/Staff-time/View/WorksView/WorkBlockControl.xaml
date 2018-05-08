@@ -9,6 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <vm:WorkControlTemplateSelector x:Key="workControlTemplateSelector"></vm:WorkControlTemplateSelector>
         <DataTemplate DataType="{x:Type vm:WorkControlViewModel}">
             <local:WorkControl DataContext="{Binding WorkDataContext}" Grid.Row="0" Grid.RowSpan="2"></local:WorkControl>
         </DataTemplate>
@@ -31,22 +32,9 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <local:WorkControl DataContext="{Binding WorkDataContext}"></local:WorkControl>
+            <!--<local:WorkControl DataContext="{Sta}"></local:WorkControl>-->
 
-            <!--<ItemsControl ItemsSource="{Binding WorkDataContext}"></ItemsControl>-->
-
-            <!--<local:WorkControl DataContext="{Binding }" Grid.Row="0" Grid.RowSpan="2"></local:WorkControl>-->
-            
-            <!--<TextBox IsReadOnly="{Binding IsEdititig}" Text="{Binding Work.WorkName}" Grid.Row="0" BorderBrush="White"></TextBox>
-
-            <Border BorderBrush="DarkGreen" BorderThickness="0.5" Grid.Row="1" Margin="5">
-                <StackPanel Grid.Row="1">
-                    <TextBox IsReadOnly="{Binding IsEdititig}" Text="Properties" BorderBrush="White"></TextBox>
-                    <TextBox IsReadOnly="{Binding IsEdititig}" Text="Properties" BorderBrush="White"></TextBox>
-                    <TextBox IsReadOnly="{Binding IsEdititig}" Text="Properties" BorderBrush="White"></TextBox>
-                </StackPanel>
-            </Border>-->
-
+            <ItemsControl ItemsSource="{Binding WorkDataContext}" ItemTemplateSelector="{StaticResource workControlTemplateSelector}"></ItemsControl>
             <Button Grid.Row="2" Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}"></Button>
         </Grid>
     </Border>

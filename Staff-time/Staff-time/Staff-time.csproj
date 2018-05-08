@@ -113,6 +113,18 @@
     <Compile Include="View\TreeView\TreeView.xaml.cs">
       <DependentUpon>TreeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\WorksView\WorkControls\WorkConsultationsByPhone_Control.xaml.cs">
+      <DependentUpon>WorkConsultationsByPhone_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WorksView\WorkControls\WorkError_Control.xaml.cs">
+      <DependentUpon>WorkError_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WorksView\WorkControls\WorkPatch_Control.xaml.cs">
+      <DependentUpon>WorkPatch_Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WorksView\WorkControls\WorkRefractoring_Control.xaml.cs">
+      <DependentUpon>WorkRefractoring_Control.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\WorksView\WorkBlockControl.xaml.cs">
       <DependentUpon>WorkBlockControl.xaml</DependentUpon>
     </Compile>
@@ -143,6 +155,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\TreeView\TreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WorksView\WorkControls\WorkConsultationsByPhone_Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WorksView\WorkControls\WorkError_Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WorksView\WorkControls\WorkPatch_Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WorksView\WorkControls\WorkRefractoring_Control.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
