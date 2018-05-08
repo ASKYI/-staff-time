@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 using Staff_time.Model;
 using System.Windows.Input;
@@ -19,9 +20,6 @@ namespace Staff_time.ViewModel
         public WorkControlViewModel(Work work)
         {
             Work = work;
-
-            IsEdititig = true;
-            _editCommand = new RelayCommand(Edit, CanEdit);
         }
 
         private Work _work;
@@ -34,7 +32,6 @@ namespace Staff_time.ViewModel
             }
         }
 
-        #region Edit Command
         private Boolean _isEditing; //false = edit
         public Boolean IsEdititig
         {
@@ -44,30 +41,5 @@ namespace Staff_time.ViewModel
                 SetField(ref _isEditing, value);
             }
         }
-
-        private readonly ICommand _editCommand;
-        public ICommand EditCommand
-        {
-            get
-            {
-                return _editCommand;
-            }
-        }
-        private bool CanEdit(object obj)
-        {
-            return true;
-        }
-        private void Edit(object obj)
-        {
-            if (!IsEdititig)
-            {
-                //WorksTable.Update_Work(Work.ID, Work);
-                workWork.Update_Work(Work);
-                IsEdititig = true;
-            }
-            else
-                IsEdititig = false;
-        }
-        #endregion
     }
 }

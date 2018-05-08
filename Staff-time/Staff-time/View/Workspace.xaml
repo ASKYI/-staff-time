@@ -12,7 +12,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type vm:WorkInTab}">
-            <local:WorkControl DataContext="{Binding WorkControlDataContext}"></local:WorkControl>
+            <local:WorkBlockControl DataContext="{Binding WorkBlockControlDataContext}"></local:WorkBlockControl>
         </DataTemplate>
     </UserControl.Resources>
     <Grid>

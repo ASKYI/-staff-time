@@ -18,18 +18,18 @@ namespace Staff_time.ViewModel
 {
     public class WorkInTab : ViewModelBase, INotifyPropertyChanged
     {
-        private WorkControlViewModel _workControlDataContext;
-        public WorkControlViewModel WorkControlDataContext
+        private WorkBlockControlViewModel _workBlockControlDataContext;
+        public WorkBlockControlViewModel WorkBlockControlDataContext
         {
-            get { return _workControlDataContext; }
+            get { return _workBlockControlDataContext; }
             set
             {
-                SetField<WorkControlViewModel>(ref _workControlDataContext, value);
+                SetField<WorkBlockControlViewModel>(ref _workBlockControlDataContext, value);
             }
         }
         public WorkInTab(Work work)
         {
-            WorkControlDataContext = new WorkControlViewModel(work);
+            WorkBlockControlDataContext = new WorkBlockControlViewModel(work);
         }
 
         #region INotifyPropertyChanged Member

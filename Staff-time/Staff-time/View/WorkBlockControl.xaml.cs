@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Staff_time.View
 {
     /// <summary>
-    /// Логика взаимодействия для WorkControlViewModel.xaml
+    /// Логика взаимодействия для WorkBlockControl.xaml
     /// </summary>
-    public partial class WorkControl : UserControl
+    public partial class WorkBlockControl : UserControl
     {
-        public WorkControl()
+        public WorkBlockControl()
         {
             InitializeComponent();
         }

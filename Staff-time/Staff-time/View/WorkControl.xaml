@@ -4,42 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Staff_time.View"
-             xmlns:vm="clr-namespace:Staff_time.ViewModel"
-             xmlns:m="clr-namespace:Staff_time.Model"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <Style x:Key="EditButtonStyle" TargetType="Button">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsEdititig}" Value="True">
-                    <Setter Property="Background" Value="White"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding IsEdititig}" Value="False">
-                    <Setter Property="Background" Value="LightCoral"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Resources>
-    <Border BorderBrush="Black" BorderThickness="1" Margin="3">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="4*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBox IsReadOnly="{Binding IsEdititig}" Text="{Binding Work.WorkName}" Grid.Row="0" BorderBrush="White"></TextBox>
 
-            <TextBox IsReadOnly="{Binding IsEdititig}" Text="{Binding Work.WorkName}" Grid.Row="0" BorderBrush="White"></TextBox>
-
-            <Border BorderBrush="DarkGreen" BorderThickness="0.5" Grid.Row="1" Margin="5">
-                <StackPanel Grid.Row="1">
-                    <TextBox IsReadOnly="{Binding IsEdititig}" Text="Properties" BorderBrush="White"></TextBox>
-                    <TextBox IsReadOnly="{Binding IsEdititig}" Text="Properties" BorderBrush="White"></TextBox>
-                    <TextBox IsReadOnly="{Binding IsEdititig}" Text="Properties" BorderBrush="White"></TextBox>
-                </StackPanel>
-            </Border>
-
-            <Button Grid.Row="2" Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}"></Button>
-        </Grid>
-    </Border>
+        <Border BorderBrush="DarkGreen" BorderThickness="0.5" Grid.Row="1" Margin="5">
+            <StackPanel Grid.Row="1">
+                <TextBox IsReadOnly="{Binding IsEdititig}" Text="Properties" BorderBrush="White"></TextBox>
+                <TextBox IsReadOnly="{Binding IsEdititig}" Text="Properties" BorderBrush="White"></TextBox>
+                <TextBox IsReadOnly="{Binding IsEdititig}" Text="Properties" BorderBrush="White"></TextBox>
+            </StackPanel>
+        </Border>
+    </Grid>
 </UserControl>
- 
