@@ -100,23 +100,23 @@
     <Compile Include="ViewModel\ViewModels\FaveViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\TreeViewModel.cs" />
-    <Compile Include="ViewModel\ViewModels\WorkBlockControlViewModel.cs" />
-    <Compile Include="ViewModel\ViewModels\WorkControlViewModel.cs" />
+    <Compile Include="ViewModel\ViewModels\WorksVM\WorkBlockControlViewModel.cs" />
+    <Compile Include="ViewModel\ViewModels\WorksVM\WorkControlsVM\WorkControlViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\WorkspaceViewModel.cs" />
     <Compile Include="ViewModel\TabsVM\WorkInTab.cs" />
-    <Compile Include="View\ExtendedTreeView.xaml.cs">
+    <Compile Include="View\TreeView\ExtendedTreeView.xaml.cs">
       <DependentUpon>ExtendedTreeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FaveView.xaml.cs">
       <DependentUpon>FaveView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TreeView.xaml.cs">
+    <Compile Include="View\TreeView\TreeView.xaml.cs">
       <DependentUpon>TreeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\WorkBlockControl.xaml.cs">
+    <Compile Include="View\WorksView\WorkBlockControl.xaml.cs">
       <DependentUpon>WorkBlockControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\WorkControl.xaml.cs">
+    <Compile Include="View\WorksView\WorkControls\WorkControl.xaml.cs">
       <DependentUpon>WorkControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Workspace.xaml.cs">
@@ -134,7 +134,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\ExtendedTreeView.xaml">
+    <Page Include="View\TreeView\ExtendedTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -142,15 +142,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TreeView.xaml">
+    <Page Include="View\TreeView\TreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\WorkBlockControl.xaml">
+    <Page Include="View\WorksView\WorkBlockControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\WorkControl.xaml">
+    <Page Include="View\WorksView\WorkControls\WorkControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
