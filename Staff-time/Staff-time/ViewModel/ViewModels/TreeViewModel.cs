@@ -71,7 +71,6 @@ namespace Staff_time.ViewModel
         #endregion
 
         #region Add Work
-
         private readonly ICommand _addWorkCommand;
         public ICommand AddWorkCommand
         {
@@ -83,7 +82,7 @@ namespace Staff_time.ViewModel
 
         private bool CanAddWork(object obj)
         {
-            return true;
+            return SelectedTask != null;
         }
         private void AddWork(object obj)
         {
@@ -92,8 +91,9 @@ namespace Staff_time.ViewModel
             newWork.TaskID = SelectedTask.Task.ID;
             newWork.Date = CurDate.Date;
             workWork.Create_Work(newWork);
+            
+            WorkspaceViewModel.WeekTabs[ WorkspaceViewModel.selectedIndexStatic].Generate_WorksForDate();
         }
-
         #endregion
     }
 }

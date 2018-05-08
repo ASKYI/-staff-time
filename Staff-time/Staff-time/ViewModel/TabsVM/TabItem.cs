@@ -18,7 +18,7 @@ namespace Staff_time.ViewModel
         {
             TabName = tabName_DayOfWeek;
             Date = dateTime;
-            _generate_WorksForDate();
+            Generate_WorksForDate();
 
             _editWorkCommand = new RelayCommand(EditWork, CanEditWork);
         }
@@ -31,7 +31,7 @@ namespace Staff_time.ViewModel
         #region Works
         public ObservableCollection<WorkInTab> WorksInTab { get; set; }
 
-        private void _generate_WorksForDate()
+        public void Generate_WorksForDate()
         {
             List<Work> works = workWork.Read_WorksForDate(Date);
             WorksInTab = new ObservableCollection<WorkInTab>();

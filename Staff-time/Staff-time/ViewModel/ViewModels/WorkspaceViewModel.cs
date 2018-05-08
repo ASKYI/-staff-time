@@ -15,7 +15,6 @@ namespace Staff_time.ViewModel
     {
         public WorkspaceViewModel() : base()
         {
-            //WorksTable.Read_Works();
             SelectedDate = DateTime.Today.AddDays(-7);
 
             _changeDateCommand = new RelayCommand(ChangeDate, CanChangeDate);
@@ -25,7 +24,7 @@ namespace Staff_time.ViewModel
         private static readonly string[] DaysOfWeek = new string[7] { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье" };
 
         public static ObservableCollection<TabItem> WeekTabs { get; set; }
-        private static void _generate_Week(DateTime date)
+        public static void Generate_Week(DateTime date)
         {
             WeekTabs = new ObservableCollection<TabItem>();
 
@@ -47,7 +46,7 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField<DateTime>(ref _selectedDate, value);
-                _generate_Week(SelectedDate);
+                Generate_Week(SelectedDate);
             }
         }
         private readonly ICommand _changeDateCommand;
@@ -64,10 +63,11 @@ namespace Staff_time.ViewModel
         }
         private void ChangeDate(object obj)
         {
-            _generate_Week((DateTime)SelectedDate);
+            Generate_Week((DateTime)SelectedDate);
         }
         #endregion
 
+        #region Selected Tab
         private int _selectedIndex;
         public int SelectedIndex
         {
@@ -75,8 +75,12 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField<int>(ref _selectedIndex, value);
+
                 CurDate = WeekTabs[_selectedIndex].Date;
+                selectedIndexStatic = value;
             }
         }
+        public static int selectedIndexStatic;
+        #endregion
     }
 }
