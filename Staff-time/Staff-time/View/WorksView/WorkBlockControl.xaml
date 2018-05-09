@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Staff_time.View.WorkBlockControl"
+﻿ <UserControl x:Class="Staff_time.View.WorkBlockControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,10 +9,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <vm:WorkControlTemplateSelector x:Key="workControlTemplateSelector"></vm:WorkControlTemplateSelector>
-        <DataTemplate DataType="{x:Type vm:WorkControlViewModel}">
-            <local:WorkControl DataContext="{Binding WorkDataContext}" Grid.Row="0" Grid.RowSpan="2"></local:WorkControl>
-        </DataTemplate>
+        <vm:WorkControlTemplateSelector x:Key="WorkControlTemplateSelector">
+
+            <vm:WorkControlTemplateSelector.WorkTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                    <Label Content="Try"></Label>
+                    <local:WorkControl DataContext="{Binding WorkDataContext}" Grid.Row="0" Grid.RowSpan="2"></local:WorkControl>
+                    </StackPanel>
+                </DataTemplate>
+            </vm:WorkControlTemplateSelector.WorkTemplate>
+
+        </vm:WorkControlTemplateSelector>
+        
         <Style x:Key="EditButtonStyle" TargetType="Button">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding WorkDataContext.IsEdititig}" Value="True">
@@ -23,6 +32,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        
     </UserControl.Resources>
     <Border BorderBrush="Black" BorderThickness="1" Margin="3">
         <Grid>
@@ -32,9 +42,23 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <!--<local:WorkControl DataContext="{Sta}"></local:WorkControl>-->
+            <local:WorkControl DataContext="{Binding WorkDataContext}"></local:WorkControl>
 
-            <ItemsControl ItemsSource="{Binding WorkDataContext}" ItemTemplateSelector="{StaticResource workControlTemplateSelector}"></ItemsControl>
+            <!--<ItemsControl ItemsSource="{}"
+
+            <ItemsControl ItemsSource="{Binding WorkDataContext}" >
+                --><!--ItemTemplateSelector="{StaticResource WorkControlTemplateSelector}"--><!--
+                <ItemsControl.ItemTemplate>-->
+                    <!--<DataTemplate>--><!--
+
+                <local:WorkControl DataContext="{Binding }" Grid.Row="0" Grid.RowSpan="2"></local:WorkControl>
+                --><!--</DataTemplate>-->
+                <!--</ItemsControl.ItemTemplate>--><!--
+
+
+
+            </ItemsControl>-->
+            
             <Button Grid.Row="2" Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}"></Button>
         </Grid>
     </Border>

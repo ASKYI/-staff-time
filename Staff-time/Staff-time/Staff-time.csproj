@@ -104,6 +104,7 @@
     <Compile Include="ViewModel\ViewModels\WorksVM\WorkControlsVM\WorkControlViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\WorkspaceViewModel.cs" />
     <Compile Include="ViewModel\TabsVM\WorkInTab.cs" />
+    <Compile Include="ViewModel\ViewModels\WorksVM\WorkControlTemplateSelector.cs" />
     <Compile Include="View\TreeView\ExtendedTreeView.xaml.cs">
       <DependentUpon>ExtendedTreeView.xaml</DependentUpon>
     </Compile>
