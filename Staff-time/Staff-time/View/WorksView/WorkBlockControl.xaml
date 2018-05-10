@@ -11,10 +11,10 @@
     <UserControl.Resources>
         <Style x:Key="EditButtonStyle" TargetType="Button">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding WorkInThisBlock.WorkControlDataContext.IsEdititig}" Value="True">
+                <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}" Value="True">
                     <Setter Property="Background" Value="White"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding WorkInThisBlock.WorkControlDataContext.IsEdititig}" Value="False">
+                <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}" Value="False">
                     <Setter Property="Background" Value="LightCoral"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -26,33 +26,13 @@
         
     </UserControl.Resources>
     <Border BorderBrush="Black" BorderThickness="1" Margin="3">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="4*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-
-            <!--<local:WorkControl DataContext="{Binding WorkDataContext}" Grid.Row="0"></local:WorkControl>-->
-
-            <ItemsControl Grid.Row="0" ItemsSource="{Binding WorkInThisBlock}">
-                <!--<ItemsControl.Items> Это работает
-                    <Label Content="{Binding WorkInThisBlock.WorkControlDataContext.Work.WorkName}"></Label>
-                </ItemsControl.Items>
-                
-                <ItemsControl.Resources> Это НЕ работает
-                    <DataTemplate DataType="{x:Type vm:WorkInBlock}">
-                        <Label Content="{Binding WorkInThisBlock.WorkControlDataContext.Work.WorkName}"></Label>
-                    </DataTemplate>
-                </ItemsControl.Resources>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel></StackPanel>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>-->
-            </ItemsControl>
-            
-            <Button Grid.Row="1" Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}"></Button>
-        </Grid>
+        <StackPanel>
+            <ItemsControl ItemsSource="{Binding WorkInThisBlock}"></ItemsControl>
+            <DockPanel>
+                <Button DockPanel.Dock="Left" Content="Удалить" Command="{Binding DeleteCommand}"></Button>
+                <Button DockPanel.Dock="Right" Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}"></Button>
+            </DockPanel>
+        </StackPanel>
     </Border>
 </UserControl>
  

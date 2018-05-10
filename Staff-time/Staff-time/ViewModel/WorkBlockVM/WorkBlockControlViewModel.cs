@@ -22,6 +22,7 @@ namespace Staff_time.ViewModel
 
             WorkInBlock.WorkControlDataContext.IsEdititig = true;
             _editCommand = new RelayCommand(Edit, CanEdit);
+            _deleteCommand = new RelayCommand(Delete, CanDelete);
         }
 
         #region WorkInBlock
@@ -54,6 +55,25 @@ namespace Staff_time.ViewModel
         }
         #endregion
 
+        #region Delete Command
+        private readonly ICommand _deleteCommand;
+        public ICommand DeleteCommand
+        {
+            get
+            {
+                return _deleteCommand;
+            }
+        }
+        private bool CanDelete(object obj)
+        {
+            return true;
+        }
+        private void Delete(object obj)
+        {
+            workWork.Delete_Work(WorkInBlock.WorkControlDataContext.Work.ID);
+            WorkspaceViewModel.Generate_Week(CurDate);
+        }
+        #endregion
         #region Edit Command
         private readonly ICommand _editCommand;
         public ICommand EditCommand

@@ -11,7 +11,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="4*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBox IsReadOnly="{Binding IsEdititig}" Text="Hello" Grid.Row="0" BorderBrush="White"></TextBox>
+        <TextBox IsReadOnly="{Binding IsEdititig}" Text="{Binding Work.WorkName}" Grid.Row="0" BorderBrush="White"></TextBox>
 
         <Border BorderBrush="DarkGreen" BorderThickness="0.5" Grid.Row="1" Margin="5">
             <StackPanel Grid.Row="1">

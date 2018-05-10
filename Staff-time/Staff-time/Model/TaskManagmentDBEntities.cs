@@ -78,7 +78,9 @@ namespace Staff_time.Model
         }
         public void Delete_Work(int workID)
         {
-            throw new NotImplementedException();
+            var workDB = Works.Where(x => x.ID == workID).FirstOrDefault();
+            Works.Remove(workDB);
+            SaveChanges();
         }
         #endregion
     }
