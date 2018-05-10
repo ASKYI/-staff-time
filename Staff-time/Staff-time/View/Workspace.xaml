@@ -23,22 +23,10 @@
         <Menu VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="0">
             <MenuItem Header="Выбор даты">
                 <StackPanel>
-                    <DatePicker IsDropDownOpen="False" SelectedDate="{Binding SelectedDate}"></DatePicker>
-                    <Button Content="Выбрать дату" Command="{Binding ChangeDateCommand}"></Button>
+                    <DatePicker IsDropDownOpen="False" SelectedDate="{Binding SelectedDatePicker}"></DatePicker>
                 </StackPanel>
             </MenuItem>
         </Menu>
-        
-        <!--<StackPanel Grid.Column="0">
-            <DatePicker IsDropDownOpen="True" SelectedDate="{Binding SelectedDate}" >
-                <i:Interaction.Triggers>
-                    <i:EventTrigger  EventName="MouseDown">
-                        <i:InvokeCommandAction Command="{Binding ChangeDateCommand}"
-                                   CommandParameter="{Binding ElementName=dpEventDate, Path=SelectedDate}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </DatePicker>
-        </StackPanel>-->
 
         <TabControl ItemsSource="{Binding WeekTabs}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" Grid.Row="1">
 

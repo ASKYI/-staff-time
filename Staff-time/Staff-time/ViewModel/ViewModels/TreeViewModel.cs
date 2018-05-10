@@ -91,8 +91,8 @@ namespace Staff_time.ViewModel
             newWork.TaskID = SelectedTask.Task.ID;
             newWork.Date = CurDate.Date;
             workWork.Create_Work(newWork);
-            
-            WorkspaceViewModel.WeekTabs[WorkspaceViewModel.SelectedIndex].Generate_WorksForDate();
+
+            MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
         }
         #endregion
     }

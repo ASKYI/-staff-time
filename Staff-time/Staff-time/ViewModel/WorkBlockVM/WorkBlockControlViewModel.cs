@@ -11,6 +11,7 @@ using GalaSoft.MvvmLight;
 
 using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace Staff_time.ViewModel
 {
@@ -71,7 +72,7 @@ namespace Staff_time.ViewModel
         private void Delete(object obj)
         {
             WorkInBlock.WorkControlDataContext.DeleteWork();
-            WorkspaceViewModel.WeekTabs[WorkspaceViewModel.SelectedIndex].Generate_WorksForDate();
+            MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
         }
         #endregion
         #region Edit Command
