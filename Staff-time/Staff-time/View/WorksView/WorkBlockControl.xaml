@@ -34,18 +34,22 @@
 
             <!--<local:WorkControl DataContext="{Binding WorkDataContext}" Grid.Row="0"></local:WorkControl>-->
 
-            <!--<ItemsControl Grid.Row="0" ItemsSource="{Binding WorkInThisBlock}">
-                --><!--<ItemsControl.Items> Это работает
+            <ItemsControl Grid.Row="0" ItemsSource="{Binding WorkInThisBlock}">
+                <!--<ItemsControl.Items> Это работает
                     <Label Content="{Binding WorkInThisBlock.WorkControlDataContext.Work.WorkName}"></Label>
-                </ItemsControl.Items>--><!--
+                </ItemsControl.Items>
                 
-                <ItemsControl.ItemTemplate> Это НЕ работает
-                    <DataTemplate>
+                <ItemsControl.Resources> Это НЕ работает
+                    <DataTemplate DataType="{x:Type vm:WorkInBlock}">
                         <Label Content="{Binding WorkInThisBlock.WorkControlDataContext.Work.WorkName}"></Label>
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                
-            </ItemsControl>-->
+                </ItemsControl.Resources>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel></StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>-->
+            </ItemsControl>
             
             <Button Grid.Row="1" Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}"></Button>
         </Grid>

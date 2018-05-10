@@ -20,25 +20,37 @@ namespace Staff_time.ViewModel
         {
             _generate_WorkInBlock(work);
 
-            WorkInThisBlock.WorkControlDataContext.IsEdititig = true;
+            WorkInBlock.WorkControlDataContext.IsEdititig = true;
             _editCommand = new RelayCommand(Edit, CanEdit);
         }
 
         #region WorkInBlock
-        private WorkInBlockBase _workInThisBlock;
-        public WorkInBlockBase WorkInThisBlock
+        private ObservableCollection<WorkInBlock> _workInThisBlock;
+        public ObservableCollection<WorkInBlock> WorkInThisBlock
         {
             get { return _workInThisBlock; }
             set
             {
-                SetField(ref _workInThisBlock, value);
+                SetField < ObservableCollection<WorkInBlock>>(ref _workInThisBlock, value);
+            }
+        }
+
+        private WorkInBlockBase _workInBlock;
+        public WorkInBlockBase WorkInBlock
+        {
+            get { return _workInBlock; }
+            set
+            {
+                SetField(ref _workInBlock, value);
             }
         }
 
         private void _generate_WorkInBlock(Work work)
         {
             //Factory
-            WorkInThisBlock = new WorkInBlock(work);
+            WorkInBlock = new WorkInBlock(work);
+            WorkInThisBlock = new ObservableCollection<WorkInBlock>();
+            WorkInThisBlock.Add((WorkInBlock)WorkInBlock);
         }
         #endregion
 
@@ -57,13 +69,13 @@ namespace Staff_time.ViewModel
         }
         private void Edit(object obj)
         {
-            if (!WorkInThisBlock.WorkControlDataContext.IsEdititig)
+            if (!WorkInBlock.WorkControlDataContext.IsEdititig)
             {
-                workWork.Update_Work(WorkInThisBlock.WorkControlDataContext.Work);
-                WorkInThisBlock.WorkControlDataContext.IsEdititig = true;
+                workWork.Update_Work(WorkInBlock.WorkControlDataContext.Work);
+                WorkInBlock.WorkControlDataContext.IsEdititig = true;
             }
             else
-                WorkInThisBlock.WorkControlDataContext.IsEdititig = false;
+                WorkInBlock.WorkControlDataContext.IsEdititig = false;
         }
         #endregion
     }
