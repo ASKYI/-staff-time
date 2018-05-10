@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Staff_time.Model;
-using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using GalaSoft.MvvmLight;
@@ -14,16 +13,17 @@ using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
-{ 
-    public class WorkControlViewModel : WorkControlViewModelBase
+{
+    //WorkType: WorkPatch
+    public class WorkPatch_ControlViewModel : WorkControlViewModelBase
     {
-        public WorkControlViewModel(Work work)
+        public WorkPatch_ControlViewModel(Work work)
         {
-            Work = work;
+            Work = (WorkPatch)work;
         }
 
-        private Work _work;
-        public Work Work
+        private WorkPatch _work;
+        public WorkPatch Work
         {
             get { return _work; }
             set

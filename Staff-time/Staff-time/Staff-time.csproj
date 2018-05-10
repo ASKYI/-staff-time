@@ -101,12 +101,21 @@
     <Compile Include="ViewModel\ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\TreeViewModel.cs" />
     <Compile Include="ViewModel\WorkBlockVM\WorkBlockControlViewModel.cs" />
+    <Compile Include="ViewModel\WorkBlockVM\WorkControlsVM\WorkConsultationsByPhone_ControlViewModel.cs" />
     <Compile Include="ViewModel\WorkBlockVM\WorkControlsVM\WorkControlViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\WorkspaceViewModel.cs" />
     <Compile Include="ViewModel\TabsVM\WorkInTab.cs" />
     <Compile Include="ViewModel\WorkBlockVM\WorkControlsVM\WorkControlViewModelBase.cs" />
+    <Compile Include="ViewModel\WorkBlockVM\WorkControlsVM\WorkError_ControlViewModel.cs" />
+    <Compile Include="ViewModel\WorkBlockVM\WorkControlsVM\WorkPatch_ControlViewModel.cs" />
+    <Compile Include="ViewModel\WorkBlockVM\WorkControlsVM\WorkRefractoring_ControlViewModel.cs" />
+    <Compile Include="ViewModel\WorkBlockVM\IWorkInBlockFactory.cs" />
+    <Compile Include="ViewModel\WorkBlockVM\WorkInBlockFactory.cs" />
+    <Compile Include="ViewModel\WorkBlockVM\WorksInBlocks\WorkConsultationsByPhone_InBlock.cs" />
+    <Compile Include="ViewModel\WorkBlockVM\WorksInBlocks\WorkError_InBlock.cs" />
     <Compile Include="ViewModel\WorkBlockVM\WorksInBlocks\WorkInBlock.cs" />
-    <Compile Include="ViewModel\WorkBlockVM\WorksInBlocks\WorkInBlockBase.cs" />
+    <Compile Include="ViewModel\WorkBlockVM\WorksInBlocks\WorkPatch_InBlock.cs" />
+    <Compile Include="ViewModel\WorkBlockVM\WorksInBlocks\WorkRefractoring_InBlock.cs" />
     <Compile Include="View\TreeView\ExtendedTreeView.xaml.cs">
       <DependentUpon>ExtendedTreeView.xaml</DependentUpon>
     </Compile>

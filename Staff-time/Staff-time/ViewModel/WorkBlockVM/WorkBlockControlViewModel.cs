@@ -36,8 +36,8 @@ namespace Staff_time.ViewModel
             }
         }
 
-        private WorkInBlockBase _workInBlock;
-        public WorkInBlockBase WorkInBlock
+        private WorkInBlock _workInBlock;
+        public WorkInBlock WorkInBlock
         {
             get { return _workInBlock; }
             set
@@ -48,8 +48,8 @@ namespace Staff_time.ViewModel
 
         private void _generate_WorkInBlock(Work work)
         {
-            //Factory
-            WorkInBlock = new WorkInBlock(work);
+            WorkInBlockFactory workInBlockFactory = new WorkInBlockFactory();
+            WorkInBlock = workInBlockFactory.CreateWorkInBlock(work);
             WorkInThisBlock = new ObservableCollection<WorkInBlock>();
             WorkInThisBlock.Add((WorkInBlock)WorkInBlock);
         }
@@ -70,7 +70,7 @@ namespace Staff_time.ViewModel
         }
         private void Delete(object obj)
         {
-            workWork.Delete_Work(WorkInBlock.WorkControlDataContext.Work.ID);
+            WorkInBlock.WorkControlDataContext.DeleteWork();
             WorkspaceViewModel.Generate_Week(CurDate);
         }
         #endregion
@@ -91,7 +91,7 @@ namespace Staff_time.ViewModel
         {
             if (!WorkInBlock.WorkControlDataContext.IsEdititig)
             {
-                workWork.Update_Work(WorkInBlock.WorkControlDataContext.Work);
+                WorkInBlock.WorkControlDataContext.UpdateWork();
                 WorkInBlock.WorkControlDataContext.IsEdititig = true;
             }
             else

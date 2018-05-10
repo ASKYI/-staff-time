@@ -15,7 +15,7 @@ namespace Staff_time.ViewModel
     {
         public WorkspaceViewModel() : base()
         {
-            SelectedDate = DateTime.Today.AddDays(-7);
+            SelectedDate = DateTime.Today.AddDays(-10);
 
             _changeDateCommand = new RelayCommand(ChangeDate, CanChangeDate);
         }

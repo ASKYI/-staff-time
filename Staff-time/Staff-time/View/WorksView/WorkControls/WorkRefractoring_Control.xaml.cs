@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace Staff_time.View
 {
     /// <summary>
-    /// Логика взаимодействия для WorkRefractoring_Control.xaml
+    /// Логика взаимодействия для WorkRefractoring_ControlViewModel.xaml
     /// </summary>
     public partial class WorkRefractoring_Control : UserControl
     {

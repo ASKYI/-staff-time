@@ -23,7 +23,19 @@
         <DataTemplate DataType="{x:Type vm:WorkInBlock}" >
             <local:WorkControl DataContext="{Binding WorkControlDataContext}"></local:WorkControl>
          </DataTemplate>
-        
+        <DataTemplate DataType="{x:Type vm:WorkConsultationsByPhone_InBlock}" >
+            <local:WorkConsultationsByPhone_Control DataContext="{Binding WorkControlDataContext}"></local:WorkConsultationsByPhone_Control>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:WorkError_InBlock}" >
+            <local:WorkError_Control DataContext="{Binding WorkControlDataContext}"></local:WorkError_Control>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:WorkPatch_InBlock}" >
+            <local:WorkPatch_Control DataContext="{Binding WorkControlDataContext}"></local:WorkPatch_Control>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:WorkRefractoring_InBlock}" >
+            <local:WorkRefractoring_Control DataContext="{Binding WorkControlDataContext}"></local:WorkRefractoring_Control>
+        </DataTemplate>
+
     </UserControl.Resources>
     <Border BorderBrush="Black" BorderThickness="1" Margin="3">
         <StackPanel>

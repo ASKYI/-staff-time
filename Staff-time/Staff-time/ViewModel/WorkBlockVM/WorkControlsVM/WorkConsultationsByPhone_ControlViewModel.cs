@@ -5,25 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Staff_time.Model;
-using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+
 using GalaSoft.MvvmLight;
 
 using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
-{ 
-    public class WorkControlViewModel : WorkControlViewModelBase
+{
+    //WorkType: WorkConsultationsByPhone
+    public class WorkConsultationsByPhone_ControlViewModel : WorkControlViewModelBase
     {
-        public WorkControlViewModel(Work work)
+        public WorkConsultationsByPhone_ControlViewModel(Work work)
         {
-            Work = work;
+            Work = (WorkConsultationsByPhone)work;
         }
 
-        private Work _work;
-        public Work Work
+        private WorkConsultationsByPhone _work;
+        public WorkConsultationsByPhone Work
         {
             get { return _work; }
             set

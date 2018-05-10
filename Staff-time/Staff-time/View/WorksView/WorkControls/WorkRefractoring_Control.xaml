@@ -11,13 +11,12 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="4*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBox IsReadOnly="{Binding IsEdititig}" Text="{Binding Work.WorkName}" Grid.Row="0" BorderBrush="White"></TextBox>
+        <TextBox IsReadOnly="{Binding IsEdititig}" Text="{Binding Work.WorkName}" Grid.Row="0" BorderBrush="White"
+                 Background="LightGoldenrodYellow"></TextBox>
 
         <Border BorderBrush="DarkGreen" BorderThickness="0.5" Grid.Row="1" Margin="5">
             <StackPanel Grid.Row="1">
-                <TextBox IsReadOnly="{Binding IsEdititig}" Text="Properties" BorderBrush="White"></TextBox>
-                <TextBox IsReadOnly="{Binding IsEdititig}" Text="Properties" BorderBrush="White"></TextBox>
-                <TextBox IsReadOnly="{Binding IsEdititig}" Text="Properties" BorderBrush="White"></TextBox>
+                <TextBox IsReadOnly="{Binding IsEdititig}" Text="Здесь будут свойства" BorderBrush="White"></TextBox>
             </StackPanel>
         </Border>
     </Grid>

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Staff_time.Model;
-using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using GalaSoft.MvvmLight;
@@ -14,16 +13,17 @@ using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
-{ 
-    public class WorkControlViewModel : WorkControlViewModelBase
+{
+    //WorkType: WorkError
+    public class WorkError_ControlViewModel : WorkControlViewModelBase
     {
-        public WorkControlViewModel(Work work)
+        public WorkError_ControlViewModel(Work work)
         {
-            Work = work;
+            Work = (WorkError)work;
         }
 
-        private Work _work;
-        public Work Work
+        private WorkError _work;
+        public WorkError Work
         {
             get { return _work; }
             set

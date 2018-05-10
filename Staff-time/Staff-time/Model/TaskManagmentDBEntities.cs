@@ -59,11 +59,23 @@ namespace Staff_time.Model
         }
         public List<Work> Read_AllWorks()
         {
-            return Works.ToList<Work>();
+            List<Work> works = new List<Work>();
+            WorkFactory taskFactory = new WorkFactory();
+            foreach(Work w in Works)
+            {
+                works.Add(taskFactory.CreateWork(w));
+            }
+            return works;
         }
         public List<Work> Read_WorksForDate(DateTime date)
         {
-            return (from x in Works where x.Date == date.Date select x).ToList<Work>();
+            List<Work> works = (from x in Works where x.Date == date.Date select x).ToList<Work>();
+            WorkFactory taskFactory = new WorkFactory();
+            foreach (Work w in Works)
+            {
+                works.Add(taskFactory.CreateWork(w));
+            }
+            return works;
         }
         public List<Work> Read_WorksForTask(int taskID)
         {
