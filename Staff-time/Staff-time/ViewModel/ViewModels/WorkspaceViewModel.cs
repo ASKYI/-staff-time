@@ -15,7 +15,7 @@ namespace Staff_time.ViewModel
     {
         public WorkspaceViewModel() : base()
         {
-            SelectedDate = DateTime.Today.AddDays(-10);
+            SelectedDate = DateTime.Today.AddDays(0);
 
             _changeDateCommand = new RelayCommand(ChangeDate, CanChangeDate);
         }
@@ -43,6 +43,10 @@ namespace Staff_time.ViewModel
             for (int i = 0; i < 7; ++i)
             {
                 WeekTabs.Add(new TabItem(DaysOfWeek[i], startDay.AddDays(i)));
+                if (startDay.AddDays(i) == DateTime.Today)
+                {
+                    SelectedIndex = i;
+                }
             }
         }
         #endregion
@@ -73,6 +77,7 @@ namespace Staff_time.ViewModel
         private void ChangeDate(object obj)
         {
             Generate_Week((DateTime)SelectedDate);
+
         }
         #endregion
 

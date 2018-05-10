@@ -71,7 +71,7 @@ namespace Staff_time.ViewModel
         private void Delete(object obj)
         {
             WorkInBlock.WorkControlDataContext.DeleteWork();
-            WorkspaceViewModel.Generate_Week(CurDate);
+            WorkspaceViewModel.WeekTabs[WorkspaceViewModel.SelectedIndex].Generate_WorksForDate();
         }
         #endregion
         #region Edit Command

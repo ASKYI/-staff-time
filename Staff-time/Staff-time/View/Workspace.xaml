@@ -16,12 +16,20 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.05*"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-
-        <StackPanel Grid.Column="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="22*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="0">
+            <MenuItem Header="Выбор даты">
+                <StackPanel>
+                    <DatePicker IsDropDownOpen="False" SelectedDate="{Binding SelectedDate}"></DatePicker>
+                    <Button Content="Выбрать дату" Command="{Binding ChangeDateCommand}"></Button>
+                </StackPanel>
+            </MenuItem>
+        </Menu>
+        
+        <!--<StackPanel Grid.Column="0">
             <DatePicker IsDropDownOpen="True" SelectedDate="{Binding SelectedDate}" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger  EventName="MouseDown">
@@ -30,9 +38,9 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </DatePicker>
-        </StackPanel>
+        </StackPanel>-->
 
-        <TabControl Grid.Column="1" ItemsSource="{Binding WeekTabs}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+        <TabControl ItemsSource="{Binding WeekTabs}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" Grid.Row="1">
 
             <TabControl.Resources>
                 <vm:TabItemHeaderConverter x:Key="tabItemHeaderConverter"></vm:TabItemHeaderConverter>

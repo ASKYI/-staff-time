@@ -92,7 +92,7 @@ namespace Staff_time.ViewModel
             newWork.Date = CurDate.Date;
             workWork.Create_Work(newWork);
             
-            WorkspaceViewModel.WeekTabs[ WorkspaceViewModel.SelectedIndex].Generate_WorksForDate();
+            WorkspaceViewModel.WeekTabs[WorkspaceViewModel.SelectedIndex].Generate_WorksForDate();
         }
         #endregion
     }
