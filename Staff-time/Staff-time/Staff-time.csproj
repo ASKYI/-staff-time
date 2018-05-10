@@ -100,11 +100,13 @@
     <Compile Include="ViewModel\ViewModels\FaveViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\TreeViewModel.cs" />
-    <Compile Include="ViewModel\ViewModels\WorksVM\WorkBlockControlViewModel.cs" />
-    <Compile Include="ViewModel\ViewModels\WorksVM\WorkControlsVM\WorkControlViewModel.cs" />
+    <Compile Include="ViewModel\WorkBlockVM\WorkBlockControlViewModel.cs" />
+    <Compile Include="ViewModel\WorkBlockVM\WorkControlsVM\WorkControlViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\WorkspaceViewModel.cs" />
     <Compile Include="ViewModel\TabsVM\WorkInTab.cs" />
-    <Compile Include="ViewModel\ViewModels\WorksVM\WorkControlTemplateSelector.cs" />
+    <Compile Include="ViewModel\WorkBlockVM\WorkControlsVM\WorkControlViewModelBase.cs" />
+    <Compile Include="ViewModel\WorkBlockVM\WorksInBlocks\WorkInBlock.cs" />
+    <Compile Include="ViewModel\WorkBlockVM\WorksInBlocks\WorkInBlockBase.cs" />
     <Compile Include="View\TreeView\ExtendedTreeView.xaml.cs">
       <DependentUpon>ExtendedTreeView.xaml</DependentUpon>
     </Compile>

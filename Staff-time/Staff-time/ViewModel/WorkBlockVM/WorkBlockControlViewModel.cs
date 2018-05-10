@@ -18,24 +18,31 @@ namespace Staff_time.ViewModel
     {
         public WorkBlockControlViewModel(Work work)
         {
-            WorkDataContext = new WorkControlViewModel(work);
+            _generate_WorkInBlock(work);
 
-            WorkDataContext.IsEdititig = true;
+            WorkInThisBlock.WorkControlDataContext.IsEdititig = true;
             _editCommand = new RelayCommand(Edit, CanEdit);
         }
 
-        private WorkControlViewModel _workDataContext;
-        public WorkControlViewModel WorkDataContext
+        #region WorkInBlock
+        private WorkInBlockBase _workInThisBlock;
+        public WorkInBlockBase WorkInThisBlock
         {
-            get { return _workDataContext; }
+            get { return _workInThisBlock; }
             set
             {
-                SetField(ref _workDataContext, value);
+                SetField(ref _workInThisBlock, value);
             }
         }
 
-        #region Edit Command
+        private void _generate_WorkInBlock(Work work)
+        {
+            //Factory
+            WorkInThisBlock = new WorkInBlock(work);
+        }
+        #endregion
 
+        #region Edit Command
         private readonly ICommand _editCommand;
         public ICommand EditCommand
         {
@@ -50,14 +57,13 @@ namespace Staff_time.ViewModel
         }
         private void Edit(object obj)
         {
-            if (!WorkDataContext.IsEdititig)
+            if (!WorkInThisBlock.WorkControlDataContext.IsEdititig)
             {
-                //WorksTable.Update_Work(Work.ID, Work);
-                workWork.Update_Work(WorkDataContext.Work);
-                WorkDataContext.IsEdititig = true;
+                workWork.Update_Work(WorkInThisBlock.WorkControlDataContext.Work);
+                WorkInThisBlock.WorkControlDataContext.IsEdititig = true;
             }
             else
-                WorkDataContext.IsEdititig = false;
+                WorkInThisBlock.WorkControlDataContext.IsEdititig = false;
         }
         #endregion
     }

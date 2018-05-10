@@ -14,8 +14,8 @@ using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
-{
-    public class WorkControlViewModel : MainViewModel
+{ 
+    public class WorkControlViewModel : WorkControlViewModelBase
     {
         public WorkControlViewModel(Work work)
         {
@@ -29,16 +29,6 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField(ref _work, value);
-            }
-        }
-
-        private Boolean _isEditing; //false = edit
-        public Boolean IsEdititig
-        {
-            get { return _isEditing; }
-            set
-            {
-                SetField(ref _isEditing, value);
             }
         }
     }

@@ -9,57 +9,45 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <vm:WorkControlTemplateSelector x:Key="WorkControlTemplateSelector">
-
-            <vm:WorkControlTemplateSelector.WorkTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                    <Label Content="Try"></Label>
-                    <local:WorkControl DataContext="{Binding WorkDataContext}" Grid.Row="0" Grid.RowSpan="2"></local:WorkControl>
-                    </StackPanel>
-                </DataTemplate>
-            </vm:WorkControlTemplateSelector.WorkTemplate>
-
-        </vm:WorkControlTemplateSelector>
-        
         <Style x:Key="EditButtonStyle" TargetType="Button">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding WorkDataContext.IsEdititig}" Value="True">
+                <DataTrigger Binding="{Binding WorkInThisBlock.WorkControlDataContext.IsEdititig}" Value="True">
                     <Setter Property="Background" Value="White"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding WorkDataContext.IsEdititig}" Value="False">
+                <DataTrigger Binding="{Binding WorkInThisBlock.WorkControlDataContext.IsEdititig}" Value="False">
                     <Setter Property="Background" Value="LightCoral"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <DataTemplate DataType="{x:Type vm:WorkInBlock}" >
+            <local:WorkControl DataContext="{Binding WorkControlDataContext}"></local:WorkControl>
+         </DataTemplate>
         
     </UserControl.Resources>
     <Border BorderBrush="Black" BorderThickness="1" Margin="3">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="4*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <local:WorkControl DataContext="{Binding WorkDataContext}"></local:WorkControl>
+            <!--<local:WorkControl DataContext="{Binding WorkDataContext}" Grid.Row="0"></local:WorkControl>-->
 
-            <!--<ItemsControl ItemsSource="{}"
-
-            <ItemsControl ItemsSource="{Binding WorkDataContext}" >
-                --><!--ItemTemplateSelector="{StaticResource WorkControlTemplateSelector}"--><!--
-                <ItemsControl.ItemTemplate>-->
-                    <!--<DataTemplate>--><!--
-
-                <local:WorkControl DataContext="{Binding }" Grid.Row="0" Grid.RowSpan="2"></local:WorkControl>
-                --><!--</DataTemplate>-->
-                <!--</ItemsControl.ItemTemplate>--><!--
-
-
-
+            <!--<ItemsControl Grid.Row="0" ItemsSource="{Binding WorkInThisBlock}">
+                --><!--<ItemsControl.Items> Это работает
+                    <Label Content="{Binding WorkInThisBlock.WorkControlDataContext.Work.WorkName}"></Label>
+                </ItemsControl.Items>--><!--
+                
+                <ItemsControl.ItemTemplate> Это НЕ работает
+                    <DataTemplate>
+                        <Label Content="{Binding WorkInThisBlock.WorkControlDataContext.Work.WorkName}"></Label>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                
             </ItemsControl>-->
             
-            <Button Grid.Row="2" Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}"></Button>
+            <Button Grid.Row="1" Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}"></Button>
         </Grid>
     </Border>
 </UserControl>

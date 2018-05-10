@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.Data.Entity;
-
 using Staff_time.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -16,20 +14,16 @@ using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
 {
-    public class WorkInTab : ViewModelBase, INotifyPropertyChanged
+    //Обертка над блоком работы для передачи контролу блока
+    abstract public class WorkInBlockBase : ViewModelBase, INotifyPropertyChanged
     {
-        public WorkInTab(Work work)
+        private WorkControlViewModel _workControlDataContext;
+        public WorkControlViewModel WorkControlDataContext
         {
-            WorkBlockControlDataContext = new WorkBlockControlViewModel(work);
-        }
-
-        private WorkBlockControlViewModel _workBlockControlDataContext;
-        public WorkBlockControlViewModel WorkBlockControlDataContext
-        {
-            get { return _workBlockControlDataContext; }
+            get { return _workControlDataContext; }
             set
             {
-                SetField<WorkBlockControlViewModel>(ref _workBlockControlDataContext, value);
+                SetField<WorkControlViewModel>(ref _workControlDataContext, value);
             }
         }
 
