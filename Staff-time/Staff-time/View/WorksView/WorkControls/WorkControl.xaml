@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:Staff_time.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel>
-        <TextBox IsReadOnly="{Binding IsEdititig}" Text="{Binding Work.WorkName}" BorderBrush="White" 
-                 Background="LightGray"></TextBox>
-        <TextBlock Text="Тип не определен"></TextBlock> 
-    </StackPanel>
+    <Border>
+        <StackPanel>
+            
+        </StackPanel>
+    </Border>
 </UserControl>

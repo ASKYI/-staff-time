@@ -39,7 +39,21 @@
     </UserControl.Resources>
     <Border BorderBrush="Black" BorderThickness="1" Margin="3">
         <StackPanel>
+            <TextBox IsReadOnly="{Binding IsEdititig}" Text="{Binding Work.WorkName}" BorderBrush="White" 
+                 Background="LightGray"></TextBox>
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Тип работы: " Grid.Column="0"></TextBlock>
+                <TextBlock Text="{Binding WorkInBlock.WorkControlDataContext.Work.WorkType.TypeName}" Grid.Column="1"></TextBlock>
+                <Button Content="Изменить тип" IsEnabled="False" Grid.Column="2"></Button>
+            </Grid>
+
             <ItemsControl ItemsSource="{Binding WorkInThisBlock}"></ItemsControl>
+            
             <DockPanel>
                 <Button DockPanel.Dock="Left" Content="Удалить" Command="{Binding DeleteCommand}"></Button>
                 <Button DockPanel.Dock="Right" Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}"></Button>

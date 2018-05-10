@@ -56,7 +56,7 @@ namespace Staff_time.ViewModel
         }
         #endregion
 
-        #region Selected Data Picker Date
+        #region Selected
         private DateTime _selectedDatePicker;
         public DateTime SelectedDatePicker
         {
@@ -67,26 +67,6 @@ namespace Staff_time.ViewModel
                 Generate_Week(SelectedDatePicker);
             }
         }
-        //private readonly ICommand _changeDateCommand;
-        //public ICommand ChangeDateCommand
-        //{
-        //    get
-        //    {
-        //        return _changeDateCommand;
-        //    }
-        //}
-        //private bool CanChangeDate(object obj)
-        //{
-        //    return SelectedDatePicker != null;
-        //}
-        //private void ChangeDate(object obj)
-        //{
-        //    CurDate = SelectedDatePicker;
-        //    Generate_Week((DateTime)SelectedDatePicker);
-        //}
-        #endregion
-
-        #region Selected Tab
         private int _selectedIndex;
         public int SelectedIndex
         {
