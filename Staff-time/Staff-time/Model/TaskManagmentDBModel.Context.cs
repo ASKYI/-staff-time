@@ -27,10 +27,8 @@ namespace Staff_time.Model
     
         public virtual DbSet<Attribute> Attributes { get; set; }
         public virtual DbSet<AttrValue> AttrValues { get; set; }
-        public virtual DbSet<PropDataType> PropDataTypes { get; set; }
         public virtual DbSet<Property> Properties { get; set; }
         public virtual DbSet<PropValue> PropValues { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<TaskTypeProp> TaskTypeProps { get; set; }
         public virtual DbSet<TaskType> TaskTypes { get; set; }

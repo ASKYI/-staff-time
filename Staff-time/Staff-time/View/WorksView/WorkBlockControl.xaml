@@ -39,7 +39,7 @@
     </UserControl.Resources>
     <Border BorderBrush="Black" BorderThickness="1" Margin="3">
         <StackPanel>
-            <TextBox IsReadOnly="{Binding IsEdititig}" Text="{Binding Work.WorkName}" BorderBrush="White" 
+            <TextBox IsReadOnly="{Binding IsEdititig}" Text="{Binding WorkInBlock.WorkControlDataContext.Work.WorkName}" BorderBrush="White" 
                  Background="LightGray"></TextBox>
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>

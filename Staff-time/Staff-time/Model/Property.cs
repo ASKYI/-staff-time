@@ -17,7 +17,6 @@ namespace Staff_time.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Property()
         {
-            this.PropDataTypes = new HashSet<PropDataType>();
             this.PropValues = new HashSet<PropValue>();
             this.TaskTypeProps = new HashSet<TaskTypeProp>();
         }
@@ -26,8 +25,6 @@ namespace Staff_time.Model
         public string PropName { get; set; }
         public int ID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PropDataType> PropDataTypes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PropValue> PropValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

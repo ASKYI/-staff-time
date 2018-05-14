@@ -2,7 +2,7 @@ USE [TaskManagmentDB]
 GO
 
 INSERT [dbo].[TaskTypes] ([ID], [TypeName])
-	VALUES (0, 'Нет')
+	VALUES (0, 'Тип не указан')
 INSERT [dbo].[TaskTypes] ([ID], [TypeName])
 	VALUES (1, 'Заказчик')
 INSERT [dbo].[TaskTypes] ([ID], [TypeName])

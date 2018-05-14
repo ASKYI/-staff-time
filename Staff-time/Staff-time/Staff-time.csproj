@@ -80,13 +80,64 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Attribute.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AttrValue.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Enums.cs" />
     <Compile Include="Model\Interfaces\ITaskWork.cs" />
     <Compile Include="Model\Interfaces\IWorkWork.cs" />
+    <Compile Include="Model\Property.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PropValue.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Task.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\TaskManagmentDBEntities.cs" />
+    <Compile Include="Model\TaskManagmentDBModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskManagmentDBModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TaskManagmentDBModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TaskManagmentDBModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TaskType.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TaskTypeProp.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\User.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\UserTask.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Work.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\WorkModel\IWorkFactory.cs" />
     <Compile Include="Model\WorkModel\WorkFactory.cs" />
     <Compile Include="Model\WorkModel\Works\Work.cs" />
+    <Compile Include="Model\WorkType.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\WorkTypeAttr.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\TabsVM\TabItem.cs" />
     <Compile Include="ViewModel\TabsVM\TabItemHeaderConverter.cs" />
@@ -200,74 +251,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Attribute.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\AttrValue.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\TaskModel\ITaskFactory.cs" />
     <Compile Include="Model\TaskModel\Tasks\Task.cs" />
-    <Compile Include="Model\PropDataType.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Property.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\PropValue.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\sysdiagram.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Task.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\TaskModel\TaskFactory.cs" />
     <Compile Include="Model\TaskModel\Tasks\TaskCustomer.cs" />
-    <Compile Include="Model\TaskManagmentDBModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TaskManagmentDBModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\TaskManagmentDBModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\TaskManagmentDBModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Model\TaskModel\Tasks\TaskSpecialty.cs" />
-    <Compile Include="Model\TaskType.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\TaskTypeProp.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\TaskModel\Tasks\TaskСompany.cs" />
     <Compile Include="Model\TaskModel\Tasks\TaskСontract.cs" />
-    <Compile Include="Model\User.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\UserTask.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Work.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\WorkModel\Works\WorkConsultationsByPhone.cs" />
     <Compile Include="Model\WorkModel\Works\WorkError.cs" />
     <Compile Include="Model\WorkModel\Works\WorkPatch.cs" />
     <Compile Include="Model\WorkModel\Works\WorkRefractoring.cs" />
-    <Compile Include="Model\WorkType.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\WorkTypeAttr.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -301,12 +295,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Model\TaskManagmentDBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TaskManagmentDBModel.Context.cs</LastGenOutput>
       <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
+      <LastGenOutput>TaskManagmentDBModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Model\TaskManagmentDBModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
