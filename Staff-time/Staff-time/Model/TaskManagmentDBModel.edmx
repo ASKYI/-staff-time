@@ -46,6 +46,16 @@
           <Property Name="ValueDate" Type="date" />
           <Property Name="ValueTime" Type="time" Precision="7" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="Tasks">
           <Key>
             <PropertyRef Name="ID" />
@@ -156,6 +166,18 @@
             </Principal>
             <Dependent Role="PropValues">
               <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="0..1" />
+          <End Role="Tasks1" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks1">
+              <PropertyRef Name="ParentTaskID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -284,6 +306,7 @@
           <EntitySet Name="AttrValues" EntityType="Self.AttrValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Properties" EntityType="Self.Properties" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PropValues" EntityType="Self.PropValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskTypeProps" EntityType="Self.TaskTypeProps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskTypes" EntityType="Self.TaskTypes" Schema="dbo" store:Type="Tables" />
@@ -307,6 +330,10 @@
           <AssociationSet Name="FK_PropValues_Tasks" Association="Self.FK_PropValues_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="PropValues" EntitySet="PropValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Tasks" Association="Self.FK_Tasks_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="Tasks1" EntitySet="Tasks" />
           </AssociationSet>
           <AssociationSet Name="FK_Tasks_TaskTypes1" Association="Self.FK_Tasks_TaskTypes1">
             <End Role="TaskTypes" EntitySet="TaskTypes" />
@@ -403,6 +430,16 @@
           <NavigationProperty Name="Property" Relationship="Self.FK_PropValues_Properties" FromRole="PropValues" ToRole="Properties" />
           <NavigationProperty Name="Task" Relationship="Self.FK_PropValues_Tasks" FromRole="PropValues" ToRole="Tasks" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="Task">
           <Key>
             <PropertyRef Name="ID" />
@@ -413,6 +450,8 @@
           <Property Name="ParentTaskID" Type="Int32" />
           <Property Name="WorkTypeID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="PropValues" Relationship="Self.FK_PropValues_Tasks" FromRole="Tasks" ToRole="PropValues" />
+          <NavigationProperty Name="Tasks1" Relationship="Self.FK_Tasks_Tasks" FromRole="Tasks" ToRole="Tasks1" />
+          <NavigationProperty Name="Task1" Relationship="Self.FK_Tasks_Tasks" FromRole="Tasks1" ToRole="Tasks" />
           <NavigationProperty Name="TaskType" Relationship="Self.FK_Tasks_TaskTypes1" FromRole="Tasks" ToRole="TaskTypes" />
           <NavigationProperty Name="WorkType" Relationship="Self.FK_Tasks_WorkTypes" FromRole="Tasks" ToRole="WorkTypes" />
           <NavigationProperty Name="UserTasks" Relationship="Self.FK_UserTasks_Tasks" FromRole="Tasks" ToRole="UserTasks" />
@@ -560,6 +599,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Tasks_Tasks">
+          <End Role="Tasks" Type="Self.Task" Multiplicity="0..1" />
+          <End Role="Tasks1" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks1">
+              <PropertyRef Name="ParentTaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tasks_TaskTypes1">
           <End Role="TaskTypes" Type="Self.TaskType" Multiplicity="1" />
           <End Role="Tasks" Type="Self.Task" Multiplicity="*" />
@@ -661,6 +712,7 @@
           <EntitySet Name="AttrValues" EntityType="Self.AttrValue" />
           <EntitySet Name="Properties" EntityType="Self.Property" />
           <EntitySet Name="PropValues" EntityType="Self.PropValue" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Tasks" EntityType="Self.Task" />
           <EntitySet Name="TaskTypeProps" EntityType="Self.TaskTypeProp" />
           <EntitySet Name="TaskTypes" EntityType="Self.TaskType" />
@@ -692,6 +744,10 @@
           <AssociationSet Name="FK_PropValues_Tasks" Association="Self.FK_PropValues_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="PropValues" EntitySet="PropValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Tasks" Association="Self.FK_Tasks_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="Tasks1" EntitySet="Tasks" />
           </AssociationSet>
           <AssociationSet Name="FK_Tasks_TaskTypes1" Association="Self.FK_Tasks_TaskTypes1">
             <End Role="TaskTypes" EntitySet="TaskTypes" />
@@ -774,6 +830,17 @@
                 <ScalarProperty Name="ValueInt" ColumnName="ValueInt" />
                 <ScalarProperty Name="ValueDate" ColumnName="ValueDate" />
                 <ScalarProperty Name="ValueTime" ColumnName="ValueTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
