@@ -23,7 +23,7 @@ namespace Staff_time.ViewModel
         }
 
         private WorkError _work;
-        public WorkError Work
+        public new WorkError Work
         {
             get { return _work; }
             set

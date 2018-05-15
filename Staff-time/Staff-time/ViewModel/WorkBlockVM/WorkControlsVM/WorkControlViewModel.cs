@@ -22,16 +22,6 @@ namespace Staff_time.ViewModel
             Work = work;
         }
 
-        private Work _work;
-        public Work Work
-        {
-            get { return _work; }
-            set
-            {
-                SetField(ref _work, value);
-            }
-        }
-
         public override void DeleteWork()
         {
             workWork.Delete_Work(Work.ID);

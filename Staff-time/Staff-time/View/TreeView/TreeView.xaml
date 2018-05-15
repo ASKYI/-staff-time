@@ -9,23 +9,23 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}" ItemsSource="{Binding TreeNodes}">
-            <TextBlock Text="{Binding Task.TaskName}" Background="Azure"></TextBlock>
+            <TextBlock Text="{Binding Task.TaskName}" Background="LightGreen"></TextBlock>
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
-            <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+            <TextBlock Text="{Binding Task.TaskName}" Background="Azure"></TextBlock>
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}" ItemsSource="{Binding TreeNodes}">
-            <TextBlock Text="{Binding Task.TaskName}" Background="AliceBlue"></TextBlock>
+            <TextBlock Text="{Binding Task.TaskName}" Background="LightGoldenrodYellow"></TextBlock>
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}" ItemsSource="{Binding TreeNodes}">
-            <TextBlock Text="{Binding Task.TaskName}" Background="AntiqueWhite"></TextBlock>
+            <TextBlock Text="{Binding Task.TaskName}" Background="LightYellow"></TextBlock>
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNode}" ItemsSource="{Binding TreeNodes}">
-            <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+            <TextBlock Text="{Binding Task.TaskName}" Background="LightGray"></TextBlock>
         </HierarchicalDataTemplate>
     </UserControl.Resources>
     <Grid>

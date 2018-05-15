@@ -17,6 +17,16 @@ namespace Staff_time.ViewModel
 {
     abstract public class WorkControlViewModelBase : MainViewModel
     {
+        private Work _work;
+        public Work Work
+        {
+            get { return _work; }
+            set
+            {
+                SetField(ref _work, value);
+            }
+        }
+
         abstract public void DeleteWork();
         abstract public void UpdateWork();
 

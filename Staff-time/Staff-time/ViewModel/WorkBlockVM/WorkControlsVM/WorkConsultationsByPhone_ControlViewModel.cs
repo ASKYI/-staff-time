@@ -24,7 +24,7 @@ namespace Staff_time.ViewModel
         }
 
         private WorkConsultationsByPhone _work;
-        public WorkConsultationsByPhone Work
+        public new WorkConsultationsByPhone Work
         {
             get { return _work; }
             set

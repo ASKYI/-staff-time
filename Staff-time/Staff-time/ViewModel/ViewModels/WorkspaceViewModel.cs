@@ -17,8 +17,6 @@ namespace Staff_time.ViewModel
         {
             SelectedDatePicker = DateTime.Today.AddDays(0);
 
-            //_changeDateCommand = new RelayCommand(ChangeDate, CanChangeDate);
-
             MessengerInstance.Register<NotificationMessage>(this, Notify);
         }
 

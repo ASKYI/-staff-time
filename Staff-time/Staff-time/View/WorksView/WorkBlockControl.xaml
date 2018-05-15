@@ -9,10 +9,30 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <Style x:Key="ExpanderStyle" TargetType="Expander">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.Work.WorkTypeID}" Value="0"><!--WorkNone-->
+                    <Setter Property="BorderBrush" Value="LightGray"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.Work.WorkTypeID}" Value="1"><!--WorkError-->
+                    <Setter Property="BorderBrush" Value="LightCoral"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.Work.WorkTypeID}" Value="2"><!--WorkRefractoring-->
+                    <Setter Property="BorderBrush" Value="LightYellow"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.Work.WorkTypeID}" Value="3"><!--WorkConsultationsByPhone-->
+                    <Setter Property="BorderBrush" Value="LightBlue"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.Work.WorkTypeID}" Value="4"><!--WorkPatch-->
+                    <Setter Property="BorderBrush" Value="LightGoldenrodYellow"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
         <Style x:Key="EditButtonStyle" TargetType="Button">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}" Value="True">
-                    <Setter Property="Background" Value="White"></Setter>
+                    <Setter Property="Background" Value="LightGray"></Setter>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}" Value="False">
                     <Setter Property="Background" Value="LightCoral"></Setter>
@@ -37,15 +57,31 @@
         </DataTemplate>
 
     </UserControl.Resources>
-    <Border BorderBrush="Black" BorderThickness="1" Margin="3">
+    <Expander Margin="3"  Header="{Binding WorkInBlock.WorkControlDataContext.Work.WorkName}" Padding="5" BorderThickness="2" 
+              IsExpanded="False" Style="{StaticResource ExpanderStyle}">
         <StackPanel>
-            <TextBox IsReadOnly="{Binding IsEdititig}" Text="{Binding WorkInBlock.WorkControlDataContext.Work.WorkName}" BorderBrush="White" 
-                 Background="LightGray"></TextBox>
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*"></ColumnDefinition>
-                    <ColumnDefinition Width="4*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Имя работы: " Grid.Column="0"></TextBlock>
+                <TextBox IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.WorkName}" Grid.Column="1" BorderBrush="White"></TextBox>
+            </Grid>
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Дата начала работы: " Grid.Column="0"></TextBlock>
+                <TextBox IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.Date}" Grid.Column="1" BorderBrush="White"></TextBox>
+            </Grid>
+            <Separator Height="3"></Separator>
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Тип работы: " Grid.Column="0"></TextBlock>
                 <TextBlock Text="{Binding WorkInBlock.WorkControlDataContext.Work.WorkType.TypeName}" Grid.Column="1"></TextBlock>
@@ -53,12 +89,12 @@
             </Grid>
 
             <ItemsControl ItemsSource="{Binding WorkInThisBlock}"></ItemsControl>
-            
-            <DockPanel>
-                <Button DockPanel.Dock="Left" Content="Удалить" Command="{Binding DeleteCommand}"></Button>
-                <Button DockPanel.Dock="Right" Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}"></Button>
-            </DockPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="100" Background="LightGray"></Button>
+                <Button Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}" Width="100"></Button>
+            </StackPanel>
         </StackPanel>
-    </Border>
+    </Expander>
 </UserControl>
  
