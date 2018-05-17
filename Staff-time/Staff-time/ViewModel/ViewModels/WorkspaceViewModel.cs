@@ -50,7 +50,7 @@ namespace Staff_time.ViewModel
         }
         public void Notify(NotificationMessage notificationMessage)
         {
-            Generate_Week(MainViewModel.CurDate);
+            WeekTabs[SelectedIndex].Generate_WorksForDate();
         }
         #endregion
 
