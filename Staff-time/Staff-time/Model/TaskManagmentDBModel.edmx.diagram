@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2e0a22e5a75d4d58b106b31f9bb96e3f" Name="Diagram1">
+      <Diagram DiagramId="6421d3f4b007476eb83d075924cd8506" Name="Diagram1">
         <EntityTypeShape EntityType="TaskManagmentDBModel.Attribute" Width="1.5" PointX="5.25" PointY="12.875" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.AttrValue" Width="1.5" PointX="7.5" PointY="10.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.Property" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
@@ -25,7 +25,7 @@
         <AssociationConnector Association="TaskManagmentDBModel.FK_TaskTypeProps_Properties" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_PropValues_Tasks" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_Tasks_Tasks" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskManagmentDBModel.FK_Tasks_TaskTypes1" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_Tasks_TaskTypes" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_Tasks_WorkTypes" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_UserTasks_Tasks" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_Works_Tasks" ManuallyRouted="false" />
