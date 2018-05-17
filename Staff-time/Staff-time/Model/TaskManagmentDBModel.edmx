@@ -181,7 +181,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tasks_TaskTypes1">
+        <Association Name="FK_Tasks_TaskTypes">
           <End Role="TaskTypes" Type="Self.TaskTypes" Multiplicity="1" />
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
           <ReferentialConstraint>
@@ -335,7 +335,7 @@
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="Tasks1" EntitySet="Tasks" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tasks_TaskTypes1" Association="Self.FK_Tasks_TaskTypes1">
+          <AssociationSet Name="FK_Tasks_TaskTypes" Association="Self.FK_Tasks_TaskTypes">
             <End Role="TaskTypes" EntitySet="TaskTypes" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
@@ -452,7 +452,7 @@
           <NavigationProperty Name="PropValues" Relationship="Self.FK_PropValues_Tasks" FromRole="Tasks" ToRole="PropValues" />
           <NavigationProperty Name="Tasks1" Relationship="Self.FK_Tasks_Tasks" FromRole="Tasks" ToRole="Tasks1" />
           <NavigationProperty Name="Task1" Relationship="Self.FK_Tasks_Tasks" FromRole="Tasks1" ToRole="Tasks" />
-          <NavigationProperty Name="TaskType" Relationship="Self.FK_Tasks_TaskTypes1" FromRole="Tasks" ToRole="TaskTypes" />
+          <NavigationProperty Name="TaskType" Relationship="Self.FK_Tasks_TaskTypes" FromRole="Tasks" ToRole="TaskTypes" />
           <NavigationProperty Name="WorkType" Relationship="Self.FK_Tasks_WorkTypes" FromRole="Tasks" ToRole="WorkTypes" />
           <NavigationProperty Name="UserTasks" Relationship="Self.FK_UserTasks_Tasks" FromRole="Tasks" ToRole="UserTasks" />
           <NavigationProperty Name="Works" Relationship="Self.FK_Works_Tasks" FromRole="Tasks" ToRole="Works" />
@@ -473,7 +473,7 @@
           </Key>
           <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_TaskTypes1" FromRole="TaskTypes" ToRole="Tasks" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_TaskTypes" FromRole="TaskTypes" ToRole="Tasks" />
           <NavigationProperty Name="TaskTypeProps" Relationship="Self.FK_TaskTypeProps_TaskTypes" FromRole="TaskTypes" ToRole="TaskTypeProps" />
         </EntityType>
         <EntityType Name="User">
@@ -611,7 +611,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tasks_TaskTypes1">
+        <Association Name="FK_Tasks_TaskTypes">
           <End Role="TaskTypes" Type="Self.TaskType" Multiplicity="1" />
           <End Role="Tasks" Type="Self.Task" Multiplicity="*" />
           <ReferentialConstraint>
@@ -749,7 +749,7 @@
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="Tasks1" EntitySet="Tasks" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tasks_TaskTypes1" Association="Self.FK_Tasks_TaskTypes1">
+          <AssociationSet Name="FK_Tasks_TaskTypes" Association="Self.FK_Tasks_TaskTypes">
             <End Role="TaskTypes" EntitySet="TaskTypes" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
