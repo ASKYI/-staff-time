@@ -74,7 +74,10 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Дата начала работы: " Grid.Column="0"></TextBlock>
-                <TextBox IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.Date}" Grid.Column="1" BorderBrush="White"></TextBox>
+                <DatePicker Grid.Column="1" IsDropDownOpen="False" 
+                            SelectedDate="{Binding WorkInBlock.WorkControlDataContext.Work.Date}"
+                            IsEnabled="{Binding IsEnabled}"></DatePicker>
+                <!--<TextBox IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.Date}" Grid.Column="1" BorderBrush="White"></TextBox>-->
             </Grid>
             <Separator Height="3"></Separator>
             <Grid Margin="2">
@@ -84,7 +87,11 @@
                     <ColumnDefinition Width="100"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Тип работы: " Grid.Column="0"></TextBlock>
-                <TextBlock Text="{Binding WorkInBlock.WorkControlDataContext.Work.WorkType.TypeName}" Grid.Column="1"></TextBlock>
+                <ComboBox Grid.Column="1"
+                          ItemsSource="{Binding Path=WorkTypesCb}"
+                          DisplayMemberPath="TypeName"
+                          SelectedIndex="{Binding SelectedWorkTypeIndex}">
+                </ComboBox>
                 <Button Content="Изменить тип" IsEnabled="False" Grid.Column="2"></Button>
             </Grid>
 

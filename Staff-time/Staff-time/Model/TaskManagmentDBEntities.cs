@@ -87,6 +87,7 @@ namespace Staff_time.Model
             // Entry(work).State = EntityState.Modified;
             var workDB = Works.Where(x => x.ID == work.ID).FirstOrDefault();
             workDB.WorkName = work.WorkName;
+            workDB.Date = work.Date;
             SaveChanges();
         }
         public void Delete_Work(int workID)

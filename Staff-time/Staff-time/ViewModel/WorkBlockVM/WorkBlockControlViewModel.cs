@@ -20,6 +20,8 @@ namespace Staff_time.ViewModel
         public WorkBlockControlViewModel(Work work)
         {
             _generate_WorkInBlock(work);
+            _generate_WorkTypesCb();
+            SelectedWorkTypeIndex = work.WorkTypeID;
 
             WorkInBlock.WorkControlDataContext.IsEdititig = true;
             _editCommand = new RelayCommand(Edit, CanEdit);
@@ -55,7 +57,34 @@ namespace Staff_time.ViewModel
             WorkInThisBlock.Add((WorkInBlock)WorkInBlock);
         }
         #endregion
-
+        #region WorkType
+        private int _selectedWorkTypeIndex;
+        public int SelectedWorkTypeIndex
+        {
+            get { return _selectedWorkTypeIndex; }
+            set
+            {
+                SetField<int>(ref _selectedWorkTypeIndex, value);
+            }
+        }
+        private ObservableCollection<WorkType> _workTypesCb;
+        public ObservableCollection<WorkType> WorkTypesCb
+        {
+            get { return _workTypesCb; }
+            set
+            {
+                SetField<ObservableCollection<WorkType>>(ref _workTypesCb, value);
+            }
+        }
+        private void _generate_WorkTypesCb()
+        {
+            WorkTypesCb = new ObservableCollection<WorkType>();
+            foreach (var t in WorkTypes)
+            {
+                WorkTypesCb.Add(t);
+            }
+        }
+        #endregion
         #region Delete Command
         private readonly ICommand _deleteCommand;
         public ICommand DeleteCommand
@@ -76,6 +105,15 @@ namespace Staff_time.ViewModel
         }
         #endregion
         #region Edit Command
+        private Boolean _isEnabled;
+        public Boolean IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                SetField<Boolean>(ref _isEnabled, value);
+            }
+        }
         private readonly ICommand _editCommand;
         public ICommand EditCommand
         {
@@ -94,9 +132,13 @@ namespace Staff_time.ViewModel
             {
                 WorkInBlock.WorkControlDataContext.UpdateWork();
                 WorkInBlock.WorkControlDataContext.IsEdititig = true;
+                IsEnabled = false;
             }
             else
+            {
                 WorkInBlock.WorkControlDataContext.IsEdititig = false;
+                IsEnabled = true;
+            }
         }
         #endregion
     }

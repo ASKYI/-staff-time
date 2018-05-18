@@ -26,6 +26,7 @@
                     <DatePicker IsDropDownOpen="False" SelectedDate="{Binding SelectedDatePicker}"></DatePicker>
                 </StackPanel>
             </MenuItem>
+            <MenuItem Header="Обновить" Command="{Binding UpdateCommand}"></MenuItem>
         </Menu>
 
         <TabControl ItemsSource="{Binding WeekTabs}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" Grid.Row="1">

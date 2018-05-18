@@ -18,6 +18,7 @@ namespace Staff_time.ViewModel
             SelectedDatePicker = DateTime.Today.AddDays(0);
 
             MessengerInstance.Register<NotificationMessage>(this, Notify);
+            _updateCommand = new RelayCommand(Update, CanUpdate);
         }
 
         #region Week
@@ -77,6 +78,22 @@ namespace Staff_time.ViewModel
                     CurDate = WeekTabs[value].Date;
                 }
             }
+        }
+        #endregion
+        #region Update
+        private readonly RelayCommand _updateCommand;
+        public RelayCommand UpdateCommand
+        {
+            get { return _updateCommand; }
+        }
+        private bool CanUpdate(object obj)
+        {
+            return true;
+        }
+        private void Update(object obj)
+        {
+            Generate_Week(DateTime.Now.Date);
+            SelectedIndex = 0;
         }
         #endregion
     }

@@ -37,6 +37,7 @@ namespace Staff_time.ViewModel
             _initialize_Context();
             
             _generate_TreeNodesDictionary();
+            _generate_WorkTypes();
         }
 
         #region Current Users, Date
@@ -109,42 +110,53 @@ namespace Staff_time.ViewModel
         }
         #endregion
 
-   /*     #region TODO: Move to model
-
-        protected static List<int> GetTasksByProp(string propName, string propValueText = null, Nullable<int> propValueInt = null,
-            Nullable<DateTime> propValueDateTime = null)
+        #region WorkTypes
+        public static ObservableCollection<WorkType> WorkTypes;
+        private static void _generate_WorkTypes()
         {
-            using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
+            WorkTypes = new ObservableCollection<WorkType>();
+            foreach(var t in _context.WorkTypes)
             {
-                Model.Property favProp = (from p in ctx.Properties where p.PropName == propName select p).FirstOrDefault();
-                if (favProp != null)
-                {
-                    switch ((TaskPropDataType)favProp.DataType)
-                    {
-                        case TaskPropDataType.ValueText:
-                            return (from p in ctx.PropValues where p.ValueText == propValueText select p.TaskID).ToList<int>();
-                        case TaskPropDataType.ValueInt:
-                            return (from p in ctx.PropValues where p.ValueInt == propValueInt select p.TaskID).ToList<int>();
-                        case TaskPropDataType.ValueDate:
-                            return (from p in ctx.PropValues where p.ValueDate == DbFunctions.TruncateTime(propValueDateTime) select p.TaskID).ToList<int>();
-                        case TaskPropDataType.ValueTime:
-                            return (from p in ctx.PropValues where Convert.ToDateTime(p.ValueTime) == propValueDateTime select p.TaskID).ToList<int>();
-                    }
-                }
-            }
-            return null;
+                WorkTypes.Add(t);
+            } 
         }
-        protected static List<int> GetTasksByProp(int propID, string propValueText = null, Nullable<int> propValueInt = null,
-            Nullable<DateTime> propValueDateTime = null)
-        {
-            using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
-            {
-                Model.Property favProp = (from p in ctx.Properties where p.ID == propID select p).FirstOrDefault();
-                return GetTasksByProp(favProp.ID, propValueText, propValueInt, propValueDateTime);
-            }
-        }
+        #endregion
+        /*     #region TODO: Move to model
 
-        #endregion*/
+             protected static List<int> GetTasksByProp(string propName, string propValueText = null, Nullable<int> propValueInt = null,
+                 Nullable<DateTime> propValueDateTime = null)
+             {
+                 using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
+                 {
+                     Model.Property favProp = (from p in ctx.Properties where p.PropName == propName select p).FirstOrDefault();
+                     if (favProp != null)
+                     {
+                         switch ((TaskPropDataType)favProp.DataType)
+                         {
+                             case TaskPropDataType.ValueText:
+                                 return (from p in ctx.PropValues where p.ValueText == propValueText select p.TaskID).ToList<int>();
+                             case TaskPropDataType.ValueInt:
+                                 return (from p in ctx.PropValues where p.ValueInt == propValueInt select p.TaskID).ToList<int>();
+                             case TaskPropDataType.ValueDate:
+                                 return (from p in ctx.PropValues where p.ValueDate == DbFunctions.TruncateTime(propValueDateTime) select p.TaskID).ToList<int>();
+                             case TaskPropDataType.ValueTime:
+                                 return (from p in ctx.PropValues where Convert.ToDateTime(p.ValueTime) == propValueDateTime select p.TaskID).ToList<int>();
+                         }
+                     }
+                 }
+                 return null;
+             }
+             protected static List<int> GetTasksByProp(int propID, string propValueText = null, Nullable<int> propValueInt = null,
+                 Nullable<DateTime> propValueDateTime = null)
+             {
+                 using (TaskManagmentDBEntities ctx = new TaskManagmentDBEntities())
+                 {
+                     Model.Property favProp = (from p in ctx.Properties where p.ID == propID select p).FirstOrDefault();
+                     return GetTasksByProp(favProp.ID, propValueText, propValueInt, propValueDateTime);
+                 }
+             }
+
+             #endregion*/
 
         #region INotifyPropertyChanged Member
         protected bool SetField<T>(ref T field, T value,

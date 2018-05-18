@@ -23,7 +23,7 @@ namespace Staff_time.ViewModel
             get { return _work; }
             set
             {
-                SetField(ref _work, value);
+                SetField<Work>(ref _work, value);
             }
         }
 
