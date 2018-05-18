@@ -69,7 +69,7 @@ namespace Staff_time.Model
         }
         public List<Work> Read_WorksForDate(DateTime date)
         {
-            List<Work> worksDB = (from x in Works where x.Date == date.Date select x).ToList<Work>();
+            List<Work> worksDB = (from x in Works where x.StartDate == date.Date select x).ToList<Work>();
             List<Work> works = new List<Work>();
             WorkFactory taskFactory = new WorkFactory();
             foreach (Work w in worksDB)
@@ -87,7 +87,7 @@ namespace Staff_time.Model
             // Entry(work).State = EntityState.Modified;
             var workDB = Works.Where(x => x.ID == work.ID).FirstOrDefault();
             workDB.WorkName = work.WorkName;
-            workDB.Date = work.Date;
+            workDB.StartDate = work.StartDate;
             SaveChanges();
         }
         public void Delete_Work(int workID)

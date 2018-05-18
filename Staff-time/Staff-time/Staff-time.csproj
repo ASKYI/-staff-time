@@ -95,9 +95,6 @@
     <Compile Include="Model\PropValue.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\sysdiagram.cs">
-      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\Task.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>

@@ -89,7 +89,7 @@ namespace Staff_time.ViewModel
             Work newWork = new Work();
             newWork.WorkName = "Новая работа";
             newWork.TaskID = SelectedTask.Task.ID;
-            newWork.Date = CurDate.Date;
+            newWork.StartDate = CurDate.Date;
             workWork.Create_Work(newWork);
 
             MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));

@@ -11,7 +11,7 @@ namespace Staff_time.Model
         public Work(Work work)
         {
             this.AttrValues = work.AttrValues;
-            this.Date = work.Date;
+            this.StartDate = work.StartDate;
             this.ID = work.ID;
             this.Task = work.Task;
             this.TaskID = work.TaskID;

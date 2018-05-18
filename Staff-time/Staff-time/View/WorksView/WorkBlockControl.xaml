@@ -75,7 +75,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Дата начала работы: " Grid.Column="0"></TextBlock>
                 <DatePicker Grid.Column="1" IsDropDownOpen="False" 
-                            SelectedDate="{Binding WorkInBlock.WorkControlDataContext.Work.Date}"
+                            SelectedDate="{Binding WorkInBlock.WorkControlDataContext.Work.StartDate}"
                             IsEnabled="{Binding IsEnabled}"></DatePicker>
                 <!--<TextBox IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.Date}" Grid.Column="1" BorderBrush="White"></TextBox>-->
             </Grid>
