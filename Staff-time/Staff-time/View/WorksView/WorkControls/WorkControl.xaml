@@ -4,11 +4,30 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Staff_time.View"
+             
+             xmlns:vm="clr-namespace:Staff_time.ViewModel"
+             xmlns:m="clr-namespace:Staff_time.Model"
+             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border>
+
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type m:AttrValue}">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Attribute.Name}" Grid.Column="0"></TextBlock>
+                    <TextBox IsReadOnly="{Binding IsEdititig}"  Text="{Binding ValueText}" Grid.Column="1" BorderBrush="White"></TextBox>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Expander Header="Здесь будут свойства" BorderBrush="Black" BorderThickness="0.5" Margin="1">
         <StackPanel>
-            
+            <ItemsControl ItemsSource="{Binding AttrValues}"></ItemsControl>
         </StackPanel>
-    </Border>
+    </Expander>
 </UserControl>

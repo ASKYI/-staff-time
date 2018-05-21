@@ -21,12 +21,14 @@ namespace Staff_time.ViewModel
         private static TaskManagmentDBEntities _context;
         protected static ITaskWork taskWork;
         protected static IWorkWork workWork;
+        protected static IAttrWork attrWork;
 
         private static void _initialize_Context()
         {
             _context = new TaskManagmentDBEntities();
             taskWork = _context;
             workWork = _context;
+            attrWork = _context;
         }
 
         #endregion

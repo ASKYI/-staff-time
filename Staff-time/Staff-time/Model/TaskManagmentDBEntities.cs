@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Migrations;
 
 using Staff_time.Model.Interfaces;
 
 namespace Staff_time.Model
 {
     public partial class TaskManagmentDBEntities : DbContext,
-        ITaskWork, IWorkWork
+        ITaskWork, IWorkWork, IAttrWork
     {
         #region ITaskWork
         public void Create_Task(Task task)
@@ -55,6 +56,8 @@ namespace Staff_time.Model
         public void Create_Work(Work work)
         {
             Works.Add(work);
+            //Создать пустые поля для атрибутов в соотвествии с типом
+            Create_AttrValuesFields_ForWorkType(work.ID, (WorkTypeEnum)work.WorkTypeID); 
             SaveChanges();
         }
         public List<Work> Read_AllWorks()
@@ -71,10 +74,10 @@ namespace Staff_time.Model
         {
             List<Work> worksDB = (from x in Works where x.StartDate == date.Date select x).ToList<Work>();
             List<Work> works = new List<Work>();
-            WorkFactory taskFactory = new WorkFactory();
+            WorkFactory workFactory = new WorkFactory();
             foreach (Work w in worksDB)
             {
-                works.Add(taskFactory.CreateWork(w));
+                works.Add(workFactory.CreateWork(w));
             }
             return works;
         }
@@ -84,17 +87,49 @@ namespace Staff_time.Model
         }
         public void Update_Work(Work work)
         {
-            // Entry(work).State = EntityState.Modified;
             var workDB = Works.Where(x => x.ID == work.ID).FirstOrDefault();
-            workDB.WorkName = work.WorkName;
-            workDB.StartDate = work.StartDate;
+            if (workDB.WorkTypeID != work.WorkTypeID) //При изменении типа! Удалить-перенести атрибуты типа
+                Update_AttrValuesFields_ForWorkType(work.ID, (WorkTypeEnum)workDB.WorkTypeID, (WorkTypeEnum)work.WorkTypeID);
+            Works.AddOrUpdate(work);
             SaveChanges();
         }
         public void Delete_Work(int workID)
         {
+            Delete_AttrValuesFields_ForWork(workID); //Удаление атрибутов работы
             var workDB = Works.Where(x => x.ID == workID).FirstOrDefault();
             Works.Remove(workDB);
             SaveChanges();
+        }
+        #endregion
+
+        #region IAttrWork
+        public void Create_AttrValuesFields_ForWorkType(int WorkID, WorkTypeEnum type)
+        {
+            //TODO
+            throw new NotImplementedException();
+        }
+        public List<AttrValue> Read_AttrValues_ForWork(Work work)
+        {
+            //Загрузка знаений атрибутов и связанных с ними атрибутов
+            List<AttrValue> l = AttrValues.Include(a => a.Attribute).Where(a => a.WorkID == work.ID).ToList();
+            return l;          
+            //return (from a in AttrValues where a.WorkID == work.ID select a).ToList<AttrValue>();
+        }
+        public void Update_AttrValuesFields_ForWorkType(int WorkID, WorkTypeEnum oldType, WorkTypeEnum newType)
+        {
+            //TODO
+            throw new NotImplementedException();
+        }
+        public void Update_AttrValues(List<AttrValue> values)
+        {            
+            foreach(var v in values)
+                AttrValues.AddOrUpdate(v);
+            SaveChanges();
+        }
+        public void Delete_AttrValuesFields_ForWork(int WorkID)
+        {
+            IEnumerable<AttrValue> toDeleteDB = (from a in AttrValues where a.WorkID == WorkID select a).ToList();
+            AttrValues.RemoveRange(toDeleteDB);
         }
         #endregion
     }
