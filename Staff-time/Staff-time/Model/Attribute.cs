@@ -23,6 +23,7 @@ namespace Staff_time.Model
     
         public string Name { get; set; }
         public int ID { get; set; }
+        public int DateType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AttrValue> AttrValues { get; set; }

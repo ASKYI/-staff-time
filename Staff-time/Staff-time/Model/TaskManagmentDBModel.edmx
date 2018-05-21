@@ -11,6 +11,7 @@
           </Key>
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateType" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="AttrValues">
           <Key>
@@ -378,6 +379,7 @@
           </Key>
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateType" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AttrValues" Relationship="Self.FK_AttrValues_Attributes1" FromRole="Attributes" ToRole="AttrValues" />
           <NavigationProperty Name="WorkTypeAttrs" Relationship="Self.FK_WorkTypeAttrs_Attributes" FromRole="Attributes" ToRole="WorkTypeAttrs" />
         </EntityType>
@@ -775,6 +777,7 @@
               <MappingFragment StoreEntitySet="Attributes">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DateType" ColumnName="DateType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
