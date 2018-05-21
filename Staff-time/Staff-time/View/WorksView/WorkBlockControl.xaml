@@ -73,6 +73,14 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
+                <TextBlock Text="Путь к задаче: " Grid.Column="0"></TextBlock>
+                <TextBox IsReadOnly="True" Text="{Binding Path}" Grid.Column="1" BorderBrush="White"></TextBox>
+            </Grid>
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
                 <TextBlock Text="Дата начала работы: " Grid.Column="0"></TextBlock>
                 <DatePicker Grid.Column="1" IsDropDownOpen="False" 
                             SelectedDate="{Binding WorkInBlock.WorkControlDataContext.Work.StartDate}"

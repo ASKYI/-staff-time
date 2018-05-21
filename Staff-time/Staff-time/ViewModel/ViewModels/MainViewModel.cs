@@ -110,6 +110,28 @@ namespace Staff_time.ViewModel
                     tasksNodes.Add(TaskNodesDictionary[q]);
             return tasksNodes;
         }
+        protected static string generate_PathFotTask(TreeNode taskTreeNode)
+        {
+            StringBuilder stringPath = new StringBuilder();
+            List<string> path = new List<string>();
+
+            TreeNode t = taskTreeNode;
+            while (t.ParentNode != null)
+            {
+                path.Add(t.Task.TaskName);
+                t = t.ParentNode;
+            }
+            path.Add(t.Task.TaskName);
+
+            path.Reverse();
+            for (int i = 0; i < path.Count; ++i)
+            {
+                if (i != 0)
+                    stringPath.Append("->");
+                stringPath.Append(path[i]);
+            }
+            return stringPath.ToString();
+        }
         #endregion
 
         #region WorkTypes

@@ -55,6 +55,18 @@ namespace Staff_time.ViewModel
             WorkInBlock = workInBlockFactory.CreateWorkInBlock(work);
             WorkInThisBlock = new ObservableCollection<WorkInBlock>();
             WorkInThisBlock.Add((WorkInBlock)WorkInBlock);
+
+            Path = generate_PathFotTask(TaskNodesDictionary[WorkInBlock.WorkControlDataContext.Work.TaskID]);
+        }
+
+        private string _path;
+        public string Path
+        {
+            get { return _path; }
+            set
+            {
+                SetField(ref _path, value);
+            }
         }
         #endregion
         #region WorkType
