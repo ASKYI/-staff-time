@@ -105,8 +105,16 @@ namespace Staff_time.Model
         #region IAttrWork
         public void Create_AttrValuesFields_ForWorkType(int WorkID, WorkTypeEnum type)
         {
-            //TODO
-            throw new NotImplementedException();
+            int typeID = (int)type;
+            List<int> attrIDs = (from a in WorkTypeAttrs where a.WorkTypeID == typeID select a.AttrID).ToList();
+            foreach(var a in attrIDs)
+            {
+                AttrValue value = new AttrValue();
+                value.WorkID = WorkID;
+                value.AttrID = a;
+                AttrValues.Add(value);
+            }
+            SaveChanges();
         }
         public List<AttrValue> Read_AttrValues_ForWork(Work work)
         {

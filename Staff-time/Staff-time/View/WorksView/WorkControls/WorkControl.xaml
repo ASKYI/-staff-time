@@ -25,7 +25,7 @@
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
-    <Expander Header="Здесь будут свойства" BorderBrush="Black" BorderThickness="0.5" Margin="1">
+    <Expander Header="Другие атрибуты" BorderBrush="Black" BorderThickness="0.5" Margin="1">
         <StackPanel>
             <ItemsControl ItemsSource="{Binding AttrValues}"></ItemsControl>
         </StackPanel>
