@@ -14,19 +14,19 @@
     <UserControl.Resources>
         <Style x:Key="TextBoxStyle"  TargetType="TextBox">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding DataType}" Value="1">
+                <DataTrigger Binding="{Binding DataType}" Value="0">
                     <!--TypeText-->
                     <Setter Property="Text" Value="{Binding ValueText}"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding DataType}" Value="2">
+                <DataTrigger Binding="{Binding DataType}" Value="1">
                     <!--TypeInt-->
                     <Setter Property="Text" Value="{Binding ValueInt}"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding DataType}" Value="3">
+                <DataTrigger Binding="{Binding DataType}" Value="2">
                     <!--TypeDate-->
                     <Setter Property="Text" Value="{Binding ValueDate}"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding DataType}" Value="4">
+                <DataTrigger Binding="{Binding DataType}" Value="3">
                     <!--TypeTime-->
                     <Setter Property="Text" Value="{Binding ValueTime}"></Setter>
                 </DataTrigger>
@@ -49,7 +49,9 @@
     </UserControl.Resources>
     <Expander Header="Другие атрибуты" BorderBrush="Black" BorderThickness="0.5" Margin="1">
         <StackPanel>
-            <ItemsControl ItemsSource="{Binding AttrValues}"></ItemsControl>
+            <ItemsControl ItemsSource="{Binding AttrValues}">
+                
+            </ItemsControl>
         </StackPanel>
     </Expander>
 </UserControl>

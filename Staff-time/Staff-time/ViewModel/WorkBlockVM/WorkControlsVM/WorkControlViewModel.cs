@@ -34,10 +34,7 @@ namespace Staff_time.ViewModel
         }
         private void _generate_AttrValues()
         {
-            List<AttrValue> valuesDB = new List<AttrValue>();
-            valuesDB =    attrWork.Read_AttrValues_ForWork(Work);
-            AttrValues = new ObservableCollection<AttrValue>(valuesDB);
-            //AttrValues = new ObservableCollection<AttrValue>(attrWork.Read_AttrValues_ForWork(Work));
+            AttrValues = new ObservableCollection<AttrValue>(attrWork.Read_AttrValues_ForWork(Work));
         }
 
         public override void DeleteWork()
