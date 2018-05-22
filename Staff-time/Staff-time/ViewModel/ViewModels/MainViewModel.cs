@@ -59,8 +59,13 @@ namespace Staff_time.ViewModel
         //они хранятся в виде узлов, узлы задач хранятся в словаре для облегчения доступа.
         protected static Dictionary<int, TreeNode> TaskNodesDictionary { get; set; }
 
+        private static bool _generateTree_tracker = false;
         private static void _generate_TreeNodesDictionary()
         {
+            if (_generateTree_tracker)
+                return;
+            _generateTree_tracker = true;
+
             TaskNodesDictionary = new Dictionary<int, TreeNode>();
             //В Tasks ссылка на родителя может содержать идентификатор на задачу, 
             //которая еще не встречалась в таблице при последовательном чтении.
@@ -136,8 +141,14 @@ namespace Staff_time.ViewModel
 
         #region WorkTypes
         public static ObservableCollection<WorkType> WorkTypes;
+
+        private static bool _generateWorkTypes_tracker = false;
         private static void _generate_WorkTypes()
         {
+            if (_generateWorkTypes_tracker)
+                return;
+            _generateWorkTypes_tracker = true;
+
             WorkTypes = new ObservableCollection<WorkType>();
             foreach(var t in _context.WorkTypes)
             {
