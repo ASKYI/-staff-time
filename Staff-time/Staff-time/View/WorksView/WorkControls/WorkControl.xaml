@@ -12,6 +12,27 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
+        <Style x:Key="TextBoxStyle"  TargetType="TextBox">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding DataType}" Value="1">
+                    <!--TypeText-->
+                    <Setter Property="Text" Value="{Binding ValueText}"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding DataType}" Value="2">
+                    <!--TypeInt-->
+                    <Setter Property="Text" Value="{Binding ValueInt}"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding DataType}" Value="3">
+                    <!--TypeDate-->
+                    <Setter Property="Text" Value="{Binding ValueDate}"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding DataType}" Value="4">
+                    <!--TypeTime-->
+                    <Setter Property="Text" Value="{Binding ValueTime}"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <DataTemplate DataType="{x:Type m:AttrValue}">
             <StackPanel>
                 <Grid>
@@ -20,7 +41,8 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="{Binding Attribute.Name}" Grid.Column="0"></TextBlock>
-                    <TextBox IsReadOnly="{Binding IsEdititig}"  Text="{Binding ValueText}" Grid.Column="1" BorderBrush="White"></TextBox>
+                    <TextBox IsReadOnly="{Binding IsEdititig}" Grid.Column="1" BorderBrush="White"
+                             Style="{StaticResource TextBoxStyle}"></TextBox>
                 </Grid>
             </StackPanel>
         </DataTemplate>
