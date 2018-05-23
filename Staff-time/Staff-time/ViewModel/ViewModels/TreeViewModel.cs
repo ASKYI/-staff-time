@@ -20,10 +20,19 @@ namespace Staff_time.ViewModel
 
             _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
             _addWorkCommand = new RelayCommand(AddWork, CanAddWork);
+            _addNearTaskCommand = new RelayCommand(AddNearTask, CanAddNearTask);
         }
 
         #region Tree Data
-        public ObservableCollection<TreeNode> TreeRoots { get; set; }
+        private ObservableCollection<TreeNode> _treeRoots;
+        public ObservableCollection<TreeNode> TreeRoots
+        {
+            get { return _treeRoots; }
+            set
+            {
+                SetField(ref _treeRoots, value);
+            }
+        }
         private void _generate_Tree()
         {
             TreeRoots = new ObservableCollection<TreeNode>();
@@ -93,6 +102,34 @@ namespace Staff_time.ViewModel
             workWork.Create_Work(newWork);
 
             MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
+        }
+        #endregion
+
+        #region Add Task
+        private readonly ICommand _addNearTaskCommand;
+        public ICommand AddNearTaskCommand
+        {
+            get
+            {
+                return _addNearTaskCommand;
+            }
+        }
+
+        private bool CanAddNearTask(object obj)
+        {
+            return true;
+        }
+        private void AddNearTask(object obj)
+        {
+            Task newTask = new Task();
+            newTask.ParentTaskID = SelectedTask.Task.ParentTaskID;
+            newTask.TaskName = "Новая задача";
+            taskWork.Create_Task(newTask);
+            newTask.TaskName = "Новая работа";
+
+            _generateTree_tracker = false;
+            _generate_TreeNodesDictionary();
+            _generate_Tree();
         }
         #endregion
     }

@@ -16,9 +16,11 @@ namespace Staff_time.Model
         ITaskWork, IWorkWork, IAttrWork
     {
         #region ITaskWork
+        //Создание задачи
         public void Create_Task(Task task)
         {
-            throw new NotImplementedException();
+            Tasks.Add(task);
+            SaveChanges();
         }
         public void Create_TaskToFave(int taskID, int curUserID)
         {

@@ -59,8 +59,8 @@ namespace Staff_time.ViewModel
         //они хранятся в виде узлов, узлы задач хранятся в словаре для облегчения доступа.
         protected static Dictionary<int, TreeNode> TaskNodesDictionary { get; set; }
 
-        private static bool _generateTree_tracker = false;
-        private static void _generate_TreeNodesDictionary()
+        protected static bool _generateTree_tracker = false;
+        protected static void _generate_TreeNodesDictionary()
         {
             if (_generateTree_tracker)
                 return;

@@ -48,7 +48,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Row="0" Grid.Column="0" Content="Добавить задачу рядом" IsEnabled="False"></Button>
+            <Button Grid.Row="0" Grid.Column="0" Content="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}"></Button>
             <Button Grid.Row="0" Grid.Column="1" Content="Добавить подзадачу" IsEnabled="False"></Button>
             <Button Grid.Row="1" Grid.Column="0" IsEnabled="False"></Button>
             <Button Grid.Row="1" Grid.Column="1" IsEnabled="False"></Button>
