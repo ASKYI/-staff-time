@@ -118,7 +118,7 @@ namespace Staff_time.ViewModel
 
         private bool CanAddNearTask(object obj)
         {
-            return true;
+            return SelectedTask != null;
         }
         private void AddNearTask(object obj)
         {
@@ -143,7 +143,7 @@ namespace Staff_time.ViewModel
 
         private bool CanAddChildTask(object obj)
         {
-            return true;
+            return SelectedTask != null;
         }
         private void AddChildTask(object obj)
         {
