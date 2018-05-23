@@ -14,44 +14,43 @@
     <UserControl.Resources>
         <Style x:Key="TextBoxStyle"  TargetType="TextBox">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding DataType}" Value="0">
+                <DataTrigger Binding="{Binding AttrValue.DataType}" Value="0">
                     <!--TypeText-->
-                    <Setter Property="Text" Value="{Binding ValueText}"></Setter>
+                    <Setter Property="Text" Value="{Binding AttrValue.ValueText}"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding DataType}" Value="1">
+                <DataTrigger Binding="{Binding AttrValue.DataType}" Value="1">
                     <!--TypeInt-->
-                    <Setter Property="Text" Value="{Binding ValueInt}"></Setter>
+                    <Setter Property="Text" Value="{Binding AttrValue.ValueText}"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding DataType}" Value="2">
+                <DataTrigger Binding="{Binding AttrValue.DataType}" Value="2">
                     <!--TypeDate-->
-                    <Setter Property="Text" Value="{Binding ValueDate}"></Setter>
+                    <Setter Property="Text" Value="{Binding AttrValue.ValueText}"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding DataType}" Value="3">
+                <DataTrigger Binding="{Binding AttrValue.DataType}" Value="3">
                     <!--TypeTime-->
-                    <Setter Property="Text" Value="{Binding ValueTime}"></Setter>
+                    <Setter Property="Text" Value="{Binding AttrValue.ValueText}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
-        <DataTemplate DataType="{x:Type m:AttrValue}">
+        <DataTemplate DataType="{x:Type vm:AttrValueExtended}">
             <StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding Attribute.Name}" Grid.Column="0"></TextBlock>
-                    <TextBox IsReadOnly="{Binding IsEdititig}" Grid.Column="1" BorderBrush="White"
+                    <TextBlock Text="{Binding AttrValue.Attribute.Name}" Grid.Column="0"></TextBlock>
+                    <TextBox IsReadOnly="{Binding IsEditing}" Grid.Column="1" BorderBrush="White"
                              Style="{StaticResource TextBoxStyle}"></TextBox>
                 </Grid>
             </StackPanel>
         </DataTemplate>
+        
     </UserControl.Resources>
     <Expander Header="Другие атрибуты" BorderBrush="Black" BorderThickness="0.5" Margin="1">
         <StackPanel>
-            <ItemsControl ItemsSource="{Binding AttrValues}">
-                
-            </ItemsControl>
+            <ItemsControl ItemsSource="{Binding AttrValues}"></ItemsControl>
         </StackPanel>
     </Expander>
 </UserControl>

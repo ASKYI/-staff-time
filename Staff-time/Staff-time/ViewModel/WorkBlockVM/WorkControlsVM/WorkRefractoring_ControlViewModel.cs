@@ -20,7 +20,7 @@ namespace Staff_time.ViewModel
         {
             Work = (WorkRefractoring)work;
         }
-        private WorkRefractoring _work;
+        private new WorkRefractoring _work;
         public new WorkRefractoring Work
         {
             get { return _work; }

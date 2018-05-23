@@ -22,7 +22,7 @@ namespace Staff_time.ViewModel
             Work = (WorkPatch)work;
         }
 
-        private WorkPatch _work;
+        private new WorkPatch _work;
         public new WorkPatch Work
         {
             get { return _work; }

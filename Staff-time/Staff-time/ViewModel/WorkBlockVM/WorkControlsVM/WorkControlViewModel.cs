@@ -23,18 +23,14 @@ namespace Staff_time.ViewModel
             _generate_AttrValues();
         }
 
-        private ObservableCollection<AttrValue> _attrValues;
-        public ObservableCollection<AttrValue> AttrValues
-        {
-            get { return _attrValues; }
-            set
-            {
-                SetField<ObservableCollection<AttrValue>>(ref _attrValues, value);
-            }
-        }
         private void _generate_AttrValues()
         {
-            AttrValues = new ObservableCollection<AttrValue>(attrWork.Read_AttrValues_ForWork(Work));
+            AttrValues = new ObservableCollection<AttrValueExtended>();
+            List<AttrValue> values = attrWork.Read_AttrValues_ForWork(Work);
+            foreach(var v in values)
+            {
+                AttrValues.Add(new AttrValueExtended(IsEdititig, v));
+            }
         }
 
         public override void DeleteWork()
@@ -44,7 +40,12 @@ namespace Staff_time.ViewModel
         public override void UpdateWork()
         {
             workWork.Update_Work(Work);
-            attrWork.Update_AttrValues(this.AttrValues.ToList());
+
+            List<AttrValue> values = new List<AttrValue>();
+            foreach (var v in AttrValues)
+                values.Add(v.AttrValue);
+
+            attrWork.Update_AttrValues(values);
         }
     }
 }

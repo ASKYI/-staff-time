@@ -23,7 +23,7 @@ namespace Staff_time.ViewModel
             Work = (WorkConsultationsByPhone)work;
         }
 
-        private WorkConsultationsByPhone _work;
+        private new WorkConsultationsByPhone _work;
         public new WorkConsultationsByPhone Work
         {
             get { return _work; }

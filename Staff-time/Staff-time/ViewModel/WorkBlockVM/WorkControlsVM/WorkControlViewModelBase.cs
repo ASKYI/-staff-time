@@ -17,7 +17,7 @@ namespace Staff_time.ViewModel
 {
     abstract public class WorkControlViewModelBase : MainViewModel
     {
-        private Work _work;
+        protected new Work _work;
         public Work Work
         {
             get { return _work; }
@@ -26,17 +26,29 @@ namespace Staff_time.ViewModel
                 SetField<Work>(ref _work, value);
             }
         }
+        protected ObservableCollection<AttrValueExtended> _attrValues;
+        public ObservableCollection<AttrValueExtended> AttrValues
+        {
+            get { return _attrValues; }
+            set
+            {
+                SetField<ObservableCollection<AttrValueExtended>>(ref _attrValues, value);
+            }
+        }
 
         abstract public void DeleteWork();
         abstract public void UpdateWork();
 
-        private Boolean _isEditing; //false = edit
+        protected Boolean _isEditing; //false = edit
         public Boolean IsEdititig
         {
             get { return _isEditing; }
             set
             {
                 SetField(ref _isEditing, value);
+
+                foreach (var v in AttrValues)
+                    v.IsEditing = value;
             }
         }
     }
