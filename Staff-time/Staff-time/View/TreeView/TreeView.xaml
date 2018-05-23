@@ -30,23 +30,20 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="7.5*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <local:ExtendedTreeView SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}" Grid.Row="0" ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
 
-        <ScrollViewer Grid.Row="1" Margin="3"  BorderThickness="3" BorderBrush="LightGray" >
-            <StackPanel>
-                <Button Content="Добавить работу" Command="{Binding AddWorkCommand}"></Button>
-                <Expander Header="Редактор задач" IsExpanded="False">
-                    <StackPanel>
-                        <Button Grid.Row="0" Grid.Column="0" Content="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}"></Button>
-                        <Button Grid.Row="0" Grid.Column="1" Content="Добавить подзадачу" Command="{Binding AddChildTaskCommand}"></Button>
-                        <Button Grid.Row="1" Grid.Column="0" IsEnabled="False"></Button>
-                        <Button Grid.Row="1" Grid.Column="1" IsEnabled="False"></Button>
-                    </StackPanel>
-                </Expander>
+        <StackPanel  Grid.Row="1" Margin="3">
+            <StackPanel Orientation="Horizontal">
+                <Button FontSize="10" Content="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}"></Button>
+                <Button FontSize="10" Content="Добавить подзадачу" Command="{Binding AddChildTaskCommand}"></Button>
             </StackPanel>
-        </ScrollViewer>
+            <StackPanel Orientation="Horizontal">
+                <Button FontSize="10" Content="Удалить задачу" IsEnabled="False"></Button>
+                <Button FontSize="10" Content="Редактировать задачу" IsEnabled="False"></Button>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>
