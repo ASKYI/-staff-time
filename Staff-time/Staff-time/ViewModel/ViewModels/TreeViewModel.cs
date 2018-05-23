@@ -21,6 +21,7 @@ namespace Staff_time.ViewModel
             _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
             _addWorkCommand = new RelayCommand(AddWork, CanAddWork);
             _addNearTaskCommand = new RelayCommand(AddNearTask, CanAddNearTask);
+            _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
         }
 
         #region Tree Data
@@ -123,6 +124,31 @@ namespace Staff_time.ViewModel
         {
             Task newTask = new Task();
             newTask.ParentTaskID = SelectedTask.Task.ParentTaskID;
+            newTask.TaskName = "Новая задача";
+            taskWork.Create_Task(newTask);
+            newTask.TaskName = "Новая работа";
+
+            _generateTree_tracker = false;
+            _generate_TreeNodesDictionary();
+            _generate_Tree();
+        }
+        private readonly ICommand _addChildTaskCommand;
+        public ICommand AddChildTaskCommand
+        {
+            get
+            {
+                return _addChildTaskCommand;
+            }
+        }
+
+        private bool CanAddChildTask(object obj)
+        {
+            return true;
+        }
+        private void AddChildTask(object obj)
+        {
+            Task newTask = new Task();
+            newTask.ParentTaskID = SelectedTask.Task.ID;
             newTask.TaskName = "Новая задача";
             taskWork.Create_Task(newTask);
             newTask.TaskName = "Новая работа";
