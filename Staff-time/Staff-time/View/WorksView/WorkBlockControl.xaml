@@ -91,12 +91,12 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Дата начала работы: " Grid.Column="0"></TextBlock>
+                <TextBlock Text="Дата: " Grid.Column="0"></TextBlock>
                 <DatePicker Grid.Column="1" IsDropDownOpen="False" 
                             SelectedDate="{Binding WorkInBlock.WorkControlDataContext.Work.StartDate}"
                             IsEnabled="{Binding IsEnabled}"></DatePicker>
             </Grid>
-            <Grid Margin="2">
+            <!--<Grid Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -105,7 +105,7 @@
                 <DatePicker Grid.Column="1" IsDropDownOpen="False" 
                             SelectedDate="{Binding WorkInBlock.WorkControlDataContext.Work.EndDate}"
                             IsEnabled="{Binding IsEnabled}"></DatePicker>
-            </Grid>
+            </Grid>-->
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
