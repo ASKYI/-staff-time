@@ -20,16 +20,7 @@ namespace Staff_time.ViewModel
         public WorkError_ControlViewModel(Work work)
         {
             Work = (WorkError)work;
-        }
-
-        private new WorkError _work;
-        public new WorkError Work
-        {
-            get { return _work; }
-            set
-            {
-                SetField<WorkError>(ref _work, value);
-            }
+            _generate_AttrValues();
         }
 
         public override void DeleteWork()

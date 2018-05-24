@@ -21,17 +21,9 @@ namespace Staff_time.ViewModel
         public WorkConsultationsByPhone_ControlViewModel(Work work)
         {
             Work = (WorkConsultationsByPhone)work;
+            _generate_AttrValues();
         }
 
-        private new WorkConsultationsByPhone _work;
-        public new WorkConsultationsByPhone Work
-        {
-            get { return _work; }
-            set
-            {
-                SetField<WorkConsultationsByPhone>(ref _work, value);
-            }
-        }
 
         public override void DeleteWork()
         {

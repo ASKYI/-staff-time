@@ -20,16 +20,7 @@ namespace Staff_time.ViewModel
         public WorkPatch_ControlViewModel(Work work)
         {
             Work = (WorkPatch)work;
-        }
-
-        private new WorkPatch _work;
-        public new WorkPatch Work
-        {
-            get { return _work; }
-            set
-            {
-                SetField<WorkPatch>(ref _work, value);
-            }
+            _generate_AttrValues();
         }
 
         public override void DeleteWork()

@@ -23,16 +23,6 @@ namespace Staff_time.ViewModel
             _generate_AttrValues();
         }
 
-        private void _generate_AttrValues()
-        {
-            AttrValues = new ObservableCollection<AttrValueExtended>();
-            List<AttrValue> values = attrWork.Read_AttrValues_ForWork(Work);
-            foreach(var v in values)
-            {
-                AttrValues.Add(new AttrValueExtended(IsEdititig, v));
-            }
-        }
-
         public override void DeleteWork()
         {
             workWork.Delete_Work(Work.ID);

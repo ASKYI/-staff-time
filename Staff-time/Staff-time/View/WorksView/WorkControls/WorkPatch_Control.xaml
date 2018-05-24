@@ -4,10 +4,52 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Staff_time.View"
+             
+             xmlns:vm="clr-namespace:Staff_time.ViewModel"
+             xmlns:m="clr-namespace:Staff_time.Model"
+             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Expander Header="Здесь будут свойства" BorderBrush="Black" BorderThickness="0.5" Margin="1">
+    <UserControl.Resources>
+        <Style x:Key="TextBoxStyle"  TargetType="TextBox">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding AttrValue.DataType}" Value="0">
+                    <!--TypeText-->
+                    <Setter Property="Text" Value="{Binding AttrValue.ValueText}"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding AttrValue.DataType}" Value="1">
+                    <!--TypeInt-->
+                    <Setter Property="Text" Value="{Binding AttrValue.ValueText}"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding AttrValue.DataType}" Value="2">
+                    <!--TypeDate-->
+                    <Setter Property="Text" Value="{Binding AttrValue.ValueText}"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding AttrValue.DataType}" Value="3">
+                    <!--TypeTime-->
+                    <Setter Property="Text" Value="{Binding AttrValue.ValueText}"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <DataTemplate DataType="{x:Type vm:AttrValueExtended}">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding AttrValue.Attribute.Name}" Grid.Column="0"></TextBlock>
+                    <TextBox IsReadOnly="{Binding IsEditing}" Grid.Column="1" BorderBrush="White"
+                             Style="{StaticResource TextBoxStyle}"></TextBox>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+    </UserControl.Resources>
+    <Expander Header="Другие атрибуты" BorderBrush="Black" BorderThickness="0.5" Margin="1">
         <StackPanel>
+            <ItemsControl ItemsSource="{Binding AttrValues}"></ItemsControl>
         </StackPanel>
     </Expander>
 </UserControl>

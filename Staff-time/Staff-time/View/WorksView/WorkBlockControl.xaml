@@ -39,6 +39,16 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="ChangeButtonStyle" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsChangingType}" Value="True">
+                    <Setter Property="Background" Value="LightGray"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsChangingType}" Value="False">
+                    <Setter Property="Background" Value="LightCoral"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
 
         <DataTemplate DataType="{x:Type vm:WorkInBlock}" >
             <local:WorkControl DataContext="{Binding WorkControlDataContext}"></local:WorkControl>
@@ -115,9 +125,10 @@
                 <ComboBox Grid.Column="1"
                           ItemsSource="{Binding Path=WorkTypesCb}"
                           DisplayMemberPath="TypeName"
-                          SelectedIndex="{Binding SelectedWorkTypeIndex}">
+                          SelectedIndex="{Binding SelectedWorkTypeIndex}"
+                          IsEnabled="{Binding IsEnabledCbx}">
                 </ComboBox>
-                <Button Content="Изменить тип" IsEnabled="False" Grid.Column="2"></Button>
+                <Button Content="Изменить тип" Command="{Binding ChangeTypeCommand}" Grid.Column="2" Style="{StaticResource ChangeButtonStyle}"></Button>
             </Grid>
 
             <ItemsControl ItemsSource="{Binding WorkInThisBlock}"></ItemsControl>

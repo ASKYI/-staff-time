@@ -40,6 +40,7 @@ namespace Staff_time.ViewModel
             get { return _attrValue; }
             set
             {
+
                 SetField(ref _attrValue, value);
             }
         }

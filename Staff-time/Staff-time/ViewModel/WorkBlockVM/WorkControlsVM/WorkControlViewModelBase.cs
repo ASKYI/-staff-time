@@ -35,6 +35,15 @@ namespace Staff_time.ViewModel
                 SetField<ObservableCollection<AttrValueExtended>>(ref _attrValues, value);
             }
         }
+        protected void _generate_AttrValues()
+        {
+            AttrValues = new ObservableCollection<AttrValueExtended>();
+            List<AttrValue> values = attrWork.Read_AttrValues_ForWork(Work);
+            foreach (var v in values)
+            {
+                AttrValues.Add(new AttrValueExtended(IsEdititig, v));
+            }
+        }
 
         abstract public void DeleteWork();
         abstract public void UpdateWork();

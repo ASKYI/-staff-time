@@ -25,6 +25,7 @@ namespace Staff_time.View
         {
             InitializeComponent();
             DataContext = workspaceVM;
+
         }
     }
 }

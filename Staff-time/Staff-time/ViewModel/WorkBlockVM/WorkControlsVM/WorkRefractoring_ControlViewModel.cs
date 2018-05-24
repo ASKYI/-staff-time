@@ -19,15 +19,7 @@ namespace Staff_time.ViewModel
         public WorkRefractoring_ControlViewModel(Work work)
         {
             Work = (WorkRefractoring)work;
-        }
-        private new WorkRefractoring _work;
-        public new WorkRefractoring Work
-        {
-            get { return _work; }
-            set
-            {
-                SetField<WorkRefractoring>(ref _work, value);
-            }
+            _generate_AttrValues();
         }
 
         public override void DeleteWork()

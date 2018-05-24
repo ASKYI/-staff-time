@@ -19,11 +19,14 @@ namespace Staff_time.ViewModel
     {
         public WorkBlockControlViewModel(Work work)
         {
+            IsChangingType = true; IsEnabledCbx = false;
+
             _generate_WorkInBlock(work);
             _generate_WorkTypesCb();
+            WorkInBlock.WorkControlDataContext.IsEdititig = true;
             SelectedWorkTypeIndex = work.WorkTypeID;
 
-            WorkInBlock.WorkControlDataContext.IsEdititig = true;
+            _changeTypeCommand = new RelayCommand(ChangeType, CanChangeType);
             _editCommand = new RelayCommand(Edit, CanEdit);
             _deleteCommand = new RelayCommand(Delete, CanDelete);
         }
@@ -77,6 +80,7 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField<int>(ref _selectedWorkTypeIndex, value);
+                ChangeWorkType();
             }
         }
         private ObservableCollection<WorkType> _workTypesCb;
@@ -94,6 +98,61 @@ namespace Staff_time.ViewModel
             foreach (var t in WorkTypes)
             {
                 WorkTypesCb.Add(t);
+            }
+        }
+
+        private Boolean _isChangingType;
+        public Boolean IsChangingType
+        {
+            get { return _isChangingType; }
+            set
+            {
+                SetField(ref _isChangingType, value);
+            }
+        }
+        private Boolean _isEnabledCbx;
+        public Boolean IsEnabledCbx
+        {
+            get { return _isEnabledCbx; }
+            set
+            {
+                SetField<Boolean>(ref _isEnabledCbx, value);
+            }
+        }
+        private readonly ICommand _changeTypeCommand;
+        public ICommand ChangeTypeCommand
+        {
+            get
+            {
+                return _changeTypeCommand;
+            }
+        }
+        private bool CanChangeType(object obj)
+        {
+            return true;
+        }
+        private void ChangeType(object obj)
+        {
+            if (!IsChangingType)
+            {
+                IsEnabledCbx = false;
+                IsChangingType = true;
+            }
+            else
+            {
+                IsEnabledCbx =  true;
+                IsChangingType = false;
+            }
+        }
+        void ChangeWorkType()
+        {
+            if (!IsChangingType)
+            {
+                WorkInBlock.WorkControlDataContext.Work.WorkTypeID = SelectedWorkTypeIndex;
+
+                WorkInBlock.WorkControlDataContext.UpdateWork();
+
+                MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
             }
         }
         #endregion
