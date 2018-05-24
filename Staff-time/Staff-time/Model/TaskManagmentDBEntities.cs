@@ -113,7 +113,8 @@ namespace Staff_time.Model
         {
             Delete_AttrValuesFields_ForWork(workID); //Удаление атрибутов работы
             var workDB = Works.Where(x => x.ID == workID).FirstOrDefault();
-            Works.Remove(workDB);
+            if (workDB != null)
+                Works.Remove(workDB);
             SaveChanges();
         }
         #endregion

@@ -118,15 +118,15 @@ namespace Staff_time.ViewModel
 
         private bool CanAddNearTask(object obj)
         {
-            return SelectedTask != null;
+            return true;
         }
         private void AddNearTask(object obj)
         {
             Task newTask = new Task();
-            newTask.ParentTaskID = SelectedTask.Task.ParentTaskID;
+            if (SelectedTask != null)
+                newTask.ParentTaskID = SelectedTask.Task.ParentTaskID;
             newTask.TaskName = "Новая задача";
             taskWork.Create_Task(newTask);
-            newTask.TaskName = "Новая работа";
 
             _generateTree_tracker = false;
             _generate_TreeNodesDictionary();

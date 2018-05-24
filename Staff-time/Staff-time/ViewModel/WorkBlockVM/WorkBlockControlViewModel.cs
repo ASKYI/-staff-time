@@ -59,7 +59,11 @@ namespace Staff_time.ViewModel
             WorkInThisBlock = new ObservableCollection<WorkInBlock>();
             WorkInThisBlock.Add((WorkInBlock)WorkInBlock);
 
-            Path = generate_PathFotTask(TaskNodesDictionary[WorkInBlock.WorkControlDataContext.Work.TaskID]);
+            int taskId = WorkInBlock.WorkControlDataContext.Work.TaskID;
+            if (TaskNodesDictionary.ContainsKey(taskId))
+                Path = generate_PathFotTask(TaskNodesDictionary[WorkInBlock.WorkControlDataContext.Work.TaskID]);
+            else
+                Path = "Ошибка пути";
         }
 
         private string _path;

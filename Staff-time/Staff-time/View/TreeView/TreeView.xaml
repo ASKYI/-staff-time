@@ -30,12 +30,13 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="7.5*"></RowDefinition>
+            <RowDefinition Height="4.5*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <local:ExtendedTreeView SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}" Grid.Row="0" ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
 
         <StackPanel  Grid.Row="1" Margin="3">
+            <Button Content="Добавить работу" Command="{Binding AddWorkCommand}" FontSize="10" Background="White"></Button>
             <StackPanel Orientation="Horizontal">
                 <Button FontSize="10" Content="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}"></Button>
                 <Button FontSize="10" Content="Добавить подзадачу" Command="{Binding AddChildTaskCommand}"></Button>
