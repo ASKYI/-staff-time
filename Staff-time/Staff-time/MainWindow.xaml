@@ -9,15 +9,17 @@
         Title="" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2.5*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="2.5*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="7*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="7*"></RowDefinition>
         </Grid.RowDefinitions>
-        <view:Workspace Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></view:Workspace>
-        <view:TreeView Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"></view:TreeView>
+        <view:TreeView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></view:TreeView>
+        <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="3" BorderBrush="Gray" BorderThickness="2">
+            <view:Workspace ></view:Workspace>
+        </Border>
         <!--<view:FaveView Grid.Column="1" Grid.Row="1"></view:FaveView>-->
     </Grid>
 </Window>

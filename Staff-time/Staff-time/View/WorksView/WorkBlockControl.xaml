@@ -67,7 +67,7 @@
         </DataTemplate>
 
     </UserControl.Resources>
-    <Expander Margin="3"  Header="{Binding WorkInBlock.WorkControlDataContext.Work.WorkName}" Padding="5" BorderThickness="3" 
+    <Expander Margin="3"  Header="{Binding Path}" Padding="5" BorderThickness="3" 
               IsExpanded="False" Style="{StaticResource ExpanderStyle}">
         <StackPanel>
             <Grid Margin="2">
@@ -76,16 +76,16 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Имя работы: " Grid.Column="0"></TextBlock>
-                <TextBox IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.WorkName}" Grid.Column="1" BorderBrush="White"></TextBox>
+                <TextBox  TextWrapping="Wrap" IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.WorkName}" Grid.Column="1" BorderBrush="White"></TextBox>
             </Grid>
-            <Grid Margin="2">
+            <!--<Grid Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Путь к задаче: " Grid.Column="0"></TextBlock>
-                <TextBox IsReadOnly="True" Text="{Binding Path}" Grid.Column="1" BorderBrush="White"></TextBox>
-            </Grid>
+                <TextBox  TextWrapping="Wrap" IsReadOnly="True" Text="{Binding Path}" Grid.Column="1" BorderBrush="White"></TextBox>
+            </Grid>-->
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -112,7 +112,7 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Время работы (в минутах): " Grid.Column="0"></TextBlock>
-                <TextBox IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.Minutes}" Grid.Column="1" BorderBrush="White"></TextBox>
+                <TextBox TextWrapping="Wrap" IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.Minutes}" Grid.Column="1" BorderBrush="White"></TextBox>
             </Grid>
             <Separator Height="3"></Separator>
             <Grid Margin="2">
@@ -121,6 +121,7 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="100"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
+                
                 <TextBlock Text="Тип работы: " Grid.Column="0"></TextBlock>
                 <ComboBox Grid.Column="1"
                           ItemsSource="{Binding Path=WorkTypesCb}"

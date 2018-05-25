@@ -87,13 +87,27 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2.5*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="0.75*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <local:ExtendedTreeView SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" Grid.Row="0" ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
+        <Border  Grid.Row="0" Margin="3" BorderBrush="Gray" BorderThickness="2">
+            <local:ExtendedTreeView SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" Grid.Row="0" ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
+        </Border>
 
         <Border  Grid.Row="1" Margin="3" BorderBrush="Gray" BorderThickness="2">
+            <StackPanel>
+                <Button Content="Добавить работу" Command="{Binding AddWorkCommand}" FontSize="10" Background="White"></Button>
+                <StackPanel Orientation="Horizontal">
+                    <Button FontSize="10" Content="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}"></Button>
+                    <Button FontSize="10" Content="Добавить подзадачу" Command="{Binding AddChildTaskCommand}"></Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button FontSize="10" Command="{Binding DeleteTaskCommand}" Content="Удалить задачу"></Button>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <Border  Grid.Row="2" Margin="3" BorderBrush="Gray" BorderThickness="2">
             <StackPanel>
                 <Grid Margin="2">
                     <Grid.ColumnDefinitions>
@@ -125,28 +139,15 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="100"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Тип задачи: " Grid.Column="0"></TextBlock>
-                    <ComboBox Grid.Column="1"
+                    <TextBlock FontSize="10"  Text="Тип задачи: " Grid.Column="0"></TextBlock>
+                    <ComboBox FontSize="10" Grid.Column="1"
                           ItemsSource="{Binding Path=TaskTypesCb}"
                           DisplayMemberPath="TypeName"
                           SelectedIndex="{Binding SelectedTaskTypeIndex}"
                           IsEnabled="{Binding IsEnabledCbx}">
                     </ComboBox>
-                    <Button Content="Изменить тип" Command="{Binding ChangeTypeCommand}" Grid.Column="2" Style="{StaticResource ChangeButtonStyle}"></Button>
+                    <Button FontSize="10"  Content="Изменить тип" Command="{Binding ChangeTypeCommand}" Grid.Column="2" Style="{StaticResource ChangeButtonStyle}"></Button>
                 </Grid>
-            </StackPanel>
-        </Border>
-
-        <Border  Grid.Row="2" Margin="3" BorderBrush="Gray" BorderThickness="2">
-            <StackPanel>
-                <Button Content="Добавить работу" Command="{Binding AddWorkCommand}" FontSize="10" Background="White"></Button>
-                <StackPanel Orientation="Horizontal">
-                    <Button FontSize="10" Content="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}"></Button>
-                    <Button FontSize="10" Content="Добавить подзадачу" Command="{Binding AddChildTaskCommand}"></Button>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button FontSize="10" Command="{Binding DeleteTaskCommand}" Content="Удалить задачу"></Button>
-                </StackPanel>
             </StackPanel>
         </Border>
     </Grid>
