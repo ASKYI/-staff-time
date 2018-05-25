@@ -18,6 +18,7 @@ namespace Staff_time.ViewModel
             _generate_Tree();
             _generate_TaskTypesCb();
             SelectedTaskNode = null;
+            EditTask = null;
             IsEnabled = false; IsEditing = true; IsChangingType = true;
 
             _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
@@ -59,6 +60,8 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField<TreeNode>(ref _selectedTaskNode, value);
+                if (value != null)
+                    EditTask = value.Task;
             }
         }
 
@@ -185,6 +188,16 @@ namespace Staff_time.ViewModel
         }
         #endregion
         #region Edit Task
+        private Task _editTask;
+        public Task EditTask
+        {
+            get { return _editTask; }
+            set
+            {
+                SetField(ref _editTask, value);
+            }
+        }
+
         private Boolean _isEnabled;
         public Boolean IsEnabled
         {
@@ -219,15 +232,15 @@ namespace Staff_time.ViewModel
         {
             if (!IsEditing)
             {
-                if (SelectedTaskNode.Task.ParentTaskID == 0)
-                    SelectedTaskNode.Task.ParentTaskID = null;
-                if (SelectedTaskNode.Task.ParentTaskID != null)
+                if (EditTask.ParentTaskID == 0)
+                    EditTask.ParentTaskID = null;
+                if (EditTask.ParentTaskID != null)
                 {
-                    if (TaskNodesDictionary.ContainsKey((int)SelectedTaskNode.Task.ParentTaskID))
-                        taskWork.Update_Task(SelectedTaskNode.Task);
+                    if (TaskNodesDictionary.ContainsKey((int)EditTask.ParentTaskID))
+                        taskWork.Update_Task(EditTask);
                 }
                 else
-                    taskWork.Update_Task(SelectedTaskNode.Task);
+                    taskWork.Update_Task(EditTask);
                 IsEditing = true;
                 IsEnabled = false;
 
