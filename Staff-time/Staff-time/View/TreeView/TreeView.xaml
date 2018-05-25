@@ -18,16 +18,6 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="ChangeButtonStyle" TargetType="Button">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsChangingType}" Value="True">
-                    <Setter Property="Background" Value="LightGray"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding IsChangingType}" Value="False">
-                    <Setter Property="Background" Value="LightCoral"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="LightGreen" BorderThickness="2">
@@ -123,7 +113,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock FontSize="10" Text="Имя задачи: " Grid.Column="0"></TextBlock>
-                    <TextBox FontSize="10" IsReadOnly="{Binding IsEditing}"  Text="{Binding SelectedTaskNode.Task.TaskName}" Grid.Column="1" BorderBrush="White"></TextBox>
+                    <TextBox FontSize="10" IsReadOnly="{Binding IsEditing}" Text="{Binding EditTask.TaskName}" Grid.Column="1" BorderBrush="White"></TextBox>
                 </Grid>
                 <Grid Margin="2">
                     <Grid.ColumnDefinitions>
@@ -131,7 +121,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock FontSize="10" Text="Задача-родитель ID: " Grid.Column="0"></TextBlock>
-                    <TextBox FontSize="10" IsReadOnly="{Binding IsEditing}"  Text="{Binding SelectedTaskNode.Task.ParentTaskID}" Grid.Column="1" BorderBrush="White"></TextBox>
+                    <TextBox FontSize="10" IsReadOnly="{Binding IsEditing}" Text="{Binding EditTask.ParentTaskID}" Grid.Column="1" BorderBrush="White"></TextBox>
                 </Grid>
                 <Grid Margin="2">
                     <Grid.ColumnDefinitions>
@@ -144,9 +134,8 @@
                           ItemsSource="{Binding Path=TaskTypesCb}"
                           DisplayMemberPath="TypeName"
                           SelectedIndex="{Binding SelectedTaskTypeIndex}"
-                          IsEnabled="{Binding IsEnabledCbx}">
+                          IsEnabled="{Binding IsEnabled}">
                     </ComboBox>
-                    <Button FontSize="10"  Content="Изменить тип" Command="{Binding ChangeTypeCommand}" Grid.Column="2" Style="{StaticResource ChangeButtonStyle}"></Button>
                 </Grid>
             </StackPanel>
         </Border>

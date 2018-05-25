@@ -205,9 +205,11 @@ namespace Staff_time.ViewModel
         {
             if (!WorkInBlock.WorkControlDataContext.IsEdititig)
             {
+                WorkInBlock.WorkControlDataContext.Work.WorkTypeID = SelectedWorkTypeIndex;
                 WorkInBlock.WorkControlDataContext.UpdateWork();
                 WorkInBlock.WorkControlDataContext.IsEdititig = true;
                 IsEnabled = false;
+                MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
             }
             else
             {

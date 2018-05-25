@@ -127,9 +127,9 @@
                           ItemsSource="{Binding Path=WorkTypesCb}"
                           DisplayMemberPath="TypeName"
                           SelectedIndex="{Binding SelectedWorkTypeIndex}"
-                          IsEnabled="{Binding IsEnabledCbx}">
+                          IsEnabled="{Binding IsEnabled}">
                 </ComboBox>
-                <Button Content="Изменить тип" Command="{Binding ChangeTypeCommand}" Grid.Column="2" Style="{StaticResource ChangeButtonStyle}"></Button>
+                <!--<Button Content="Изменить тип" Command="{Binding ChangeTypeCommand}" Grid.Column="2" Style="{StaticResource ChangeButtonStyle}"></Button>-->
             </Grid>
 
             <ItemsControl ItemsSource="{Binding WorkInThisBlock}"></ItemsControl>

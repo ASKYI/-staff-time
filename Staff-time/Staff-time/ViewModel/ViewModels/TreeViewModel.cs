@@ -19,15 +19,14 @@ namespace Staff_time.ViewModel
             _generate_TaskTypesCb();
             SelectedTaskNode = null;
             EditTask = null;
-            IsEnabled = false; IsEditing = true; IsChangingType = true;
+            IsEnabled = false; IsEditing = true;
 
-            _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
+         //   _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
             _addWorkCommand = new RelayCommand(AddWork, CanAddWork);
             _addNearTaskCommand = new RelayCommand(AddNearTask, CanAddNearTask);
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
             _editCommand = new RelayCommand(Edit, CanEdit);
-            _changeTypeCommand = new RelayCommand(ChangeType, CanChangeType);
         }
 
         #region Tree Data
@@ -61,7 +60,9 @@ namespace Staff_time.ViewModel
             {
                 SetField<TreeNode>(ref _selectedTaskNode, value);
                 if (value != null)
-                    EditTask = value.Task;
+                    EditTask = _selectedTaskNode.Task;
+                if (_selectedTaskNode != null)
+                    SelectedTaskTypeIndex = _selectedTaskNode.Task.TaskTypeID;
             }
         }
 
@@ -77,13 +78,6 @@ namespace Staff_time.ViewModel
         private bool CanSelectTask(object obj)
         {
             return true;
-        }
-        private void SelectTask(object obj)
-        {
-            MessengerInstance.Register<NotificationMessage<TreeNode>>(this, (selectedTask) =>
-            {
-
-            });
         }
         #endregion
         #region Add Work
@@ -231,13 +225,15 @@ namespace Staff_time.ViewModel
         private void Edit(object obj)
         {
             if (!IsEditing)
-            {
+            {               
+                EditTask.TaskTypeID = SelectedTaskTypeIndex;
                 if (EditTask.ParentTaskID == 0)
                     EditTask.ParentTaskID = null;
                 if (EditTask.ParentTaskID != null)
                 {
-                    if (TaskNodesDictionary.ContainsKey((int)EditTask.ParentTaskID))
-                        taskWork.Update_Task(EditTask);
+                    if (SelectedTaskNode.Task.ID != EditTask.ParentTaskID)
+                        if (TaskNodesDictionary.ContainsKey((int)EditTask.ParentTaskID))
+                            taskWork.Update_Task(EditTask);
                 }
                 else
                     taskWork.Update_Task(EditTask);
@@ -263,7 +259,6 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField<int>(ref _selectedTaskTypeIndex, value);
-                ChangeWorkType();
             }
         }
         private ObservableCollection<TaskType> _taskTypesCb;
@@ -281,62 +276,6 @@ namespace Staff_time.ViewModel
             foreach (var t in TaskTypes)
             {
                 TaskTypesCb.Add(t);
-            }
-        }
-
-        private Boolean _isChangingType;
-        public Boolean IsChangingType
-        {
-            get { return _isChangingType; }
-            set
-            {
-                SetField(ref _isChangingType, value);
-            }
-        }
-        private Boolean _isEnabledCbx;
-        public Boolean IsEnabledCbx
-        {
-            get { return _isEnabledCbx; }
-            set
-            {
-                SetField<Boolean>(ref _isEnabledCbx, value);
-            }
-        }
-        private readonly ICommand _changeTypeCommand;
-        public ICommand ChangeTypeCommand
-        {
-            get
-            {
-                return _changeTypeCommand;
-            }
-        }
-        private bool CanChangeType(object obj)
-        {
-            return SelectedTaskNode != null;
-        }
-        private void ChangeType(object obj)
-        {
-            if (!IsChangingType)
-            {
-                IsEnabledCbx = false;
-                IsChangingType = true;
-            }
-            else
-            {
-                IsEnabledCbx = true;
-                IsChangingType = false;
-            }
-        }
-        void ChangeWorkType()
-        {
-            if (!IsChangingType)
-            {
-                SelectedTaskNode.Task.TaskTypeID = SelectedTaskTypeIndex;
-                taskWork.Update_Task(SelectedTaskNode.Task);
-
-                _generateTree_tracker = false;
-                _generate_TreeNodesDictionary();
-                _generate_Tree();
             }
         }
         #endregion
