@@ -22,6 +22,7 @@ namespace Staff_time.ViewModel
             _addWorkCommand = new RelayCommand(AddWork, CanAddWork);
             _addNearTaskCommand = new RelayCommand(AddNearTask, CanAddNearTask);
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
+            _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
         }
 
         #region Tree Data
@@ -156,6 +157,31 @@ namespace Staff_time.ViewModel
             _generateTree_tracker = false;
             _generate_TreeNodesDictionary();
             _generate_Tree();
+        }
+        #endregion
+
+        #region Delete Task
+        private readonly ICommand _deleteTaskCommand;
+        public ICommand DeleteTaskCommand
+        {
+            get
+            {
+                return _deleteTaskCommand;
+            }
+        }
+
+        private bool CanDelteTask(object obj)
+        {
+            return SelectedTask != null;
+        }
+        private void DeleteTask(object obj)
+        {
+            taskWork.Delete_Task(SelectedTask.Task.ID);
+
+            _generateTree_tracker = false;
+            _generate_TreeNodesDictionary();
+            _generate_Tree();
+            MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
         }
         #endregion
     }

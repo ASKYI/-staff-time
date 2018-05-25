@@ -9,23 +9,23 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}" ItemsSource="{Binding TreeNodes}">
-            <TextBlock Text="{Binding Task.TaskName}" Background="LightGreen"></TextBlock>
+            <TextBox IsReadOnly="False" Text="{Binding Task.TaskName}" Background="LightGreen"></TextBox>
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
-            <TextBlock Text="{Binding Task.TaskName}" Background="Azure"></TextBlock>
+            <TextBox IsReadOnly="False" Text="{Binding Task.TaskName}" Background="Azure"></TextBox>
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}" ItemsSource="{Binding TreeNodes}">
-            <TextBlock Text="{Binding Task.TaskName}" Background="LightGoldenrodYellow"></TextBlock>
+            <TextBox IsReadOnly="False" Text="{Binding Task.TaskName}" Background="LightGoldenrodYellow"></TextBox>
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}" ItemsSource="{Binding TreeNodes}">
-            <TextBlock Text="{Binding Task.TaskName}" Background="LightYellow"></TextBlock>
+            <TextBox IsReadOnly="False" Text="{Binding Task.TaskName}" Background="LightYellow"></TextBox>
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNode}" ItemsSource="{Binding TreeNodes}">
-            <TextBlock Text="{Binding Task.TaskName}" Background="LightGray"></TextBlock>
+            <TextBox IsReadOnly="False" Text="{Binding Task.TaskName}" Background="LightGray"></TextBox>
         </HierarchicalDataTemplate>
     </UserControl.Resources>
     <Grid>
@@ -42,7 +42,7 @@
                 <Button FontSize="10" Content="Добавить подзадачу" Command="{Binding AddChildTaskCommand}"></Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button FontSize="10" Content="Удалить задачу" IsEnabled="False"></Button>
+                <Button FontSize="10" Command="{Binding DeleteTaskCommand}" Content="Удалить задачу"></Button>
                 <Button FontSize="10" Content="Редактировать задачу" IsEnabled="False"></Button>
             </StackPanel>
         </StackPanel>

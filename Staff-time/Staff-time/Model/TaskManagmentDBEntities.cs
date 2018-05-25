@@ -48,9 +48,26 @@ namespace Staff_time.Model
         {
             throw new NotImplementedException();
         }
+        //Удаление задачи. Родителем потомка становятся родитель удаляемой задачи, работы удаляются.
         public void Delete_Task(int taskID)
         {
-            throw new NotImplementedException();
+            Task taskBD = Tasks.Where(t => t.ID == taskID).FirstOrDefault();
+
+            List<Task> childTasksBD = (from t in Tasks where t.ParentTaskID == taskID select t).ToList();
+            foreach (var t in childTasksBD) {
+                //  if (taskBD.ParentTaskID != null)
+                t.ParentTaskID = taskBD.ParentTaskID;
+            }
+
+            List<Work> worksBD = (from w in Works where w.TaskID == taskID select w).ToList();
+            //Works.RemoveRange(worksBD);
+            foreach (var w in worksBD) {
+                Delete_AttrValuesFields_ForWork(w.ID);
+                Works.Remove(w);
+            }
+
+            Tasks.Remove(taskBD);
+            SaveChanges();
         }
         public void Delete_TaskFromFave(int taskID)
         {
