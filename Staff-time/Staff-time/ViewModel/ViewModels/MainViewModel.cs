@@ -40,6 +40,7 @@ namespace Staff_time.ViewModel
             
             _generate_TreeNodesDictionary();
             _generate_WorkTypes();
+            _generate_TaskTypes();
         }
 
         #region Current Users, Date
@@ -154,6 +155,23 @@ namespace Staff_time.ViewModel
             {
                 WorkTypes.Add(t);
             } 
+        }
+        #endregion
+        #region TaskTypes
+        public static ObservableCollection<TaskType> TaskTypes;
+
+        private static bool _generateTaskTypes_tracker = false;
+        private static void _generate_TaskTypes()
+        {
+            if (_generateTaskTypes_tracker)
+                return;
+            _generateTaskTypes_tracker = true;
+
+            TaskTypes = new ObservableCollection<TaskType>();
+            foreach (var t in _context.TaskTypes)
+            {
+                TaskTypes.Add(t);
+            }
         }
         #endregion
         /*     #region TODO: Move to model

@@ -27,7 +27,7 @@ namespace Staff_time.Model
             throw new NotImplementedException();
         }
 
-        //Возвращает список правильно созданных (верный тип) задач 
+        //Возвращает список правильно созданных (верный тип) задач
         public List<Task> Read_AllTasks() 
         {
             List<Task> tasks = new List<Task>();
@@ -44,9 +44,11 @@ namespace Staff_time.Model
         {
             return (from t in UserTasks where t.UserID == userID select t.TaskID).ToList();
         }
+        //Изменение задачи
         public void Update_Task(Task task)
         {
-            throw new NotImplementedException();
+            Tasks.AddOrUpdate(task);
+            SaveChanges();
         }
         //Удаление задачи. Родителем потомка становятся родитель удаляемой задачи, работы удаляются.
         public void Delete_Task(int taskID)

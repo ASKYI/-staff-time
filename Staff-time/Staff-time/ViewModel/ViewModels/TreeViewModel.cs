@@ -16,13 +16,15 @@ namespace Staff_time.ViewModel
         public TreeViewModel() : base()
         {
             _generate_Tree();
-            SelectedTask = null;
+            SelectedTaskNode = null;
+            IsEnabled = false; IsEditing = true;
 
             _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
             _addWorkCommand = new RelayCommand(AddWork, CanAddWork);
             _addNearTaskCommand = new RelayCommand(AddNearTask, CanAddNearTask);
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
+            _editCommand = new RelayCommand(Edit, CanEdit);
         }
 
         #region Tree Data
@@ -47,15 +49,14 @@ namespace Staff_time.ViewModel
             }
         }
         #endregion
-
         #region Select Task
-        private TreeNode _selectedTask;
-        public TreeNode SelectedTask
+        private TreeNode _selectedTaskNode;
+        public TreeNode SelectedTaskNode
         {
-            get { return _selectedTask; }
+            get { return _selectedTaskNode; }
             set
             {
-                SetField<TreeNode>(ref _selectedTask, value);
+                SetField<TreeNode>(ref _selectedTaskNode, value);
             }
         }
 
@@ -80,7 +81,6 @@ namespace Staff_time.ViewModel
             });
         }
         #endregion
-
         #region Add Work
         private readonly ICommand _addWorkCommand;
         public ICommand AddWorkCommand
@@ -93,20 +93,19 @@ namespace Staff_time.ViewModel
 
         private bool CanAddWork(object obj)
         {
-            return SelectedTask != null;
+            return SelectedTaskNode != null;
         }
         private void AddWork(object obj)
         {
             Work newWork = new Work();
             newWork.WorkName = "Новая работа";
-            newWork.TaskID = SelectedTask.Task.ID;
+            newWork.TaskID = SelectedTaskNode.Task.ID;
             newWork.StartDate = CurDate.Date;
             workWork.Create_Work(newWork);
 
             MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
         }
         #endregion
-
         #region Add Task
         private readonly ICommand _addNearTaskCommand;
         public ICommand AddNearTaskCommand
@@ -124,8 +123,8 @@ namespace Staff_time.ViewModel
         private void AddNearTask(object obj)
         {
             Task newTask = new Task();
-            if (SelectedTask != null)
-                newTask.ParentTaskID = SelectedTask.Task.ParentTaskID;
+            if (SelectedTaskNode != null)
+                newTask.ParentTaskID = SelectedTaskNode.Task.ParentTaskID;
             newTask.TaskName = "Новая задача";
             taskWork.Create_Task(newTask);
 
@@ -144,12 +143,12 @@ namespace Staff_time.ViewModel
 
         private bool CanAddChildTask(object obj)
         {
-            return SelectedTask != null;
+            return SelectedTaskNode != null;
         }
         private void AddChildTask(object obj)
         {
             Task newTask = new Task();
-            newTask.ParentTaskID = SelectedTask.Task.ID;
+            newTask.ParentTaskID = SelectedTaskNode.Task.ID;
             newTask.TaskName = "Новая задача";
             taskWork.Create_Task(newTask);
             newTask.TaskName = "Новая работа";
@@ -159,7 +158,6 @@ namespace Staff_time.ViewModel
             _generate_Tree();
         }
         #endregion
-
         #region Delete Task
         private readonly ICommand _deleteTaskCommand;
         public ICommand DeleteTaskCommand
@@ -172,16 +170,159 @@ namespace Staff_time.ViewModel
 
         private bool CanDelteTask(object obj)
         {
-            return SelectedTask != null;
+            return SelectedTaskNode != null;
         }
         private void DeleteTask(object obj)
         {
-            taskWork.Delete_Task(SelectedTask.Task.ID);
+            taskWork.Delete_Task(SelectedTaskNode.Task.ID);
 
             _generateTree_tracker = false;
             _generate_TreeNodesDictionary();
             _generate_Tree();
             MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
+        }
+        #endregion
+        #region Edit Task
+        private Boolean _isEnabled;
+        public Boolean IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                SetField<Boolean>(ref _isEnabled, value);
+            }
+        }
+        private Boolean _isEditing;
+        public Boolean IsEditing
+        {
+            get { return _isEditing; }
+            set
+            {
+                SetField<Boolean>(ref _isEditing, value);
+            }
+        }
+        private readonly ICommand _editCommand;
+        public ICommand EditCommand
+        {
+            get
+            {
+                return _editCommand;
+            }
+        }
+        private bool CanEdit(object obj)
+        {
+            return SelectedTaskNode != null;
+        }
+        private void Edit(object obj)
+        {
+            if (!IsEditing)
+            {
+                if (SelectedTaskNode.Task.ParentTaskID == 0)
+                    SelectedTaskNode.Task.ParentTaskID = null;
+                if (SelectedTaskNode.Task.ParentTaskID != null)
+                {
+                    if (TaskNodesDictionary.ContainsKey((int)SelectedTaskNode.Task.ParentTaskID))
+                        taskWork.Update_Task(SelectedTaskNode.Task);
+                }
+                else
+                    taskWork.Update_Task(SelectedTaskNode.Task);
+                IsEditing = true;
+                IsEnabled = false;
+
+                _generateTree_tracker = false;
+                _generate_TreeNodesDictionary();
+                _generate_Tree();
+            }
+            else
+            {
+                IsEditing = false;
+                IsEnabled = true;
+            }
+        }
+        #endregion
+        #region Task Type
+        private int _selectedTaskTypeIndex;
+        public int SelectedTaskTypeIndex
+        {
+            get { return _selectedTaskTypeIndex; }
+            set
+            {
+                SetField<int>(ref _selectedTaskTypeIndex, value);
+                ChangeWorkType();
+            }
+        }
+        private ObservableCollection<TaskType> _taskTypesCb;
+        public ObservableCollection<TaskType> TaskTypesCb
+        {
+            get { return _taskTypesCb; }
+            set
+            {
+                SetField<ObservableCollection<TaskType>>(ref _taskTypesCb, value);
+            }
+        }
+        private void _generate_TaskTypesCb()
+        {
+            TaskTypesCb = new ObservableCollection<TaskType>();
+            foreach (var t in TaskTypes)
+            {
+                TaskTypesCb.Add(t);
+            }
+        }
+
+        private Boolean _isChangingType;
+        public Boolean IsChangingType
+        {
+            get { return _isChangingType; }
+            set
+            {
+                SetField(ref _isChangingType, value);
+            }
+        }
+        private Boolean _isEnabledCbx;
+        public Boolean IsEnabledCbx
+        {
+            get { return _isEnabledCbx; }
+            set
+            {
+                SetField<Boolean>(ref _isEnabledCbx, value);
+            }
+        }
+        private readonly ICommand _changeTypeCommand;
+        public ICommand ChangeTypeCommand
+        {
+            get
+            {
+                return _changeTypeCommand;
+            }
+        }
+        private bool CanChangeType(object obj)
+        {
+            return true;
+        }
+        private void ChangeType(object obj)
+        {
+            if (!IsChangingType)
+            {
+                IsEnabledCbx = false;
+                IsChangingType = true;
+            }
+            else
+            {
+                IsEnabledCbx = true;
+                IsChangingType = false;
+            }
+        }
+        void ChangeWorkType()
+        {
+            if (!IsChangingType)
+            {
+                SelectedTaskNode.Task.TaskTypeID = SelectedTaskTypeIndex;
+                taskWork.Update_Task(SelectedTaskNode.Task);
+
+                _generateTree_tracker = false;
+                _generate_TreeNodesDictionary();
+                _generate_Tree();
+            }
         }
         #endregion
     }

@@ -17,7 +17,7 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <view:Workspace Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></view:Workspace>
-        <view:TreeView Grid.Column="1" Grid.Row="0" ></view:TreeView>
-        <view:FaveView Grid.Column="1" Grid.Row="1"></view:FaveView>
+        <view:TreeView Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"></view:TreeView>
+        <!--<view:FaveView Grid.Column="1" Grid.Row="1"></view:FaveView>-->
     </Grid>
 </Window>
