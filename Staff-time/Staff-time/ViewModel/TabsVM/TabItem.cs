@@ -41,12 +41,18 @@ namespace Staff_time.ViewModel
 
         public void Generate_WorksForDate()
         {
+            SumTime = 0;
+
             List<Work> works = workWork.Read_WorksForDate(Date);
             WorksInTab = new ObservableCollection<WorkInTab>();
             foreach (Work w in works)
             {
                 WorksInTab.Add(new WorkInTab(w));
-            } 
+                if (w.Minutes != null)  
+                   SumTime += (int)w.Minutes;
+            }
+
+            MessengerInstance.Send<int>(SumTime);
         }
         #endregion
 
@@ -68,5 +74,15 @@ namespace Staff_time.ViewModel
             //WorksTable.Update_Work()
         }
         #endregion
+
+        private int _sumTime;
+        public int SumTime
+        {
+            get { return _sumTime; }
+            set
+            {
+                SetField(ref _sumTime, value);
+            }
+        }
     }
 }

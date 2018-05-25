@@ -27,6 +27,9 @@
                 </StackPanel>
             </MenuItem>
             <MenuItem Header="Обновить" Command="{Binding UpdateCommand}"></MenuItem>
+            <MenuItem Header="   " Background="Gray"></MenuItem>
+            <MenuItem Header="Общее время дня:"></MenuItem>
+            <MenuItem Header="{Binding SumTime}"></MenuItem>
         </Menu>
 
         <TabControl ItemsSource="{Binding WeekTabs}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" Grid.Row="1">

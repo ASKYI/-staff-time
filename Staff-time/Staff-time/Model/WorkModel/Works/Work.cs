@@ -18,6 +18,9 @@ namespace Staff_time.Model
             this.WorkName = work.WorkName;
             this.WorkType = work.WorkType;
             this.WorkTypeID = work.WorkTypeID;
+            this.Minutes = work.Minutes;
+            this.StartDate = work.StartDate;
+            this.EndDate = work.EndDate;
         }
     }
 }

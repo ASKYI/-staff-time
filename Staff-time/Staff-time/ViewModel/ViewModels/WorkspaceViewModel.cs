@@ -18,6 +18,8 @@ namespace Staff_time.ViewModel
             SelectedDatePicker = DateTime.Today.AddDays(0);
 
             MessengerInstance.Register<NotificationMessage>(this, Notify);
+            MessengerInstance.Register<int>(this, SumTimeChange);
+
             _updateCommand = new RelayCommand(Update, CanUpdate);
         }
 
@@ -33,6 +35,7 @@ namespace Staff_time.ViewModel
                 SetField<ObservableCollection<TabItem>>(ref _weekTabs, value);
             }
         }
+
         public void Generate_Week(DateTime date)
         {
             WeekTabs = new ObservableCollection<TabItem>();
@@ -76,6 +79,7 @@ namespace Staff_time.ViewModel
                 {
                     SetField<int>(ref _selectedIndex, value);
                     CurDate = WeekTabs[value].Date;
+                    SumTime = WeekTabs[value].SumTime;
                 }
             }
         }
@@ -96,5 +100,19 @@ namespace Staff_time.ViewModel
             SelectedIndex = 0;
         }
         #endregion
+
+        private int _sumTime;
+        public int SumTime
+        {
+            get { return _sumTime; }
+            set
+            {
+                SetField(ref _sumTime, value);
+            }
+        }
+        public void SumTimeChange(int newSumTime)
+        {
+            SumTime = newSumTime;
+        }
     }
 }
