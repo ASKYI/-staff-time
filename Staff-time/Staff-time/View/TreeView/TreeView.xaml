@@ -41,15 +41,36 @@
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
-            <TextBox IsReadOnly="False" Text="{Binding Task.TaskName}" Background="Azure"></TextBox>
+            <Border BorderBrush="Azure" BorderThickness="2">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+                    <TextBlock Text="   " Grid.Column="0" Background="Azure"></TextBlock>
+                    <TextBlock Text="ID: " Grid.Column="0"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding Task.ID}"></TextBlock>
+                </StackPanel>
+            </Border>
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}" ItemsSource="{Binding TreeNodes}">
-            <TextBlock Text="{Binding Task.TaskName}" Background="LightGoldenrodYellow"></TextBlock>
+            <Border BorderBrush="LightGoldenrodYellow" BorderThickness="2">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+                    <TextBlock Text="   " Grid.Column="0" Background="LightGoldenrodYellow"></TextBlock>
+                    <TextBlock Text="ID: " Grid.Column="0"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding Task.ID}"></TextBlock>
+                </StackPanel>
+            </Border>
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}" ItemsSource="{Binding TreeNodes}">
-            <TextBlock Text="{Binding Task.TaskName}" Background="LightYellow"></TextBlock>
+            <Border BorderBrush="LightYellow" BorderThickness="2">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+                    <TextBlock Text="   " Grid.Column="0" Background="LightYellow"></TextBlock>
+                    <TextBlock Text="ID: " Grid.Column="0"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="{Binding Task.ID}"></TextBlock>
+                </StackPanel>
+            </Border>
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNode}" ItemsSource="{Binding TreeNodes}">
@@ -65,7 +86,7 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="2.5*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="0.75*"></RowDefinition>
         </Grid.RowDefinitions>

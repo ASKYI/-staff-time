@@ -16,8 +16,9 @@ namespace Staff_time.ViewModel
         public TreeViewModel() : base()
         {
             _generate_Tree();
+            _generate_TaskTypesCb();
             SelectedTaskNode = null;
-            IsEnabled = false; IsEditing = true;
+            IsEnabled = false; IsEditing = true; IsChangingType = true;
 
             _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
             _addWorkCommand = new RelayCommand(AddWork, CanAddWork);
@@ -25,6 +26,7 @@ namespace Staff_time.ViewModel
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
             _editCommand = new RelayCommand(Edit, CanEdit);
+            _changeTypeCommand = new RelayCommand(ChangeType, CanChangeType);
         }
 
         #region Tree Data
@@ -297,7 +299,7 @@ namespace Staff_time.ViewModel
         }
         private bool CanChangeType(object obj)
         {
-            return true;
+            return SelectedTaskNode != null;
         }
         private void ChangeType(object obj)
         {
