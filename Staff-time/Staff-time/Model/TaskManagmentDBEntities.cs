@@ -63,7 +63,8 @@ namespace Staff_time.Model
                 Works.Remove(w);
             }
 
-            Tasks.Remove(taskBD);
+            if (taskBD != null)
+                Tasks.Remove(taskBD);
             SaveChanges();
         }
         public void Delete_TaskFromFave(int taskID)

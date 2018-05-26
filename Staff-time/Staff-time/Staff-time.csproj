@@ -152,7 +152,7 @@
     <Compile Include="ViewModel\TreeNodesVM\TreeNodes\TreeNodeСontract.cs" />
     <Compile Include="ViewModel\ViewModels\FaveViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModel\ViewModels\TreeViewModel.cs" />
+    <Compile Include="ViewModel\ViewModels\TasksViewModel.cs" />
     <Compile Include="ViewModel\WorkBlockVM\AttrValueExtended.cs" />
     <Compile Include="ViewModel\WorkBlockVM\WorkBlockControlViewModel.cs" />
     <Compile Include="ViewModel\WorkBlockVM\WorkControlsVM\WorkConsultationsByPhone_ControlViewModel.cs" />

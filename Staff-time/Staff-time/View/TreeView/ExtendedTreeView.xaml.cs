@@ -30,8 +30,6 @@ namespace Staff_time.View
             {
                 SetValue(SelectedItemsProperty, value);
                 NotifyPropertyChanged("SelectedItem");
-
-
             }
         }
 

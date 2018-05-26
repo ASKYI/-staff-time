@@ -59,12 +59,38 @@ namespace Staff_time.ViewModel
 
             TreeNode node = factory.CreateTreeNode(task);
             TaskNodesDictionary.Add(task.ID, node);
-            if (task.ParentTaskID == null)
+            if (task.ParentTaskID == null || task.ParentTaskID == 0)
             {
                 TreeRoots.Add(node);
             }
             else
                 TaskNodesDictionary[(int)task.ParentTaskID].AddChild(node);
+        }
+        private void _deleteNode(TreeNode node)
+        {
+            int parentID = 0, delTaskID = node.Task.ID;
+            if (node.Task.ParentTaskID != null)
+                parentID = (int)node.Task.ParentTaskID;
+
+            //Удаляем узел, родитель его детей - родитель удаляемого узла
+            foreach (var t in TaskNodesDictionary[delTaskID].TreeNodes)
+            {
+                if (parentID != 0)
+                {
+                    t.ParentNode = TaskNodesDictionary[parentID];
+                    TaskNodesDictionary[parentID].AddChild(t);
+                }
+                else
+                {
+                    t.ParentNode = null;
+                    TreeRoots.Add(t);
+                }
+            }
+            if (parentID == 0)
+                TreeRoots.Remove(node);
+            else
+                TaskNodesDictionary[parentID].TreeNodes.Remove(node);
+            TaskNodesDictionary.Remove(delTaskID);
         }
         #endregion
         #region Selected Task
@@ -79,7 +105,7 @@ namespace Staff_time.ViewModel
                 if (_selectedTaskNode != null)
                 {
                     SelectedTaskTypeIndex = _selectedTaskNode.Task.TaskTypeID;
-                    EditTask = _selectedTaskNode.Task;
+                    EditTask = (Task)_selectedTaskNode.Task.Clone();
                 }
             }
         }
@@ -174,36 +200,10 @@ namespace Staff_time.ViewModel
         }
         private void DeleteTask(object obj)
         {
-            int parentID = 0, delTaskID = SelectedTaskNode.Task.ID;
-            if (SelectedTaskNode.Task.ParentTaskID != null)
-                parentID = (int)SelectedTaskNode.Task.ParentTaskID;
+            int delID = SelectedTaskNode.Task.ID;
+            _deleteNode(SelectedTaskNode);
+            taskWork.Delete_Task(delID);
 
-            taskWork.Delete_Task(delTaskID);
-
-            //Удаляем узел, родитель его детей - родитель удаляемого узла
-            foreach (var t in TaskNodesDictionary[delTaskID].TreeNodes)
-            {
-                if (parentID != 0)
-                {
-                    t.ParentNode = TaskNodesDictionary[parentID];
-                    TaskNodesDictionary[parentID].AddChild(t);
-                }
-                else
-                {
-                    t.ParentNode = null;
-                    TreeRoots.Add(t);
-                }
-            }
-            if (parentID == 0)
-                TreeRoots.Remove(SelectedTaskNode);
-            else
-                TaskNodesDictionary[parentID].TreeNodes.Remove(SelectedTaskNode);
-            TaskNodesDictionary.Remove(delTaskID);
-
-
-            //_generateTree_tracker = false;
-            //_generate_TreeNodesDictionary();
-            //_generate_Tree();
             MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
         }
         #endregion
@@ -236,6 +236,7 @@ namespace Staff_time.ViewModel
                 SetField<Boolean>(ref _isEditing, value);
             }
         }
+
         private readonly ICommand _editCommand;
         public ICommand EditCommand
         {
@@ -251,24 +252,17 @@ namespace Staff_time.ViewModel
         private void Edit(object obj)
         {
             if (!IsEditing)
-            {               
+            {
                 EditTask.TaskTypeID = SelectedTaskTypeIndex;
                 if (EditTask.ParentTaskID == 0)
                     EditTask.ParentTaskID = null;
-                if (EditTask.ParentTaskID != null)
-                {
-                    if (SelectedTaskNode.Task.ID != EditTask.ParentTaskID)
-                        if (TaskNodesDictionary.ContainsKey((int)EditTask.ParentTaskID))
-                            taskWork.Update_Task(EditTask);
-                }
-                else
-                    taskWork.Update_Task(EditTask);
-                IsEditing = true;
-                IsEnabled = false;
+                else if (!TaskNodesDictionary.ContainsKey((int)EditTask.ParentTaskID)
+                    || SelectedTaskNode.Task.ID == EditTask.ParentTaskID)
+                    return;
 
-                _generateTree_tracker = false;
-                _generate_TreeNodesDictionary();
-                _generate_Tree();
+                Task task = (Task)EditTask.Clone();
+                _deleteNode(SelectedTaskNode);
+                _addNewNode(task);
             }
             else
             {

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Staff_time.Model
 {
-    public partial class Task
+    public partial class Task : ICloneable
     {
         //Есть ли более умный способ написания конструктора копирования?
         public Task(Task task) 
@@ -18,6 +18,11 @@ namespace Staff_time.Model
             this.TaskType = task.TaskType;
             this.Works = task.Works;
             this.PropValues = task.PropValues;
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }
