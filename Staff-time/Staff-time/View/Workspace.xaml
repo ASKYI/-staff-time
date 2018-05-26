@@ -26,8 +26,8 @@
                     <DatePicker IsDropDownOpen="False" SelectedDate="{Binding SelectedDatePicker}"></DatePicker>
                 </StackPanel>
             </MenuItem>
-            <MenuItem Header="Обновить" Command="{Binding UpdateCommand}"></MenuItem>
-            <MenuItem Header="   " Background="Gray"></MenuItem>
+            <MenuItem Header="Обновить все" Command="{Binding UpdateCommand}"></MenuItem>
+            <MenuItem Header=" " Background="Gray"></MenuItem>
             <MenuItem Header="Общее время дня:"></MenuItem>
             <MenuItem Header="{Binding SumTime}"></MenuItem>
         </Menu>

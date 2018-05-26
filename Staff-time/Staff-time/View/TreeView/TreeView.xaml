@@ -93,7 +93,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Border Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
-                        <Label FontSize="10" Content="Управление задачами" Background="LightGray"></Label>
+                        <Label FontSize="10" Content="Управление" Background="LightGray"></Label>
                     </Border>
                     <Button Grid.Column="1" Content="Добавить работу" Command="{Binding AddWorkCommand}" FontSize="10" Background="White"></Button>
                 </Grid>
@@ -138,7 +138,6 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="100"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock FontSize="10"  Text="Тип задачи: " Grid.Column="0"></TextBlock>
                     <ComboBox FontSize="10" Grid.Column="1"
