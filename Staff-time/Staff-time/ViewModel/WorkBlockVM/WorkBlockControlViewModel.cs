@@ -99,7 +99,8 @@ namespace Staff_time.ViewModel
         private void _generate_WorkTypesCb()
         {
             WorkTypesCb = new ObservableCollection<WorkType>();
-            foreach (var t in WorkTypes)
+            List<WorkType> types = typesWork.Read_WorkTypes();
+            foreach (var t in types)
             {
                 WorkTypesCb.Add(t);
             }

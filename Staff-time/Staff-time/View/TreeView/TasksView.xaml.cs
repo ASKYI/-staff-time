@@ -23,7 +23,7 @@ namespace Staff_time.View
         public TasksView()
         {
             InitializeComponent();
-            DataContext = new ViewModel.TreeViewModel();
+            DataContext = new ViewModel.TasksViewModel();
         }
     }
 }

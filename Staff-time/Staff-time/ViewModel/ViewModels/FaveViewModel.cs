@@ -11,11 +11,12 @@ using GalaSoft.MvvmLight.Messaging;
 
 namespace Staff_time.ViewModel
 {
-    public class FaveViewModel : MainViewModel, INotifyPropertyChanged
+    //Не проверялось
+    //Пока не используется
+    public class FaveViewModel : MainViewModel
     {
         public FaveViewModel() : base()
         {
-            //TasksTable.Read_FaveTasks(CurUser.ID);
             _generate_FavTaskNodes();
 
             SelectedTask = null;
@@ -27,7 +28,7 @@ namespace Staff_time.ViewModel
 
         private static void _generate_FavTaskNodes()
         {
-            FaveTaskNodes = Convert_TasksIntoNodes(taskWork.Read_FaveTasks(CurUser.ID));
+            FaveTaskNodes = Convert_TasksIntoNodes(taskWork.Read_FaveTasks(curUser.ID));
             _generate_FaveTaskPaths();
         }
 

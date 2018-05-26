@@ -11,17 +11,18 @@ using GalaSoft.MvvmLight.Messaging;
 
 namespace Staff_time.ViewModel
 {
-    public class TreeViewModel : MainViewModel
+    public class TasksViewModel : MainViewModel
     {
-        public TreeViewModel() : base()
+        public TasksViewModel()
         {
             _generate_Tree();
+
             _generate_TaskTypesCb();
+
             SelectedTaskNode = null;
             EditTask = null;
             IsEnabled = false; IsEditing = true;
-
-         //   _selectTaskCommand = new RelayCommand(SelectTask, CanSelectTask);
+            
             _addWorkCommand = new RelayCommand(AddWork, CanAddWork);
             _addNearTaskCommand = new RelayCommand(AddNearTask, CanAddNearTask);
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
@@ -39,6 +40,7 @@ namespace Staff_time.ViewModel
                 SetField(ref _treeRoots, value);
             }
         }
+
         private void _generate_Tree()
         {
             TreeRoots = new ObservableCollection<TreeNode>();
@@ -51,7 +53,7 @@ namespace Staff_time.ViewModel
             }
         }
         #endregion
-        #region Select Task
+        #region Selected Task
         private TreeNode _selectedTaskNode;
         public TreeNode SelectedTaskNode
         {
@@ -59,28 +61,16 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField<TreeNode>(ref _selectedTaskNode, value);
-                if (value != null)
-                    EditTask = _selectedTaskNode.Task;
+
                 if (_selectedTaskNode != null)
+                {
                     SelectedTaskTypeIndex = _selectedTaskNode.Task.TaskTypeID;
+                    EditTask = _selectedTaskNode.Task;
+                }
             }
-        }
-
-        private readonly ICommand _selectTaskCommand;
-        public ICommand SelectTaskCommand
-        {
-            get
-            {
-                return _selectTaskCommand;
-            }
-        }
-
-        private bool CanSelectTask(object obj)
-        {
-            return true;
         }
         #endregion
-        #region Add Work
+        #region Add Work !!!
         private readonly ICommand _addWorkCommand;
         public ICommand AddWorkCommand
         {
@@ -97,9 +87,10 @@ namespace Staff_time.ViewModel
         private void AddWork(object obj)
         {
             Work newWork = new Work();
+
             newWork.WorkName = "Новая работа";
             newWork.TaskID = SelectedTaskNode.Task.ID;
-            newWork.StartDate = CurDate.Date;
+            newWork.StartDate = curDate.Date;
             workWork.Create_Work(newWork);
 
             MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
@@ -127,9 +118,15 @@ namespace Staff_time.ViewModel
             newTask.TaskName = "Новая задача";
             taskWork.Create_Task(newTask);
 
-            _generateTree_tracker = false;
-            _generate_TreeNodesDictionary();
-            _generate_Tree();
+            TreeNodeFactory factory = new TreeNodeFactory();
+            if (newTask.ParentTaskID == null)
+                TreeRoots.Add(factory.CreateTreeNode(newTask));
+            else
+                TaskNodesDictionary[(int)newTask.ParentTaskID].AddChild(factory.CreateTreeNode(newTask));
+
+          //  _generateTree_tracker = false;
+           // _generate_TreeNodesDictionary();
+            //_generate_Tree();
         }
         private readonly ICommand _addChildTaskCommand;
         public ICommand AddChildTaskCommand
@@ -273,7 +270,8 @@ namespace Staff_time.ViewModel
         private void _generate_TaskTypesCb()
         {
             TaskTypesCb = new ObservableCollection<TaskType>();
-            foreach (var t in TaskTypes)
+            List<TaskType> types = typesWork.Read_TaskTypes();
+            foreach (var t in types)
             {
                 TaskTypesCb.Add(t);
             }
