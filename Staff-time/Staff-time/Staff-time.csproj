@@ -89,6 +89,7 @@
     <Compile Include="Model\Enums.cs" />
     <Compile Include="Model\Interfaces\IAttrWork.cs" />
     <Compile Include="Model\Interfaces\ITaskWork.cs" />
+    <Compile Include="Model\Interfaces\ITypesWork.cs" />
     <Compile Include="Model\Interfaces\IWorkWork.cs" />
     <Compile Include="Model\Property.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>

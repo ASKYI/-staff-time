@@ -14,7 +14,6 @@ using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
 {
-
     public class MainViewModel : ViewModelBase, INotifyPropertyChanged
     {
         #region Context
@@ -22,6 +21,7 @@ namespace Staff_time.ViewModel
         protected static ITaskWork taskWork;
         protected static IWorkWork workWork;
         protected static IAttrWork attrWork;
+        protected static ITypesWork typesWork;
 
         private static void _initialize_Context()
         {
@@ -29,8 +29,8 @@ namespace Staff_time.ViewModel
             taskWork = _context;
             workWork = _context;
             attrWork = _context;
+            typesWork = _context;
         }
-
         #endregion
 
         public MainViewModel()

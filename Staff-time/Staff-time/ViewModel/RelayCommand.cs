@@ -8,7 +8,6 @@ using System.Windows.Input;
 
 namespace Staff_time.ViewModel
 {
-
     public class RelayCommand : ICommand
     {
         private Action<object> _execute;
@@ -16,10 +15,10 @@ namespace Staff_time.ViewModel
 
         public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
-            /* if (execute == null || canExecute == null)
+            if (execute == null || canExecute == null)
              {
                  throw new ArgumentNullException("Execute");
-             } */
+             }
             _execute = execute;
             _canExecute = canExecute;
         }

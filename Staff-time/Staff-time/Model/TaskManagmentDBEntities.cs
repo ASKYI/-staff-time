@@ -13,7 +13,7 @@ using Staff_time.Model.Interfaces;
 namespace Staff_time.Model
 {
     public partial class TaskManagmentDBEntities : DbContext,
-        ITaskWork, IWorkWork, IAttrWork
+        ITaskWork, IWorkWork, IAttrWork, ITypesWork
     {
         #region ITaskWork
         public void Create_Task(Task task)
@@ -174,6 +174,17 @@ namespace Staff_time.Model
                 AttrValues.AddOrUpdate(v);
                 SaveChanges();
             }
+        }
+        #endregion
+        #region ITypesWork
+        public List<WorkType> Read_WorkTypes()
+        {
+            return WorkTypes.ToList();
+        }
+
+        public List<TaskType> Read_TaskTypes()
+        {
+            return TaskTypes.ToList();
         }
         #endregion
     }
