@@ -83,6 +83,7 @@ namespace Staff_time.ViewModel
                 else
                 {
                     t.ParentNode = null;
+                    t.Task.ParentTaskID = null;
                     TreeRoots.Add(t);
                 }
             }
