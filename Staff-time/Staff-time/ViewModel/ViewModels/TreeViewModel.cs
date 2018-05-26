@@ -30,7 +30,7 @@ namespace Staff_time.ViewModel
             _editCommand = new RelayCommand(Edit, CanEdit);
         }
 
-        #region Tree Data
+        #region Tree
         private ObservableCollection<TreeNode> _treeRoots;
         public ObservableCollection<TreeNode> TreeRoots
         {
@@ -51,6 +51,20 @@ namespace Staff_time.ViewModel
                     TreeRoots.Add(taskNode.Value);
                 }
             }
+        }
+
+        private void _addNewNode(Task task)
+        {
+            TreeNodeFactory factory = new TreeNodeFactory();
+
+            TreeNode node = factory.CreateTreeNode(task);
+            TaskNodesDictionary.Add(task.ID, node);
+            if (task.ParentTaskID == null)
+            {
+                TreeRoots.Add(node);
+            }
+            else
+                TaskNodesDictionary[(int)task.ParentTaskID].AddChild(node);
         }
         #endregion
         #region Selected Task
@@ -118,15 +132,7 @@ namespace Staff_time.ViewModel
             newTask.TaskName = "Новая задача";
             taskWork.Create_Task(newTask);
 
-            TreeNodeFactory factory = new TreeNodeFactory();
-            if (newTask.ParentTaskID == null)
-                TreeRoots.Add(factory.CreateTreeNode(newTask));
-            else
-                TaskNodesDictionary[(int)newTask.ParentTaskID].AddChild(factory.CreateTreeNode(newTask));
-
-          //  _generateTree_tracker = false;
-           // _generate_TreeNodesDictionary();
-            //_generate_Tree();
+            _addNewNode(newTask);
         }
         private readonly ICommand _addChildTaskCommand;
         public ICommand AddChildTaskCommand
@@ -149,12 +155,10 @@ namespace Staff_time.ViewModel
             taskWork.Create_Task(newTask);
             newTask.TaskName = "Новая работа";
 
-            _generateTree_tracker = false;
-            _generate_TreeNodesDictionary();
-            _generate_Tree();
+            _addNewNode(newTask);
         }
         #endregion
-        #region Delete Task
+        #region Delete Task !!!
         private readonly ICommand _deleteTaskCommand;
         public ICommand DeleteTaskCommand
         {
@@ -170,11 +174,36 @@ namespace Staff_time.ViewModel
         }
         private void DeleteTask(object obj)
         {
-            taskWork.Delete_Task(SelectedTaskNode.Task.ID);
+            int parentID = 0, delTaskID = SelectedTaskNode.Task.ID;
+            if (SelectedTaskNode.Task.ParentTaskID != null)
+                parentID = (int)SelectedTaskNode.Task.ParentTaskID;
 
-            _generateTree_tracker = false;
-            _generate_TreeNodesDictionary();
-            _generate_Tree();
+            taskWork.Delete_Task(delTaskID);
+
+            //Удаляем узел, родитель его детей - родитель удаляемого узла
+            foreach (var t in TaskNodesDictionary[delTaskID].TreeNodes)
+            {
+                if (parentID != 0)
+                {
+                    t.ParentNode = TaskNodesDictionary[parentID];
+                    TaskNodesDictionary[parentID].AddChild(t);
+                }
+                else
+                {
+                    t.ParentNode = null;
+                    TreeRoots.Add(t);
+                }
+            }
+            if (parentID == 0)
+                TreeRoots.Remove(SelectedTaskNode);
+            else
+                TaskNodesDictionary[parentID].TreeNodes.Remove(SelectedTaskNode);
+            TaskNodesDictionary.Remove(delTaskID);
+
+
+            //_generateTree_tracker = false;
+            //_generate_TreeNodesDictionary();
+            //_generate_Tree();
             MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
         }
         #endregion
