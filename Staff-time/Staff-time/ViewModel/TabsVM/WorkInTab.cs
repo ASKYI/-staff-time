@@ -16,6 +16,8 @@ using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
 {
+    //Обертка над контестом WorkBlock для передачи через шаблон
+    //Я пытаюсь найти лучшее решение
     public class WorkInTab : ViewModelBase, INotifyPropertyChanged
     {
         public WorkInTab(Work work)

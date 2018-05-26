@@ -13,11 +13,10 @@ namespace Staff_time.ViewModel
 {
     public class WorkspaceViewModel : MainViewModel
     {
-        public WorkspaceViewModel() : base()
+        public WorkspaceViewModel()
         {
             SelectedDatePicker = DateTime.Today.AddDays(0);
-
-            MessengerInstance.Register<NotificationMessage>(this, Notify);
+            
             MessengerInstance.Register<int>(this, SumTimeChange);
 
             _updateCommand = new RelayCommand(Update, CanUpdate);
@@ -43,6 +42,7 @@ namespace Staff_time.ViewModel
             int dayOfWeek = (int)date.DayOfWeek;
             dayOfWeek = (dayOfWeek + 6) % 7;
             DateTime startDay = date.AddDays(-dayOfWeek);
+
             for (int i = 0; i < 7; ++i)
             {
                 WeekTabs.Add(new TabItem(DaysOfWeek[i], startDay.AddDays(i)));
@@ -52,12 +52,7 @@ namespace Staff_time.ViewModel
                 }
             }
         }
-        public void Notify(NotificationMessage notificationMessage)
-        {
-            WeekTabs[SelectedIndex].Generate_WorksForDate();
-        }
         #endregion
-
         #region Selected
         private DateTime _selectedDatePicker;
         public DateTime SelectedDatePicker
@@ -84,7 +79,7 @@ namespace Staff_time.ViewModel
             }
         }
         #endregion
-        #region Update
+        #region Update All
         private readonly RelayCommand _updateCommand;
         public RelayCommand UpdateCommand
         {

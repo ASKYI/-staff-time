@@ -89,7 +89,8 @@ namespace Staff_time.ViewModel
             if (parentID == 0)
                 TreeRoots.Remove(node);
             else
-                TaskNodesDictionary[parentID].TreeNodes.Remove(node);
+                if (TaskNodesDictionary.ContainsKey(parentID))
+                    TaskNodesDictionary[parentID].TreeNodes.Remove(node);
             TaskNodesDictionary.Remove(delTaskID);
         }
         #endregion
@@ -110,7 +111,7 @@ namespace Staff_time.ViewModel
             }
         }
         #endregion
-        #region Add Work !!!
+        #region Add Work
         private readonly ICommand _addWorkCommand;
         public ICommand AddWorkCommand
         {
@@ -133,7 +134,7 @@ namespace Staff_time.ViewModel
             newWork.StartDate = curDate.Date;
             workWork.Create_Work(newWork);
 
-            MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
+            MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(2, newWork));
         }
         #endregion
         #region Add Task
@@ -184,7 +185,7 @@ namespace Staff_time.ViewModel
             _addNewNode(newTask);
         }
         #endregion
-        #region Delete Task !!!
+        #region Delete Task
         private readonly ICommand _deleteTaskCommand;
         public ICommand DeleteTaskCommand
         {
@@ -200,11 +201,13 @@ namespace Staff_time.ViewModel
         }
         private void DeleteTask(object obj)
         {
+            List<Work> works = workWork.Read_WorksForTask(SelectedTaskNode.Task.ID);
+            foreach(var w in works)
+                MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(0, w));
+
             int delID = SelectedTaskNode.Task.ID;
             _deleteNode(SelectedTaskNode);
             taskWork.Delete_Task(delID);
-
-            MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
         }
         #endregion
         #region Edit Task

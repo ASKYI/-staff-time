@@ -177,7 +177,8 @@ namespace Staff_time.ViewModel
         private void Delete(object obj)
         {
             WorkInBlock.WorkControlDataContext.DeleteWork();
-            MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
+            MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(0,
+                WorkInBlock.WorkControlDataContext.Work));
         }
         #endregion
         #region Edit Command
@@ -208,9 +209,12 @@ namespace Staff_time.ViewModel
             {
                 WorkInBlock.WorkControlDataContext.Work.WorkTypeID = SelectedWorkTypeIndex;
                 WorkInBlock.WorkControlDataContext.UpdateWork();
+
                 WorkInBlock.WorkControlDataContext.IsEdititig = true;
                 IsEnabled = false;
-                MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
+
+                MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(1,
+                    WorkInBlock.WorkControlDataContext.Work));
             }
             else
             {

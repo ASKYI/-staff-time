@@ -18,16 +18,16 @@ namespace Staff_time.ViewModel
         {
             TabName = tabName_DayOfWeek;
             Date = dateTime;
+
             Generate_WorksForDate();
 
-            _editWorkCommand = new RelayCommand(EditWork, CanEditWork);
+            MessengerInstance.Register< KeyValuePair<int, Work> >(this, _updateWork);
         }
 
         #region Tab Data
         public string TabName { get; set; }
         public DateTime Date { get; set; }
         #endregion
-
         #region Works
         private ObservableCollection<WorkInTab> _worksInTab;
         public ObservableCollection<WorkInTab> WorksInTab
@@ -54,24 +54,58 @@ namespace Staff_time.ViewModel
 
             MessengerInstance.Send<int>(SumTime);
         }
-        #endregion
 
-        #region Edit Work
-        private readonly ICommand _editWorkCommand;
-        public ICommand EditWorkCommand
+        //А ловят-то все семь табов
+        private void _updateWork(KeyValuePair<int, Work> pair)
         {
-            get
+            if (pair.Value.StartDate != Date)
+                return;
+
+            if (pair.Key == 2) //Добавить
             {
-                return _editWorkCommand;
+                WorkFactory factory = new WorkFactory();
+                Work work = factory.CreateWork(pair.Value);
+                if (pair.Value.Minutes != null)
+                    SumTime += (int)pair.Value.Minutes;
+                WorksInTab.Add(new WorkInTab(work));
+
+                MessengerInstance.Send<int>(SumTime);
+                return;
             }
-        }
-        private bool CanEditWork(object obj)
-        {
-            return true;
-        }
-        private void EditWork(object obj)
-        {
-            //WorksTable.Update_Work()
+
+            int index = -1;
+            for (int i = 0; i < WorksInTab.Count; i++)
+            {
+                WorkInTab w = WorksInTab[i];
+                if (w.WorkBlockControlDataContext.WorkInBlock.WorkControlDataContext.Work.ID == pair.Value.ID) //Обалдеть сколько оберток, с этим надо что-то делать
+                {
+                    index = i; 
+                }
+            }
+            if (index == -1)
+                return;
+
+            switch (pair.Key)
+                { 
+                case 0: //Удалить
+                    if (WorksInTab[index].WorkBlockControlDataContext.WorkInBlock.WorkControlDataContext.Work.Minutes != null)
+                        SumTime -= (int)WorksInTab[index].WorkBlockControlDataContext.WorkInBlock.WorkControlDataContext.Work.Minutes;
+                    WorksInTab.Remove(WorksInTab[index]);
+                    break;
+                case 1: //Редактировать (в том числе сменить тип)
+                    if (WorksInTab[index].WorkBlockControlDataContext.WorkInBlock.WorkControlDataContext.Work.Minutes != null)
+                        SumTime -= (int)WorksInTab[index].WorkBlockControlDataContext.WorkInBlock.WorkControlDataContext.Work.Minutes;
+                    WorksInTab.Remove(WorksInTab[index]);
+
+                    WorkFactory factory = new WorkFactory();
+                    Work work = factory.CreateWork(pair.Value);
+                    if (pair.Value.Minutes != null)
+                        SumTime += (int)pair.Value.Minutes;
+                    WorksInTab.Add(new WorkInTab(work));
+                    break;
+            }
+
+            MessengerInstance.Send<int>(SumTime);
         }
         #endregion
 

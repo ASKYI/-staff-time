@@ -110,7 +110,15 @@ namespace Staff_time.Model
         }
         public List<Work> Read_WorksForTask(int taskID)
         {
-            throw new NotImplementedException();
+            List<Work> worksDB = Works.Include(w => w.Task).Where(w => w.TaskID == taskID).ToList();
+
+            List<Work> works = new List<Work>();
+            WorkFactory workFactory = new WorkFactory();
+            foreach (Work w in worksDB)
+            {
+                works.Add(workFactory.CreateWork(w));
+            }
+            return works;
         }
 
         public void Update_Work(Work work)
