@@ -260,7 +260,7 @@ namespace Staff_time.ViewModel
                 EditTask.TaskTypeID = SelectedTaskTypeIndex;
                 if (EditTask.ParentTaskID == 0)
                     EditTask.ParentTaskID = null;
-                else if (!TaskNodesDictionary.ContainsKey((int)EditTask.ParentTaskID)
+                else if (EditTask.ParentTaskID != null && !TaskNodesDictionary.ContainsKey((int)EditTask.ParentTaskID)
                     || SelectedTaskNode.Task.ID == EditTask.ParentTaskID)
                     return;
 
