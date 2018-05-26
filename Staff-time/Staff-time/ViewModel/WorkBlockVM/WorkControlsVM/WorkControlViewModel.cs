@@ -35,7 +35,7 @@ namespace Staff_time.ViewModel
             foreach (var v in AttrValues)
                 values.Add(v.AttrValue);
 
-            attrWork.Update_AttrValues(values);
+            attrWork.Update_AttrValues_ForWork(values);
         }
     }
 }

@@ -16,7 +16,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="7*"></RowDefinition>
         </Grid.RowDefinitions>
-        <view:TreeView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></view:TreeView>
+        <view:TasksView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></view:TasksView>
         <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="3" BorderBrush="Gray" BorderThickness="2">
             <view:Workspace ></view:Workspace>
         </Border>

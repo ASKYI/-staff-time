@@ -23,7 +23,7 @@ namespace Staff_time.Model
                 case WorkTypeEnum.WorkRefractoring:
                     return new WorkRefractoring();
             }
-            return new Work();
+            return null;
         }
         public Work CreateWork(Work work)
         {
@@ -41,7 +41,7 @@ namespace Staff_time.Model
                 case WorkTypeEnum.WorkRefractoring:
                     return new WorkRefractoring(work);
             }
-            return new Work(work);
+            return null;
         }
     }
 }

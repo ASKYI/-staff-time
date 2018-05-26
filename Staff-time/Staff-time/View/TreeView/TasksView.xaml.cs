@@ -16,15 +16,14 @@ using System.Windows.Shapes;
 namespace Staff_time.View
 {
     /// <summary>
-    /// Логика взаимодействия для TreeView.xaml
+    /// Логика взаимодействия для TasksView.xaml
     /// </summary>
-    public partial class TreeView : UserControl
+    public partial class TasksView : UserControl
     {
-        ViewModel.TreeViewModel treeVM = new ViewModel.TreeViewModel();
-        public TreeView()
+        public TasksView()
         {
             InitializeComponent();
-            DataContext = treeVM;
+            DataContext = new ViewModel.TreeViewModel();
         }
     }
 }

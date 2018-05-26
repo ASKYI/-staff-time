@@ -22,7 +22,7 @@ namespace Staff_time.Model
                 case TaskTypeEnum.TaskСontract:
                     return new TaskContract();
             }
-            return new Task();
+            return null;
         }
         public Task CreateTask(Task task)
         {
@@ -40,7 +40,7 @@ namespace Staff_time.Model
                 case TaskTypeEnum.TaskСontract:
                     return new TaskContract(task);
             }
-            return new Task(task);
+            return null;
         }
     }
 }

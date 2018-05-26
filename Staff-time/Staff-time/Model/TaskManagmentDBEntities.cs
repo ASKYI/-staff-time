@@ -16,7 +16,6 @@ namespace Staff_time.Model
         ITaskWork, IWorkWork, IAttrWork
     {
         #region ITaskWork
-        //Создание задачи
         public void Create_Task(Task task)
         {
             Tasks.Add(task);
@@ -27,10 +26,10 @@ namespace Staff_time.Model
             throw new NotImplementedException();
         }
 
-        //Возвращает список правильно созданных (верный тип) задач
         public List<Task> Read_AllTasks() 
         {
             List<Task> tasks = new List<Task>();
+
             TaskFactory taskFactory = new TaskFactory();
             foreach (Task t in Tasks)
             {
@@ -38,31 +37,27 @@ namespace Staff_time.Model
             }
             return tasks;
         }
-
-        //Возвращает список ID избранных задач пользователя
+     
         public List<int> Read_FaveTasks(int userID)
         {
             return (from t in UserTasks where t.UserID == userID select t.TaskID).ToList();
         }
-        //Изменение задачи
+
         public void Update_Task(Task task)
         {
             Tasks.AddOrUpdate(task);
             SaveChanges();
         }
-        //Удаление задачи. Родителем потомка становятся родитель удаляемой задачи, работы удаляются.
+       
         public void Delete_Task(int taskID)
         {
             Task taskBD = Tasks.Where(t => t.ID == taskID).FirstOrDefault();
 
             List<Task> childTasksBD = (from t in Tasks where t.ParentTaskID == taskID select t).ToList();
-            foreach (var t in childTasksBD) {
-                //  if (taskBD.ParentTaskID != null)
+            foreach (var t in childTasksBD)   
                 t.ParentTaskID = taskBD.ParentTaskID;
-            }
 
             List<Work> worksBD = (from w in Works where w.TaskID == taskID select w).ToList();
-            //Works.RemoveRange(worksBD);
             foreach (var w in worksBD) {
                 Delete_AttrValuesFields_ForWork(w.ID);
                 Works.Remove(w);
@@ -76,22 +71,21 @@ namespace Staff_time.Model
             throw new NotImplementedException();
         }
         #endregion
-
         #region IWorkWork
-
-        //Создание работы
+        
         public void Create_Work(Work work)
         {
             Works.Add(work);
+            
             //Создание пустых полей для атрибутов в соотвествии с типом работы
             Create_AttrValuesFields_ForWork(work.ID, (WorkTypeEnum)work.WorkTypeID); 
             SaveChanges();
         }
-
-        //Возвращает список правильно созданных (верный тип) работ (с загрузкой задач)
+  
         public List<Work> Read_AllWorks()
         {
             List<Work> worksDB = Works.Include(w => w.Task).ToList();
+
             List<Work> works = new List<Work>();
             WorkFactory taskFactory = new WorkFactory();
             foreach(Work w in worksDB)
@@ -101,10 +95,10 @@ namespace Staff_time.Model
             return works;
         }
 
-        //Возвращает список правильно созданных (верный тип) работ за определенную дату - дата начала (с загрузкой задач)
         public List<Work> Read_WorksForDate(DateTime date)
         {
             List<Work> worksDB = Works.Include(w => w.Task).Where(w => w.StartDate == date).ToList();
+
             List<Work> works = new List<Work>();
             WorkFactory workFactory = new WorkFactory();
             foreach (Work w in worksDB)
@@ -118,28 +112,28 @@ namespace Staff_time.Model
             throw new NotImplementedException();
         }
 
-        //Изменение работы
         public void Update_Work(Work work)
         {
             var workDB = Works.Where(x => x.ID == work.ID).FirstOrDefault();
+
             if (workDB.WorkTypeID != work.WorkTypeID) //При изменении типа! Удалить-перенести атрибуты типа
                 Update_AttrValuesFields_ForWork(work.ID, (WorkTypeEnum)workDB.WorkTypeID, (WorkTypeEnum)work.WorkTypeID);
+
             Works.AddOrUpdate(work);
             SaveChanges();
         }
-        //Удаление работы
+
         public void Delete_Work(int workID)
         {
             Delete_AttrValuesFields_ForWork(workID); //Удаление атрибутов работы
             var workDB = Works.Where(x => x.ID == workID).FirstOrDefault();
             if (workDB != null)
                 Works.Remove(workDB);
+
             SaveChanges();
         }
         #endregion
-
         #region IAttrWork
-        //При создании новой работы, создание пустых записей атрибутов для типа работы 
         public void Create_AttrValuesFields_ForWork(int WorkID, WorkTypeEnum type)
         {
             int typeID = (int)type;
@@ -152,15 +146,13 @@ namespace Staff_time.Model
                 AttrValues.Add(value);
             }
             SaveChanges();
-        }
+        }    
 
-        //Возвращает значение всех атрибутов для задач (с загрузкой атрибутов)
         public List<AttrValue> Read_AttrValues_ForWork(Work work)
         {
             return AttrValues.Include(a => a.Attribute).Where(a => a.WorkID == work.ID).ToList();
         }
 
-        //При изменении типа работы, изменение записей атрибутов (не сохраняет сопадающие!) 
         public void Update_AttrValuesFields_ForWork(int WorkID, WorkTypeEnum oldType, WorkTypeEnum newType)
         {
             //TODO: сохранение значений совпадающих атрибутов
@@ -168,19 +160,17 @@ namespace Staff_time.Model
             Create_AttrValuesFields_ForWork(WorkID, newType);
         }
 
-        //Изменение значений атрибутов
-        public void Update_AttrValues(List<AttrValue> values)
-        {            
-            foreach(var v in values)
-                AttrValues.AddOrUpdate(v);
-            SaveChanges();
-        }
-
-        //Удаление записей значений атрибутов для работы
         public void Delete_AttrValuesFields_ForWork(int WorkID)
         {
             IEnumerable<AttrValue> toDeleteDB = (from a in AttrValues where a.WorkID == WorkID select a).ToList();
             AttrValues.RemoveRange(toDeleteDB);
+        }
+
+        public void Update_AttrValues_ForWork(List<AttrValue> values)
+        {            
+            foreach(var v in values)
+                AttrValues.AddOrUpdate(v);
+            SaveChanges();
         }
         #endregion
     }

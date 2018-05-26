@@ -175,8 +175,8 @@
     <Compile Include="View\FaveView.xaml.cs">
       <DependentUpon>FaveView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TreeView\TreeView.xaml.cs">
-      <DependentUpon>TreeView.xaml</DependentUpon>
+    <Compile Include="View\TreeView\TasksView.xaml.cs">
+      <DependentUpon>TasksView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\WorksView\WorkControls\WorkConsultationsByPhone_Control.xaml.cs">
       <DependentUpon>WorkConsultationsByPhone_Control.xaml</DependentUpon>
@@ -219,7 +219,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TreeView\TreeView.xaml">
+    <Page Include="View\TreeView\TasksView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
