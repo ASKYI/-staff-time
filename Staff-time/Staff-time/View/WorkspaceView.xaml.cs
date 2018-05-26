@@ -16,15 +16,14 @@ using System.Windows.Shapes;
 namespace Staff_time.View
 {
     /// <summary>
-    /// Логика взаимодействия для Workspace.xaml
+    /// Логика взаимодействия для WorkspaceView.xaml
     /// </summary>
-    public partial class Workspace : UserControl
+    public partial class WorkspaceView : UserControl
     {
-        ViewModel.WorkspaceViewModel workspaceVM = new ViewModel.WorkspaceViewModel();
-        public Workspace()
+        public WorkspaceView()
         {
             InitializeComponent();
-            DataContext = workspaceVM;
+            DataContext = new ViewModel.WorkspaceViewModel();
 
         }
     }

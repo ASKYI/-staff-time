@@ -17,9 +17,9 @@ using System.ComponentModel;
 
 namespace Staff_time.View
 {
-    /// <summary>
-    /// Логика взаимодействия для ExtendedTreeView.xaml
-    /// </summary>
+    //Решения для возможности получать значение SelectedItem у TreeView из ViewModel
+    //https://www.codeproject.com/Questions/509537/wpfplusmvvmplustreeviewplusgetplusselectedplusitem
+
     public partial class ExtendedTreeView : System.Windows.Controls.TreeView, INotifyPropertyChanged
     {
         public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register("SelectedItem", typeof(Object), typeof(ExtendedTreeView), new PropertyMetadata(null));

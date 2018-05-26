@@ -20,11 +20,10 @@ namespace Staff_time.View
     /// </summary>
     public partial class FaveView : UserControl
     {
-        ViewModel.FaveViewModel faveVM = new ViewModel.FaveViewModel();
         public FaveView()
         {
             InitializeComponent();
-            DataContext = faveVM;
+            DataContext = new ViewModel.FaveViewModel();
         }
     }
 }

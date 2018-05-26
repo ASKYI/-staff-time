@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Staff_time.View"
+            
              xmlns:vm="clr-namespace:Staff_time.ViewModel"
              xmlns:m="clr-namespace:Staff_time.Model"
+            
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -28,7 +30,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        
+
         <Style x:Key="EditButtonStyle" TargetType="Button">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}" Value="True">
@@ -39,17 +41,8 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="ChangeButtonStyle" TargetType="Button">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsChangingType}" Value="True">
-                    <Setter Property="Background" Value="LightGray"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding IsChangingType}" Value="False">
-                    <Setter Property="Background" Value="LightCoral"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
 
+        <!--Вызов контрола по типу работы-->
         <DataTemplate DataType="{x:Type vm:WorkInBlock}" >
             <local:WorkControl DataContext="{Binding WorkControlDataContext}"></local:WorkControl>
          </DataTemplate>
@@ -65,8 +58,8 @@
         <DataTemplate DataType="{x:Type vm:WorkRefractoring_InBlock}" >
             <local:WorkRefractoring_Control DataContext="{Binding WorkControlDataContext}"></local:WorkRefractoring_Control>
         </DataTemplate>
-
     </UserControl.Resources>
+     
     <Expander Margin="3"  Header="{Binding Path}" Padding="5" BorderThickness="3" 
               IsExpanded="False" Style="{StaticResource ExpanderStyle}">
         <StackPanel>
@@ -75,27 +68,23 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
+                
                 <TextBlock Text="Имя работы: " Grid.Column="0"></TextBlock>
                 <TextBox  TextWrapping="Wrap" IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.WorkName}" Grid.Column="1" BorderBrush="White"></TextBox>
             </Grid>
-            <!--<Grid Margin="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Путь к задаче: " Grid.Column="0"></TextBlock>
-                <TextBox  TextWrapping="Wrap" IsReadOnly="True" Text="{Binding Path}" Grid.Column="1" BorderBrush="White"></TextBox>
-            </Grid>-->
+            
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
+                
                 <TextBlock Text="Дата: " Grid.Column="0"></TextBlock>
                 <DatePicker Grid.Column="1" IsDropDownOpen="False" 
                             SelectedDate="{Binding WorkInBlock.WorkControlDataContext.Work.StartDate}"
                             IsEnabled="{Binding IsEnabled}"></DatePicker>
             </Grid>
+            
             <!--<Grid Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -106,15 +95,19 @@
                             SelectedDate="{Binding WorkInBlock.WorkControlDataContext.Work.EndDate}"
                             IsEnabled="{Binding IsEnabled}"></DatePicker>
             </Grid>-->
+            
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
+                
                 <TextBlock Text="Время работы (в минутах): " Grid.Column="0"></TextBlock>
                 <TextBox TextWrapping="Wrap" IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.Minutes}" Grid.Column="1" BorderBrush="White"></TextBox>
             </Grid>
+            
             <Separator Height="3"></Separator>
+            
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -129,7 +122,6 @@
                           SelectedIndex="{Binding SelectedWorkTypeIndex}"
                           IsEnabled="{Binding IsEnabled}">
                 </ComboBox>
-                <!--<Button Content="Изменить тип" Command="{Binding ChangeTypeCommand}" Grid.Column="2" Style="{StaticResource ChangeButtonStyle}"></Button>-->
             </Grid>
 
             <ItemsControl ItemsSource="{Binding WorkInThisBlock}"></ItemsControl>
