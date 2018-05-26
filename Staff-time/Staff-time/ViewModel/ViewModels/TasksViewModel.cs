@@ -65,6 +65,17 @@ namespace Staff_time.ViewModel
             }
             else
                 TaskNodesDictionary[(int)task.ParentTaskID].AddChild(node);
+
+            List<int> childTasks = taskWork.Read_ChildTasks(task.ID);
+            foreach(var t in childTasks)
+            {
+                node.AddChild(TaskNodesDictionary[t]);
+
+                if (TaskNodesDictionary[t].ParentNode != null)
+                    TaskNodesDictionary[t].ParentNode.TreeNodes.Remove(TaskNodesDictionary[t]);
+                else
+                    TreeRoots.Remove(TaskNodesDictionary[t]);
+            }
         }
         private void _deleteNode(TreeNode node)
         {
@@ -109,6 +120,9 @@ namespace Staff_time.ViewModel
                     SelectedTaskTypeIndex = _selectedTaskNode.Task.TaskTypeID;
                     EditTask = (Task)_selectedTaskNode.Task.Clone();
                 }
+
+                IsEditing = true;
+                IsEnabled = false;
             }
         }
         #endregion
@@ -263,6 +277,10 @@ namespace Staff_time.ViewModel
                 else if (EditTask.ParentTaskID != null && !TaskNodesDictionary.ContainsKey((int)EditTask.ParentTaskID)
                     || SelectedTaskNode.Task.ID == EditTask.ParentTaskID)
                     return;
+
+
+                IsEditing = true;
+                IsEnabled = false;
 
                 Task task = (Task)EditTask.Clone();
                 _deleteNode(SelectedTaskNode);

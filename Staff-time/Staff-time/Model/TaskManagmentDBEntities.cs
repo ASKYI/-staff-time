@@ -43,6 +43,20 @@ namespace Staff_time.Model
             return (from t in UserTasks where t.UserID == userID select t.TaskID).ToList();
         }
 
+        public List<int> Read_ChildTasks(int taskID)
+        {
+            List<Task> tasksDB = Tasks.Where(t => t.ParentTaskID == taskID).ToList();
+
+            List<int> tasks = new List<int>();
+
+            TaskFactory taskFactory = new TaskFactory();
+            foreach (Task t in tasksDB)
+            {
+                tasks.Add(t.ID);
+            }
+            return tasks;
+        }
+
         public void Update_Task(Task task)
         {
             Tasks.AddOrUpdate(task);
