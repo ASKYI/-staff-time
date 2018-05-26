@@ -115,11 +115,13 @@ namespace Staff_time.Model
         public void Update_Work(Work work)
         {
             var workDB = Works.Where(x => x.ID == work.ID).FirstOrDefault();
-
-            if (workDB.WorkTypeID != work.WorkTypeID) //При изменении типа! Удалить-перенести атрибуты типа
-                Update_AttrValuesFields_ForWork(work.ID, (WorkTypeEnum)workDB.WorkTypeID, (WorkTypeEnum)work.WorkTypeID);
+            int oldTypeID = workDB.WorkTypeID, newTypeID = work.WorkTypeID;
 
             Works.AddOrUpdate(work);
+
+            if (workDB.WorkTypeID != work.WorkTypeID) //При изменении типа! Удалить-перенести атрибуты типа
+                Update_AttrValuesFields_ForWork(work.ID, (WorkTypeEnum)oldTypeID, (WorkTypeEnum)newTypeID);
+
             SaveChanges();
         }
 
@@ -155,7 +157,6 @@ namespace Staff_time.Model
 
         public void Update_AttrValuesFields_ForWork(int WorkID, WorkTypeEnum oldType, WorkTypeEnum newType)
         {
-            //TODO: сохранение значений совпадающих атрибутов
             Delete_AttrValuesFields_ForWork(WorkID);
             Create_AttrValuesFields_ForWork(WorkID, newType);
         }
@@ -167,10 +168,12 @@ namespace Staff_time.Model
         }
 
         public void Update_AttrValues_ForWork(List<AttrValue> values)
-        {            
-            foreach(var v in values)
+        {
+            foreach (var v in values)
+            {
                 AttrValues.AddOrUpdate(v);
-            SaveChanges();
+                SaveChanges();
+            }
         }
         #endregion
     }

@@ -14,7 +14,7 @@ namespace Staff_time.Model.Interfaces
         //Возвращает значение всех атрибутов для задач (с загрузкой атрибутов)
         List<AttrValue> Read_AttrValues_ForWork(Work work);
 
-        //При изменении типа работы, изменение записей атрибутов (не сохраняет сопадающие!)
+        //При изменении типа работы, изменение записей атрибутов
         void Update_AttrValuesFields_ForWork(int WorkID, WorkTypeEnum oldType, WorkTypeEnum newType);
 
         //Удаление записей значения отрибутов для работы
