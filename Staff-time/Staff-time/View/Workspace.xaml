@@ -27,9 +27,11 @@
                 </StackPanel>
             </MenuItem>
             <MenuItem Header="Обновить всё" Command="{Binding UpdateCommand}"></MenuItem>
-            <MenuItem Header=" " Background="Gray"></MenuItem>
-            <MenuItem Header="Общее время дня:"></MenuItem>
-            <MenuItem Header="{Binding SumTime}"></MenuItem>
+            <MenuItem IsEnabled="False" IsCheckable="False" Header=" " Background="Gray"></MenuItem>
+            <MenuItem IsEnabled="False" IsCheckable="False" Header="Общее время дня:"></MenuItem>
+            <MenuItem IsEnabled="False" IsCheckable="False" Header="{Binding SumTime}"></MenuItem>
+            <MenuItem IsEnabled="False" IsCheckable="False" Header="минут"></MenuItem>
+            <MenuItem IsEnabled="False" IsCheckable="False" Header=" " Background="Gray"></MenuItem>
         </Menu>
 
         <TabControl ItemsSource="{Binding WeekTabs}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" Grid.Row="1">
