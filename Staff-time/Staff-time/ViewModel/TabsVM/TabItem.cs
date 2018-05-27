@@ -98,7 +98,7 @@ namespace Staff_time.ViewModel
                         SumTime -= (int)oldWork.Minutes;
                     WorksInTab.Remove(WorksInTab[index]);
 
-                    if (pair.Value.StartDate.Date == Date)
+                    if (pair.Value.StartDate.Date == Date.Date)
                     {
                         WorkFactory factory = new WorkFactory();
                         Work work = factory.CreateWork(pair.Value);
