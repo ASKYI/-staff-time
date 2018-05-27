@@ -58,8 +58,8 @@ namespace Staff_time.ViewModel
         //А ловят-то все семь табов
         private void _updateWork(KeyValuePair<int, Work> pair)
         {
-            if (pair.Value.StartDate != Date)
-                return;
+           // if (pair.Value.StartDate != Date)
+             //   return;
 
             if (pair.Key == 2) //Добавить
             {
@@ -93,16 +93,19 @@ namespace Staff_time.ViewModel
                     WorksInTab.Remove(WorksInTab[index]);
                     break;
                 case 1: //Редактировать (в том числе сменить тип)
-                    long? oldMinutes = workWork.Read_WorkMinutes(WorksInTab[index].WorkBlockControlDataContext.WorkInBlock.WorkControlDataContext.Work.ID);
-                    if (oldMinutes != null)
-                        SumTime -= (int)oldMinutes;
+                    Work oldWork = workWork.Read_WorkByID(WorksInTab[index].WorkBlockControlDataContext.WorkInBlock.WorkControlDataContext.Work.ID);
+                    if (oldWork.Minutes != null)
+                        SumTime -= (int)oldWork.Minutes;
                     WorksInTab.Remove(WorksInTab[index]);
 
-                    WorkFactory factory = new WorkFactory();
-                    Work work = factory.CreateWork(pair.Value);
-                    if (pair.Value.Minutes != null)
-                        SumTime += (int)pair.Value.Minutes;
-                    WorksInTab.Add(new WorkInTab(work));
+                    if (pair.Value.StartDate.Date == Date)
+                    {
+                        WorkFactory factory = new WorkFactory();
+                        Work work = factory.CreateWork(pair.Value);
+                        if (pair.Value.Minutes != null)
+                            SumTime += (int)pair.Value.Minutes;
+                        WorksInTab.Add(new WorkInTab(work));
+                    }
                     break;
             }
 

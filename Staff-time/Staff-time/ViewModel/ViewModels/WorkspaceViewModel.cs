@@ -74,6 +74,7 @@ namespace Staff_time.ViewModel
                 {
                     SetField<int>(ref _selectedIndex, value);
                     curDate = WeekTabs[value].Date;
+                    WeekTabs[value].Generate_WorksForDate();
                     SumTime = WeekTabs[value].SumTime;
                 }
             }
