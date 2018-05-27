@@ -19,6 +19,8 @@ namespace Staff_time.Model.Interfaces
 
         List<Work> Read_WorksForTask(int taskID);
 
+        long? Read_WorkMinutes(int workID);
+
         void Update_Work(Work work);
 
         void Delete_Work(int workID);

@@ -208,13 +208,14 @@ namespace Staff_time.ViewModel
             if (!WorkInBlock.WorkControlDataContext.IsEdititig)
             {
                 WorkInBlock.WorkControlDataContext.Work.WorkTypeID = SelectedWorkTypeIndex;
+
+                MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(1,
+                    WorkInBlock.WorkControlDataContext.Work));
+
                 WorkInBlock.WorkControlDataContext.UpdateWork();
 
                 WorkInBlock.WorkControlDataContext.IsEdititig = true;
                 IsEnabled = false;
-
-                MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(1,
-                    WorkInBlock.WorkControlDataContext.Work));
             }
             else
             {

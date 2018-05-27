@@ -64,12 +64,16 @@ namespace Staff_time.ViewModel
                 TreeRoots.Add(node);
             }
             else
+            {
                 TaskNodesDictionary[(int)task.ParentTaskID].AddChild(node);
+                node.ParentNode = TaskNodesDictionary[(int)task.ParentTaskID];
+            }
 
             List<int> childTasks = taskWork.Read_ChildTasks(task.ID);
             foreach(var t in childTasks)
             {
                 node.AddChild(TaskNodesDictionary[t]);
+                TaskNodesDictionary[t].ParentNode = node;
 
                 if (TaskNodesDictionary[t].ParentNode != null)
                     TaskNodesDictionary[t].ParentNode.TreeNodes.Remove(TaskNodesDictionary[t]);
@@ -77,6 +81,7 @@ namespace Staff_time.ViewModel
                     TreeRoots.Remove(TaskNodesDictionary[t]);
             }
         }
+
         private void _deleteNode(TreeNode node)
         {
             int parentID = 0, delTaskID = node.Task.ID;
@@ -285,6 +290,11 @@ namespace Staff_time.ViewModel
                 Task task = (Task)EditTask.Clone();
                 _deleteNode(SelectedTaskNode);
                 _addNewNode(task);
+
+                List<Work> works = workWork.Read_WorksForTask(task.ID);
+                foreach (var w in works)
+                    MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(1, w));
+
                 taskWork.Update_Task(task);
             }
             else

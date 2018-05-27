@@ -135,6 +135,11 @@ namespace Staff_time.Model
             return works;
         }
 
+        public long? Read_WorkMinutes(int workID)
+        {
+            return (from w in Works where w.ID == workID select w.Minutes).FirstOrDefault();
+        }
+
         public void Update_Work(Work work)
         {
             var workDB = Works.Where(x => x.ID == work.ID).FirstOrDefault();

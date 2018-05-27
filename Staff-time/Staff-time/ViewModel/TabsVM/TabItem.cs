@@ -93,8 +93,9 @@ namespace Staff_time.ViewModel
                     WorksInTab.Remove(WorksInTab[index]);
                     break;
                 case 1: //Редактировать (в том числе сменить тип)
-                    if (WorksInTab[index].WorkBlockControlDataContext.WorkInBlock.WorkControlDataContext.Work.Minutes != null)
-                        SumTime -= (int)WorksInTab[index].WorkBlockControlDataContext.WorkInBlock.WorkControlDataContext.Work.Minutes;
+                    long? oldMinutes = workWork.Read_WorkMinutes(WorksInTab[index].WorkBlockControlDataContext.WorkInBlock.WorkControlDataContext.Work.ID);
+                    if (oldMinutes != null)
+                        SumTime -= (int)oldMinutes;
                     WorksInTab.Remove(WorksInTab[index]);
 
                     WorkFactory factory = new WorkFactory();
