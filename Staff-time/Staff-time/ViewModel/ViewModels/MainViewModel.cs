@@ -118,7 +118,7 @@ namespace Staff_time.ViewModel
                     tasksNodes.Add(TaskNodesDictionary[q]);
             return tasksNodes;
         }
-        protected static string generate_PathFotTask(TreeNode taskTreeNode)
+        protected static string generate_PathForTask(TreeNode taskTreeNode)
         {
             StringBuilder stringPath = new StringBuilder();
             List<string> path = new List<string>();
