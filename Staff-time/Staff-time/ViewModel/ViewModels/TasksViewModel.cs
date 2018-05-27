@@ -285,6 +285,7 @@ namespace Staff_time.ViewModel
                 Task task = (Task)EditTask.Clone();
                 _deleteNode(SelectedTaskNode);
                 _addNewNode(task);
+                taskWork.Update_Task(task);
             }
             else
             {
