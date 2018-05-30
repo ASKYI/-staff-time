@@ -30,7 +30,9 @@
             <!--<MenuItem Header="Обновить всё" Command="{Binding UpdateCommand}"></MenuItem>-->
             <MenuItem IsEnabled="False" IsCheckable="False" Header=" " Background="Gray"></MenuItem>
             <MenuItem IsEnabled="False" IsCheckable="False" Header="Общее время дня:"></MenuItem>
-            <MenuItem IsEnabled="False" IsCheckable="False" Header="{Binding SumTime}"></MenuItem>
+            <MenuItem IsEnabled="False" IsCheckable="False" Header="{Binding SumHours}"></MenuItem>
+            <MenuItem IsEnabled="False" IsCheckable="False" Header="часов"></MenuItem>
+            <MenuItem IsEnabled="False" IsCheckable="False" Header="{Binding SumMinutes}"></MenuItem>
             <MenuItem IsEnabled="False" IsCheckable="False" Header="минут"></MenuItem>
             <MenuItem IsEnabled="False" IsCheckable="False" Header=" " Background="Gray"></MenuItem>
         </Menu>

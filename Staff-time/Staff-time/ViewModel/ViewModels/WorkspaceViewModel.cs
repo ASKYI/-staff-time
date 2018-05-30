@@ -96,7 +96,7 @@ namespace Staff_time.ViewModel
             SelectedIndex = 0;
         }
         #endregion
-
+        #region Time
         private int _sumTime;
         public int SumTime
         {
@@ -104,11 +104,32 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField(ref _sumTime, value);
+                SumHours = value / 60;
+                SumMinutes = value % 60;
+            }
+        }
+        private int _sumHours;
+        public int SumHours
+        {
+            get { return _sumHours; }
+            set
+            {
+                SetField(ref _sumHours, value);
+            }
+        }
+        private int _sumMinutes;
+        public int SumMinutes
+        {
+            get { return _sumMinutes; }
+            set
+            {
+                SetField(ref _sumMinutes, value);
             }
         }
         public void SumTimeChange(int newSumTime)
         {
             SumTime = newSumTime;
         }
+        #endregion
     }
 }
