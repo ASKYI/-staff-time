@@ -302,6 +302,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="pilot.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Model\TaskManagmentDBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
@@ -312,7 +315,6 @@
       <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
       <LastGenOutput>TaskManagmentDBModel.cs</LastGenOutput>
     </Content>
-    <Resource Include="pilot.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
