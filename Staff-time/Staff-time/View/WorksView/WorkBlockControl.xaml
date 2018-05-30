@@ -70,7 +70,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <TextBlock Text="Имя работы: " Grid.Column="0"></TextBlock>
-                <TextBox  TextWrapping="Wrap" IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.WorkName}" Grid.Column="1" BorderBrush="White"></TextBox>
+                <TextBox  TextWrapping="Wrap" IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.WorkName}" Grid.Column="1"></TextBox>
             </Grid>
             
             <Grid Margin="2">
@@ -103,7 +103,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <TextBlock Text="Время работы (в минутах): " Grid.Column="0"></TextBlock>
-                <TextBox TextWrapping="Wrap" IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.Minutes}" Grid.Column="1" BorderBrush="White"></TextBox>
+                <TextBox TextWrapping="Wrap" IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.Minutes}" Grid.Column="1"></TextBox>
             </Grid>
             
             <Separator Height="3"></Separator>

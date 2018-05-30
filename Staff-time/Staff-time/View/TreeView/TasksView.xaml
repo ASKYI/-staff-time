@@ -138,7 +138,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock FontSize="10" TextWrapping="Wrap" Text="Имя задачи: " Grid.Column="0"></TextBlock>
-                    <TextBox FontSize="10" IsReadOnly="{Binding IsEditing}" Text="{Binding EditTask.TaskName}" Grid.Column="1" BorderBrush="White"></TextBox>
+                    <TextBox FontSize="10" IsReadOnly="{Binding IsEditing}" Text="{Binding EditTask.TaskName}" Grid.Column="1"></TextBox>
                 </Grid>
                 
                 <Grid Margin="2">
@@ -148,7 +148,7 @@
                     </Grid.ColumnDefinitions>
                     
                     <TextBlock FontSize="10" Text="Задача-родитель ID: " Grid.Column="0"></TextBlock>
-                    <TextBox FontSize="10" IsReadOnly="{Binding IsEditing}" Text="{Binding EditTask.ParentTaskID}" Grid.Column="1" BorderBrush="White"></TextBox>
+                    <TextBox FontSize="10" IsReadOnly="{Binding IsEditing}" Text="{Binding EditTask.ParentTaskID}" Grid.Column="1"></TextBox>
                 </Grid>
                 <Grid Margin="2">
                     <Grid.ColumnDefinitions>

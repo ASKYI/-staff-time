@@ -35,14 +35,14 @@
 
         <DataTemplate DataType="{x:Type vm:AttrValueExtended}">
             <StackPanel>
-                <Grid>
+                <Grid Margin="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     
                     <TextBlock Text="{Binding AttrValue.Attribute.Name}" Grid.Column="0"></TextBlock>
-                    <TextBox TextWrapping="Wrap" IsReadOnly="{Binding IsEditing}" Grid.Column="1" BorderBrush="White"
+                    <TextBox TextWrapping="Wrap" IsReadOnly="{Binding IsEditing}" Grid.Column="1"
                              Style="{StaticResource TextBoxStyle}"></TextBox>
                 </Grid>
             </StackPanel>
