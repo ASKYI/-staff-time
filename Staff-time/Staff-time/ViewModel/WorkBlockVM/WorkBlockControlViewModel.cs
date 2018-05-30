@@ -17,14 +17,24 @@ namespace Staff_time.ViewModel
 {
     public class WorkBlockControlViewModel : MainViewModel
     {
-        public WorkBlockControlViewModel(Work work)
+        public WorkBlockControlViewModel(Work work, Boolean isEditting)
         {
-            IsChangingType = true; IsEnabledCbx = false;
-
             _generate_WorkInBlock(work);
             _generate_WorkTypesCb();
-            WorkInBlock.WorkControlDataContext.IsEdititig = true;
             SelectedWorkTypeIndex = work.WorkTypeID;
+
+            if (isEditting == true)
+            {
+                IsChangingType = false; IsEnabledCbx = true;
+                WorkInBlock.WorkControlDataContext.IsEdititig = false;
+                IsExpanded = true;
+            }
+            else
+            {
+                IsChangingType = true; IsEnabledCbx = false;
+                WorkInBlock.WorkControlDataContext.IsEdititig = true;
+                IsExpanded = false;
+            }
 
             _changeTypeCommand = new RelayCommand(ChangeType, CanChangeType);
             _editCommand = new RelayCommand(Edit, CanEdit);
@@ -224,5 +234,15 @@ namespace Staff_time.ViewModel
             }
         }
         #endregion
+
+        private Boolean _isExpanded;
+        public Boolean IsExpanded
+        {
+            get { return _isExpanded; }
+            set
+            {
+                SetField(ref _isExpanded, value);
+            }
+        }
     }
 }

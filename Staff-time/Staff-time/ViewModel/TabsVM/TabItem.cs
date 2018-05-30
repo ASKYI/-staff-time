@@ -47,7 +47,7 @@ namespace Staff_time.ViewModel
             WorksInTab = new ObservableCollection<WorkInTab>();
             foreach (Work w in works)
             {
-                WorksInTab.Add(new WorkInTab(w));
+                WorksInTab.Add(new WorkInTab(w, false));
                 if (w.Minutes != null)  
                    SumTime += (int)w.Minutes;
             }
@@ -67,7 +67,7 @@ namespace Staff_time.ViewModel
                 Work work = factory.CreateWork(pair.Value);
                 if (pair.Value.Minutes != null)
                     SumTime += (int)pair.Value.Minutes;
-                WorksInTab.Add(new WorkInTab(work));
+                WorksInTab.Add(new WorkInTab(work, true));
 
                 MessengerInstance.Send<int>(SumTime);
                 return;
@@ -104,7 +104,7 @@ namespace Staff_time.ViewModel
                         Work work = factory.CreateWork(pair.Value);
                         if (pair.Value.Minutes != null)
                             SumTime += (int)pair.Value.Minutes;
-                        WorksInTab.Add(new WorkInTab(work));
+                        WorksInTab.Add(new WorkInTab(work, false));
                     }
                     break;
             }

@@ -20,9 +20,9 @@ namespace Staff_time.ViewModel
     //Я пытаюсь найти лучшее решение
     public class WorkInTab : ViewModelBase, INotifyPropertyChanged
     {
-        public WorkInTab(Work work)
+        public WorkInTab(Work work, Boolean IsEditing)
         {
-            WorkBlockControlDataContext = new WorkBlockControlViewModel(work);
+            WorkBlockControlDataContext = new WorkBlockControlViewModel(work, IsEditing);
         }
 
         private WorkBlockControlViewModel _workBlockControlDataContext;

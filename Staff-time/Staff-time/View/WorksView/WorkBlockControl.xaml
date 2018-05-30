@@ -61,7 +61,7 @@
     </UserControl.Resources>
      
     <Expander Margin="3"  Header="{Binding Path}" Padding="5" BorderThickness="3" 
-              IsExpanded="False" Style="{StaticResource ExpanderStyle}">
+              IsExpanded="{Binding IsExpanded}" Style="{StaticResource ExpanderStyle}">
         <StackPanel>
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
