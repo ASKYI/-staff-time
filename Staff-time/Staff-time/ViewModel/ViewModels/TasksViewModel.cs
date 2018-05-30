@@ -72,37 +72,43 @@ namespace Staff_time.ViewModel
             List<int> childTasks = taskWork.Read_ChildTasks(task.ID);
             foreach(var t in childTasks)
             {
-                node.AddChild(TaskNodesDictionary[t]);
-                TaskNodesDictionary[t].ParentNode = node;
+                TreeNode childNode = TaskNodesDictionary[t];
 
-                if (TaskNodesDictionary[t].ParentNode != null)
-                    TaskNodesDictionary[t].ParentNode.TreeNodes.Remove(TaskNodesDictionary[t]);
+                if (childNode.ParentNode != null)
+                    childNode.ParentNode.TreeNodes.Remove(TaskNodesDictionary[t]);
                 else
                     TreeRoots.Remove(TaskNodesDictionary[t]);
+
+                node.AddChild(childNode);
+                childNode.ParentNode = node;
             }
         }
 
-        private void _deleteNode(TreeNode node)
+        private void _deleteNode(TreeNode node, bool wirhChildren)
         {
             int parentID = 0, delTaskID = node.Task.ID;
             if (node.Task.ParentTaskID != null)
                 parentID = (int)node.Task.ParentTaskID;
 
             //Удаляем узел, родитель его детей - родитель удаляемого узла
-            foreach (var t in TaskNodesDictionary[delTaskID].TreeNodes)
+            if (wirhChildren)
             {
-                if (parentID != 0)
+                foreach (var t in TaskNodesDictionary[delTaskID].TreeNodes)
                 {
-                    t.ParentNode = TaskNodesDictionary[parentID];
-                    TaskNodesDictionary[parentID].AddChild(t);
-                }
-                else
-                {
-                    t.ParentNode = null;
-                    t.Task.ParentTaskID = null;
-                    TreeRoots.Add(t);
+                    if (parentID != 0)
+                    {
+                        t.ParentNode = TaskNodesDictionary[parentID];
+                        TaskNodesDictionary[parentID].AddChild(t);
+                    }
+                    else
+                    {
+                        t.ParentNode = null;
+                        t.Task.ParentTaskID = null;
+                        TreeRoots.Add(t);
+                    }
                 }
             }
+
             if (parentID == 0)
                 TreeRoots.Remove(node);
             else
@@ -226,7 +232,7 @@ namespace Staff_time.ViewModel
                 MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(0, w));
 
             int delID = SelectedTaskNode.Task.ID;
-            _deleteNode(SelectedTaskNode);
+            _deleteNode(SelectedTaskNode, true);
             taskWork.Delete_Task(delID);
         }
         #endregion
@@ -288,7 +294,7 @@ namespace Staff_time.ViewModel
                 IsEnabled = false;
 
                 Task task = (Task)EditTask.Clone();
-                _deleteNode(SelectedTaskNode);
+                _deleteNode(SelectedTaskNode, false);
                 _addNewNode(task);
 
                 List<Work> works = workWork.Read_WorksForTask(task.ID);
