@@ -61,7 +61,7 @@ namespace Staff_time.ViewModel
 
             int taskId = WorkInBlock.WorkControlDataContext.Work.TaskID;
             if (TaskNodesDictionary.ContainsKey(taskId))
-                Path = generate_PathForTask(TaskNodesDictionary[WorkInBlock.WorkControlDataContext.Work.TaskID]);
+                Path = generate_PathForTask(TaskNodesDictionary[WorkInBlock.WorkControlDataContext.Work.TaskID]) + "-->" + WorkInBlock.WorkControlDataContext.Work.WorkName;
             else
                 Path = "Ошибка пути";
         }
