@@ -144,12 +144,17 @@
     <Compile Include="ViewModel\TabsVM\TabItem.cs" />
     <Compile Include="ViewModel\TabsVM\TabItemHeaderConverter.cs" />
     <Compile Include="ViewModel\TreeNodesVM\ITreeNodeFactory.cs" />
+    <Compile Include="ViewModel\TreeNodesVM\Shared\Context.cs" />
+    <Compile Include="ViewModel\TreeNodesVM\Shared\TaskNodes.cs" />
+    <Compile Include="ViewModel\TreeNodesVM\Shared\TasksFunctions.cs" />
     <Compile Include="ViewModel\TreeNodesVM\TreeNodeFactory.cs" />
     <Compile Include="ViewModel\TreeNodesVM\TreeNodes\TreeNode.cs" />
     <Compile Include="ViewModel\TreeNodesVM\TreeNodes\TreeNodeCustomer.cs" />
     <Compile Include="ViewModel\TreeNodesVM\TreeNodes\TreeNodeSpecialty.cs" />
     <Compile Include="ViewModel\TreeNodesVM\TreeNodes\TreeNodeСompany.cs" />
     <Compile Include="ViewModel\TreeNodesVM\TreeNodes\TreeNodeСontract.cs" />
+    <Compile Include="ViewModel\ViewModels\DialogDependency.cs" />
+    <Compile Include="ViewModel\ViewModels\TaskViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\FaveViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\TasksViewModel.cs" />

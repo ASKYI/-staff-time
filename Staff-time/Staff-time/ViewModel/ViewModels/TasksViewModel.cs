@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 using Staff_time.Model;
 using System.Collections.ObjectModel;
@@ -182,6 +183,7 @@ namespace Staff_time.ViewModel
         private void AddNearTask(object obj)
         {
             DialogTitle = "Новая задача";
+            DialogDependency = new DialogDependency();
             IsShowed = true;
             
             Task newTask = new Task();
@@ -236,7 +238,7 @@ namespace Staff_time.ViewModel
         private void DeleteTask(object obj)
         {
             List<Work> works = workWork.Read_WorksForTask(SelectedTaskNode.Task.ID);
-            foreach(var w in works)
+            foreach(var w in works)                
                 MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(0, w));
 
             int delID = SelectedTaskNode.Task.ID;
@@ -366,6 +368,16 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField(ref _dialogTitle, value);
+            }
+        }
+
+        private DialogDependency _dialogDependency;
+        public DialogDependency DialogDependency
+        {
+            get { return _dialogDependency; }
+            set
+            {
+                SetField(ref _dialogDependency, value);
             }
         }
     }

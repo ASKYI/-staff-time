@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Staff_time.ViewModel.TreeNodesVM.Shared
+namespace Staff_time.ViewModel.TreeNodesVM
 {
-    class TaskNodes
+    public static class TaskNodes
     {
+
     }
 }

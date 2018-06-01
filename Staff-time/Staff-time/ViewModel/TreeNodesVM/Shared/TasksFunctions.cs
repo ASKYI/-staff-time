@@ -8,5 +8,6 @@ namespace Staff_time.ViewModel.TreeNodesVM
 {
     public static class TasksFunctions
     {
+
     }
 }

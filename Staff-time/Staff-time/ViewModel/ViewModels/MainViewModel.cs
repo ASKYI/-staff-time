@@ -151,16 +151,6 @@ namespace Staff_time.ViewModel
             RaisePropertyChanged(propertyName);
             return true;
         }
-
-        public static event PropertyChangedEventHandler PropertyChanged_static;
-
-        public static void OnPropertyChanged_static(string name)
-        {
-            if (PropertyChanged_static != null)
-            {
-                PropertyChanged_static(null, new PropertyChangedEventArgs(name));
-            }
-        }
         #endregion
     }
 }

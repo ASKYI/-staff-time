@@ -77,6 +77,25 @@
                 </StackPanel>
             </Border>
         </HierarchicalDataTemplate>
+
+        <!--
+            DataTemplate for the UserViewModel for display in the dialog.
+            This would normally be defined in Dialog.Resources but I put it here
+            to prove that data-binding is working across Windows.            
+            -->
+        <DataTemplate DataType="{x:Type vm:TaskViewModel}">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label>Name:</Label>
+                    <TextBox Text="{Binding Path=Name}"></TextBox>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button IsDefault="True" Command="{Binding Path=AcceptAddUserCommand}">OK</Button>
+                    <Button IsCancel="True">Cancel</Button>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -88,8 +107,9 @@
         <!--Диалог-->
         <dialog:Dialog Showing="{Binding IsShowed}" 
                        Title="{Binding DialogTitle}" 
-                       Content="{Binding SelectedTaskNode.Task.TaskName}" 
-                        />
+                       Content="{Binding Path=DialogDependency.DialogViewModel}"/>
+                       <!--CancelCommand="{Binding Path=CancelAddUserCommand}"--> 
+                        
 
         <!--Дерево-->
         <Border  Grid.Row="0" Margin="3" BorderBrush="Gray" BorderThickness="2">
