@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Staff_time.View"
              
              xmlns:vm="clr-namespace:Staff_time.ViewModel"
+             xmlns:dialog="clr-namespace:DialogControl;assembly=DialogControl"
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -83,6 +84,12 @@
             <RowDefinition Height="0.75*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
+        
+        <!--Диалог-->
+        <dialog:Dialog Showing="{Binding IsShowed}" 
+                       Title="{Binding DialogTitle}" 
+                       Content="{Binding SelectedTaskNode.Task.TaskName}" 
+                        />
 
         <!--Дерево-->
         <Border  Grid.Row="0" Margin="3" BorderBrush="Gray" BorderThickness="2">

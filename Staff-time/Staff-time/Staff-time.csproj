@@ -316,5 +316,11 @@
       <LastGenOutput>TaskManagmentDBModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DialogControl\DialogControl.csproj">
+      <Project>{2fe99167-c6bf-488b-8d0e-9796fdb4b1ef}</Project>
+      <Name>DialogControl</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

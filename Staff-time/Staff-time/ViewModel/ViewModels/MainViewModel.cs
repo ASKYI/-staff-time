@@ -18,10 +18,10 @@ namespace Staff_time.ViewModel
     {
         #region Context
         private static TaskManagmentDBEntities _context;
-        protected static ITaskWork taskWork;
-        protected static IWorkWork workWork;
-        protected static IAttrWork attrWork;
-        protected static ITypesWork typesWork;
+        public static ITaskWork taskWork;
+        public static IWorkWork workWork;
+        public static IAttrWork attrWork;
+        public static ITypesWork typesWork;
 
         private static void _initialize_Context()
         {
@@ -59,10 +59,10 @@ namespace Staff_time.ViewModel
         #region TreeNodes static
         //Так как с задачами удобнее работать как с узлами дерева (имея доступ ко всем наследникам и предку), 
         //они хранятся в виде узлов, узлы задач хранятся в словаре для облегчения доступа.
-        protected static Dictionary<int, TreeNode> TaskNodesDictionary { get; set; }
+        public static Dictionary<int, TreeNode> TaskNodesDictionary { get; set; }
 
-        protected static bool _generateTree_tracker = false;
-        protected static void _generate_TreeNodesDictionary()
+        public static bool _generateTree_tracker = false;
+        public static void _generate_TreeNodesDictionary()
         {
             if (_generateTree_tracker)
                 return;
@@ -110,7 +110,7 @@ namespace Staff_time.ViewModel
         }
         #endregion
         #region Functions static
-        protected static ObservableCollection<TreeNode> Convert_TasksIntoNodes(List<int> t)
+        public static ObservableCollection<TreeNode> Convert_TasksIntoNodes(List<int> t)
         {
             ObservableCollection<TreeNode> tasksNodes = new ObservableCollection<TreeNode>();
             if (t != null)
@@ -118,7 +118,7 @@ namespace Staff_time.ViewModel
                     tasksNodes.Add(TaskNodesDictionary[q]);
             return tasksNodes;
         }
-        protected static string generate_PathForTask(TreeNode taskTreeNode)
+        public static string generate_PathForTask(TreeNode taskTreeNode)
         {
             StringBuilder stringPath = new StringBuilder();
             List<string> path = new List<string>();
@@ -143,7 +143,7 @@ namespace Staff_time.ViewModel
         #endregion
 
         #region INotifyPropertyChanged Member
-        protected bool SetField<T>(ref T field, T value,
+        public bool SetField<T>(ref T field, T value,
             [CallerMemberName] string propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, value)) return false;

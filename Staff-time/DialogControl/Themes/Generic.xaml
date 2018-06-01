@@ -1,0 +1,31 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DialogControl">
+
+    <!--
+    The default style for our Dialog Window. We purposely don't set the ControlTemplate
+    so the Dialog Control is invisible.  
+    -->
+    <Style TargetType="{x:Type local:Dialog}">
+        <!--Notice this sets WindowTemplate NOT ControlTemplate.-->
+        <Setter Property="WindowTemplate">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Dialog}">
+                    <Window
+                        SizeToContent="WidthAndHeight"                         
+                        ResizeMode="NoResize"                        
+                        WindowStyle="SingleBorderWindow"
+                        Title=""
+                        WindowStartupLocation="CenterOwner"
+                        Left="NaN"
+                        Top="NaN"
+                        Topmost="False"
+                        ShowActivated="True"
+                        ShowInTaskbar="False"
+                    />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

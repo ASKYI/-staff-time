@@ -28,6 +28,8 @@ namespace Staff_time.ViewModel
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
             _editCommand = new RelayCommand(Edit, CanEdit);
+
+            IsShowed = false;
         }
 
         #region Tree
@@ -179,6 +181,9 @@ namespace Staff_time.ViewModel
         }
         private void AddNearTask(object obj)
         {
+            DialogTitle = "Новая задача";
+            IsShowed = true;
+            
             Task newTask = new Task();
             if (SelectedTaskNode != null)
                 newTask.ParentTaskID = SelectedTaskNode.Task.ParentTaskID;
@@ -202,6 +207,9 @@ namespace Staff_time.ViewModel
         }
         private void AddChildTask(object obj)
         {
+            DialogTitle = "Новая задача";
+            IsShowed = true;
+
             Task newTask = new Task();
             newTask.ParentTaskID = SelectedTaskNode.Task.ID;
             newTask.TaskName = "Новая задача";
@@ -339,5 +347,26 @@ namespace Staff_time.ViewModel
             }
         }
         #endregion
+        #region Dialog
+        private Boolean _isShowed;
+        public Boolean IsShowed
+        {
+            get { return _isShowed; }
+            set
+            {
+                SetField(ref _isShowed, value);
+            }
+        }
+        #endregion
+
+        private string _dialogTitle;
+        public string DialogTitle
+        {
+            get { return _dialogTitle; }
+            set
+            {
+                SetField(ref _dialogTitle, value);
+            }
+        }
     }
 }
