@@ -73,7 +73,7 @@ namespace Staff_time.ViewModel
                 if (value >= 0 && value < WeekTabs.Count) //Иногда он сюда попадает
                 {
                     SetField<int>(ref _selectedIndex, value);
-                    curDate = WeekTabs[value].Date;
+                    chosenDate = WeekTabs[value].Date;
                     WeekTabs[value].Generate_WorksForDate();
                     SumTime = WeekTabs[value].SumTime;
                 }

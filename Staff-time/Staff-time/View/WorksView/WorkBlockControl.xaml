@@ -11,6 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        
         <Style x:Key="ExpanderStyle" TargetType="Expander">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.Work.WorkTypeID}" Value="0"><!--WorkNone-->

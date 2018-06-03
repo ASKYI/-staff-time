@@ -24,5 +24,7 @@ namespace Staff_time.View
         {
             InitializeComponent();
         }
+
+        public int WorkID { get; set; }
     }
 }

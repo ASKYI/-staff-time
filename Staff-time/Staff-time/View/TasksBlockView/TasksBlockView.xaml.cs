@@ -16,14 +16,14 @@ using System.Windows.Shapes;
 namespace Staff_time.View
 {
     /// <summary>
-    /// Логика взаимодействия для TasksView.xaml
+    /// Логика взаимодействия для TasksBlockView.xaml
     /// </summary>
-    public partial class TasksView : UserControl
+    public partial class TasksBlockView : UserControl
     {
-        public TasksView()
+        public TasksBlockView()
         {
             InitializeComponent();
-            DataContext = new ViewModel.TasksViewModel();
+            DataContext = new ViewModel.TasksBlockViewModel();
         }
     }
 }

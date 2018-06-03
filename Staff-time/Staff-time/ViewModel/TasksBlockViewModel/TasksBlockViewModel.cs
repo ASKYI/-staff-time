@@ -12,9 +12,9 @@ using GalaSoft.MvvmLight.Messaging;
 
 namespace Staff_time.ViewModel
 {
-    public class TasksViewModel : MainViewModel
+    public class TasksBlockViewModel : MainViewModel
     {
-        public TasksViewModel()
+        public TasksBlockViewModel()
         {
             _generate_Tree();
 
@@ -160,7 +160,7 @@ namespace Staff_time.ViewModel
 
             newWork.WorkName = "Новая работа";
             newWork.TaskID = SelectedTaskNode.Task.ID;
-            newWork.StartDate = curDate.Date;
+            newWork.StartDate = chosenDate.Date;
             workWork.Create_Work(newWork);
 
             MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(2, newWork));

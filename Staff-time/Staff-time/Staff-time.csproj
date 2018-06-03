@@ -143,21 +143,21 @@
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\TabsVM\TabItem.cs" />
     <Compile Include="ViewModel\TabsVM\TabItemHeaderConverter.cs" />
-    <Compile Include="ViewModel\TreeNodesVM\ITreeNodeFactory.cs" />
-    <Compile Include="ViewModel\TreeNodesVM\Shared\Context.cs" />
-    <Compile Include="ViewModel\TreeNodesVM\Shared\TaskNodes.cs" />
-    <Compile Include="ViewModel\TreeNodesVM\Shared\TasksFunctions.cs" />
-    <Compile Include="ViewModel\TreeNodesVM\TreeNodeFactory.cs" />
-    <Compile Include="ViewModel\TreeNodesVM\TreeNodes\TreeNode.cs" />
-    <Compile Include="ViewModel\TreeNodesVM\TreeNodes\TreeNodeCustomer.cs" />
-    <Compile Include="ViewModel\TreeNodesVM\TreeNodes\TreeNodeSpecialty.cs" />
-    <Compile Include="ViewModel\TreeNodesVM\TreeNodes\TreeNodeСompany.cs" />
-    <Compile Include="ViewModel\TreeNodesVM\TreeNodes\TreeNodeСontract.cs" />
-    <Compile Include="ViewModel\ViewModels\DialogDependency.cs" />
+    <Compile Include="ViewModel\-Shared\WorksVM.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodesVM\ITreeNodeFactory.cs" />
+    <Compile Include="ViewModel\-Shared\Context.cs" />
+    <Compile Include="ViewModel\-Shared\TasksVM.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodesVM\TreeNodeFactory.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodesVM\TreeNodes\TreeNode.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodesVM\TreeNodes\TreeNodeCustomer.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodesVM\TreeNodes\TreeNodeSpecialty.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodesVM\TreeNodes\TreeNodeСompany.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodesVM\TreeNodes\TreeNodeСontract.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\DialogDependency.cs" />
     <Compile Include="ViewModel\ViewModels\TaskViewModel.cs" />
     <Compile Include="ViewModel\ViewModels\FaveViewModel.cs" />
-    <Compile Include="ViewModel\ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModel\ViewModels\TasksViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TasksBlockViewModel.cs" />
     <Compile Include="ViewModel\WorkBlockVM\AttrValueExtended.cs" />
     <Compile Include="ViewModel\WorkBlockVM\WorkBlockControlViewModel.cs" />
     <Compile Include="ViewModel\WorkBlockVM\WorkControlsVM\WorkConsultationsByPhone_ControlViewModel.cs" />
@@ -175,14 +175,14 @@
     <Compile Include="ViewModel\WorkBlockVM\WorksInBlocks\WorkInBlock.cs" />
     <Compile Include="ViewModel\WorkBlockVM\WorksInBlocks\WorkPatch_InBlock.cs" />
     <Compile Include="ViewModel\WorkBlockVM\WorksInBlocks\WorkRefractoring_InBlock.cs" />
-    <Compile Include="View\TreeView\ExtendedTreeView.xaml.cs">
+    <Compile Include="View\TasksBlockView\ExtendedTreeView.xaml.cs">
       <DependentUpon>ExtendedTreeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FaveView.xaml.cs">
       <DependentUpon>FaveView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TreeView\TasksView.xaml.cs">
-      <DependentUpon>TasksView.xaml</DependentUpon>
+    <Compile Include="View\TasksBlockView\TasksBlockView.xaml.cs">
+      <DependentUpon>TasksBlockView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\WorksView\WorkControls\WorkConsultationsByPhone_Control.xaml.cs">
       <DependentUpon>WorkConsultationsByPhone_Control.xaml</DependentUpon>
@@ -217,7 +217,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\TreeView\ExtendedTreeView.xaml">
+    <Page Include="View\TasksBlockView\ExtendedTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -225,7 +225,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TreeView\TasksView.xaml">
+    <Page Include="View\TasksBlockView\TasksBlockView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
