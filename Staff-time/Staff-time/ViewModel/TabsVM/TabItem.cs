@@ -63,13 +63,16 @@ namespace Staff_time.ViewModel
 
             if (pair.Key == 2) //Добавить
             {
-                WorkFactory factory = new WorkFactory();
-                Work work = factory.CreateWork(pair.Value);
-                if (pair.Value.Minutes != null)
-                    SumTime += (int)pair.Value.Minutes;
-                WorksInTab.Add(new WorkInTab(work, true));
+                if (pair.Value.StartDate.Date == Date.Date)
+                {
+                    WorkFactory factory = new WorkFactory();
+                    Work work = factory.CreateWork(pair.Value);
+                    if (pair.Value.Minutes != null)
+                        SumTime += (int)pair.Value.Minutes;
+                    WorksInTab.Add(new WorkInTab(work, false));
 
-                MessengerInstance.Send<int>(SumTime);
+                    MessengerInstance.Send<int>(SumTime);
+                }
                 return;
             }
 
@@ -91,6 +94,7 @@ namespace Staff_time.ViewModel
                     if (WorksInTab[index].WorkBlockControlDataContext.WorkInBlock.WorkControlDataContext.Work.Minutes != null)
                         SumTime -= (int)WorksInTab[index].WorkBlockControlDataContext.WorkInBlock.WorkControlDataContext.Work.Minutes;
                     WorksInTab.Remove(WorksInTab[index]);
+                    MessengerInstance.Send<int>(SumTime);
                     break;
                 case 1: //Редактировать (в том числе сменить тип)
                     Work oldWork = workWork.Read_WorkByID(WorksInTab[index].WorkBlockControlDataContext.WorkInBlock.WorkControlDataContext.Work.ID);
@@ -105,11 +109,11 @@ namespace Staff_time.ViewModel
                         if (pair.Value.Minutes != null)
                             SumTime += (int)pair.Value.Minutes;
                         WorksInTab.Add(new WorkInTab(work, false));
+
+                        MessengerInstance.Send<int>(SumTime);
                     }
                     break;
             }
-
-            MessengerInstance.Send<int>(SumTime);
         }
         #endregion
 
