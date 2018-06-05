@@ -69,7 +69,7 @@ namespace Staff_time.ViewModel
                     Work work = factory.CreateWork(pair.Value);
                     if (pair.Value.Minutes != null)
                         SumTime += (int)pair.Value.Minutes;
-                    WorksInTab.Add(new WorkInTab(work, false));
+                    WorksInTab.Add(new WorkInTab(work, true));
 
                     MessengerInstance.Send<int>(SumTime);
                 }
