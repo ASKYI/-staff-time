@@ -29,6 +29,12 @@ namespace Staff_time.ViewModel
         public override void UpdateWork()
         {
             workWork.Update_Work(Work);
+
+            List<AttrValue> values = new List<AttrValue>();
+            foreach (var v in AttrValues)
+                values.Add(v.AttrValue);
+
+            attrWork.Update_AttrValues_ForWork(values);
         }
     }
 }
