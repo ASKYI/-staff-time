@@ -17,110 +17,24 @@ namespace Staff_time.ViewModel
         public TasksBlockViewModel()
         {
             _generate_Tree();
-
             _generate_TaskTypesCb();
 
             SelectedTaskNode = null;
             EditTask = null;
-            IsEnabled = false; IsEditing = true;
-            
+            IsEditing = false;
+
             _addWorkCommand = new RelayCommand(AddWork, CanAddWork);
             _addNearTaskCommand = new RelayCommand(AddNearTask, CanAddNearTask);
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
+
             _editCommand = new RelayCommand(Edit, CanEdit);
 
             IsShowed = false;
         }
 
-        #region Tree
-        private ObservableCollection<TreeNode> _treeRoots;
-        public ObservableCollection<TreeNode> TreeRoots
-        {
-            get { return _treeRoots; }
-            set
-            {
-                SetField(ref _treeRoots, value);
-            }
-        }
+        #region Selected TaskNode
 
-        private void _generate_Tree()
-        {
-            TreeRoots = new ObservableCollection<TreeNode>();
-            foreach (var taskNode in TaskNodesDictionary)
-            {
-                if (taskNode.Value.ParentNode == null)
-                {
-                    TreeRoots.Add(taskNode.Value);
-                }
-            }
-        }
-
-        private void _addNewNode(Task task)
-        {
-            TreeNodeFactory factory = new TreeNodeFactory();
-
-            TreeNode node = factory.CreateTreeNode(task);
-            TaskNodesDictionary.Add(task.ID, node);
-            if (task.ParentTaskID == null || task.ParentTaskID == 0)
-            {
-                TreeRoots.Add(node);
-            }
-            else
-            {
-                TaskNodesDictionary[(int)task.ParentTaskID].AddChild(node);
-                node.ParentNode = TaskNodesDictionary[(int)task.ParentTaskID];
-            }
-
-            List<int> childTasks = taskWork.Read_ChildTasks(task.ID);
-            foreach(var t in childTasks)
-            {
-                TreeNode childNode = TaskNodesDictionary[t];
-
-                if (childNode.ParentNode != null)
-                    childNode.ParentNode.TreeNodes.Remove(TaskNodesDictionary[t]);
-                else
-                    TreeRoots.Remove(TaskNodesDictionary[t]);
-
-                node.AddChild(childNode);
-                childNode.ParentNode = node;
-            }
-        }
-
-        private void _deleteNode(TreeNode node, bool wirhChildren)
-        {
-            int parentID = 0, delTaskID = node.Task.ID;
-            if (node.Task.ParentTaskID != null)
-                parentID = (int)node.Task.ParentTaskID;
-
-            //Удаляем узел, родитель его детей - родитель удаляемого узла
-            if (wirhChildren)
-            {
-                foreach (var t in TaskNodesDictionary[delTaskID].TreeNodes)
-                {
-                    if (parentID != 0)
-                    {
-                        t.ParentNode = TaskNodesDictionary[parentID];
-                        TaskNodesDictionary[parentID].AddChild(t);
-                    }
-                    else
-                    {
-                        t.ParentNode = null;
-                        t.Task.ParentTaskID = null;
-                        TreeRoots.Add(t);
-                    }
-                }
-            }
-
-            if (parentID == 0)
-                TreeRoots.Remove(node);
-            else
-                if (TaskNodesDictionary.ContainsKey(parentID))
-                    TaskNodesDictionary[parentID].TreeNodes.Remove(node);
-            TaskNodesDictionary.Remove(delTaskID);
-        }
-        #endregion
-        #region Selected Task
         private TreeNode _selectedTaskNode;
         public TreeNode SelectedTaskNode
         {
@@ -139,8 +53,100 @@ namespace Staff_time.ViewModel
                 IsEnabled = false;
             }
         }
+
         #endregion
-        #region Add Work
+
+        #region Tree !!!
+
+        private ObservableCollection<TreeNode> _treeRoots;
+        public ObservableCollection<TreeNode> TreeRoots
+        {
+            get { return _treeRoots; }
+            set
+            {
+                SetField(ref _treeRoots, value);
+            }
+        }
+
+        private void _generate_Tree()
+        {
+            TreeRoots = new ObservableCollection<TreeNode>();
+            foreach (var taskNode in TasksVM.Dictionary)
+            {
+                if (taskNode.Value.ParentNode == null)
+                {
+                    TreeRoots.Add(taskNode.Value);
+                }
+            }
+        }
+
+        private void _addNewNode(Task task)
+        {
+            TreeNodeFactory factory = new TreeNodeFactory();
+
+            TreeNode node = factory.CreateTreeNode(task);
+            TasksVM.Dictionary.Add(task.ID, node);
+            if (task.ParentTaskID == null || task.ParentTaskID == 0)
+            {
+                TreeRoots.Add(node);
+            }
+            else
+            {
+                TasksVM.Dictionary[(int)task.ParentTaskID].AddChild(node);
+                node.ParentNode = TasksVM.Dictionary[(int)task.ParentTaskID];
+            }
+
+            List<int> childTasks = Context.taskWork.Read_ChildTasks(task.ID);
+            foreach(var t in childTasks)
+            {
+                TreeNode childNode = TasksVM.Dictionary[t];
+
+                if (childNode.ParentNode != null)
+                    childNode.ParentNode.TreeNodes.Remove(TasksVM.Dictionary[t]);
+                else
+                    TreeRoots.Remove(TasksVM.Dictionary[t]);
+
+                node.AddChild(childNode);
+                childNode.ParentNode = node;
+            }
+        }
+
+        private void _deleteNode(TreeNode node, bool wirhChildren)
+        {
+            int parentID = 0, delTaskID = node.Task.ID;
+            if (node.Task.ParentTaskID != null)
+                parentID = (int)node.Task.ParentTaskID;
+
+            //Удаляем узел, родитель его детей - родитель удаляемого узла
+            if (wirhChildren)
+            {
+                foreach (var t in TasksVM.Dictionary[delTaskID].TreeNodes)
+                {
+                    if (parentID != 0)
+                    {
+                        t.ParentNode = TasksVM.Dictionary[parentID];
+                        TasksVM.Dictionary[parentID].AddChild(t);
+                    }
+                    else
+                    {
+                        t.ParentNode = null;
+                        t.Task.ParentTaskID = null;
+                        TreeRoots.Add(t);
+                    }
+                }
+            }
+
+            if (parentID == 0)
+                TreeRoots.Remove(node);
+            else
+                if (TasksVM.Dictionary.ContainsKey(parentID))
+                TasksVM.Dictionary[parentID].TreeNodes.Remove(node);
+            TasksVM.Dictionary.Remove(delTaskID);
+        }
+
+        #endregion
+
+        #region Add Work !!!
         private readonly ICommand _addWorkCommand;
         public ICommand AddWorkCommand
         {
@@ -166,7 +172,7 @@ namespace Staff_time.ViewModel
             MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(2, newWork));
         }
         #endregion
-        #region Add Task
+        #region Add Task !!!
         private readonly ICommand _addNearTaskCommand;
         public ICommand AddNearTaskCommand
         {
@@ -221,7 +227,7 @@ namespace Staff_time.ViewModel
             _addNewNode(newTask);
         }
         #endregion
-        #region Delete Task
+        #region Delete Task !!!
         private readonly ICommand _deleteTaskCommand;
         public ICommand DeleteTaskCommand
         {
@@ -246,14 +252,61 @@ namespace Staff_time.ViewModel
             taskWork.Delete_Task(delID);
         }
         #endregion
-        #region Edit Task
-        private Task _editTask;
-        public Task EditTask
+
+        #region Dialog !!!
+        //https://www.codeproject.com/Articles/35553/XAML-Dialog-Control-Enabling-MVVM-and-Dialogs-in-W
+
+        private Boolean _isShowed;
+        public Boolean IsShowed
         {
-            get { return _editTask; }
+            get { return _isShowed; }
             set
             {
-                SetField(ref _editTask, value);
+                SetField(ref _isShowed, value);
+            }
+        }
+
+        private string _dialogTitle;
+        public string DialogTitle
+        {
+            get { return _dialogTitle; }
+            set
+            {
+                SetField(ref _dialogTitle, value);
+            }
+        }
+
+        private DialogDependency _dialogDependency;
+        public DialogDependency DialogDependency
+        {
+            get { return _dialogDependency; }
+            set
+            {
+                SetField(ref _dialogDependency, value);
+            }
+        }
+        #endregion
+
+        #region Booleans !!!
+
+        private Boolean _isEdinitng;
+        public Boolean IsEditing
+        {
+            get { return IsEditing; }
+            set
+            {
+                SetField(ref _isEdinitng, value);
+
+                if (_isEdinitng == false)
+                {
+                    IsEnabled = false;
+                    IsReadOnly = true;
+                }
+                else
+                {
+                    IsEnabled = true;
+                    IsReadOnly = false;
+                }
             }
         }
 
@@ -263,16 +316,29 @@ namespace Staff_time.ViewModel
             get { return _isEnabled; }
             set
             {
-                SetField<Boolean>(ref _isEnabled, value);
+                SetField(ref _isEnabled, value);
             }
         }
-        private Boolean _isEditing;
-        public Boolean IsEditing
+        private Boolean _isReadOnly;
+        public Boolean IsReadOnly
         {
-            get { return _isEditing; }
+            get { return _isReadOnly; }
             set
             {
-                SetField<Boolean>(ref _isEditing, value);
+                SetField(ref _isReadOnly, value);
+            }
+        }
+
+        #endregion
+
+        #region Edit Task
+        private Task _editTask;
+        public Task EditTask
+        {
+            get { return _editTask; }
+            set
+            {
+                SetField(ref _editTask, value);
             }
         }
 
@@ -295,7 +361,7 @@ namespace Staff_time.ViewModel
                 EditTask.TaskTypeID = SelectedTaskTypeIndex;
                 if (EditTask.ParentTaskID == 0)
                     EditTask.ParentTaskID = null;
-                else if (EditTask.ParentTaskID != null && !TaskNodesDictionary.ContainsKey((int)EditTask.ParentTaskID)
+                else if (EditTask.ParentTaskID != null && !TasksVM.Dictionary.ContainsKey((int)EditTask.ParentTaskID)
                     || SelectedTaskNode.Task.ID == EditTask.ParentTaskID)
                     return;
 
@@ -307,11 +373,11 @@ namespace Staff_time.ViewModel
                 _deleteNode(SelectedTaskNode, false);
                 _addNewNode(task);
 
-                List<Work> works = workWork.Read_WorksForTask(task.ID);
+                List<Work> works = Context.workWork.Read_WorksForTask(task.ID);
                 foreach (var w in works)
                     MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(1, w));
 
-                taskWork.Update_Task(task);
+                Context.taskWork.Update_Task(task);
             }
             else
             {
@@ -349,36 +415,5 @@ namespace Staff_time.ViewModel
             }
         }
         #endregion
-        #region Dialog
-        private Boolean _isShowed;
-        public Boolean IsShowed
-        {
-            get { return _isShowed; }
-            set
-            {
-                SetField(ref _isShowed, value);
-            }
-        }
-        #endregion
-
-        private string _dialogTitle;
-        public string DialogTitle
-        {
-            get { return _dialogTitle; }
-            set
-            {
-                SetField(ref _dialogTitle, value);
-            }
-        }
-
-        private DialogDependency _dialogDependency;
-        public DialogDependency DialogDependency
-        {
-            get { return _dialogDependency; }
-            set
-            {
-                SetField(ref _dialogDependency, value);
-            }
-        }
     }
 }

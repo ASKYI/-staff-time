@@ -30,11 +30,14 @@ namespace Staff_time.ViewModel
         }
 
         #region Chosen statics (User, Date)
+
         protected static User chosenUser { get; set; }
         protected static DateTime chosenDate { get; set; }
+
         #endregion
 
         #region INotifyPropertyChanged Member
+
         public bool SetField<T>(ref T field, T value,
             [CallerMemberName] string propertyName = null)
         {
@@ -43,6 +46,7 @@ namespace Staff_time.ViewModel
             RaisePropertyChanged(propertyName);
             return true;
         }
+
         #endregion
     }
 }

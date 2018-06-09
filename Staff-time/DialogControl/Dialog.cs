@@ -18,8 +18,9 @@ using System.Diagnostics;
 using System.Windows.Media.Media3D;
 
 namespace DialogControl
-{   
+{
     //Взято из статьи
+    //https://www.codeproject.com/Articles/35553/XAML-Dialog-Control-Enabling-MVVM-and-Dialogs-in-W
 
     //TODO: Test Validation Rule
     //TODO: Add events

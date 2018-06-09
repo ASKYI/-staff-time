@@ -27,7 +27,6 @@
                     <DatePicker IsDropDownOpen="False" SelectedDate="{Binding SelectedDatePicker}"></DatePicker>
                 </StackPanel>
             </MenuItem>
-            <!--<MenuItem Header="Обновить всё" Command="{Binding UpdateCommand}"></MenuItem>-->
             <MenuItem IsEnabled="False" IsCheckable="False" Header=" " Background="Gray"></MenuItem>
             <MenuItem IsEnabled="False" IsCheckable="False" Header="Общее время дня:"></MenuItem>
             <MenuItem IsEnabled="False" IsCheckable="False" Header="{Binding SumHours}"></MenuItem>
@@ -37,7 +36,7 @@
             <MenuItem IsEnabled="False" IsCheckable="False" Header=" " Background="Gray"></MenuItem>
         </Menu>
 
-        <TabControl ItemsSource="{Binding WeekTabs}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" Grid.Row="1">
+        <TabControl ItemsSource="{Binding WeekTabs}" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" Grid.Row="1">
 
             <TabControl.Resources>
                 <vm:TabItemHeaderConverter x:Key="tabItemHeaderConverter"></vm:TabItemHeaderConverter>

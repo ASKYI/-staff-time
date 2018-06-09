@@ -69,6 +69,7 @@ namespace Staff_time.ViewModel
         }
 
         #region Other Methods
+
         public static ObservableCollection<TreeNode> Convert_TasksIntoNodes(List<int> t)
         {
             ObservableCollection<TreeNode> tasksNodes = new ObservableCollection<TreeNode>();
@@ -99,6 +100,7 @@ namespace Staff_time.ViewModel
             }
             return stringPath.ToString();
         }
+
         #endregion
     }
 }
