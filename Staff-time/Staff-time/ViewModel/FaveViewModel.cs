@@ -28,7 +28,7 @@ namespace Staff_time.ViewModel
 
         private static void _generate_FavTaskNodes()
         {
-            FaveTaskNodes = Convert_TasksIntoNodes(taskWork.Read_FaveTasks(chosenUser.ID));
+            FaveTaskNodes = TasksVM.Convert_TasksIntoNodes(Context.taskWork.Read_FaveTasks(chosenUser.ID));
             _generate_FaveTaskPaths();
         }
 

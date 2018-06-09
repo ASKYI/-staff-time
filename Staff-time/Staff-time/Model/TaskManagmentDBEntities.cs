@@ -16,6 +16,7 @@ namespace Staff_time.Model
         ITaskWork, IWorkWork, IAttrWork, ITypesWork
     {
         #region ITaskWork
+
         public void Create_Task(Task task)
         {
             Tasks.Add(task);
@@ -85,7 +86,9 @@ namespace Staff_time.Model
         {
             throw new NotImplementedException();
         }
+
         #endregion
+
         #region IWorkWork
         
         public void Create_Work(Work work)
@@ -110,29 +113,14 @@ namespace Staff_time.Model
             return works;
         }
 
-        public List<Work> Read_WorksForDate(DateTime date)
+        public List<int> Read_WorksForDate(DateTime date)
         {
-            List<Work> worksDB = Works.Include(w => w.Task).Where(w => w.StartDate == date).ToList();
-
-            List<Work> works = new List<Work>();
-            WorkFactory workFactory = new WorkFactory();
-            foreach (Work w in worksDB)
-            {
-                works.Add(workFactory.CreateWork(w));
-            }
-            return works;
+            List<int> l = (from w in Works where w.StartDate == date.Date select w.ID).ToList(); //!!! Date
+            return l;
         }
-        public List<Work> Read_WorksForTask(int taskID)
+        public List<int> Read_WorksForTask(int taskID)
         {
-            List<Work> worksDB = Works.Include(w => w.Task).Where(w => w.TaskID == taskID).ToList();
-
-            List<Work> works = new List<Work>();
-            WorkFactory workFactory = new WorkFactory();
-            foreach (Work w in worksDB)
-            {
-                works.Add(workFactory.CreateWork(w));
-            }
-            return works;
+            return (from w in Works where w.TaskID == taskID select w.ID).ToList();
         }
 
         public Work Read_WorkByID(int workID)

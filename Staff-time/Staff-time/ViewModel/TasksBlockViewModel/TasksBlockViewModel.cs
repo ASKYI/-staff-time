@@ -17,10 +17,10 @@ namespace Staff_time.ViewModel
         public TasksBlockViewModel()
         {
             _generate_Tree();
-            _generate_TaskTypesCb();
+            //_generate_TaskTypesCb();
 
-            SelectedTaskNode = null;
-            EditTask = null;
+           // SelectedTaskNode = null;
+            
             IsEditing = false;
 
             _addWorkCommand = new RelayCommand(AddWork, CanAddWork);
@@ -28,7 +28,7 @@ namespace Staff_time.ViewModel
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
 
-            _editCommand = new RelayCommand(Edit, CanEdit);
+            //_editCommand = new RelayCommand(Edit, CanEdit);
 
             IsShowed = false;
         }
@@ -45,7 +45,7 @@ namespace Staff_time.ViewModel
 
                 if (_selectedTaskNode != null)
                 {
-                    SelectedTaskTypeIndex = _selectedTaskNode.Task.TaskTypeID;
+                    //SelectedTaskTypeIndex = _selectedTaskNode.Task.TaskTypeID;
                     EditTask = (Task)_selectedTaskNode.Task.Clone();
                 }
 
@@ -162,14 +162,17 @@ namespace Staff_time.ViewModel
         }
         private void AddWork(object obj)
         {
-            Work newWork = new Work();
+            Work work = new Work();
+            work.WorkName = "Новая работа";
+            work.TaskID = SelectedTaskNode.Task.ID;
+            work.StartDate = chosenDate.Date;
+            work.EndDate = work.StartDate;
 
-            newWork.WorkName = "Новая работа";
-            newWork.TaskID = SelectedTaskNode.Task.ID;
-            newWork.StartDate = chosenDate.Date;
-            workWork.Create_Work(newWork);
+            //WorksVM.Add(work);
+            //Work newWork = WorksVM.Dictionary[work.ID];
 
-            MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(2, newWork));
+            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(
+                new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Add, work));
         }
         #endregion
         #region Add Task !!!
@@ -196,7 +199,7 @@ namespace Staff_time.ViewModel
             if (SelectedTaskNode != null)
                 newTask.ParentTaskID = SelectedTaskNode.Task.ParentTaskID;
             newTask.TaskName = "Новая задача";
-            taskWork.Create_Task(newTask);
+            Context.taskWork.Create_Task(newTask);
 
             _addNewNode(newTask);
         }
@@ -221,7 +224,7 @@ namespace Staff_time.ViewModel
             Task newTask = new Task();
             newTask.ParentTaskID = SelectedTaskNode.Task.ID;
             newTask.TaskName = "Новая задача";
-            taskWork.Create_Task(newTask);
+            Context.taskWork.Create_Task(newTask);
             newTask.TaskName = "Новая работа";
 
             _addNewNode(newTask);
@@ -243,13 +246,15 @@ namespace Staff_time.ViewModel
         }
         private void DeleteTask(object obj)
         {
-            List<Work> works = workWork.Read_WorksForTask(SelectedTaskNode.Task.ID);
-            foreach(var w in works)                
+            List<int> works = Context.workWork.Read_WorksForTask(SelectedTaskNode.Task.ID);
+            foreach (var id in works)
+            {
+                Work w = WorksVM.Dictionary[id];
                 MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(0, w));
-
+            }
             int delID = SelectedTaskNode.Task.ID;
             _deleteNode(SelectedTaskNode, true);
-            taskWork.Delete_Task(delID);
+            Context.taskWork.Delete_Task(delID);
         }
         #endregion
 
@@ -287,7 +292,7 @@ namespace Staff_time.ViewModel
         }
         #endregion
 
-        #region Booleans !!!
+        #region Booleans
 
         private Boolean _isEdinitng;
         public Boolean IsEditing
@@ -299,11 +304,15 @@ namespace Staff_time.ViewModel
 
                 if (_isEdinitng == false)
                 {
+                    EditTask = null;
+
                     IsEnabled = false;
                     IsReadOnly = true;
                 }
                 else
                 {
+                    EditTask = SelectedTaskNode.Task;
+
                     IsEnabled = true;
                     IsReadOnly = false;
                 }
@@ -331,7 +340,7 @@ namespace Staff_time.ViewModel
 
         #endregion
 
-        #region Edit Task
+        //#region Edit Task
         private Task _editTask;
         public Task EditTask
         {
@@ -342,78 +351,81 @@ namespace Staff_time.ViewModel
             }
         }
 
-        private readonly ICommand _editCommand;
-        public ICommand EditCommand
-        {
-            get
-            {
-                return _editCommand;
-            }
-        }
-        private bool CanEdit(object obj)
-        {
-            return SelectedTaskNode != null;
-        }
-        private void Edit(object obj)
-        {
-            if (!IsEditing)
-            {
-                EditTask.TaskTypeID = SelectedTaskTypeIndex;
-                if (EditTask.ParentTaskID == 0)
-                    EditTask.ParentTaskID = null;
-                else if (EditTask.ParentTaskID != null && !TasksVM.Dictionary.ContainsKey((int)EditTask.ParentTaskID)
-                    || SelectedTaskNode.Task.ID == EditTask.ParentTaskID)
-                    return;
+        //private readonly ICommand _editCommand;
+        //public ICommand EditCommand
+        //{
+        //    get
+        //    {
+        //        return _editCommand;
+        //    }
+        //}
+        //private bool CanEdit(object obj)
+        //{
+        //    return SelectedTaskNode != null;
+        //}
+        //private void Edit(object obj)
+        //{
+        //    if (!IsEditing)
+        //    {
+        //        EditTask.TaskTypeID = SelectedTaskTypeIndex;
+        //        if (EditTask.ParentTaskID == 0)
+        //            EditTask.ParentTaskID = null;
+        //        else if (EditTask.ParentTaskID != null && !TasksVM.Dictionary.ContainsKey((int)EditTask.ParentTaskID)
+        //            || SelectedTaskNode.Task.ID == EditTask.ParentTaskID)
+        //            return;
 
 
-                IsEditing = true;
-                IsEnabled = false;
+        //        IsEditing = true;
+        //        IsEnabled = false;
 
-                Task task = (Task)EditTask.Clone();
-                _deleteNode(SelectedTaskNode, false);
-                _addNewNode(task);
+        //        Task task = (Task)EditTask.Clone();
+        //        _deleteNode(SelectedTaskNode, false);
+        //        _addNewNode(task);
 
-                List<Work> works = Context.workWork.Read_WorksForTask(task.ID);
-                foreach (var w in works)
-                    MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(1, w));
+        //        List<int> works = Context.workWork.Read_WorksForTask(task.ID);
+        //        foreach (var id in works)
+        //        {
+        //            Work w = WorksVM.Dictionary[id];
+        //            MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(1, w));
+        //        }
+        //        Context.taskWork.Update_Task(task);
+        //    }
+        //    else
+        //    {
+        //        IsEditing = false;
+        //        IsEnabled = true;
+        //    }
+        //}
+        //#endregion
 
-                Context.taskWork.Update_Task(task);
-            }
-            else
-            {
-                IsEditing = false;
-                IsEnabled = true;
-            }
-        }
-        #endregion
-        #region Task Type
-        private int _selectedTaskTypeIndex;
-        public int SelectedTaskTypeIndex
-        {
-            get { return _selectedTaskTypeIndex; }
-            set
-            {
-                SetField<int>(ref _selectedTaskTypeIndex, value);
-            }
-        }
-        private ObservableCollection<TaskType> _taskTypesCb;
-        public ObservableCollection<TaskType> TaskTypesCb
-        {
-            get { return _taskTypesCb; }
-            set
-            {
-                SetField<ObservableCollection<TaskType>>(ref _taskTypesCb, value);
-            }
-        }
-        private void _generate_TaskTypesCb()
-        {
-            TaskTypesCb = new ObservableCollection<TaskType>();
-            List<TaskType> types = typesWork.Read_TaskTypes();
-            foreach (var t in types)
-            {
-                TaskTypesCb.Add(t);
-            }
-        }
-        #endregion
+        //#region Task Type
+        //private int _selectedTaskTypeIndex;
+        //public int SelectedTaskTypeIndex
+        //{
+        //    get { return _selectedTaskTypeIndex; }
+        //    set
+        //    {
+        //        SetField<int>(ref _selectedTaskTypeIndex, value);
+        //    }
+        //}
+        //private ObservableCollection<TaskType> _taskTypesCb;
+        //public ObservableCollection<TaskType> TaskTypesCb
+        //{
+        //    get { return _taskTypesCb; }
+        //    set
+        //    {
+        //        SetField<ObservableCollection<TaskType>>(ref _taskTypesCb, value);
+        //    }
+        //}
+        //private void _generate_TaskTypesCb()
+        //{
+        //    TaskTypesCb = new ObservableCollection<TaskType>();
+        //    List<TaskType> types = Context.typesWork.Read_TaskTypes();
+        //    foreach (var t in types)
+        //    {
+        //        TaskTypesCb.Add(t);
+        //    }
+        //}
+        //#endregion
     }
 }

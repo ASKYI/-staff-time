@@ -97,6 +97,9 @@
     <Compile Include="Model\PropValue.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\sysdiagram.cs">
+      <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Task.cs">
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
@@ -141,40 +144,28 @@
       <DependentUpon>TaskManagmentDBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\RelayCommand.cs" />
-    <Compile Include="ViewModel\WorkspaceViewModel\TabsVM\TabItem.cs" />
-    <Compile Include="ViewModel\WorkspaceViewModel\TabsVM\TabItemHeaderConverter.cs" />
+    <Compile Include="ViewModel\WorkspaceViewModel\TabVMs\TabItem.cs" />
+    <Compile Include="ViewModel\WorkspaceViewModel\TabVMs\TabItemHeaderConverter.cs" />
     <Compile Include="ViewModel\-Shared\WorksVM.cs" />
-    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodesVM\ITreeNodeFactory.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\ITreeNodeFactory.cs" />
     <Compile Include="ViewModel\-Shared\Context.cs" />
     <Compile Include="ViewModel\-Shared\TasksVM.cs" />
-    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodesVM\TreeNodeFactory.cs" />
-    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodesVM\TreeNodes\TreeNode.cs" />
-    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodesVM\TreeNodes\TreeNodeCustomer.cs" />
-    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodesVM\TreeNodes\TreeNodeSpecialty.cs" />
-    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodesVM\TreeNodes\TreeNodeСompany.cs" />
-    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodesVM\TreeNodes\TreeNodeСontract.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodeFactory.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNode.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeCustomer.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeSpecialty.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeСompany.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeСontract.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\DialogDependency.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TaskViewModel.cs" />
     <Compile Include="ViewModel\FaveViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TasksBlockViewModel.cs" />
-    <Compile Include="ViewModel\WorksViewModel\WorkBlockVM\AttrValueExtended.cs" />
-    <Compile Include="ViewModel\WorksViewModel\WorkBlockVM\WorkBlockControlViewModel.cs" />
-    <Compile Include="ViewModel\WorksViewModel\WorkBlockVM\WorkControlsVM\WorkConsultationsByPhone_ControlViewModel.cs" />
-    <Compile Include="ViewModel\WorksViewModel\WorkBlockVM\WorkControlsVM\WorkControlViewModel.cs" />
+    <Compile Include="ViewModel\WorksViewModel\AttrValueExtended.cs" />
+    <Compile Include="ViewModel\WorksViewModel\WorkBlockControlViewModel.cs" />
+    <Compile Include="ViewModel\WorksViewModel\WorkControlVMs\WorkControlViewModel.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel\WorkspaceViewModel.cs" />
-    <Compile Include="ViewModel\WorkspaceViewModel\TabsVM\WorkInTab.cs" />
-    <Compile Include="ViewModel\WorksViewModel\WorkBlockVM\WorkControlsVM\WorkControlViewModelBase.cs" />
-    <Compile Include="ViewModel\WorksViewModel\WorkBlockVM\WorkControlsVM\WorkError_ControlViewModel.cs" />
-    <Compile Include="ViewModel\WorksViewModel\WorkBlockVM\WorkControlsVM\WorkPatch_ControlViewModel.cs" />
-    <Compile Include="ViewModel\WorksViewModel\WorkBlockVM\WorkControlsVM\WorkRefractoring_ControlViewModel.cs" />
-    <Compile Include="ViewModel\WorksViewModel\WorkBlockVM\IWorkInBlockFactory.cs" />
-    <Compile Include="ViewModel\WorksViewModel\WorkBlockVM\WorkInBlockFactory.cs" />
-    <Compile Include="ViewModel\WorksViewModel\WorkBlockVM\WorksInBlocks\WorkConsultationsByPhone_InBlock.cs" />
-    <Compile Include="ViewModel\WorksViewModel\WorkBlockVM\WorksInBlocks\WorkError_InBlock.cs" />
-    <Compile Include="ViewModel\WorksViewModel\WorkBlockVM\WorksInBlocks\WorkInBlock.cs" />
-    <Compile Include="ViewModel\WorksViewModel\WorkBlockVM\WorksInBlocks\WorkPatch_InBlock.cs" />
-    <Compile Include="ViewModel\WorksViewModel\WorkBlockVM\WorksInBlocks\WorkRefractoring_InBlock.cs" />
+    <Compile Include="ViewModel\WorksViewModel\WorkControlVMs\WorkControlViewModelBase.cs" />
     <Compile Include="View\TasksBlockView\ExtendedTreeView.xaml.cs">
       <DependentUpon>ExtendedTreeView.xaml</DependentUpon>
     </Compile>
@@ -183,18 +174,6 @@
     </Compile>
     <Compile Include="View\TasksBlockView\TasksBlockView.xaml.cs">
       <DependentUpon>TasksBlockView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\WorksView\WorkControls\WorkConsultationsByPhone_Control.xaml.cs">
-      <DependentUpon>WorkConsultationsByPhone_Control.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\WorksView\WorkControls\WorkError_Control.xaml.cs">
-      <DependentUpon>WorkError_Control.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\WorksView\WorkControls\WorkPatch_Control.xaml.cs">
-      <DependentUpon>WorkPatch_Control.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\WorksView\WorkControls\WorkRefractoring_Control.xaml.cs">
-      <DependentUpon>WorkRefractoring_Control.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\WorksView\WorkBlockControl.xaml.cs">
       <DependentUpon>WorkBlockControl.xaml</DependentUpon>
@@ -226,22 +205,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\TasksBlockView\TasksBlockView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\WorksView\WorkControls\WorkConsultationsByPhone_Control.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\WorksView\WorkControls\WorkError_Control.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\WorksView\WorkControls\WorkPatch_Control.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\WorksView\WorkControls\WorkRefractoring_Control.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -310,6 +273,12 @@
     <Resource Include="pilot.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DialogControl\DialogControl.csproj">
+      <Project>{2fe99167-c6bf-488b-8d0e-9796fdb4b1ef}</Project>
+      <Name>DialogControl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Model\TaskManagmentDBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
@@ -320,12 +289,6 @@
       <DependentUpon>TaskManagmentDBModel.edmx</DependentUpon>
       <LastGenOutput>TaskManagmentDBModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DialogControl\DialogControl.csproj">
-      <Project>{2fe99167-c6bf-488b-8d0e-9796fdb4b1ef}</Project>
-      <Name>DialogControl</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -17,7 +17,7 @@ namespace Staff_time.ViewModel
         {
             SelectedDate_Picker = chosenDate;
             
-            MessengerInstance.Register<int>(this, SumTimeChange);
+            MessengerInstance.Register<long>(this, SumTimeChange);
         }
 
         #region Selected Date TabIndex
@@ -73,7 +73,7 @@ namespace Staff_time.ViewModel
             WeekTabs = new ObservableCollection<TabItem>();
 
             int dayOfWeek = (int)date.DayOfWeek;
-            dayOfWeek = (dayOfWeek + 6) % 7; //!!!
+            dayOfWeek = (dayOfWeek + 6) % 7; //День недели с понедельник
             DateTime startDay = date.AddDays(-dayOfWeek);
 
             for (int i = 0; i < 7; ++i)
@@ -91,8 +91,8 @@ namespace Staff_time.ViewModel
         
         #region Time
 
-        private int _sumTime;
-        public int SumTime
+        private long _sumTime;
+        public long SumTime
         {
             get { return _sumTime; }
             set
@@ -104,8 +104,8 @@ namespace Staff_time.ViewModel
             }
         }
 
-        private int _sumHours;
-        public int SumHours
+        private long _sumHours;
+        public long SumHours
         {
             get { return _sumHours; }
             set
@@ -114,8 +114,8 @@ namespace Staff_time.ViewModel
             }
         }
 
-        private int _sumMinutes;
-        public int SumMinutes
+        private long _sumMinutes;
+        public long SumMinutes
         {
             get { return _sumMinutes; }
             set
@@ -124,7 +124,7 @@ namespace Staff_time.ViewModel
             }
         }
 
-        public void SumTimeChange(int newSumTime) //Messenger
+        public void SumTimeChange(long newSumTime) //Messenger
         {
             SumTime = newSumTime;
         }

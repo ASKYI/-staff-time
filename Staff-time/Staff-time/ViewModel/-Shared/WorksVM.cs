@@ -34,5 +34,34 @@ namespace Staff_time.ViewModel
 
             init_tracker = true;
         }
+
+        public static void Add(Work work)
+        {
+            //DB
+            Context.workWork.Create_Work(work);
+
+            //VM
+            WorkFactory factory = new WorkFactory();
+            Work newWork = factory.CreateWork(work); 
+            Dictionary.Add(newWork.ID, newWork);
+        }
+        public static void Delete (int workID)
+        {
+            //DB
+
+            //Vm
+            Dictionary.Remove(workID);
+        }
+        public static void Update(Work work)
+        {
+            //DB
+
+            //VM
+            Dictionary.Remove(work.ID);
+
+            WorkFactory factory = new WorkFactory();
+            Work newWork = factory.CreateWork(work);
+            Dictionary.Add(newWork.ID, newWork);
+        }
     }
 }

@@ -38,7 +38,7 @@ namespace Staff_time.ViewModel
         protected void _generate_AttrValues()
         {
             AttrValues = new ObservableCollection<AttrValueExtended>();
-            List<AttrValue> values = attrWork.Read_AttrValues_ForWork(Work);
+            List<AttrValue> values = Context.attrWork.Read_AttrValues_ForWork(Work);
             foreach (var v in values)
             {
                 AttrValues.Add(new AttrValueExtended(IsEdititig, v));

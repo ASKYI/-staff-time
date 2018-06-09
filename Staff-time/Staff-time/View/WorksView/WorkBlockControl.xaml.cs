@@ -23,6 +23,18 @@ namespace Staff_time.View
         public WorkBlockControl()
         {
             InitializeComponent();
+            DataContext = new ViewModel.WorkBlockControlViewModel(WorkID);
         }
+
+        public int WorkID { get; set; } //!!!
+
+        public int WorkIDProperty
+        {
+            get { return (int)GetValue(WorkIDPropertyProperty); }
+            set { SetValue(WorkIDPropertyProperty, value); }
+        }
+        
+        public static readonly DependencyProperty WorkIDPropertyProperty =
+            DependencyProperty.Register("WorkID", typeof(int), typeof(WorkBlockControl), new PropertyMetadata(0));
     }
 }

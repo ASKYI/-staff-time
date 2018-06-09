@@ -26,13 +26,23 @@ namespace Staff_time.ViewModel
         public MainViewModel()
         {
             _initSharedStatics();
-            chosenUser = Context.GetTestUser();
+            _initChosen();
         }
 
         #region Chosen statics (User, Date)
 
         protected static User chosenUser { get; set; }
         protected static DateTime chosenDate { get; set; }
+
+        private static bool init_tracker = false;
+        private static void _initChosen()
+        {
+            if (init_tracker)
+                return;
+            chosenUser = Context.GetTestUser();
+            chosenDate = DateTime.Now.Date;
+            init_tracker = true;
+        }
 
         #endregion
 

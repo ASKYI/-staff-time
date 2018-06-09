@@ -142,7 +142,7 @@
             </StackPanel>
         </Border>
 
-        <!--Выбранная задача-->
+        <!--Выбранная задача--><!--
         <Border  Grid.Row="2" Margin="3" BorderBrush="Gray" BorderThickness="2">
             <StackPanel>
                 <Grid>
@@ -192,6 +192,6 @@
                     </ComboBox>
                 </Grid>
             </StackPanel>
-        </Border>
+        </Border>-->
     </Grid>
 </UserControl>

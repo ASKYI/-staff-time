@@ -4,11 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="07ac117ef80a4a6da324999976d421f1" Name="Diagram1">
+      <Diagram DiagramId="1ba2fe8ac57b4be9bc23f1e5683a9b04" Name="Diagram1">
         <EntityTypeShape EntityType="TaskManagmentDBModel.Attribute" Width="1.5" PointX="5.25" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.AttrValue" Width="1.5" PointX="7.5" PointY="10.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.Property" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.PropValue" Width="1.5" PointX="8.25" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.sysdiagram" Width="1.5" PointX="9.75" PointY="10" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.Task" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.TaskTypeProp" Width="1.5" PointX="8.25" PointY="2.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.TaskType" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />

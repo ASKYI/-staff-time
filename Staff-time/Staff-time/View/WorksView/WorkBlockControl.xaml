@@ -43,7 +43,7 @@
             </Style.Triggers>
         </Style>
 
-        <!--Вызов контрола по типу работы-->
+        <!--Вызов контрола по типу работы--><!--
         <DataTemplate DataType="{x:Type vm:WorkInBlock}" >
             <local:WorkControl DataContext="{Binding WorkControlDataContext}"></local:WorkControl>
          </DataTemplate>
@@ -58,7 +58,7 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:WorkRefractoring_InBlock}" >
             <local:WorkRefractoring_Control DataContext="{Binding WorkControlDataContext}"></local:WorkRefractoring_Control>
-        </DataTemplate>
+        </DataTemplate>-->
     </UserControl.Resources>
      
     <Expander Margin="3"  Header="{Binding Path}" Padding="5" BorderThickness="3" 

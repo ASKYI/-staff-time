@@ -25,8 +25,8 @@ namespace Staff_time.Model
         public int TaskID { get; set; }
         public int WorkTypeID { get; set; }
         public System.DateTime StartDate { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
-        public Nullable<long> Minutes { get; set; }
+        public System.DateTime EndDate { get; set; }
+        public long Minutes { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AttrValue> AttrValues { get; set; }
