@@ -12,6 +12,8 @@ using GalaSoft.MvvmLight.Messaging;
 
 namespace Staff_time.ViewModel
 {
+    public enum TaskCommandEnum { AddNear, AddChild, Edit, None }
+
     public class TasksBlockViewModel : MainViewModel
     {
         public TasksBlockViewModel()
@@ -26,6 +28,7 @@ namespace Staff_time.ViewModel
             IsShowed = false; //Dialog
 
             MessengerInstance.Register<List<int>>(this, _addRoots);
+            MessengerInstance.Register<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
         }
 
         #region Selected TaskNode
@@ -37,14 +40,6 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField<TreeNode>(ref _selectedTaskNode, value);
-
-                if (_selectedTaskNode != null)
-                {
-                    EditTask = (Task)_selectedTaskNode.Task.Clone();
-                }
-
-                IsEditing = true;
-                IsEnabled = false;
             }
         }
 
@@ -141,6 +136,7 @@ namespace Staff_time.ViewModel
                 new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Add, work));
         }
         #endregion
+
         #region Add Task !!!
         private readonly ICommand _addNearTaskCommand;
         public ICommand AddNearTaskCommand
@@ -156,21 +152,14 @@ namespace Staff_time.ViewModel
             return true;
         }
         private void AddNearTask(object obj)
-        {
-
-            
+        {            
             Task newTask = new Task();
-            if (SelectedTaskNode != null)
-                newTask.ParentTaskID = SelectedTaskNode.Task.ParentTaskID;
+            newTask.ParentTaskID = SelectedTaskNode.Task.ParentTaskID;
             newTask.TaskName = "Новая задача";
 
             DialogTitle = "Новая задача";
-            DialogDependency = new DialogDependency(newTask);
+            DialogDependency = new DialogDependency(newTask, TreeRoots, TaskCommandEnum.AddNear);
             IsShowed = true;
-
-            Context.taskWork.Create_Task(newTask);
-
-            _addNewNode(newTask);
         }
         private readonly ICommand _addChildTaskCommand;
         public ICommand AddChildTaskCommand
@@ -183,20 +172,21 @@ namespace Staff_time.ViewModel
 
         private bool CanAddChildTask(object obj)
         {
-            return SelectedTaskNode != null;
+            return false;
+           // return SelectedTaskNode != null;
         }
         private void AddChildTask(object obj)
         {
-            DialogTitle = "Новая задача";
-            IsShowed = true;
+            //DialogTitle = "Новая задача";
+            //IsShowed = true;
 
-            Task newTask = new Task();
-            newTask.ParentTaskID = SelectedTaskNode.Task.ID;
-            newTask.TaskName = "Новая задача";
-            Context.taskWork.Create_Task(newTask);
-            newTask.TaskName = "Новая работа";
+            //Task newTask = new Task();
+            //newTask.ParentTaskID = SelectedTaskNode.Task.ID;
+            //newTask.TaskName = "Новая задача";
+            //Context.taskWork.Create_Task(newTask);
+            //newTask.TaskName = "Новая работа";
 
-            _addNewNode(newTask);
+            //_addNewNode(newTask);
         }
         #endregion
 
@@ -275,64 +265,33 @@ namespace Staff_time.ViewModel
         }
         #endregion
 
-        #region Booleans
+        #region Do Task: Add, Edit
 
-        private Boolean _isEdinitng;
-        public Boolean IsEditing
+        private void _doTaskCommand(KeyValuePair<TaskCommandEnum, Task> pair)
         {
-            get { return IsEditing; }
-            set
+            TaskCommandEnum command = pair.Key;
+            Task task = pair.Value;
+
+            switch(command)
             {
-                SetField(ref _isEdinitng, value);
+                case TaskCommandEnum.AddNear:
+                    TasksVM.AddNear(task);
+                    TreeNode newNode = TasksVM.Dictionary[task.ID];
 
-                if (_isEdinitng == false)
-                {
-                    EditTask = null;
+                    if (newNode.ParentNode == null)
+                        TreeRoots.Add(newNode);
 
-                    IsEnabled = false;
-                    IsReadOnly = true;
-                }
-                else
-                {
-                    EditTask = SelectedTaskNode.Task;
-
-                    IsEnabled = true;
-                    IsReadOnly = false;
-                }
+                    break;
+                case TaskCommandEnum.AddChild:
+                    break;
+                case TaskCommandEnum.Edit:
+                    break;
             }
-        }
 
-        private Boolean _isEnabled;
-        public Boolean IsEnabled
-        {
-            get { return _isEnabled; }
-            set
-            {
-                SetField(ref _isEnabled, value);
-            }
-        }
-        private Boolean _isReadOnly;
-        public Boolean IsReadOnly
-        {
-            get { return _isReadOnly; }
-            set
-            {
-                SetField(ref _isReadOnly, value);
-            }
+            IsShowed = false;
         }
 
         #endregion
-
-        //#region Edit Task
-        private Task _editTask;
-        public Task EditTask
-        {
-            get { return _editTask; }
-            set
-            {
-                SetField(ref _editTask, value);
-            }
-        }
 
         //private readonly ICommand _editCommand;
         //public ICommand EditCommand

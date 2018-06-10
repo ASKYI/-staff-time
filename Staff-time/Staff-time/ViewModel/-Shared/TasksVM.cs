@@ -71,11 +71,21 @@ namespace Staff_time.ViewModel
 
         public static void AddNear(Task task)
         {
-            //TreeNodeFactory factory = new TreeNodeFactory();
-            //TreeNode newNode = factory.CreateTreeNode(task);
+            //DB
+            Context.taskWork.Create_Task(task);
 
-            //TasksVM.Dictionary.Add(task.ID, newNode);
+            //VM
+            TreeNodeFactory factory = new TreeNodeFactory();
+            TreeNode newNode = factory.CreateTreeNode(task);
 
+            TasksVM.Dictionary.Add(task.ID, newNode);
+
+            if (task.ParentTaskID != null)
+            {
+                int parentID = (int)task.ParentTaskID;
+                newNode.ParentNode = Dictionary[parentID];
+                Dictionary[parentID].AddChild(newNode);
+            }
 
             //if (task.ParentTaskID == null || task.ParentTaskID == 0)
             //{

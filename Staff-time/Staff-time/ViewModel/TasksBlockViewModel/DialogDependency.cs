@@ -20,9 +20,9 @@ namespace Staff_time.ViewModel
         }
         #endregion
 
-        public DialogDependency(Model.Task task)
+        public DialogDependency(Model.Task task, ObservableCollection<TreeNode> roots, TaskCommandEnum command)
         {
-            DialogViewModel = new TaskViewModel(task);
+            DialogViewModel = new TaskViewModel(task, roots, command);
         }
     }
 }

@@ -16,124 +16,99 @@ using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
 {
-    public class TaskViewModel : DependencyObject
+    public class TaskViewModel : ViewModelBase
     {
-        public TaskViewModel(Task task)
+        public TaskViewModel(Task task, ObservableCollection<TreeNode> roots, TaskCommandEnum command)
         {
-            AcceptAddUserCommand = new AcceptAddUserInternalCommand(this);
-            //CancelAddUserCommand = new CancelAddUserInternalCommand(this);
-            this._task = task;
+            _task = task;
+            TreeRoots = roots;
+            _command = command;
 
+            EditingTask = task;
 
-          //  this._task.TaskName = "new test";
+            AcceptCommand = new RelayCommand(Accept, CanAccept);
+            CancelCommand = new RelayCommand(Cancel, CanCancel);
         }
 
         private Task _task;
 
-        public Task Task
+        private Task _editingTask;
+        public Task EditingTask
         {
-            get
+            get { return _editingTask; }
+            set
             {
-                return this._task;
+                SetField(ref _editingTask, value);
             }
         }
 
-        public ICommand AcceptAddUserCommand { get; set; }
-        public event EventHandler AddUserAccepted;
-        public ICommand CancelAddUserCommand { get; set; }
-        //public event EventHandler AddUserCanceled;
+        private TaskCommandEnum _command;
 
-        public string Name
+        #region Tree
+
+        private ObservableCollection<TreeNode> _treeRoots;
+        public ObservableCollection<TreeNode> TreeRoots
         {
-            get { return (string)GetValue(NamePropertyProperty); }
-            set { SetValue(NamePropertyProperty, value); }
+            get { return _treeRoots; }
+            set
+            {
+                SetField(ref _treeRoots, value);
+            }
         }
 
-        private bool CanAcceptAddUser()
+        private TreeNode _selectedTaskNode;
+        public TreeNode SelectedTaskNode
         {
-            return true;
+            get { return _selectedTaskNode; }
+            set
+            {
+                SetField<TreeNode>(ref _selectedTaskNode, value);
+            }
         }
 
-        private void AcceptAddUser()
-        {
-            //Raise an event to tell UsersViewModel.
-            AddUserAccepted(this, EventArgs.Empty);
-        }
-
-        /*private bool CanCancelAddUser()
-        {
-            return true;
-        }
-
-        private void CancelAddUser()
-        {
-            AddUserCanceled(this, EventArgs.Empty);
-        }*/
-
-        public static readonly DependencyProperty NamePropertyProperty =
-            DependencyProperty.Register("Name", typeof(string), typeof(TaskViewModel));
+        #endregion
 
         #region Commands
-        class AcceptAddUserInternalCommand : ICommand
+
+        public ICommand AcceptCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
+
+        private bool CanAccept(object obj)
         {
-            TaskViewModel _viewModel;
-
-            public AcceptAddUserInternalCommand(TaskViewModel viewModel)
-            {
-                this._viewModel = viewModel;
-            }
-
-            #region ICommand Members
-
-            public bool CanExecute(object parameter)
-            {
-                return this._viewModel.CanAcceptAddUser();
-            }
-
-            public event EventHandler CanExecuteChanged
-            {
-                add { CommandManager.RequerySuggested += value; }
-                remove { CommandManager.RequerySuggested -= value; }
-            }
-
-            public void Execute(object parameter)
-            {
-                this._viewModel.AcceptAddUser();
-            }
-
-            #endregion
+            return true;
+        }
+        private void Accept(object obj)
+        {
+            _task = _editingTask;
+            MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
+                new KeyValuePair<TaskCommandEnum, Task>(_command, _task));
         }
 
-        /*class CancelAddUserInternalCommand : ICommand
+        private bool CanCancel(object obj)
         {
-            UserViewModel _viewModel;
+            return true;
+        }
+        private void Cancel(object obj)
+        {
+            MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
+                new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
+        }
 
-            public CancelAddUserInternalCommand(UserViewModel viewModel)
-            {
-                this._viewModel = viewModel;
-            }
-
-            #region ICommand Members
-
-            public bool CanExecute(object parameter)
-            {
-                return this._viewModel.CanCancelAddUser();
-            }
-
-            public event EventHandler CanExecuteChanged
-            {
-                add { CommandManager.RequerySuggested += value; }
-                remove { CommandManager.RequerySuggested -= value; }
-            }
-
-            public void Execute(object parameter)
-            {
-                this._viewModel.CancelAddUser();
-            }
-
-            #endregion
-        }*/
         #endregion
+
+        #region INotifyPropertyChanged Members
+
+        public bool SetField<T>(ref T field, T value,
+            [CallerMemberName] string propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        #endregion
+
     }
 }
 
