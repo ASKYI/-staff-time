@@ -115,7 +115,7 @@ namespace Staff_time.ViewModel
       
         #endregion
 
-        #region Add Work !!!
+        #region Add Work
         private readonly ICommand _addWorkCommand;
         public ICommand AddWorkCommand
         {
@@ -136,9 +136,6 @@ namespace Staff_time.ViewModel
             work.TaskID = SelectedTaskNode.Task.ID;
             work.StartDate = chosenDate.Date;
             work.EndDate = work.StartDate;
-
-            //WorksVM.Add(work);
-            //Work newWork = WorksVM.Dictionary[work.ID];
 
             MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(
                 new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Add, work));
@@ -199,6 +196,7 @@ namespace Staff_time.ViewModel
             _addNewNode(newTask);
         }
         #endregion
+
         #region Delete Task
         private readonly ICommand _deleteTaskCommand;
         public ICommand DeleteTaskCommand

@@ -11,7 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <Style x:Key="EditButtonStyle" TargetType="Button">
+        <!--<Style x:Key="EditButtonStyle" TargetType="Button">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsReadOnly}" Value="True">
                     <Setter Property="Background" Value="LightGray"></Setter>
@@ -20,7 +20,7 @@
                     <Setter Property="Background" Value="LightCoral"></Setter>
                 </DataTrigger>
             </Style.Triggers>
-        </Style>
+        </Style>-->
 
         <!--Отображение узлов дерева-->
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}" ItemsSource="{Binding TreeNodes}">
@@ -78,22 +78,61 @@
             </Border>
         </HierarchicalDataTemplate>
 
-        <!--
-            DataTemplate for the UserViewModel for display in the dialog.
-            This would normally be defined in Dialog.Resources but I put it here
-            to prove that data-binding is working across Windows.            
-            -->
+        <!--Dialog-->
         <DataTemplate DataType="{x:Type vm:TaskViewModel}">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label>Name:</Label>
-                    <TextBox Text="{Binding Path=Name}"></TextBox>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                
+                <StackPanel Grid.Column="0" Grid.Row="0" Margin="5">
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock TextWrapping="Wrap" Text="Имя задачи: " Grid.Column="0"></TextBlock>
+                        <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditTask.TaskName}" Grid.Column="1"></TextBox>
+                    </Grid>
+
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Задача-родитель ID: " Grid.Column="0"></TextBlock>
+                        <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditTask.ParentTaskID}" Grid.Column="1"></TextBox>
+                    </Grid>
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock  Text="Тип задачи: " Grid.Column="0"></TextBlock>
+                        <ComboBox Grid.Column="1"
+                              ItemsSource="{Binding Path=TaskTypesCb}"
+                              DisplayMemberPath="TypeName"
+                              SelectedIndex="{Binding SelectedTaskTypeIndex}"
+                              IsEnabled="{Binding IsEnabled}">
+                        </ComboBox>
+                    </Grid>
                 </StackPanel>
-                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                    <Button IsDefault="True" Command="{Binding Path=AcceptAddUserCommand}">OK</Button>
-                    <Button IsCancel="True">Cancel</Button>
+                <Border  Grid.Row="0" Grid.Column="1" Margin="3" BorderBrush="Gray" BorderThickness="2">
+                    <local:ExtendedTreeView SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" Grid.Row="0" ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
+                </Border>
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                    <Button Margin="3" Content="Ок"></Button>
+                    <Button Margin="3" Content="Отмена"></Button>
                 </StackPanel>
-            </StackPanel>
+            </Grid>
         </DataTemplate>
 
     </UserControl.Resources>
@@ -106,6 +145,7 @@
         
         <!--Диалог-->
         <dialog:Dialog Showing="{Binding IsShowed}" 
+                       Height="400" Width="400"
                        Title="{Binding DialogTitle}" 
                        Content="{Binding Path=DialogDependency.DialogViewModel}"/>
                        <!--CancelCommand="{Binding Path=CancelAddUserCommand}"--> 
