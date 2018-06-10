@@ -20,17 +20,25 @@ namespace Staff_time.ViewModel
     {
         public TaskViewModel(Task task, ObservableCollection<TreeNode> roots, TaskCommandEnum command)
         {
+            _generate_TaskTypesCb();
+
             _task = task;
-            TreeRoots = roots;
+
+            if (command == TaskCommandEnum.Edit)
+                TreeRoots = roots;
             _command = command;
 
             EditingTask = task;
+            SelectedTaskTypeIndex = task.TaskTypeID;
+            if (task.ParentTaskID != null)  
+                SelectedTaskNode = TasksVM.Dictionary[(int)task.ParentTaskID];
 
             AcceptCommand = new RelayCommand(Accept, CanAccept);
             CancelCommand = new RelayCommand(Cancel, CanCancel);
         }
 
         private Task _task;
+        private TaskCommandEnum _command;
 
         private Task _editingTask;
         public Task EditingTask
@@ -41,8 +49,6 @@ namespace Staff_time.ViewModel
                 SetField(ref _editingTask, value);
             }
         }
-
-        private TaskCommandEnum _command;
 
         #region Tree
 
@@ -63,9 +69,44 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField<TreeNode>(ref _selectedTaskNode, value);
+
+                EditingTask.ParentTaskID = _selectedTaskNode.Task.ID;
             }
         }
 
+        #endregion
+
+        #region Task Type
+        private int _selectedTaskTypeIndex;
+        public int SelectedTaskTypeIndex
+        {
+            get { return _selectedTaskTypeIndex; }
+            set
+            {
+                SetField<int>(ref _selectedTaskTypeIndex, value);
+
+                EditingTask.TaskTypeID = _selectedTaskTypeIndex;
+            }
+        }
+
+        private ObservableCollection<TaskType> _taskTypesCb;
+        public ObservableCollection<TaskType> TaskTypesCb
+        {
+            get { return _taskTypesCb; }
+            set
+            {
+                SetField<ObservableCollection<TaskType>>(ref _taskTypesCb, value);
+            }
+        }
+        private void _generate_TaskTypesCb()
+        {
+            TaskTypesCb = new ObservableCollection<TaskType>();
+            List<TaskType> types = Context.typesWork.Read_TaskTypes();
+            foreach (var t in types)
+            {
+                TaskTypesCb.Add(t);
+            }
+        }
         #endregion
 
         #region Commands

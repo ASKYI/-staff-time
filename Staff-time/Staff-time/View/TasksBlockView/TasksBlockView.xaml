@@ -135,7 +135,7 @@
                     <RowDefinition Height="3*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-                
+
                 <StackPanel Grid.Column="0" Grid.Row="0" Margin="5">
                     <Grid Margin="2">
                         <Grid.ColumnDefinitions>
@@ -171,11 +171,12 @@
                         </ComboBox>
                     </Grid>
                 </StackPanel>
-                <Border  Grid.Row="0" Grid.Column="1" Margin="3" BorderBrush="Gray" BorderThickness="2">
-                    <local:ExtendedTreeView SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" Grid.Row="0" ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
-                </Border>
-                <StackPanel HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-                    <Button Margin="3" IsDefault="True" Content="Ок" Command="{Binding AcceptCommand}"></Button>
+               
+                <local:ExtendedTreeView Grid.Row ="0" Grid.Column="1" Margin="3" BorderBrush="White"
+                                             SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
+                
+                <StackPanel HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                    <Button Margin="3" Content="Ок" Command="{Binding AcceptCommand}"></Button>
                     <Button Margin="3" Content="Отмена" Command="{Binding CancelCommand}"></Button>
                 </StackPanel>
             </Grid>

@@ -12,7 +12,7 @@ using GalaSoft.MvvmLight.Messaging;
 
 namespace Staff_time.ViewModel
 {
-    public enum TaskCommandEnum { AddNear, AddChild, Edit, None }
+    public enum TaskCommandEnum { Add, Edit, None }
 
     public class TasksBlockViewModel : MainViewModel
     {
@@ -30,22 +30,8 @@ namespace Staff_time.ViewModel
             MessengerInstance.Register<List<int>>(this, _addRoots);
             MessengerInstance.Register<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
         }
-
-        #region Selected TaskNode
-
-        private TreeNode _selectedTaskNode;
-        public TreeNode SelectedTaskNode
-        {
-            get { return _selectedTaskNode; }
-            set
-            {
-                SetField<TreeNode>(ref _selectedTaskNode, value);
-            }
-        }
-
-        #endregion
-
-        #region Tree !!!
+        
+        #region Tree
 
         private ObservableCollection<TreeNode> _treeRoots;
         public ObservableCollection<TreeNode> TreeRoots
@@ -66,6 +52,16 @@ namespace Staff_time.ViewModel
                 {
                     TreeRoots.Add(taskNode.Value);
                 }
+            }
+        }
+
+        private TreeNode _selectedTaskNode;
+        public TreeNode SelectedTaskNode
+        {
+            get { return _selectedTaskNode; }
+            set
+            {
+                SetField<TreeNode>(ref _selectedTaskNode, value);
             }
         }
 
@@ -137,7 +133,7 @@ namespace Staff_time.ViewModel
         }
         #endregion
 
-        #region Add Task !!!
+        #region Add Task
         private readonly ICommand _addNearTaskCommand;
         public ICommand AddNearTaskCommand
         {
@@ -149,7 +145,7 @@ namespace Staff_time.ViewModel
 
         private bool CanAddNearTask(object obj)
         {
-            return true;
+            return SelectedTaskNode != null;
         }
         private void AddNearTask(object obj)
         {            
@@ -158,7 +154,7 @@ namespace Staff_time.ViewModel
             newTask.TaskName = "Новая задача";
 
             DialogTitle = "Новая задача";
-            DialogDependency = new DialogDependency(newTask, TreeRoots, TaskCommandEnum.AddNear);
+            DialogDependency = new DialogDependency(newTask, TreeRoots, TaskCommandEnum.Add);
             IsShowed = true;
         }
         private readonly ICommand _addChildTaskCommand;
@@ -172,21 +168,17 @@ namespace Staff_time.ViewModel
 
         private bool CanAddChildTask(object obj)
         {
-            return false;
-           // return SelectedTaskNode != null;
+            return SelectedTaskNode != null;
         }
         private void AddChildTask(object obj)
         {
-            //DialogTitle = "Новая задача";
-            //IsShowed = true;
+            Task newTask = new Task();
+            newTask.ParentTaskID = SelectedTaskNode.Task.ID;
+            newTask.TaskName = "Новая подзадача";
 
-            //Task newTask = new Task();
-            //newTask.ParentTaskID = SelectedTaskNode.Task.ID;
-            //newTask.TaskName = "Новая задача";
-            //Context.taskWork.Create_Task(newTask);
-            //newTask.TaskName = "Новая работа";
-
-            //_addNewNode(newTask);
+            DialogTitle = "Новая подзадача";
+            DialogDependency = new DialogDependency(newTask, TreeRoots, TaskCommandEnum.Add);
+            IsShowed = true;
         }
         #endregion
 
@@ -231,7 +223,7 @@ namespace Staff_time.ViewModel
         }
         #endregion
 
-        #region Dialog !!!
+        #region Dialog
         //https://www.codeproject.com/Articles/35553/XAML-Dialog-Control-Enabling-MVVM-and-Dialogs-in-W
 
         private Boolean _isShowed;
@@ -274,15 +266,13 @@ namespace Staff_time.ViewModel
 
             switch(command)
             {
-                case TaskCommandEnum.AddNear:
+                case TaskCommandEnum.Add:
                     TasksVM.AddNear(task);
                     TreeNode newNode = TasksVM.Dictionary[task.ID];
 
                     if (newNode.ParentNode == null)
                         TreeRoots.Add(newNode);
 
-                    break;
-                case TaskCommandEnum.AddChild:
                     break;
                 case TaskCommandEnum.Edit:
                     break;
@@ -340,34 +330,6 @@ namespace Staff_time.ViewModel
         //}
         //#endregion
 
-        //#region Task Type
-        //private int _selectedTaskTypeIndex;
-        //public int SelectedTaskTypeIndex
-        //{
-        //    get { return _selectedTaskTypeIndex; }
-        //    set
-        //    {
-        //        SetField<int>(ref _selectedTaskTypeIndex, value);
-        //    }
-        //}
-        //private ObservableCollection<TaskType> _taskTypesCb;
-        //public ObservableCollection<TaskType> TaskTypesCb
-        //{
-        //    get { return _taskTypesCb; }
-        //    set
-        //    {
-        //        SetField<ObservableCollection<TaskType>>(ref _taskTypesCb, value);
-        //    }
-        //}
-        //private void _generate_TaskTypesCb()
-        //{
-        //    TaskTypesCb = new ObservableCollection<TaskType>();
-        //    List<TaskType> types = Context.typesWork.Read_TaskTypes();
-        //    foreach (var t in types)
-        //    {
-        //        TaskTypesCb.Add(t);
-        //    }
-        //}
-        //#endregion
+        
     }
 }
