@@ -16,6 +16,9 @@ namespace Staff_time.Model.Interfaces
         //Возвращает список правильно созданных (верный тип) задач
         List<Task> Read_AllTasks();
 
+        //Возвращает список ID корневых задач
+        List<int> Read_RootTasks();
+
         //Возвращает список ID избранных задач пользователя
         List<int> Read_FaveTasks(int curUser);
 

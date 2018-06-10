@@ -38,6 +38,11 @@ namespace Staff_time.Model
             }
             return tasks;
         }
+
+        public List<int> Read_RootTasks()
+        {
+            return (from t in Tasks where t.ParentTaskID == null select t.ID).ToList();
+        }
      
         public List<int> Read_FaveTasks(int userID)
         {
@@ -151,6 +156,7 @@ namespace Staff_time.Model
             SaveChanges();
         }
         #endregion
+
         #region IAttrWork
         public void Create_AttrValuesFields_ForWork(int WorkID, WorkTypeEnum type)
         {
@@ -192,6 +198,7 @@ namespace Staff_time.Model
             }
         }
         #endregion
+
         #region ITypesWork
         public List<WorkType> Read_WorkTypes()
         {

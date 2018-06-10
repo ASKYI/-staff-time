@@ -17,9 +17,6 @@ namespace Staff_time.ViewModel
         public TasksBlockViewModel()
         {
             _generate_Tree();
-            //_generate_TaskTypesCb();
-
-           // SelectedTaskNode = null;
             
             IsEditing = false;
 
@@ -28,9 +25,9 @@ namespace Staff_time.ViewModel
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
 
-            //_editCommand = new RelayCommand(Edit, CanEdit);
+            IsShowed = false; //Dialog
 
-            IsShowed = false;
+            MessengerInstance.Register<List<int>>(this, _addRoots);
         }
 
         #region Selected TaskNode
@@ -45,7 +42,6 @@ namespace Staff_time.ViewModel
 
                 if (_selectedTaskNode != null)
                 {
-                    //SelectedTaskTypeIndex = _selectedTaskNode.Task.TaskTypeID;
                     EditTask = (Task)_selectedTaskNode.Task.Clone();
                 }
 
@@ -77,6 +73,14 @@ namespace Staff_time.ViewModel
                 {
                     TreeRoots.Add(taskNode.Value);
                 }
+            }
+        }
+
+        private void _addRoots(List<int> ids)
+        {
+            foreach(int id in ids)
+            {
+                TreeRoots.Add(TasksVM.Dictionary[id]);
             }
         }
 
@@ -250,11 +254,22 @@ namespace Staff_time.ViewModel
             foreach (var id in works)
             {
                 Work w = WorksVM.Dictionary[id];
-                MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(0, w));
+                MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>
+                    (new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, w));
             }
-            int delID = SelectedTaskNode.Task.ID;
-            _deleteNode(SelectedTaskNode, true);
-            Context.taskWork.Delete_Task(delID);
+
+            int delTaskID = SelectedTaskNode.Task.ID;
+            if (SelectedTaskNode.ParentNode == null)
+            {
+                foreach(var n in SelectedTaskNode.TreeNodes)
+                {
+                    TreeRoots.Add(n);
+                }
+            }
+            if (TreeRoots.Contains(SelectedTaskNode))
+                TreeRoots.Remove(SelectedTaskNode);
+
+            TasksVM.DeleteAlone(delTaskID);
         }
         #endregion
 

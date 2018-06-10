@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 using Staff_time.Model;
-using Staff_time.Model.Interfaces;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using System.ComponentModel;
-using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
 
 using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
@@ -67,6 +68,64 @@ namespace Staff_time.ViewModel
 
             Init_tracker = true;
         }
+
+        public static void AddNear(Task task)
+        {
+            //TreeNodeFactory factory = new TreeNodeFactory();
+            //TreeNode newNode = factory.CreateTreeNode(task);
+
+            //TasksVM.Dictionary.Add(task.ID, newNode);
+
+
+            //if (task.ParentTaskID == null || task.ParentTaskID == 0)
+            //{
+            //    TreeRoots.Add(node);
+            //}
+            //else
+            //{
+            //    TasksVM.Dictionary[(int)task.ParentTaskID].AddChild(node);
+            //    node.ParentNode = TasksVM.Dictionary[(int)task.ParentTaskID];
+            //}
+
+            //List<int> childTasks = Context.taskWork.Read_ChildTasks(task.ID);
+            //foreach (var t in childTasks)
+            //{
+            //    TreeNode childNode = TasksVM.Dictionary[t];
+
+            //    if (childNode.ParentNode != null)
+            //        childNode.ParentNode.TreeNodes.Remove(TasksVM.Dictionary[t]);
+            //    else
+            //        TreeRoots.Remove(TasksVM.Dictionary[t]);
+
+            //    node.AddChild(childNode);
+            //    childNode.ParentNode = node;
+            //}
+        }
+
+        public static void DeleteAlone(int taskID)
+        {
+            //DB
+            Context.taskWork.Delete_Task(taskID);
+
+            //VM
+            TreeNode delNode = Dictionary[taskID];
+
+            TreeNode parentNode = delNode.ParentNode;
+            int? parentID = delNode.Task.ParentTaskID;
+
+            foreach (var n in delNode.TreeNodes)
+            {
+                n.ParentNode = parentNode;
+                n.Task.ParentTaskID = parentID;
+
+                if (parentNode != null)
+                    parentNode.TreeNodes.Add(n);
+            }
+
+            if (parentNode != null)
+                parentNode.TreeNodes.Remove(delNode);
+            Dictionary.Remove(taskID);
+        } 
 
         #region Other Methods
 
