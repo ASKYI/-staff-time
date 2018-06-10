@@ -20,9 +20,9 @@ namespace Staff_time.ViewModel
         }
         #endregion
 
-        public DialogDependency()
+        public DialogDependency(Model.Task task)
         {
-            DialogViewModel = new TaskViewModel();
+            DialogViewModel = new TaskViewModel(task);
         }
     }
 }

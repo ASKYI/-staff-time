@@ -157,14 +157,17 @@ namespace Staff_time.ViewModel
         }
         private void AddNearTask(object obj)
         {
-            DialogTitle = "Новая задача";
-            DialogDependency = new DialogDependency();
-            IsShowed = true;
+
             
             Task newTask = new Task();
             if (SelectedTaskNode != null)
                 newTask.ParentTaskID = SelectedTaskNode.Task.ParentTaskID;
             newTask.TaskName = "Новая задача";
+
+            DialogTitle = "Новая задача";
+            DialogDependency = new DialogDependency(newTask);
+            IsShowed = true;
+
             Context.taskWork.Create_Task(newTask);
 
             _addNewNode(newTask);

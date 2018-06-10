@@ -18,20 +18,30 @@ namespace Staff_time.ViewModel
 {
     public class TaskViewModel : DependencyObject
     {
-        public ICommand AcceptAddUserCommand { get; set; }
-        public event EventHandler AddUserAccepted;
-        public ICommand CancelAddUserCommand { get; set; }
-        //public event EventHandler AddUserCanceled;
+        public TaskViewModel(Task task)
+        {
+            AcceptAddUserCommand = new AcceptAddUserInternalCommand(this);
+            //CancelAddUserCommand = new CancelAddUserInternalCommand(this);
+            this._task = task;
+
+
+          //  this._task.TaskName = "new test";
+        }
 
         private Task _task;
 
-        public Task Model
+        public Task Task
         {
             get
             {
                 return this._task;
             }
         }
+
+        public ICommand AcceptAddUserCommand { get; set; }
+        public event EventHandler AddUserAccepted;
+        public ICommand CancelAddUserCommand { get; set; }
+        //public event EventHandler AddUserCanceled;
 
         public string Name
         {
@@ -62,23 +72,6 @@ namespace Staff_time.ViewModel
 
         public static readonly DependencyProperty NamePropertyProperty =
             DependencyProperty.Register("Name", typeof(string), typeof(TaskViewModel));
-
-        public TaskViewModel() : this(new Task())
-        {
-        }
-
-        public TaskViewModel(Task task)
-        {
-            AcceptAddUserCommand = new AcceptAddUserInternalCommand(this);
-            //CancelAddUserCommand = new CancelAddUserInternalCommand(this);
-            this._task = task;
-
-
-            this._task.TaskName = "new test";
-
-            this.Name = this._task.TaskName;
-
-        }
 
         #region Commands
         class AcceptAddUserInternalCommand : ICommand

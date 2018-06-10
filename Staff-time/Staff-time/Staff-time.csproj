@@ -157,7 +157,7 @@
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeСompany.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeСontract.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\DialogDependency.cs" />
-    <Compile Include="ViewModel\TasksBlockViewModel\TaskViewModel.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TaskDialogVMs\TaskViewModel.cs" />
     <Compile Include="ViewModel\FaveViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TasksBlockViewModel.cs" />

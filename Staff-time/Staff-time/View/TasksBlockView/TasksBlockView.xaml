@@ -78,7 +78,8 @@
             </Border>
         </HierarchicalDataTemplate>
 
-        <!--Dialog-->
+        
+        <!--Отображение диалога-->
         <DataTemplate DataType="{x:Type vm:TaskViewModel}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -98,7 +99,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock TextWrapping="Wrap" Text="Имя задачи: " Grid.Column="0"></TextBlock>
-                        <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditTask.TaskName}" Grid.Column="1"></TextBox>
+                        <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding Task.TaskName}" Grid.Column="1"></TextBox>
                     </Grid>
 
                     <Grid Margin="2">
@@ -164,74 +165,22 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    
+
                     <Border Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
                         <Label FontSize="10" Content="Управление" Background="LightGray"></Label>
                     </Border>
                     <Button Grid.Column="1" Content="Добавить работу" Command="{Binding AddWorkCommand}" FontSize="10" Background="White"></Button>
                 </Grid>
-                
+
                 <StackPanel Orientation="Horizontal">
                     <Button FontSize="10" Content="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}"></Button>
                     <Button FontSize="10" Content="Добавить подзадачу" Command="{Binding AddChildTaskCommand}"></Button>
                 </StackPanel>
-                
+
                 <StackPanel Orientation="Horizontal">
                     <Button FontSize="10" Command="{Binding DeleteTaskCommand}" Content="Удалить задачу"></Button>
                 </StackPanel>
             </StackPanel>
         </Border>
-
-        <!--Выбранная задача--><!--
-        <Border  Grid.Row="2" Margin="3" BorderBrush="Gray" BorderThickness="2">
-            <StackPanel>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    
-                    <Border Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
-                        <Label FontSize="10" Content="Выбранная задача" Background="LightGray"></Label>
-                    </Border>
-                    
-                    <Button Grid.Column="1" FontSize="10" Content="Редактировать задачу" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}"></Button>
-                </Grid>
-                
-                <Grid Margin="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock FontSize="10" TextWrapping="Wrap" Text="Имя задачи: " Grid.Column="0"></TextBlock>
-                    <TextBox FontSize="10" IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditTask.TaskName}" Grid.Column="1"></TextBox>
-                </Grid>
-                
-                <Grid Margin="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock FontSize="10" Text="Задача-родитель ID: " Grid.Column="0"></TextBlock>
-                    <TextBox FontSize="10" IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditTask.ParentTaskID}" Grid.Column="1"></TextBox>
-                </Grid>
-                <Grid Margin="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    
-                    <TextBlock FontSize="10"  Text="Тип задачи: " Grid.Column="0"></TextBlock>
-                    <ComboBox FontSize="10" Grid.Column="1"
-                          ItemsSource="{Binding Path=TaskTypesCb}"
-                          DisplayMemberPath="TypeName"
-                          SelectedIndex="{Binding SelectedTaskTypeIndex}"
-                          IsEnabled="{Binding IsEnabled}">
-                    </ComboBox>
-                </Grid>
-            </StackPanel>
-        </Border>-->
     </Grid>
 </UserControl>
