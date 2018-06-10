@@ -17,8 +17,6 @@ namespace Staff_time.ViewModel
         public TasksBlockViewModel()
         {
             _generate_Tree();
-            
-            IsEditing = false;
 
             _addWorkCommand = new RelayCommand(AddWork, CanAddWork);
             _addNearTaskCommand = new RelayCommand(AddNearTask, CanAddNearTask);
@@ -114,40 +112,7 @@ namespace Staff_time.ViewModel
                 childNode.ParentNode = node;
             }
         }
-
-        private void _deleteNode(TreeNode node, bool wirhChildren)
-        {
-            int parentID = 0, delTaskID = node.Task.ID;
-            if (node.Task.ParentTaskID != null)
-                parentID = (int)node.Task.ParentTaskID;
-
-            //Удаляем узел, родитель его детей - родитель удаляемого узла
-            if (wirhChildren)
-            {
-                foreach (var t in TasksVM.Dictionary[delTaskID].TreeNodes)
-                {
-                    if (parentID != 0)
-                    {
-                        t.ParentNode = TasksVM.Dictionary[parentID];
-                        TasksVM.Dictionary[parentID].AddChild(t);
-                    }
-                    else
-                    {
-                        t.ParentNode = null;
-                        t.Task.ParentTaskID = null;
-                        TreeRoots.Add(t);
-                    }
-                }
-            }
-
-            if (parentID == 0)
-                TreeRoots.Remove(node);
-            else
-                if (TasksVM.Dictionary.ContainsKey(parentID))
-                TasksVM.Dictionary[parentID].TreeNodes.Remove(node);
-            TasksVM.Dictionary.Remove(delTaskID);
-        }
-
+      
         #endregion
 
         #region Add Work !!!
@@ -234,7 +199,7 @@ namespace Staff_time.ViewModel
             _addNewNode(newTask);
         }
         #endregion
-        #region Delete Task !!!
+        #region Delete Task
         private readonly ICommand _deleteTaskCommand;
         public ICommand DeleteTaskCommand
         {
@@ -250,6 +215,7 @@ namespace Staff_time.ViewModel
         }
         private void DeleteTask(object obj)
         {
+            //Works
             List<int> works = Context.workWork.Read_WorksForTask(SelectedTaskNode.Task.ID);
             foreach (var id in works)
             {
@@ -258,6 +224,7 @@ namespace Staff_time.ViewModel
                     (new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, w));
             }
 
+            //Roots
             int delTaskID = SelectedTaskNode.Task.ID;
             if (SelectedTaskNode.ParentNode == null)
             {

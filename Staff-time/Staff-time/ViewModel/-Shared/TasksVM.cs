@@ -127,6 +127,11 @@ namespace Staff_time.ViewModel
             Dictionary.Remove(taskID);
         } 
 
+        public static void DeleteWithChildren(int taskID)
+        {
+            //Если понадобится
+        }
+
         #region Other Methods
 
         public static ObservableCollection<TreeNode> Convert_TasksIntoNodes(List<int> t)
