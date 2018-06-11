@@ -24,6 +24,8 @@ namespace Staff_time.ViewModel
             _addNearTaskCommand = new RelayCommand(AddNearTask, CanAddNearTask);
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
+            _editTaskCommand = new RelayCommand(EditTask, CanEditTask);
+                
 
             IsShowed = false; //Dialog
 
@@ -145,12 +147,13 @@ namespace Staff_time.ViewModel
 
         private bool CanAddNearTask(object obj)
         {
-            return SelectedTaskNode != null;
+            return IsShowed == false;
         }
         private void AddNearTask(object obj)
-        {            
+        {
             Task newTask = new Task();
-            newTask.ParentTaskID = SelectedTaskNode.Task.ParentTaskID;
+            if (SelectedTaskNode != null)
+                newTask.ParentTaskID = SelectedTaskNode.Task.ParentTaskID;
             newTask.TaskName = "Новая задача";
 
             DialogTitle = "Новая задача";
@@ -168,7 +171,7 @@ namespace Staff_time.ViewModel
 
         private bool CanAddChildTask(object obj)
         {
-            return SelectedTaskNode != null;
+            return SelectedTaskNode != null && IsShowed == false;
         }
         private void AddChildTask(object obj)
         {
@@ -181,6 +184,26 @@ namespace Staff_time.ViewModel
             IsShowed = true;
         }
         #endregion
+
+        private readonly ICommand _editTaskCommand;
+        public ICommand EditTaskCommand
+        {
+            get
+            {
+                return _editTaskCommand;
+            }
+        }
+
+        private bool CanEditTask(object obj)
+        {
+            return SelectedTaskNode != null && IsShowed == false;
+        }
+        private void EditTask(object obj)
+        {
+            DialogTitle = "Редактировать задачу";
+            DialogDependency = new DialogDependency(SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit);
+            IsShowed = true;
+        }
 
         #region Delete Task
         private readonly ICommand _deleteTaskCommand;
@@ -267,7 +290,7 @@ namespace Staff_time.ViewModel
             switch(command)
             {
                 case TaskCommandEnum.Add:
-                    TasksVM.AddNear(task);
+                    TasksVM.Add(task);
                     TreeNode newNode = TasksVM.Dictionary[task.ID];
 
                     if (newNode.ParentNode == null)
@@ -275,9 +298,21 @@ namespace Staff_time.ViewModel
 
                     break;
                 case TaskCommandEnum.Edit:
+
+                    if (TasksVM.Dictionary[task.ID].ParentNode == null)
+                        TreeRoots.Remove(TasksVM.Dictionary[task.ID]);
+
+                    TasksVM.Edit(task);
+                    newNode = TasksVM.Dictionary[task.ID];
+
+                    if (newNode.ParentNode == null)
+                        TreeRoots.Add(newNode);
+
                     break;
             }
 
+            _dialogDependency.DialogViewModel = null;
+            _dialogDependency = null;
             IsShowed = false;
         }
 

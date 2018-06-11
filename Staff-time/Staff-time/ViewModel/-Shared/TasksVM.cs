@@ -69,7 +69,7 @@ namespace Staff_time.ViewModel
             Init_tracker = true;
         }
 
-        public static void AddNear(Task task)
+        public static void Add(Task task)
         {
             //DB
             Context.taskWork.Create_Task(task);
@@ -110,6 +110,40 @@ namespace Staff_time.ViewModel
             //    node.AddChild(childNode);
             //    childNode.ParentNode = node;
             //}
+        }
+
+        public static void Edit(Task task)
+        {
+            //DB
+            Context.taskWork.Update_Task(task);
+
+            //VM
+            TreeNode node = Dictionary[task.ID];
+
+            TreeNodeFactory factory = new TreeNodeFactory();
+            TreeNode editNode = factory.CreateTreeNode(task);
+            if (editNode.Task.ParentTaskID != null)
+                editNode.ParentNode = Dictionary[(int)editNode.Task.ParentTaskID];
+
+            TreeNode parentNode = editNode.ParentNode;
+            int? parentID = editNode.Task.ParentTaskID;
+
+            foreach (var n in node.TreeNodes)
+            {
+                n.ParentNode = editNode;
+                //n.Task.ParentTaskID = editNode.Task.ID;
+            }
+
+            if (node.ParentNode != null)
+            {
+                int oldParentID = (int)node.ParentNode.Task.ID;
+                Dictionary[oldParentID].TreeNodes.Remove(node);
+            }
+            if (parentNode != null)
+                parentNode.TreeNodes.Add(editNode);
+
+            Dictionary.Remove(task.ID);
+            Dictionary.Add(task.ID, editNode);
         }
 
         public static void DeleteAlone(int taskID)

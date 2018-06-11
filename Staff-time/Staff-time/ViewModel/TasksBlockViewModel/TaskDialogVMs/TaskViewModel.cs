@@ -25,12 +25,15 @@ namespace Staff_time.ViewModel
             _task = task;
 
             if (command == TaskCommandEnum.Edit)
+            {
                 TreeRoots = roots;
+                Message = "Выбрать задачу-родителя";
+            }
             _command = command;
 
             EditingTask = task;
             SelectedTaskTypeIndex = task.TaskTypeID;
-            if (task.ParentTaskID != null)  
+            if (task.ParentTaskID != null)
                 SelectedTaskNode = TasksVM.Dictionary[(int)task.ParentTaskID];
 
             AcceptCommand = new RelayCommand(Accept, CanAccept);
@@ -47,6 +50,16 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField(ref _editingTask, value);
+            }
+        }
+
+        private string _message;
+        public string Message
+        {
+            get { return _message; }
+            set
+            {
+                SetField(ref _message, value);
             }
         }
 

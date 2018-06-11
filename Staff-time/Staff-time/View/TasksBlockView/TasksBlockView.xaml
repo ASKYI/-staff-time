@@ -7,62 +7,38 @@
              
              xmlns:vm="clr-namespace:Staff_time.ViewModel"
              xmlns:dialog="clr-namespace:DialogControl;assembly=DialogControl"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="LightGreen" BorderThickness="2">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                    <TextBlock Text="   " Grid.Column="0" Background="LightGreen"></TextBlock>
-                    <TextBlock Text="ID: " Grid.Column="0"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding Task.ID}"></TextBlock>
-                </StackPanel>
+                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
             </Border>
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="Azure" BorderThickness="2">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                    <TextBlock Text="   " Grid.Column="0" Background="Azure"></TextBlock>
-                    <TextBlock Text="ID: " Grid.Column="0"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding Task.ID}"></TextBlock>
-                </StackPanel>
+                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
             </Border>
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="LightGoldenrodYellow" BorderThickness="2">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                    <TextBlock Text="   " Grid.Column="0" Background="LightGoldenrodYellow"></TextBlock>
-                    <TextBlock Text="ID: " Grid.Column="0"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding Task.ID}"></TextBlock>
-                </StackPanel>
+                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
             </Border>
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="LightYellow" BorderThickness="2">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                    <TextBlock Text="   " Grid.Column="0" Background="LightYellow"></TextBlock>
-                    <TextBlock Text="ID: " Grid.Column="0"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding Task.ID}"></TextBlock>
-                </StackPanel>
+                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
             </Border>
         </HierarchicalDataTemplate>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNode}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="LightGray" BorderThickness="2">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                    <TextBlock Text="   " Grid.Column="0" Background="LightGray"></TextBlock>
-                    <TextBlock Text="ID: " Grid.Column="0"></TextBlock>
-                    <TextBlock Grid.Column="1" Text="{Binding Task.ID}"></TextBlock>
-                </StackPanel>
+                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
             </Border>
         </HierarchicalDataTemplate>
 
@@ -73,56 +49,31 @@
                 <!--Отображение узлов дерева-->
                 <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}" ItemsSource="{Binding TreeNodes}">
                     <Border BorderBrush="LightGreen" BorderThickness="2">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                            <TextBlock Text="   " Grid.Column="0" Background="LightGreen"></TextBlock>
-                            <TextBlock Text="ID: " Grid.Column="0"></TextBlock>
-                            <TextBlock Grid.Column="1" Text="{Binding Task.ID}"></TextBlock>
-                        </StackPanel>
+                        <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
                     </Border>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
                     <Border BorderBrush="Azure" BorderThickness="2">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                            <TextBlock Text="   " Grid.Column="0" Background="Azure"></TextBlock>
-                            <TextBlock Text="ID: " Grid.Column="0"></TextBlock>
-                            <TextBlock Grid.Column="1" Text="{Binding Task.ID}"></TextBlock>
-                        </StackPanel>
+                        <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
                     </Border>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}" ItemsSource="{Binding TreeNodes}">
                     <Border BorderBrush="LightGoldenrodYellow" BorderThickness="2">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                            <TextBlock Text="   " Grid.Column="0" Background="LightGoldenrodYellow"></TextBlock>
-                            <TextBlock Text="ID: " Grid.Column="0"></TextBlock>
-                            <TextBlock Grid.Column="1" Text="{Binding Task.ID}"></TextBlock>
-                        </StackPanel>
+                        <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
                     </Border>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}" ItemsSource="{Binding TreeNodes}">
                     <Border BorderBrush="LightYellow" BorderThickness="2">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                            <TextBlock Text="   " Grid.Column="0" Background="LightYellow"></TextBlock>
-                            <TextBlock Text="ID: " Grid.Column="0"></TextBlock>
-                            <TextBlock Grid.Column="1" Text="{Binding Task.ID}"></TextBlock>
-                        </StackPanel>
+                        <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
                     </Border>
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType="{x:Type vm:TreeNode}" ItemsSource="{Binding TreeNodes}">
                     <Border BorderBrush="LightGray" BorderThickness="2">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                            <TextBlock Text="   " Grid.Column="0" Background="LightGray"></TextBlock>
-                            <TextBlock Text="ID: " Grid.Column="0"></TextBlock>
-                            <TextBlock Grid.Column="1" Text="{Binding Task.ID}"></TextBlock>
-                        </StackPanel>
+                        <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
                     </Border>
                 </HierarchicalDataTemplate>
             </DataTemplate.Resources>
@@ -136,6 +87,7 @@
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
 
+                <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="2"></Border>
                 <StackPanel Grid.Column="0" Grid.Row="0" Margin="5">
                     <Grid Margin="2">
                         <Grid.ColumnDefinitions>
@@ -171,14 +123,15 @@
                         </ComboBox>
                     </Grid>
                 </StackPanel>
-               
+
                 <local:ExtendedTreeView Grid.Row ="0" Grid.Column="1" Margin="3" BorderBrush="White"
                                              SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
-                
+
                 <StackPanel HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
                     <Button Margin="3" Content="Ок" Command="{Binding AcceptCommand}"></Button>
                     <Button Margin="3" Content="Отмена" Command="{Binding CancelCommand}"></Button>
                 </StackPanel>
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Message}"></TextBlock>
             </Grid>
         </DataTemplate>
 
@@ -191,10 +144,11 @@
         </Grid.RowDefinitions>
         
         <!--Диалог-->
-        <dialog:Dialog Showing="{Binding IsShowed}" 
-                       Height="400" Width="400"
+        <dialog:Dialog Showing="{Binding IsShowed}"  
+                       CancelCommand="{Binding DialogDependency.DialogViewModel.CancelCommand}"
                        Title="{Binding DialogTitle}" 
-                       Content="{Binding Path=DialogDependency.DialogViewModel}"/>
+                       Content="{Binding Path=DialogDependency.DialogViewModel}">
+        </dialog:Dialog>
                        <!--CancelCommand="{Binding Path=CancelAddUserCommand}"--> 
                         
 
@@ -224,6 +178,7 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
+                    <Button FontSize="10" Command="{Binding EditTaskCommand}" Content="Реадктировать задачу"></Button>
                     <Button FontSize="10" Command="{Binding DeleteTaskCommand}" Content="Удалить задачу"></Button>
                 </StackPanel>
             </StackPanel>

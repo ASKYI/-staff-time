@@ -248,6 +248,8 @@ namespace DialogControl
                 BindingOperations.ClearBinding(this._window, FrameworkElement.DataContextProperty);
                 BindingOperations.ClearBinding(this._window, ContentControl.ContentProperty);
                 BindingOperations.ClearBinding(this._window, Window.TitleProperty);
+
+               // Showing = false;
             }
         }
         #endregion
