@@ -13,9 +13,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:Dialog}">
                     <Window
-                        SizeToContent="WidthAndHeight"                         
-                        ResizeMode="NoResize"                        
-                        WindowStyle="SingleBorderWindow"
+                        SizeToContent="WidthAndHeight"           
+                        ResizeMode="CanResize"                        
+                        WindowStyle="None"
                         Title=""
                         WindowStartupLocation="CenterOwner"
                         Left="NaN"

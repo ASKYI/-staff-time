@@ -91,7 +91,7 @@ namespace Staff_time.ViewModel
                 if (_selectedTaskNode.Task == _task)
                     EditingTask.ParentTaskID = _task.ParentTaskID;
 
-                else if (_selectedTaskNode == TreeRoots[0])
+                else if (TreeRoots != null && _selectedTaskNode == TreeRoots[0]) 
                     EditingTask.ParentTaskID = null;
                 else
                     EditingTask.ParentTaskID = _selectedTaskNode.Task.ID;

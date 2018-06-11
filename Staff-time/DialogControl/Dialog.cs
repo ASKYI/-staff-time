@@ -30,7 +30,7 @@ namespace DialogControl
     /// <summary>
     /// A dialog that acts like a normal ContentControl.
     /// </summary>    
-    public class Dialog : ContentControl, INotifyPropertyChanged
+    public partial class Dialog : ContentControl, INotifyPropertyChanged
     {
         #region Static Constructor
         static Dialog()

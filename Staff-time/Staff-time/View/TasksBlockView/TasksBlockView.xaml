@@ -11,7 +11,55 @@
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2.5*"></RowDefinition>
+            <RowDefinition Height="0.75*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!--Диалог-->
+        <dialog:Dialog Showing="{Binding IsShowed}"
+                       CancelCommand="{Binding DialogDependency.DialogViewModel.CancelCommand}"
+                       Title="{Binding DialogTitle}" 
+                       Content="{Binding Path=DialogDependency.DialogViewModel}">
+        </dialog:Dialog>
+
+        <!--Дерево-->
+        <Border  Grid.Row="0" Margin="3" BorderBrush="Gray" BorderThickness="2">
+            <local:ExtendedTreeView SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" Grid.Row="0" ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
+        </Border>
+
+        <!--Управление-->
+        <Border  Grid.Row="1" Margin="3" BorderBrush="Gray" BorderThickness="2">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
+                        <Label FontSize="10" Content="Управление" Background="LightGray"></Label>
+                    </Border>
+                    <Button Grid.Column="1" Content="Добавить работу" Command="{Binding AddWorkCommand}" FontSize="10" Background="White"></Button>
+                </Grid>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button FontSize="10" Content="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}"></Button>
+                    <Button FontSize="10" Content="Добавить подзадачу" Command="{Binding AddChildTaskCommand}"></Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button FontSize="10" Command="{Binding EditTaskCommand}" Content="Реадктировать задачу"></Button>
+                    <Button FontSize="10" Command="{Binding DeleteTaskCommand}" Content="Удалить задачу"></Button>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+
     <UserControl.Resources>
+        <!--Отображение дерева-->
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="LightGreen" BorderThickness="2">
                 <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
@@ -42,8 +90,7 @@
             </Border>
         </HierarchicalDataTemplate>
 
-        
-        <!--Отображение диалога, нужно будет пристроить в другой файл-->
+        <!--Отображение диалога-->
         <DataTemplate DataType="{x:Type vm:TaskViewModel}">
             <DataTemplate.Resources>
                 <!--Отображение узлов дерева-->
@@ -105,15 +152,6 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="Задача-родитель ID: " Grid.Column="0"></TextBlock>
-                        <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditingTask.ParentTaskID}" Grid.Column="1"></TextBox>
-                    </Grid>
-                    <Grid Margin="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-
                         <TextBlock  Text="Тип задачи: " Grid.Column="0"></TextBlock>
                         <ComboBox Grid.Column="1"
                               ItemsSource="{Binding Path=TaskTypesCb}"
@@ -124,64 +162,16 @@
                     </Grid>
                 </StackPanel>
 
-                <local:ExtendedTreeView Grid.Row ="0" Grid.Column="1" Margin="3" BorderBrush="White"
+                <local:ExtendedTreeView Grid.Row ="0" Grid.Column="1" Margin="3"
                                              SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
 
                 <StackPanel HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
                     <Button Margin="3" Content="Ок" Command="{Binding AcceptCommand}"></Button>
                     <Button Margin="3" Content="Отмена" Command="{Binding CancelCommand}"></Button>
                 </StackPanel>
-                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Message}"></TextBlock>
+                <TextBlock Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Message}"></TextBlock>
             </Grid>
         </DataTemplate>
 
     </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2.5*"></RowDefinition>
-            <RowDefinition Height="0.75*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        
-        <!--Диалог-->
-        <dialog:Dialog Showing="{Binding IsShowed}"  
-                       CancelCommand="{Binding DialogDependency.DialogViewModel.CancelCommand}"
-                       Title="{Binding DialogTitle}" 
-                       Content="{Binding Path=DialogDependency.DialogViewModel}">
-        </dialog:Dialog>
-                       <!--CancelCommand="{Binding Path=CancelAddUserCommand}"--> 
-                        
-
-        <!--Дерево-->
-        <Border  Grid.Row="0" Margin="3" BorderBrush="Gray" BorderThickness="2">
-            <local:ExtendedTreeView SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" Grid.Row="0" ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
-        </Border>
-
-        <!--Управление-->
-        <Border  Grid.Row="1" Margin="3" BorderBrush="Gray" BorderThickness="2">
-            <StackPanel>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-
-                    <Border Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
-                        <Label FontSize="10" Content="Управление" Background="LightGray"></Label>
-                    </Border>
-                    <Button Grid.Column="1" Content="Добавить работу" Command="{Binding AddWorkCommand}" FontSize="10" Background="White"></Button>
-                </Grid>
-
-                <StackPanel Orientation="Horizontal">
-                    <Button FontSize="10" Content="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}"></Button>
-                    <Button FontSize="10" Content="Добавить подзадачу" Command="{Binding AddChildTaskCommand}"></Button>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <Button FontSize="10" Command="{Binding EditTaskCommand}" Content="Реадктировать задачу"></Button>
-                    <Button FontSize="10" Command="{Binding DeleteTaskCommand}" Content="Удалить задачу"></Button>
-                </StackPanel>
-            </StackPanel>
-        </Border>
-    </Grid>
 </UserControl>
