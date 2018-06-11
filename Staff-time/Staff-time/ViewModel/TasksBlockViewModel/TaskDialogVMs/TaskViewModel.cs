@@ -26,7 +26,12 @@ namespace Staff_time.ViewModel
 
             if (command == TaskCommandEnum.Edit)
             {
-                TreeRoots = roots;
+                TreeRoots = new ObservableCollection<TreeNode>();
+                TreeRoots.Add(new TreeNode() { Task = new Task() { TaskName = "Задачи" } });
+                
+                foreach (var r in roots)
+                    TreeRoots[0].AddChild(r);
+
                 Message = "Выбрать задачу-родителя";
             }
             _command = command;
@@ -83,7 +88,13 @@ namespace Staff_time.ViewModel
             {
                 SetField<TreeNode>(ref _selectedTaskNode, value);
 
-                EditingTask.ParentTaskID = _selectedTaskNode.Task.ID;
+                if (_selectedTaskNode.Task == _task)
+                    EditingTask.ParentTaskID = _task.ParentTaskID;
+
+                else if (_selectedTaskNode == TreeRoots[0])
+                    EditingTask.ParentTaskID = null;
+                else
+                    EditingTask.ParentTaskID = _selectedTaskNode.Task.ID;
             }
         }
 
