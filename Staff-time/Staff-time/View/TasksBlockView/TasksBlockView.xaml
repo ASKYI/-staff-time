@@ -11,6 +11,42 @@
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <!--Отображение дерева-->
+        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}" ItemsSource="{Binding TreeNodes}">
+            <Border BorderBrush="LightGreen" BorderThickness="2">
+                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+            </Border>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
+            <Border BorderBrush="Azure" BorderThickness="2">
+                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+            </Border>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}" ItemsSource="{Binding TreeNodes}">
+            <Border BorderBrush="LightGoldenrodYellow" BorderThickness="2">
+                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+            </Border>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}" ItemsSource="{Binding TreeNodes}">
+            <Border BorderBrush="LightYellow" BorderThickness="2">
+                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+            </Border>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNode}" ItemsSource="{Binding TreeNodes}">
+            <Border BorderBrush="LightGray" BorderThickness="2">
+                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+            </Border>
+        </HierarchicalDataTemplate>
+
+        <!--Ресурсы диалога в App.xaml-->
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2.5*"></RowDefinition>
@@ -22,7 +58,8 @@
         <dialog:Dialog Showing="{Binding IsShowed}"
                        CancelCommand="{Binding DialogDependency.DialogViewModel.CancelCommand}"
                        Title="{Binding DialogTitle}" 
-                       Content="{Binding Path=DialogDependency.DialogViewModel}">
+                       Content="{Binding Path=DialogDependency.DialogViewModel}"
+                       ContentTemplate="{StaticResource DialogTemplate}">
         </dialog:Dialog>
 
         <!--Дерево-->
@@ -58,120 +95,4 @@
         </Border>
     </Grid>
 
-    <UserControl.Resources>
-        <!--Отображение дерева-->
-        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}" ItemsSource="{Binding TreeNodes}">
-            <Border BorderBrush="LightGreen" BorderThickness="2">
-                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-            </Border>
-        </HierarchicalDataTemplate>
-
-        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
-            <Border BorderBrush="Azure" BorderThickness="2">
-                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-            </Border>
-        </HierarchicalDataTemplate>
-
-        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}" ItemsSource="{Binding TreeNodes}">
-            <Border BorderBrush="LightGoldenrodYellow" BorderThickness="2">
-                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-            </Border>
-        </HierarchicalDataTemplate>
-
-        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}" ItemsSource="{Binding TreeNodes}">
-            <Border BorderBrush="LightYellow" BorderThickness="2">
-                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-            </Border>
-        </HierarchicalDataTemplate>
-
-        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNode}" ItemsSource="{Binding TreeNodes}">
-            <Border BorderBrush="LightGray" BorderThickness="2">
-                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-            </Border>
-        </HierarchicalDataTemplate>
-
-        <!--Отображение диалога-->
-        <DataTemplate DataType="{x:Type vm:TaskViewModel}">
-            <DataTemplate.Resources>
-                <!--Отображение узлов дерева-->
-                <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}" ItemsSource="{Binding TreeNodes}">
-                    <Border BorderBrush="LightGreen" BorderThickness="2">
-                        <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                    </Border>
-                </HierarchicalDataTemplate>
-
-                <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
-                    <Border BorderBrush="Azure" BorderThickness="2">
-                        <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                    </Border>
-                </HierarchicalDataTemplate>
-
-                <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}" ItemsSource="{Binding TreeNodes}">
-                    <Border BorderBrush="LightGoldenrodYellow" BorderThickness="2">
-                        <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                    </Border>
-                </HierarchicalDataTemplate>
-
-                <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}" ItemsSource="{Binding TreeNodes}">
-                    <Border BorderBrush="LightYellow" BorderThickness="2">
-                        <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                    </Border>
-                </HierarchicalDataTemplate>
-
-                <HierarchicalDataTemplate DataType="{x:Type vm:TreeNode}" ItemsSource="{Binding TreeNodes}">
-                    <Border BorderBrush="LightGray" BorderThickness="2">
-                        <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
-                    </Border>
-                </HierarchicalDataTemplate>
-            </DataTemplate.Resources>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="3*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                </Grid.RowDefinitions>
-
-                <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="2"></Border>
-                <StackPanel Grid.Column="0" Grid.Row="0" Margin="5">
-                    <Grid Margin="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock TextWrapping="Wrap" Text="Имя задачи: " Grid.Column="0"></TextBlock>
-                        <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditingTask.TaskName}" Grid.Column="1"></TextBox>
-                    </Grid>
-
-                    <Grid Margin="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock  Text="Тип задачи: " Grid.Column="0"></TextBlock>
-                        <ComboBox Grid.Column="1"
-                              ItemsSource="{Binding Path=TaskTypesCb}"
-                              DisplayMemberPath="TypeName"
-                              SelectedIndex="{Binding SelectedTaskTypeIndex}"
-                              IsEnabled="{Binding IsEnabled}">
-                        </ComboBox>
-                    </Grid>
-                </StackPanel>
-
-                <local:ExtendedTreeView Grid.Row ="0" Grid.Column="1" Margin="3"
-                                             SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"/>
-
-                <StackPanel HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                    <Button Margin="3" Content="Ок" Command="{Binding AcceptCommand}"></Button>
-                    <Button Margin="3" Content="Отмена" Command="{Binding CancelCommand}"></Button>
-                </StackPanel>
-                <TextBlock Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Message}"></TextBlock>
-            </Grid>
-        </DataTemplate>
-
-    </UserControl.Resources>
 </UserControl>
