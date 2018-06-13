@@ -74,7 +74,7 @@ insert into InvFields(num_inv, [name], field, type) values ('6', 'ID задачи', 'T
 insert into InvFields(num_inv, [name], field, type) values ('6', 'ID типа работы', 'WorkTypeID', '0')
 insert into InvFields(num_inv, [name], field, type) values ('6', 'Дата создания работы', 'StartDate', '3')
 insert into InvFields(num_inv, [name], field, type) values ('6', 'Дата окончания работы', 'EndDate', '3')
-insert into InvFields(num_inv, [name], field, type) values ('6', 'Длительность', 'Minutes', '0')
+insert into InvFields(num_inv, [name], field, type) values ('6', 'Длительность, минуты', 'Minutes', '0')
 
 insert into InvFields(num_inv, [name], field, type) values ('7', 'ID Типа работ', 'ID', '0')
 insert into InvFields(num_inv, [name], field, type) values ('7', 'Наименование типа работ', 'TypeName', '1')
