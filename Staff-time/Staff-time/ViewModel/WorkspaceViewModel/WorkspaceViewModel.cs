@@ -73,7 +73,7 @@ namespace Staff_time.ViewModel
             WeekTabs = new ObservableCollection<TabItem>();
 
             int dayOfWeek = (int)date.DayOfWeek;
-            dayOfWeek = (dayOfWeek + 6) % 7; //День недели с понедельник
+            dayOfWeek = (dayOfWeek + 6) % 7; //День недели с понедельника
             DateTime startDay = date.AddDays(-dayOfWeek);
 
             for (int i = 0; i < 7; ++i)
@@ -124,7 +124,7 @@ namespace Staff_time.ViewModel
             }
         }
 
-        public void SumTimeChange(long newSumTime) //Messenger
+        public void SumTimeChange(long newSumTime)
         {
             SumTime = newSumTime;
         }

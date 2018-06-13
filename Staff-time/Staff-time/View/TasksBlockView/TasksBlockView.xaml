@@ -44,7 +44,6 @@
             </Border>
         </HierarchicalDataTemplate>
 
-        <!--Ресурсы диалога в App.xaml-->
     </UserControl.Resources>
 
     <Grid>

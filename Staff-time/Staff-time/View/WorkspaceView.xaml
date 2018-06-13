@@ -13,7 +13,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type m:Work}">
-            <local:WorkBlockControl WorkID="{Binding ID}"></local:WorkBlockControl>
+            <StackPanel>
+            <local:WorkBlockControl WorkID="{Binding Path=ID, ElementName=workControl}" x:Name="workControl"></local:WorkBlockControl>
+                <TextBlock Text="{Binding ID}"></TextBlock>
+            </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
     <Grid>

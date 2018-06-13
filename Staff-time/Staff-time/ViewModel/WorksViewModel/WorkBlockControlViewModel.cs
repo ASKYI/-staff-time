@@ -19,6 +19,19 @@ namespace Staff_time.ViewModel
     {
         public WorkBlockControlViewModel(int workID)
         {
+            if (WorksVM.Dictionary.ContainsKey(workID))    
+                Work = WorksVM.Dictionary[workID];
+        }
+
+        private Work _work;
+        public Work Work
+        {
+            get { return _work; }
+            set
+            {
+                SetField(ref _work, value);
+            }
+        }
             //_generate_WorkInBlock(work);
             //_generate_WorkTypesCb();
             //SelectedWorkTypeIndex = work.WorkTypeID;
@@ -244,5 +257,5 @@ namespace Staff_time.ViewModel
         //        SetField(ref _isExpanded, value);
         //    }
         //}
-    }
+
 }

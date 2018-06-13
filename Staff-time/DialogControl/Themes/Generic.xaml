@@ -14,7 +14,7 @@
                 <ControlTemplate TargetType="{x:Type local:Dialog}">
                     <Window
                         SizeToContent="WidthAndHeight"           
-                        ResizeMode="CanResize"                        
+                        ResizeMode="NoResize"               
                         WindowStyle="None"
                         Title=""
                         WindowStartupLocation="CenterOwner"

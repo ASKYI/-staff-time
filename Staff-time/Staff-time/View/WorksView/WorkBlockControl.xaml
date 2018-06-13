@@ -71,20 +71,10 @@
                 </Grid.ColumnDefinitions>
                 
                 <TextBlock Text="Имя работы: " Grid.Column="0"></TextBlock>
-                <TextBox  TextWrapping="Wrap" IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.WorkName}" Grid.Column="1"></TextBox>
+                <TextBox  TextWrapping="Wrap" IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  
+                          Text="{Binding Work.WorkName}" Grid.Column="1"></TextBox>
             </Grid>
-            
-            <Grid Margin="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                
-                <TextBlock Text="Дата: " Grid.Column="0"></TextBlock>
-                <DatePicker Grid.Column="1" IsDropDownOpen="False" 
-                            SelectedDate="{Binding WorkInBlock.WorkControlDataContext.Work.StartDate}"
-                            IsEnabled="{Binding IsEnabled}"></DatePicker>
-            </Grid>
+           
             
             <!--<Grid Margin="2">
                 <Grid.ColumnDefinitions>
@@ -104,7 +94,8 @@
                 </Grid.ColumnDefinitions>
                 
                 <TextBlock Text="Время работы (в минутах): " Grid.Column="0"></TextBlock>
-                <TextBox TextWrapping="Wrap" IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  Text="{Binding WorkInBlock.WorkControlDataContext.Work.Minutes}" Grid.Column="1"></TextBox>
+                <TextBox TextWrapping="Wrap" IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  
+                         Text="{Binding Work.Minutes}" Grid.Column="1"></TextBox>
             </Grid>
             
             <Separator Height="3"></Separator>
@@ -131,6 +122,19 @@
                 <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="100" Background="LightGray"></Button>
                 <Button Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}" Width="100"></Button>
             </StackPanel>
+
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Дата: " Grid.Column="0"></TextBlock>
+                <DatePicker Grid.Column="1" IsDropDownOpen="False" 
+                            SelectedDate="{Binding Work.StartDate}"
+                            IsEnabled="{Binding IsEnabled}"></DatePicker>
+            </Grid>
+            
         </StackPanel>
     </Expander>
 </UserControl>

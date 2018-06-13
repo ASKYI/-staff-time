@@ -35,6 +35,7 @@ namespace Staff_time.ViewModel
                 Message = "Выбрать задачу-родителя";
             }
             _command = command;
+            Command = (int)_command;
 
             EditingTask = task;
             SelectedTaskTypeIndex = task.TaskTypeID;
@@ -47,6 +48,7 @@ namespace Staff_time.ViewModel
 
         private Task _task;
         private TaskCommandEnum _command;
+        public int Command;
 
         private Task _editingTask;
         public Task EditingTask
