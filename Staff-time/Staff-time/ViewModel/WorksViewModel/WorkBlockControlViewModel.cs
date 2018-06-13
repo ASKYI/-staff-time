@@ -19,15 +19,18 @@ namespace Staff_time.ViewModel
     {
         public WorkBlockControlViewModel()
         {
-
+            _generate_TaskTypesCb();
         }
 
         public void InitWork(int workID)
         {
+            _generate_TaskTypesCb();
+
             if (WorksVM.Dictionary.ContainsKey(workID))
             {
                 Work = WorksVM.Dictionary[workID].Work;
                 WorkInBlockID = new WorkIDDependency(workID);
+                SelectedWorkTypeIndex = Work.WorkTypeID;
             }
         }
 
@@ -42,230 +45,269 @@ namespace Staff_time.ViewModel
         }
         public WorkIDDependency WorkInBlockID;
 
-            //_generate_WorkInBlock(work);
-            //_generate_WorkTypesCb();
-            //SelectedWorkTypeIndex = work.WorkTypeID;
+        #region Edit
 
-            //if (isEditting == true)
-            //{
-            //    IsChangingType = false; IsEnabledCbx = true;
-            //    WorkInBlock.WorkControlDataContext.IsEdititig = false;
-            //    IsExpanded = true;
-            //}
-            //else
-            //{
-            //    IsChangingType = true; IsEnabledCbx = false;
-            //    WorkInBlock.WorkControlDataContext.IsEdititig = true;
-            //    IsExpanded = false;
-            //}
+        #endregion
 
-            //_changeTypeCommand = new RelayCommand(ChangeType, CanChangeType);
-            //_editCommand = new RelayCommand(Edit, CanEdit);
-            //_deleteCommand = new RelayCommand(Delete, CanDelete);
+        #region Work Types
+
+        private int _selectedWorkTypeIndex;
+        public int SelectedWorkTypeIndex
+        {
+            get { return _selectedWorkTypeIndex; }
+            set
+            {
+                SetField<int>(ref _selectedWorkTypeIndex, value);
+
+                Work.WorkTypeID = _selectedWorkTypeIndex;
+            }
         }
 
-        //#region WorkInBlock
-        //private ObservableCollection<WorkInBlock> _workInThisBlock;
-        //public ObservableCollection<WorkInBlock> WorkInThisBlock
+        private ObservableCollection<WorkType> _workTypesCb;
+        public ObservableCollection<WorkType> WorkTypesCb
+        {
+            get { return _workTypesCb; }
+            set
+            {
+                SetField(ref _workTypesCb, value);
+            }
+        }
+        private void _generate_TaskTypesCb()
+        {
+            WorkTypesCb = new ObservableCollection<WorkType>();
+            List<WorkType> types = Context.typesWork.Read_WorkTypes();
+            foreach (var t in types)
+            {
+                WorkTypesCb.Add(t);
+            }
+        }
+
+        #endregion
+        //_generate_WorkInBlock(work);
+        //_generate_WorkTypesCb();
+        //SelectedWorkTypeIndex = work.WorkTypeID;
+
+        //if (isEditting == true)
         //{
-        //    get { return _workInThisBlock; }
-        //    set
-        //    {
-        //        SetField < ObservableCollection<WorkInBlock>>(ref _workInThisBlock, value);
-        //    }
+        //    IsChangingType = false; IsEnabledCbx = true;
+        //    WorkInBlock.WorkControlDataContext.IsEdititig = false;
+        //    IsExpanded = true;
+        //}
+        //else
+        //{
+        //    IsChangingType = true; IsEnabledCbx = false;
+        //    WorkInBlock.WorkControlDataContext.IsEdititig = true;
+        //    IsExpanded = false;
         //}
 
-        //private WorkInBlock _workInBlock;
-        //public WorkInBlock WorkInBlock
-        //{
-        //    get { return _workInBlock; }
-        //    set
-        //    {
-        //        SetField(ref _workInBlock, value);
-        //    }
-        //}
+        //_changeTypeCommand = new RelayCommand(ChangeType, CanChangeType);
+        //_editCommand = new RelayCommand(Edit, CanEdit);
+        //_deleteCommand = new RelayCommand(Delete, CanDelete);
+    }
 
-        //private void _generate_WorkInBlock(Work work)
-        //{
-        //    WorkInBlockFactory workInBlockFactory = new WorkInBlockFactory();
-        //    WorkInBlock = workInBlockFactory.CreateWorkInBlock(work);
-        //    WorkInThisBlock = new ObservableCollection<WorkInBlock>();
-        //    WorkInThisBlock.Add((WorkInBlock)WorkInBlock);
+    //#region WorkInBlock
+    //private ObservableCollection<WorkInBlock> _workInThisBlock;
+    //public ObservableCollection<WorkInBlock> WorkInThisBlock
+    //{
+    //    get { return _workInThisBlock; }
+    //    set
+    //    {
+    //        SetField < ObservableCollection<WorkInBlock>>(ref _workInThisBlock, value);
+    //    }
+    //}
 
-        //    int taskId = WorkInBlock.WorkControlDataContext.Work.TaskID;
-        //    if (TasksVM.Dictionary.ContainsKey(taskId))
-        //        Path = TasksVM.generate_PathForTask(TasksVM.Dictionary[WorkInBlock.WorkControlDataContext.Work.TaskID]) + "-->" + WorkInBlock.WorkControlDataContext.Work.WorkName;
-        //    else
-        //        Path = "Ошибка пути";
-        //}
+    //private WorkInBlock _workInBlock;
+    //public WorkInBlock WorkInBlock
+    //{
+    //    get { return _workInBlock; }
+    //    set
+    //    {
+    //        SetField(ref _workInBlock, value);
+    //    }
+    //}
 
-        //private string _path;
-        //public string Path
-        //{
-        //    get { return _path; }
-        //    set
-        //    {
-        //        SetField(ref _path, value);
-        //    }
-        //}
-        //#endregion
-        //#region WorkType
-        //private int _selectedWorkTypeIndex;
-        //public int SelectedWorkTypeIndex
-        //{
-        //    get { return _selectedWorkTypeIndex; }
-        //    set
-        //    {
-        //        SetField<int>(ref _selectedWorkTypeIndex, value);
-        //        ChangeWorkType();
-        //    }
-        //}
-        //private ObservableCollection<WorkType> _workTypesCb;
-        //public ObservableCollection<WorkType> WorkTypesCb
-        //{
-        //    get { return _workTypesCb; }
-        //    set
-        //    {
-        //        SetField<ObservableCollection<WorkType>>(ref _workTypesCb, value);
-        //    }
-        //}
-        //private void _generate_WorkTypesCb()
-        //{
-        //    WorkTypesCb = new ObservableCollection<WorkType>();
-        //    List<WorkType> types = Context.typesWork.Read_WorkTypes();
-        //    foreach (var t in types)
-        //    {
-        //        WorkTypesCb.Add(t);
-        //    }
-        //}
+    //private void _generate_WorkInBlock(Work work)
+    //{
+    //    WorkInBlockFactory workInBlockFactory = new WorkInBlockFactory();
+    //    WorkInBlock = workInBlockFactory.CreateWorkInBlock(work);
+    //    WorkInThisBlock = new ObservableCollection<WorkInBlock>();
+    //    WorkInThisBlock.Add((WorkInBlock)WorkInBlock);
 
-        //private Boolean _isChangingType;
-        //public Boolean IsChangingType
-        //{
-        //    get { return _isChangingType; }
-        //    set
-        //    {
-        //        SetField(ref _isChangingType, value);
-        //    }
-        //}
-        //private Boolean _isEnabledCbx;
-        //public Boolean IsEnabledCbx
-        //{
-        //    get { return _isEnabledCbx; }
-        //    set
-        //    {
-        //        SetField<Boolean>(ref _isEnabledCbx, value);
-        //    }
-        //}
-        //private readonly ICommand _changeTypeCommand;
-        //public ICommand ChangeTypeCommand
-        //{
-        //    get
-        //    {
-        //        return _changeTypeCommand;
-        //    }
-        //}
-        //private bool CanChangeType(object obj)
-        //{
-        //    return true;
-        //}
-        //private void ChangeType(object obj)
-        //{
-        //    if (!IsChangingType)
-        //    {
-        //        IsEnabledCbx = false;
-        //        IsChangingType = true;
-        //    }
-        //    else
-        //    {
-        //        IsEnabledCbx =  true;
-        //        IsChangingType = false;
-        //    }
-        //}
-        //void ChangeWorkType()
-        //{
-        //    if (!IsChangingType)
-        //    {
-        //        WorkInBlock.WorkControlDataContext.Work.WorkTypeID = SelectedWorkTypeIndex;
+    //    int taskId = WorkInBlock.WorkControlDataContext.Work.TaskID;
+    //    if (TasksVM.Dictionary.ContainsKey(taskId))
+    //        Path = TasksVM.generate_PathForTask(TasksVM.Dictionary[WorkInBlock.WorkControlDataContext.Work.TaskID]) + "-->" + WorkInBlock.WorkControlDataContext.Work.WorkName;
+    //    else
+    //        Path = "Ошибка пути";
+    //}
 
-        //        WorkInBlock.WorkControlDataContext.UpdateWork();
+    //private string _path;
+    //public string Path
+    //{
+    //    get { return _path; }
+    //    set
+    //    {
+    //        SetField(ref _path, value);
+    //    }
+    //}
+    //#endregion
 
-        //        MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
-        //    }
-        //}
-        //#endregion
-        //#region Delete Command
-        //private readonly ICommand _deleteCommand;
-        //public ICommand DeleteCommand
-        //{
-        //    get
-        //    {
-        //        return _deleteCommand;
-        //    }
-        //}
-        //private bool CanDelete(object obj)
-        //{
-        //    return true;
-        //}
-        //private void Delete(object obj)
-        //{
-        //    WorkInBlock.WorkControlDataContext.DeleteWork();
-        //    MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(0,
-        //        WorkInBlock.WorkControlDataContext.Work));
-        //}
-        //#endregion
-        //#region Edit Command
-        //private Boolean _isEnabled;
-        //public Boolean IsEnabled
-        //{
-        //    get { return _isEnabled; }
-        //    set
-        //    {
-        //        SetField<Boolean>(ref _isEnabled, value);
-        //    }
-        //}
-        //private readonly ICommand _editCommand;
-        //public ICommand EditCommand
-        //{
-        //    get
-        //    {
-        //        return _editCommand;
-        //    }
-        //}
-        //private bool CanEdit(object obj)
-        //{
-        //    return true;
-        //}
-        //private void Edit(object obj)
-        //{
-        //    if (!WorkInBlock.WorkControlDataContext.IsEdititig)
-        //    {
-        //        WorkInBlock.WorkControlDataContext.Work.WorkTypeID = SelectedWorkTypeIndex;
+    //private int _selectedWorkTypeIndex;
+    //public int SelectedWorkTypeIndex
+    //{
+    //    get { return _selectedWorkTypeIndex; }
+    //    set
+    //    {
+    //        SetField<int>(ref _selectedWorkTypeIndex, value);
+    //        ChangeWorkType();
+    //    }
+    //}
+    //private ObservableCollection<WorkType> _workTypesCb;
+    //public ObservableCollection<WorkType> WorkTypesCb
+    //{
+    //    get { return _workTypesCb; }
+    //    set
+    //    {
+    //        SetField<ObservableCollection<WorkType>>(ref _workTypesCb, value);
+    //    }
+    //}
+    //private void _generate_WorkTypesCb()
+    //{
+    //    WorkTypesCb = new ObservableCollection<WorkType>();
+    //    List<WorkType> types = Context.typesWork.Read_WorkTypes();
+    //    foreach (var t in types)
+    //    {
+    //        WorkTypesCb.Add(t);
+    //    }
+    //}
 
-        //        MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(1,
-        //            WorkInBlock.WorkControlDataContext.Work));
+    //#endregion
+    //private Boolean _isChangingType;
+    //public Boolean IsChangingType
+    //{
+    //    get { return _isChangingType; }
+    //    set
+    //    {
+    //        SetField(ref _isChangingType, value);
+    //    }
+    //}
+    //private Boolean _isEnabledCbx;
+    //public Boolean IsEnabledCbx
+    //{
+    //    get { return _isEnabledCbx; }
+    //    set
+    //    {
+    //        SetField<Boolean>(ref _isEnabledCbx, value);
+    //    }
+    //}
+    //private readonly ICommand _changeTypeCommand;
+    //public ICommand ChangeTypeCommand
+    //{
+    //    get
+    //    {
+    //        return _changeTypeCommand;
+    //    }
+    //}
+    //private bool CanChangeType(object obj)
+    //{
+    //    return true;
+    //}
+    //private void ChangeType(object obj)
+    //{
+    //    if (!IsChangingType)
+    //    {
+    //        IsEnabledCbx = false;
+    //        IsChangingType = true;
+    //    }
+    //    else
+    //    {
+    //        IsEnabledCbx =  true;
+    //        IsChangingType = false;
+    //    }
+    //}
+    //void ChangeWorkType()
+    //{
+    //    if (!IsChangingType)
+    //    {
+    //        WorkInBlock.WorkControlDataContext.Work.WorkTypeID = SelectedWorkTypeIndex;
 
-        //        WorkInBlock.WorkControlDataContext.UpdateWork();
+    //        WorkInBlock.WorkControlDataContext.UpdateWork();
 
-        //        WorkInBlock.WorkControlDataContext.IsEdititig = true;
-        //        IsEnabled = false;
-        //    }
-        //    else
-        //    {
-        //        WorkInBlock.WorkControlDataContext.IsEdititig = false;
-        //        IsEnabled = true;
-        //    }
-        //}
-        //#endregion
+    //        MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
+    //    }
+    //}
+    //#endregion
+    //#region Delete Command
+    //private readonly ICommand _deleteCommand;
+    //public ICommand DeleteCommand
+    //{
+    //    get
+    //    {
+    //        return _deleteCommand;
+    //    }
+    //}
+    //private bool CanDelete(object obj)
+    //{
+    //    return true;
+    //}
+    //private void Delete(object obj)
+    //{
+    //    WorkInBlock.WorkControlDataContext.DeleteWork();
+    //    MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(0,
+    //        WorkInBlock.WorkControlDataContext.Work));
+    //}
+    //#endregion
+    //#region Edit Command
+    //private Boolean _isEnabled;
+    //public Boolean IsEnabled
+    //{
+    //    get { return _isEnabled; }
+    //    set
+    //    {
+    //        SetField<Boolean>(ref _isEnabled, value);
+    //    }
+    //}
+    //private readonly ICommand _editCommand;
+    //public ICommand EditCommand
+    //{
+    //    get
+    //    {
+    //        return _editCommand;
+    //    }
+    //}
+    //private bool CanEdit(object obj)
+    //{
+    //    return true;
+    //}
+    //private void Edit(object obj)
+    //{
+    //    if (!WorkInBlock.WorkControlDataContext.IsEdititig)
+    //    {
+    //        WorkInBlock.WorkControlDataContext.Work.WorkTypeID = SelectedWorkTypeIndex;
 
-        //private Boolean _isExpanded;
-        //public Boolean IsExpanded
-        //{
-        //    get { return _isExpanded; }
-        //    set
-        //    {
-        //        SetField(ref _isExpanded, value);
-        //    }
-        //}
+    //        MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(1,
+    //            WorkInBlock.WorkControlDataContext.Work));
+
+    //        WorkInBlock.WorkControlDataContext.UpdateWork();
+
+    //        WorkInBlock.WorkControlDataContext.IsEdititig = true;
+    //        IsEnabled = false;
+    //    }
+    //    else
+    //    {
+    //        WorkInBlock.WorkControlDataContext.IsEdititig = false;
+    //        IsEnabled = true;
+    //    }
+    //}
+    //#endregion
+
+    //private Boolean _isExpanded;
+    //public Boolean IsExpanded
+    //{
+    //    get { return _isExpanded; }
+    //    set
+    //    {
+    //        SetField(ref _isExpanded, value);
+    //    }
+    //}
 
 }

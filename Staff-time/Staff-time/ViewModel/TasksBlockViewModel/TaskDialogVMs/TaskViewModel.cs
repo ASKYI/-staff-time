@@ -106,6 +106,7 @@ namespace Staff_time.ViewModel
         #endregion
 
         #region Task Type
+
         private int _selectedTaskTypeIndex;
         public int SelectedTaskTypeIndex
         {
@@ -136,6 +137,7 @@ namespace Staff_time.ViewModel
                 TaskTypesCb.Add(t);
             }
         }
+
         #endregion
 
         #region Commands

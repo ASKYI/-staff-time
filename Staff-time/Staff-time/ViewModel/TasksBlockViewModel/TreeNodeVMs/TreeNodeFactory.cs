@@ -77,8 +77,8 @@ namespace Staff_time.ViewModel
                     return (TreeNodeSpecialty)treeNode;
                 case TaskTypeEnum.TaskСompany:
                     return (TreeNodeСompany)treeNode;
-                case TaskTypeEnum.TaskСontract:
-                    return (TreeNodeСontract)treeNode;
+               // case TaskTypeEnum.TaskСontract: !!!
+                 //   return (TreeNodeСontract)treeNode;
             }
             return (TreeNode)treeNode;
         }
