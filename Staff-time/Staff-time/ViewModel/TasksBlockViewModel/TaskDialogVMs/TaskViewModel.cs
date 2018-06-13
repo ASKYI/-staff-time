@@ -87,14 +87,17 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField<TreeNode>(ref _selectedTaskNode, value);
+                if (_selectedTaskNode != null)
+                {
 
-                if (_selectedTaskNode.Task == _task)
-                    EditingTask.ParentTaskID = _task.ParentTaskID;
+                    if (_selectedTaskNode.Task == _task)
+                        EditingTask.ParentTaskID = _task.ParentTaskID;
 
-                else if (TreeRoots != null && _selectedTaskNode == TreeRoots[0]) 
-                    EditingTask.ParentTaskID = null;
-                else
-                    EditingTask.ParentTaskID = _selectedTaskNode.Task.ID;
+                    else if (TreeRoots != null && _selectedTaskNode == TreeRoots[0])
+                        EditingTask.ParentTaskID = null;
+                    else
+                        EditingTask.ParentTaskID = _selectedTaskNode.Task.ID;
+                }
             }
         }
 
