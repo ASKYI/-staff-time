@@ -20,11 +20,27 @@ namespace Staff_time.View
     /// </summary>
     public partial class WorkControl : UserControl
     {
+        public ViewModel.WorkControlViewModel context = new ViewModel.WorkControlViewModel();
+
         public WorkControl()
         {
             InitializeComponent();
+            DataContext = context;
         }
 
-        public int WorkID { get; set; }
+        public int ID
+        {
+            get { return (int)GetValue(IDProperty); }
+            set { SetValue(IDProperty, value); }
+        }
+
+        public static readonly DependencyProperty IDProperty =
+            DependencyProperty.Register("WorkID", typeof(int), typeof(WorkControl), new PropertyMetadata(IdChanged));
+
+        private static void IdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WorkControl changedObject = d as WorkControl;
+            changedObject.context.InitWorkControl(changedObject.ID);
+        }
     }
 }

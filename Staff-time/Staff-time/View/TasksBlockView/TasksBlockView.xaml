@@ -55,7 +55,7 @@
 
         <!--Диалог-->
         <dialog:Dialog Showing="{Binding IsShowed}"
-                       CancelCommand="{Binding DialogDependency.DialogViewModel.CancelCommand}"
+                       CancelCommand="{Binding Path=DialogDependency.DialogViewModel.CancelCommand}"
                        Title="{Binding DialogTitle}" 
                        Content="{Binding Path=DialogDependency.DialogViewModel}"
                        ContentTemplate="{StaticResource DialogTemplate}">

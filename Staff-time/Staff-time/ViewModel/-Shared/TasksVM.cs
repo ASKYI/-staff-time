@@ -26,7 +26,8 @@ namespace Staff_time.ViewModel
         {
             if (Init_tracker)
                 return;
-            
+            Init_tracker = true;
+
             Dictionary = new Dictionary<int, TreeNode>();
 
             //В Tasks ссылка на родителя может содержать идентификатор на задачу, 
@@ -65,8 +66,6 @@ namespace Staff_time.ViewModel
                     treeNode.ParentNode = parentTreeNode;
                 }
             }
-
-            Init_tracker = true;
         }
 
         public static void Add(Task task)

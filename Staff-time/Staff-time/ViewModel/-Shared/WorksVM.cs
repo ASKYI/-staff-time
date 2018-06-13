@@ -16,23 +16,25 @@ namespace Staff_time.ViewModel
 {
     public static class WorksVM
     {
-        public static Dictionary<int, Work> Dictionary { get; set; }
+        //Так как с работами удобнее работать как с WorkControlVM (дополнительные поля, доступные из WorkBlockControlVM), 
+        //они хранятся в виде WorkControlVM
+        public static Dictionary<int, WorkControlViewModelBase> Dictionary { get; set; }
 
         public static bool init_tracker = false;
         public static void Init()
         {
             if (init_tracker)
                 return;
+            init_tracker = true;
 
-            Dictionary = new Dictionary<int, Work>();
+            Dictionary = new Dictionary<int, WorkControlViewModelBase>();
 
             List<Work> worksDB = Context.workWork.Read_AllWorks();
             foreach(Work work in worksDB)
             {
-                Dictionary.Add(work.ID, work);
+                //Если разделять представления для разных типов работ, здесь понадобится Factory
+                Dictionary.Add(work.ID, new WorkControlViewModel(work));
             }
-
-            init_tracker = true;
         }
 
         public static void Add(Work work)
@@ -43,7 +45,7 @@ namespace Staff_time.ViewModel
             //VM
             WorkFactory factory = new WorkFactory();
             Work newWork = factory.CreateWork(work); 
-            Dictionary.Add(newWork.ID, newWork);
+            Dictionary.Add(newWork.ID, new WorkControlViewModel(newWork)); //Аналогично, другое создание при разных типах
         }
         public static void Delete (int workID)
         {
@@ -61,7 +63,7 @@ namespace Staff_time.ViewModel
 
             WorkFactory factory = new WorkFactory();
             Work newWork = factory.CreateWork(work);
-            Dictionary.Add(newWork.ID, newWork);
+            Dictionary.Add(newWork.ID, new WorkControlViewModel(newWork)); //Аналогично, другое создание при разных типах
         }
     }
 }

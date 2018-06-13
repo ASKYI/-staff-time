@@ -225,7 +225,7 @@ namespace Staff_time.ViewModel
             List<int> works = Context.workWork.Read_WorksForTask(SelectedTaskNode.Task.ID);
             foreach (var id in works)
             {
-                Work w = WorksVM.Dictionary[id];
+                Work w = WorksVM.Dictionary[id].Work;
                 MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>
                     (new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, w));
             }

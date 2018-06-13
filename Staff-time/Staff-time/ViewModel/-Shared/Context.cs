@@ -27,14 +27,13 @@ namespace Staff_time.ViewModel
         {
             if (_init_tracker)
                 return;
+            _init_tracker = true;
 
             _context = new TaskManagmentDBEntities();
             taskWork = _context;
             workWork = _context;
             attrWork = _context;
             typesWork = _context;
-
-            _init_tracker = true;
         }
 
         public static User TestUser;

@@ -20,21 +20,27 @@ namespace Staff_time.View
     /// </summary>
     public partial class WorkBlockControl : UserControl
     {
+        public ViewModel.WorkBlockControlViewModel context = new ViewModel.WorkBlockControlViewModel();
+
         public WorkBlockControl()
         {
             InitializeComponent();
-            DataContext = new ViewModel.WorkBlockControlViewModel(WorkID);
+            DataContext = context;
         }
 
-        public int WorkID { get; set; } //!!!
-
-        public int WorkIDProperty
+        public int WorkID
         {
-            get { return (int)GetValue(WorkIDPropertyProperty); }
-            set { SetValue(WorkIDPropertyProperty, value); }
+            get { return (int)GetValue(WorkIDProperty); }
+            set { SetValue(WorkIDProperty, value); }
         }
         
-        public static readonly DependencyProperty WorkIDPropertyProperty =
-            DependencyProperty.Register("WorkID", typeof(int), typeof(WorkBlockControl), new PropertyMetadata(0));
+        public static readonly DependencyProperty WorkIDProperty =
+            DependencyProperty.Register("WorkID", typeof(int), typeof(WorkBlockControl), new PropertyMetadata(IdChanged));
+
+        private static void IdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            WorkBlockControl changedObject = d as WorkBlockControl;
+            changedObject.context.InitWork(changedObject.WorkID);
+        }
     }
 }

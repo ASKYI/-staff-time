@@ -17,10 +17,18 @@ namespace Staff_time.ViewModel
 {
     public class WorkBlockControlViewModel : MainViewModel
     {
-        public WorkBlockControlViewModel(int workID)
+        public WorkBlockControlViewModel()
         {
-            if (WorksVM.Dictionary.ContainsKey(workID))    
-                Work = WorksVM.Dictionary[workID];
+
+        }
+
+        public void InitWork(int workID)
+        {
+            if (WorksVM.Dictionary.ContainsKey(workID))
+            {
+                Work = WorksVM.Dictionary[workID].Work;
+                WorkInBlockID = new WorkIDDependency(workID);
+            }
         }
 
         private Work _work;
@@ -32,6 +40,8 @@ namespace Staff_time.ViewModel
                 SetField(ref _work, value);
             }
         }
+        public WorkIDDependency WorkInBlockID;
+
             //_generate_WorkInBlock(work);
             //_generate_WorkTypesCb();
             //SelectedWorkTypeIndex = work.WorkTypeID;

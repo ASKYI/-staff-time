@@ -107,7 +107,7 @@ namespace Staff_time.Model
   
         public List<Work> Read_AllWorks()
         {
-            List<Work> worksDB = Works.Include(w => w.Task).ToList();
+            List<Work> worksDB = Works.Include(w => w.AttrValues).ToList();
 
             List<Work> works = new List<Work>();
             WorkFactory taskFactory = new WorkFactory();

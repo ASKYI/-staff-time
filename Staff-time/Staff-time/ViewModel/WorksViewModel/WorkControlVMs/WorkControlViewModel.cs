@@ -20,22 +20,34 @@ namespace Staff_time.ViewModel
         public WorkControlViewModel(Work work)
         {
             Work = work;
-            _generate_AttrValues();
+        }
+
+        public WorkControlViewModel()
+        {
+            //_generate_AttrValues();
+        }
+
+        public void InitWorkControl(int workID)
+        {
+            if (WorksVM.Dictionary.ContainsKey(workID))
+            {
+                Work = WorksVM.Dictionary[workID].Work;
+            }
         }
 
         public override void DeleteWork()
         {
-            Context.workWork.Delete_Work(Work.ID);
+            //Context.workWork.Delete_Work(Work.ID);
         }
         public override void UpdateWork()
         {
-            Context.workWork.Update_Work(Work);
+            //Context.workWork.Update_Work(Work);
 
-            List<AttrValue> values = new List<AttrValue>();
-            foreach (var v in AttrValues)
-                values.Add(v.AttrValue);
+            //List<AttrValue> values = new List<AttrValue>();
+            //foreach (var v in AttrValues)
+            //    values.Add(v.AttrValue);
 
-            Context.attrWork.Update_AttrValues_ForWork(values);
+            //Context.attrWork.Update_AttrValues_ForWork(values);
         }
     }
 }

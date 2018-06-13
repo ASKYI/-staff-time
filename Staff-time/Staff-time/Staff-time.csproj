@@ -166,6 +166,7 @@
     <Compile Include="ViewModel\WorksViewModel\WorkControlVMs\WorkControlViewModel.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel\WorkspaceViewModel.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkControlVMs\WorkControlViewModelBase.cs" />
+    <Compile Include="ViewModel\WorksViewModel\WorkIDDependency.cs" />
     <Compile Include="View\TasksBlockView\ExtendedTreeView.xaml.cs">
       <DependentUpon>ExtendedTreeView.xaml</DependentUpon>
     </Compile>

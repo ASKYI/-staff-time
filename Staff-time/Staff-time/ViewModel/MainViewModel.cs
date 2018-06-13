@@ -39,9 +39,10 @@ namespace Staff_time.ViewModel
         {
             if (init_tracker)
                 return;
+            init_tracker = true;
+
             chosenUser = Context.GetTestUser();
             chosenDate = DateTime.Now.Date;
-            init_tracker = true;
         }
 
         #endregion

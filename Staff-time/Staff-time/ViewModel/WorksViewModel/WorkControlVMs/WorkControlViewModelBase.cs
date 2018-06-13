@@ -17,33 +17,34 @@ namespace Staff_time.ViewModel
 {
     abstract public class WorkControlViewModelBase : MainViewModel
     {
-        protected new Work _work;
+        protected Work _work;
         public Work Work
         {
             get { return _work; }
             set
             {
-                SetField<Work>(ref _work, value);
+                SetField(ref _work, value);
             }
         }
-        protected ObservableCollection<AttrValueExtended> _attrValues;
-        public ObservableCollection<AttrValueExtended> AttrValues
-        {
-            get { return _attrValues; }
-            set
-            {
-                SetField<ObservableCollection<AttrValueExtended>>(ref _attrValues, value);
-            }
-        }
-        protected void _generate_AttrValues()
-        {
-            AttrValues = new ObservableCollection<AttrValueExtended>();
-            List<AttrValue> values = Context.attrWork.Read_AttrValues_ForWork(Work);
-            foreach (var v in values)
-            {
-                AttrValues.Add(new AttrValueExtended(IsEdititig, v));
-            }
-        }
+
+        //protected ObservableCollection<AttrValueExtended> _attrValues;
+        //public ObservableCollection<AttrValueExtended> AttrValues
+        //{
+        //    get { return _attrValues; }
+        //    set
+        //    {
+        //        SetField<ObservableCollection<AttrValueExtended>>(ref _attrValues, value);
+        //    }
+        //}
+        //protected void _generate_AttrValues()
+        //{
+        //    AttrValues = new ObservableCollection<AttrValueExtended>();
+        //    List<AttrValue> values = Context.attrWork.Read_AttrValues_ForWork(Work);
+        //    foreach (var v in values)
+        //    {
+        //        AttrValues.Add(new AttrValueExtended(IsEdititig, v));
+        //    }
+        //}
 
         abstract public void DeleteWork();
         abstract public void UpdateWork();
@@ -56,8 +57,8 @@ namespace Staff_time.ViewModel
             {
                 SetField(ref _isEditing, value);
 
-                foreach (var v in AttrValues)
-                    v.IsEditing = value;
+                //foreach (var v in AttrValues)
+                //    v.IsEditing = value;
             }
         }
     }

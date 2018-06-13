@@ -1,4 +1,5 @@
 ﻿ <UserControl x:Class="Staff_time.View.WorkBlockControl"
+              x:Name="WorkBlock"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -14,19 +15,19 @@
         
         <Style x:Key="ExpanderStyle" TargetType="Expander">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.Work.WorkTypeID}" Value="0"><!--WorkNone-->
+                <DataTrigger Binding="{Binding Work.WorkTypeID}" Value="0"><!--WorkNone-->
                     <Setter Property="BorderBrush" Value="LightGray"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.Work.WorkTypeID}" Value="1"><!--WorkError-->
+                <DataTrigger Binding="{Binding Work.WorkTypeID}" Value="1"><!--WorkError-->
                     <Setter Property="BorderBrush" Value="LightCoral"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.Work.WorkTypeID}" Value="2"><!--WorkRefractoring-->
+                <DataTrigger Binding="{Binding Work.WorkTypeID}" Value="2"><!--WorkRefractoring-->
                     <Setter Property="BorderBrush" Value="LightYellow"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.Work.WorkTypeID}" Value="3"><!--WorkConsultationsByPhone-->
+                <DataTrigger Binding="{Binding Work.WorkTypeID}" Value="3"><!--WorkConsultationsByPhone-->
                     <Setter Property="BorderBrush" Value="LightBlue"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.Work.WorkTypeID}" Value="4"><!--WorkPatch-->
+                <DataTrigger Binding="{Binding Work.WorkTypeID}" Value="4"><!--WorkPatch-->
                     <Setter Property="BorderBrush" Value="LightGoldenrodYellow"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -116,7 +117,8 @@
                 </ComboBox>
             </Grid>
 
-            <ItemsControl ItemsSource="{Binding WorkInThisBlock}"></ItemsControl>
+            <!--<local:WorkControl ID="{Binding Path=WorkInBlockID.WorkID, ElementName=WorkBlock}"></local:WorkControl>-->
+            <local:WorkControl ID="35"></local:WorkControl>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="100" Background="LightGray"></Button>
