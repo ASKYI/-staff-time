@@ -487,7 +487,7 @@
           <Property Name="WorkTypeID" Type="Int32" Nullable="false" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EndDate" Type="DateTime" Precision="0" />
-          <Property Name="Minutes" Type="Int64" />
+          <Property Name="Minutes" Type="Int32" />
           <NavigationProperty Name="AttrValues" Relationship="Self.FK_AttrValues_Works" FromRole="Works" ToRole="AttrValues" />
           <NavigationProperty Name="Task" Relationship="Self.FK_Works_Tasks" FromRole="Works" ToRole="Tasks" />
           <NavigationProperty Name="WorkType" Relationship="Self.FK_Works_WorkTypes" FromRole="Works" ToRole="WorkTypes" />
