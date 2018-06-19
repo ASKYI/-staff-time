@@ -116,7 +116,7 @@ namespace Staff_time.ViewModel
             DateTime old = Work.StartDate;
             Work.StartDate = new DateTime(old.Year, old.Month, old.Day, //Я не придумала ничего лучше
                 e.NewTime.Hours, e.NewTime.Minutes, e.NewTime.Seconds);
-            Work.EndDate = Work.StartDate.AddMinutes(Work.Minutes);
+            Minutes = Work.EndDate.Minute - Work.StartDate.Minute;
 
             RaisePropertyChanged("StartHours");
             RaisePropertyChanged("StartMinutes");
@@ -129,7 +129,8 @@ namespace Staff_time.ViewModel
             DateTime old = Work.EndDate;
             Work.EndDate = new DateTime(old.Year, old.Month, old.Day,
                 e.NewTime.Hours, e.NewTime.Minutes, e.NewTime.Seconds);
- 
+            Minutes = Work.EndDate.Minute - Work.StartDate.Minute;
+
             RaisePropertyChanged("StartHours");
             RaisePropertyChanged("StartMinutes");
             RaisePropertyChanged("EndHours");
@@ -199,6 +200,16 @@ namespace Staff_time.ViewModel
                 Work.EndDate = new DateTime(old.Year, old.Month, old.Day,
                     old.Hour, value, old.Second);
                 RaisePropertyChanged("EndMinutes");
+            }
+        }
+
+        public int Minutes
+        {
+            get { return Work.Minutes; }
+            set
+            {
+                Work.Minutes = value;
+                RaisePropertyChanged("Minutes");
             }
         }
 

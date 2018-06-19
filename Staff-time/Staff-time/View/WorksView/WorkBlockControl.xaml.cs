@@ -24,7 +24,9 @@ namespace Staff_time.View
         {
             InitializeComponent();
         }
-
+        
+        //Пробрасываение методов
+        //Ищу решение лучше
         private void StartTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
         {
             if (DataContext != null)

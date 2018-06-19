@@ -276,11 +276,11 @@ namespace AC.AvalonControlsLibrary.Controls
             minutes.GotMouseCapture += TextGotFocus;
 
             //get the seconds textbox and hook the events to it
-            seconds = GetTemplateChild("PART_Seconds") as TextBox;
-            seconds.PreviewTextInput += SecondsTextChanged;
-            seconds.KeyUp += SecondsKeyUp;
-            seconds.GotFocus += TextGotFocus;
-            seconds.GotMouseCapture += TextGotFocus;
+            //seconds = GetTemplateChild("PART_Seconds") as TextBox;
+            //seconds.PreviewTextInput += SecondsTextChanged;
+            //seconds.KeyUp += SecondsKeyUp;
+            //seconds.GotFocus += TextGotFocus;
+            //seconds.GotMouseCapture += TextGotFocus;
 
             //Get the increase button and hook to the click event
             ButtonBase increaseButton = GetTemplateChild("PART_IncreaseTime") as ButtonBase;

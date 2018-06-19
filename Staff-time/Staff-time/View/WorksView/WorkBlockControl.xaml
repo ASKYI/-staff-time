@@ -73,7 +73,7 @@
 
                 <TextBlock Text="Время работы (в минутах): " Grid.Column="0"></TextBlock>
                 <TextBox TextWrapping="Wrap" IsReadOnly="{Binding IsReadOnly}" TextChanged="TextBox_TextChanged"
-                         Text="{Binding Work.Minutes}" Grid.Column="1"></TextBox>
+                         Text="{Binding Minutes}" Grid.Column="1"></TextBox>
             </Grid>
 
             <Grid Margin="2">
@@ -91,7 +91,7 @@
                 <avalon:TimePicker Grid.Column="2" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left"   
                                    SelectedTimeChanged="EndTime_Changed"
                                    SelectedHour="{Binding EndHours}" SelectedMinute="{Binding EndMinutes}"
-                                   IsEnabled="False"></avalon:TimePicker>
+                                   IsEnabled="{Binding IsEnabled}"></avalon:TimePicker>
             </Grid>
 
             <Separator></Separator>
@@ -114,32 +114,10 @@
 
             <local:WorkControl ID="{Binding WorkInBlockID.WorkID, ElementName=workBlock}" ></local:WorkControl>
 
-            <Separator></Separator>
-
-            <Grid Margin="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Text="Дата начала работы: " Grid.Column="0"></TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <DatePicker Grid.Column="1" IsDropDownOpen="False" 
                             SelectedDate="{Binding Work.StartDate}"
                             IsEnabled="{Binding IsEnabled}"></DatePicker>
-            </Grid>
-
-            <Grid Margin="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Дата окончания работы: " Grid.Column="0"></TextBlock>
-                <DatePicker Grid.Column="1" IsDropDownOpen="False" 
-                            SelectedDate="{Binding Work.EndDate}"
-                            IsEnabled="{Binding IsEnabled}"></DatePicker>
-            </Grid>
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="100" Background="LightGray"></Button>
                 <Button Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}" Width="100"></Button>
             </StackPanel>

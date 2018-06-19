@@ -23,16 +23,12 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="22*"></RowDefinition>
+            <RowDefinition MaxHeight="25"></RowDefinition>
+            <RowDefinition ></RowDefinition>
         </Grid.RowDefinitions>
-        
+
         <Menu VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="0">
-            <MenuItem Header="Выбор даты">
-                <StackPanel>
-                    <DatePicker IsDropDownOpen="False" SelectedDate="{Binding SelectedDate_Picker}"></DatePicker>
-                </StackPanel>
-            </MenuItem>
+            <DatePicker IsDropDownOpen="False" SelectedDate="{Binding SelectedDate_Picker}"></DatePicker>
             <MenuItem IsEnabled="False" IsCheckable="False" Header=" " Background="Gray"></MenuItem>
             <MenuItem IsEnabled="False" IsCheckable="False" Header="Общее время дня:"></MenuItem>
             <MenuItem IsEnabled="False" IsCheckable="False" Header="{Binding SumHours}"></MenuItem>
