@@ -72,7 +72,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="Время работы (в минутах): " Grid.Column="0"></TextBlock>
-                <TextBox TextWrapping="Wrap" IsReadOnly="{Binding IsReadOnly}"  
+                <TextBox TextWrapping="Wrap" IsReadOnly="{Binding IsReadOnly}" TextChanged="TextBox_TextChanged"
                          Text="{Binding Work.Minutes}" Grid.Column="1"></TextBox>
             </Grid>
 
@@ -91,7 +91,7 @@
                 <avalon:TimePicker Grid.Column="2" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left"   
                                    SelectedTimeChanged="EndTime_Changed"
                                    SelectedHour="{Binding EndHours}" SelectedMinute="{Binding EndMinutes}"
-                                   IsEnabled="{Binding IsEnabled}"></avalon:TimePicker>
+                                   IsEnabled="False"></avalon:TimePicker>
             </Grid>
 
             <Separator></Separator>

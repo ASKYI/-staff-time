@@ -27,18 +27,14 @@ namespace Staff_time.View
 
         private void StartTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
         {
-            //DateTime old = Work.StartDate;
-            //Work.StartDate = new DateTime(old.Year, old.Month, old.Day, //Я не придумала ничего лучше
-            //    e.NewTime.Hours, e.NewTime.Minutes, e.NewTime.Seconds);
-            //RaisePropertyChanged("StartHours");
+            if (DataContext != null)
+                ((ViewModel.WorkBlockControlViewModel)DataContext).StartTime_Changed(sender, e);
         }
 
         private void EndTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
         {
-            //DateTime old = Work.EndDate;
-            //Work.EndDate = new DateTime(old.Year, old.Month, old.Day,
-            //    e.NewTime.Hours, e.NewTime.Minutes, e.NewTime.Seconds);
-            //RaisePropertyChanged("StartHours");
+            if (DataContext != null)
+                ((ViewModel.WorkBlockControlViewModel)DataContext).EndTime_Changed(sender, e);
         }
 
         private void workBlock_MouseLeave(object sender, MouseEventArgs e)
@@ -49,6 +45,11 @@ namespace Staff_time.View
         private void workBlock_MouseEnter(object sender, MouseEventArgs e)
         {
             ((ViewModel.WorkBlockControlViewModel)DataContext).MouseLeft = false;
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ((ViewModel.WorkBlockControlViewModel)DataContext).Minutes_Changed(sender, e);
         }
     }
 }

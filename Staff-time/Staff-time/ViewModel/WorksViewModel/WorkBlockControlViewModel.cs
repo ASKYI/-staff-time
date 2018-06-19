@@ -117,6 +117,11 @@ namespace Staff_time.ViewModel
             Work.StartDate = new DateTime(old.Year, old.Month, old.Day, //Я не придумала ничего лучше
                 e.NewTime.Hours, e.NewTime.Minutes, e.NewTime.Seconds);
             Work.EndDate = Work.StartDate.AddMinutes(Work.Minutes);
+
+            RaisePropertyChanged("StartHours");
+            RaisePropertyChanged("StartMinutes");
+            RaisePropertyChanged("EndHours");
+            RaisePropertyChanged("EndMinutes");
         }
 
         public void EndTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
@@ -124,7 +129,31 @@ namespace Staff_time.ViewModel
             DateTime old = Work.EndDate;
             Work.EndDate = new DateTime(old.Year, old.Month, old.Day,
                 e.NewTime.Hours, e.NewTime.Minutes, e.NewTime.Seconds);
-            Work.StartDate = Work.EndDate.AddMinutes(-Work.Minutes);
+ 
+            RaisePropertyChanged("StartHours");
+            RaisePropertyChanged("StartMinutes");
+            RaisePropertyChanged("EndHours");
+            RaisePropertyChanged("EndMinutes");
+        }
+
+        public void Minutes_Changed(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            int minutes = 0;
+            try
+            {
+                minutes = Convert.ToInt32(((System.Windows.Controls.TextBox)sender).Text);
+            }
+            catch
+            {
+                minutes = 0;
+            }
+
+            Work.EndDate = Work.StartDate.AddMinutes(minutes);
+
+            RaisePropertyChanged("StartHours");
+            RaisePropertyChanged("StartMinutes");
+            RaisePropertyChanged("EndHours");
+            RaisePropertyChanged("EndMinutes");
         }
 
         public int StartHours
@@ -152,7 +181,7 @@ namespace Staff_time.ViewModel
 
         public int EndHours
         {
-            get { return Work.StartDate.Hour; }
+            get { return Work.EndDate.Hour; }
             set
             {
                 DateTime old = Work.EndDate;
@@ -163,7 +192,7 @@ namespace Staff_time.ViewModel
         }
         public int EndMinutes
         {
-            get { return Work.StartDate.Minute; }
+            get { return Work.EndDate.Minute; }
             set
             {
                 DateTime old = Work.EndDate;
