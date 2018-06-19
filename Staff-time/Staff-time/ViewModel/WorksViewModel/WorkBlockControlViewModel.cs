@@ -92,17 +92,19 @@ namespace Staff_time.ViewModel
             get
             {
                 StringBuilder stringPath = new StringBuilder();
-                for (int i = 0; i < Math.Min(3, _fullPath.Count); ++i)
+                stringPath.Append(Work.WorkName + "::");
+
+                for (int i = _fullPath.Count - 1;  i > Math.Max(0, _fullPath.Count - 3); --i)
                 {
-                    if (i != 0)
-                        stringPath.Append("->");
                     stringPath.Append(_fullPath[i]);
+                    stringPath.Append("<-");
                 }
 
                 if (_fullPath.Count > 3)
                     stringPath.Append("...");
 
-                stringPath.Append(">>" + Work.WorkName);
+                stringPath.Append(_fullPath[0]);
+
                 return stringPath.ToString();
             }
         }

@@ -431,12 +431,12 @@ namespace AC.AvalonControlsLibrary.Controls
                 SelectedHour = MathUtil.IncrementDecrementNumber(hours.Text, HourMinValue, HourMaxValue, increment);
 
             //check if minute is selected if yes set it
-            else if (minutes == currentlySelectedTextBox)
+            else
                 SelectedMinute = MathUtil.IncrementDecrementNumber(minutes.Text, MinuteMinValue, MinuteMaxValue, increment);
 
             //if non of the above are selected assume that the seconds is selected
-            else
-                SelectedSecond = MathUtil.IncrementDecrementNumber(seconds.Text, SecondMinValue, SecondMaxValue, increment);
+            //else
+              //  SelectedSecond = MathUtil.IncrementDecrementNumber(seconds.Text, SecondMinValue, SecondMaxValue, increment);
         }
 
         #region Validate and set properties
