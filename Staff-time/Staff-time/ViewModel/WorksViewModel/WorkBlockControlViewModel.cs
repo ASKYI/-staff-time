@@ -29,6 +29,13 @@ namespace Staff_time.ViewModel
             
             _editCommand = new RelayCommand(Edit, CanEdit);
             _deleteCommand = new RelayCommand(Delete, CanDelete);
+            MessengerInstance.Register<string>(this, _cancelEditing);
+
+            if (IsEdititig)
+                IsExpanded = true;
+            else
+                IsExpanded = false;
+            MouseLeft = false;
         }
 
         private WorkControlViewModelBase _workVM;
@@ -46,6 +53,20 @@ namespace Staff_time.ViewModel
             get { return _workVM.Work; }
         }
         public WorkIDDependency WorkInBlockID;
+
+        private Boolean _isExpanded;
+        public Boolean IsExpanded
+        {
+            get { return _isExpanded; }
+            set
+            {
+                if (_isExpanded)
+                    CancelEditing();
+                SetField(ref _isExpanded, value);
+            }
+        }
+
+        public bool MouseLeft;
 
         #region Path
 
@@ -90,7 +111,7 @@ namespace Staff_time.ViewModel
 
         #region Time
 
-        private void StartTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
+        public void StartTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
         {
             DateTime old = Work.StartDate;
             Work.StartDate = new DateTime(old.Year, old.Month, old.Day, //Я не придумала ничего лучше
@@ -98,7 +119,7 @@ namespace Staff_time.ViewModel
             Work.EndDate = Work.StartDate.AddMinutes(Work.Minutes);
         }
 
-        private void EndTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
+        public void EndTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
         {
             DateTime old = Work.EndDate;
             Work.EndDate = new DateTime(old.Year, old.Month, old.Day,
@@ -137,7 +158,7 @@ namespace Staff_time.ViewModel
                 DateTime old = Work.EndDate;
                 Work.EndDate = new DateTime(old.Year, old.Month, old.Day,
                     value, old.Minute, old.Second);
-                RaisePropertyChanged("StartHours");
+                RaisePropertyChanged("EndHours");
             }
         }
         public int EndMinutes
@@ -148,7 +169,7 @@ namespace Staff_time.ViewModel
                 DateTime old = Work.EndDate;
                 Work.EndDate = new DateTime(old.Year, old.Month, old.Day,
                     old.Hour, value, old.Second);
-                RaisePropertyChanged("StartMinutes");
+                RaisePropertyChanged("EndMinutes");
             }
         }
 
@@ -219,6 +240,12 @@ namespace Staff_time.ViewModel
             {
                 IsEdititig = true;
             }          
+        }
+
+        public void _cancelEditing(string message)
+        {
+            if (IsEdititig && MouseLeft)
+                Edit(this);
         }
 
         #endregion

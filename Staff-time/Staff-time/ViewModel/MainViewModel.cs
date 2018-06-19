@@ -47,6 +47,11 @@ namespace Staff_time.ViewModel
 
         #endregion
 
+        public void CancelEditing()
+        {
+            MessengerInstance.Send<string>("Cancel");
+        }
+
         #region INotifyPropertyChanged Member
 
         public bool SetField<T>(ref T field, T value,

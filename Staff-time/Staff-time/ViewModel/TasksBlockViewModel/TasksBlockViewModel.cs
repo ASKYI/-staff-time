@@ -124,6 +124,8 @@ namespace Staff_time.ViewModel
         }
         private void AddWork(object obj)
         {
+            base.CancelEditing();
+
             Work work = new Work();
             work.WorkName = "Новая работа";
             work.TaskID = SelectedTaskNode.Task.ID;
@@ -151,6 +153,8 @@ namespace Staff_time.ViewModel
         }
         private void AddNearTask(object obj)
         {
+            base.CancelEditing();
+
             Task newTask = new Task();
             if (SelectedTaskNode != null)
                 newTask.ParentTaskID = SelectedTaskNode.Task.ParentTaskID;
@@ -175,6 +179,8 @@ namespace Staff_time.ViewModel
         }
         private void AddChildTask(object obj)
         {
+            base.CancelEditing();
+
             Task newTask = new Task();
             newTask.ParentTaskID = SelectedTaskNode.Task.ID;
             newTask.TaskName = "Новая подзадача";
@@ -200,6 +206,8 @@ namespace Staff_time.ViewModel
         }
         private void EditTask(object obj)
         {
+            base.CancelEditing();
+
             DialogTitle = "Редактировать задачу";
             DialogDependency = new DialogDependency(SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit);
             IsShowed = true;
@@ -221,6 +229,8 @@ namespace Staff_time.ViewModel
         }
         private void DeleteTask(object obj)
         {
+            base.CancelEditing();
+
             //Works
             List<int> works = Context.workWork.Read_WorksForTask(SelectedTaskNode.Task.ID);
             foreach (var id in works)

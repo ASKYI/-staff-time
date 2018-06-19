@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Staff_time"
         
-        xmlns:view="clr-namespace:Staff_time.View"
-        
+        xmlns:view="clr-namespace:Staff_time.View"     
         mc:Ignorable="d"
+        
+        MouseDown="TasksBlockView_MouseDown"  
+        
         Title="" Height="450" Width="800" Icon="pilot.ico">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -15,8 +17,8 @@
             <ColumnDefinition Width="2.5*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="6*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="7*"></RowDefinition>
         </Grid.RowDefinitions>
         
         <view:TasksBlockView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></view:TasksBlockView>
@@ -24,7 +26,7 @@
         <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="3" BorderBrush="Gray" BorderThickness="2">
             <view:WorkspaceView ></view:WorkspaceView>
         </Border>
-        
-        <!--<view:FaveView Grid.Column="1" Grid.Row="1"></view:FaveView>-->
+
+        <view:FaveView Grid.Column="0" Grid.Row="1"></view:FaveView>
     </Grid>
 </Window>

@@ -40,5 +40,15 @@ namespace Staff_time.View
             //    e.NewTime.Hours, e.NewTime.Minutes, e.NewTime.Seconds);
             //RaisePropertyChanged("StartHours");
         }
+
+        private void workBlock_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ((ViewModel.WorkBlockControlViewModel)DataContext).MouseLeft = true;
+        }
+
+        private void workBlock_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ((ViewModel.WorkBlockControlViewModel)DataContext).MouseLeft = false;
+        }
     }
 }

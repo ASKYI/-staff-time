@@ -45,7 +45,7 @@ namespace Staff_time.ViewModel
             //VM
             WorkFactory factory = new WorkFactory();
             Work newWork = factory.CreateWork(work); 
-            Dictionary.Add(newWork.ID, new WorkControlViewModel(newWork)); //Аналогично, другое создание при разных типах
+            Dictionary.Add(newWork.ID, new WorkControlViewModel(newWork) { IsEdititig = true }); //Аналогично, другое создание при разных типах
         }
         public static void Delete (int workID)
         {

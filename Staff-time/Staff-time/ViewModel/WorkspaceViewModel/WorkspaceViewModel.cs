@@ -43,12 +43,11 @@ namespace Staff_time.ViewModel
                 if (value >= 0 && value < WeekTabs.Count) //Иногда он сюда попадает
                 {
                     SetField(ref _selectedTabIndex, value);
-
-                    //update !!! - что я имела в виду???
-                    //больше не буду писать непоятные комментарии
+                    
                     chosenDate = WeekTabs[SelectedTabIndex].Date;
                     WeekTabs[SelectedTabIndex].Generate_WorksForDate();
-                    SumTime = WeekTabs[SelectedTabIndex].SumTime; 
+                    SumTime = WeekTabs[SelectedTabIndex].SumTime;
+                    base.CancelEditing();
                 }
             }
         }

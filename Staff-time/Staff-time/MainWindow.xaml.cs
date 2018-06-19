@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Staff_time.Model;
+using Staff_time.ViewModel;
 
 namespace Staff_time
 {
@@ -20,11 +22,16 @@ namespace Staff_time
     /// </summary>
     public partial class MainWindow : Window
     {
-        ViewModel.MainViewModel mainVM = new ViewModel.MainViewModel();
+        MainViewModel context = new MainViewModel();
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = mainVM;
+            DataContext = context;
+        }
+
+        private void TasksBlockView_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            context.CancelEditing();
         }
     }
 }
