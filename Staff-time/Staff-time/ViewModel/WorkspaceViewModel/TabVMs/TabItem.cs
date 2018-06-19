@@ -42,8 +42,8 @@ namespace Staff_time.ViewModel
 
         #region Works
 
-        private ObservableCollection<WorkIDDependency> _worksInTab;
-        public ObservableCollection<WorkIDDependency> WorksInTab
+        private ObservableCollection<WorkInTab> _worksInTab;
+        public ObservableCollection<WorkInTab> WorksInTab
         {
             get { return _worksInTab; }
             set
@@ -55,14 +55,14 @@ namespace Staff_time.ViewModel
         public void Generate_WorksForDate()
         {
             SumTime = 0;
-            WorksInTab = new ObservableCollection<WorkIDDependency>();
+            WorksInTab = new ObservableCollection<WorkInTab>();
 
             List<int> works = Context.workWork.Read_WorksForDate(Date);
             foreach (int id in works)
             {
                 Work w = WorksVM.Dictionary[id].Work;
 
-                WorksInTab.Add(new WorkIDDependency(w.ID));
+                WorksInTab.Add(new WorkInTab(w.ID));
                 SumTime += w.Minutes;
             }
 
@@ -71,60 +71,62 @@ namespace Staff_time.ViewModel
 
         private void _doWorkCommand(KeyValuePair<WorkCommandEnum, Work> pair)
         {
-            //WorkCommandEnum command = pair.Key;
-            //Work work = pair.Value;
+            WorkCommandEnum command = pair.Key;
+            Work work = pair.Value;
 
-            //if (pair.Key == WorkCommandEnum.Add && work.StartDate.Date == Date.Date)
-            //{
-            //    WorksVM.Add(work);
-            //    Work newWork = WorksVM.Dictionary[work.ID];
+            if (command == WorkCommandEnum.Add 
+                && work.StartDate.Date == Date.Date)
+            {
+                WorksVM.Add(work);
+                Work newWork = WorksVM.Dictionary[work.ID].Work;
 
-            //    WorksInTab.Add(new WorkIDDependency(newWork.ID));
+                WorksInTab.Add(new WorkInTab(newWork.ID));
 
-            //    SumTime += newWork.Minutes;
-            //    MessengerInstance.Send<long>(SumTime);
-            //    return;
-            //}
+                SumTime += newWork.Minutes;
+                MessengerInstance.Send<long>(SumTime);
+                return;
+            }
 
-            //int index = -1; //!!!
-            //for (int i = 0; i < WorksInTab.Count; i++)
-            //{
-            //    if (WorksInTab[i].WorkID == work.ID)
-            //    {
-            //        index = i;
-            //        break;
-            //    }
-            //}
-            //if (index == -1)
-            //    return;
+            int index = -1;
+            for (int i = 0; i < WorksInTab.Count; i++)
+            {
+                if (WorksInTab[i].WorkBlockContext.Work.ID == work.ID)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            if (index == -1)
+                return;
 
-            //switch (command)
-            //{
-            //    case WorkCommandEnum.Delete:
-            //        SumTime -= WorksInTab[index].Minutes;
+            switch (command)
+            {
+                case WorkCommandEnum.Delete:
+                    SumTime -= WorksInTab[index].WorkBlockContext.Work.Minutes;
 
-            //        WorksVM.Delete(work.ID);
-            //        WorksInTab.Remove(WorksInTab[index]);
+                    WorksVM.Delete(work.ID);
+                    WorksInTab.Remove(WorksInTab[index]);
 
-            //        MessengerInstance.Send<long>(SumTime);
-            //        break;
-            //    case WorkCommandEnum.Update:
-            //        WorksVM.Update(work);
-            //        Work newWork = WorksVM.Dictionary[work.ID];
+                    MessengerInstance.Send<long>(SumTime);
+                    break;
+                case WorkCommandEnum.Update:
+                    int oldWorkMinutes = Context.workWork.Read_WorkByID(work.ID).Minutes;
 
-            //        Work oldWork = Context.workWork.Read_WorkByID(work.ID);
-            //        SumTime -= oldWork.Minutes;
-            //        WorksInTab.Remove(WorksInTab[index]);
+                    WorksVM.Update(work);
+                    Work newWork = WorksVM.Dictionary[work.ID].Work;
 
-            //        if (work.StartDate.Date == Date.Date)
-            //        {
-            //            WorksInTab.Add(new WorkIDDependency(newWork.ID));
-            //            SumTime += newWork.Minutes;
-            //        }
+                    SumTime -= oldWorkMinutes;
+                    WorksInTab.Remove(WorksInTab[index]);
 
-            //        MessengerInstance.Send<long>(SumTime);
-            //        break;
-            //}
+                    if (work.StartDate.Date == Date.Date)
+                    {
+                        WorksInTab.Add(new WorkInTab(newWork.ID));
+                        SumTime += newWork.Minutes;
+                    }
+
+                    MessengerInstance.Send<long>(SumTime);
+                    break;
+            }
         }
 
         #endregion

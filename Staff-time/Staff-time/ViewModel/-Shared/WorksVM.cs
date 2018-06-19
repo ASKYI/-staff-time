@@ -16,8 +16,8 @@ namespace Staff_time.ViewModel
 {
     public static class WorksVM
     {
-        //Так как с работами удобнее работать как с WorkControlVM (дополнительные поля, доступные из WorkBlockControlVM), 
-        //они хранятся в виде WorkControlVM
+        //Так как с работами удобнее работать как с WorkVM (дополнительные поля, доступные из WorkBlockControlVM), 
+        //они хранятся в виде WorkVM
         public static Dictionary<int, WorkControlViewModelBase> Dictionary { get; set; }
 
         public static bool init_tracker = false;
@@ -50,6 +50,7 @@ namespace Staff_time.ViewModel
         public static void Delete (int workID)
         {
             //DB
+            Context.workWork.Delete_Work(workID);
 
             //Vm
             Dictionary.Remove(workID);
@@ -57,6 +58,7 @@ namespace Staff_time.ViewModel
         public static void Update(Work work)
         {
             //DB
+            Context.workWork.Update_Work(work);
 
             //VM
             Dictionary.Remove(work.ID);

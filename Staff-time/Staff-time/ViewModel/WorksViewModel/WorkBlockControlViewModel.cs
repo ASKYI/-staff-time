@@ -17,35 +17,230 @@ namespace Staff_time.ViewModel
 {
     public class WorkBlockControlViewModel : MainViewModel
     {
-        public WorkBlockControlViewModel()
+        public WorkBlockControlViewModel(int workID)
         {
+            WorkVM = WorksVM.Dictionary[workID];
+            WorkInBlockID = new WorkIDDependency(workID);
+
+            _fullPath = TasksVM.generate_PathForTask(Work.TaskID);
+
+            SelectedWorkTypeIndex = WorkVM.Work.WorkTypeID;
             _generate_TaskTypesCb();
+            
+            _editCommand = new RelayCommand(Edit, CanEdit);
+            _deleteCommand = new RelayCommand(Delete, CanDelete);
         }
 
-        public void InitWork(int workID)
+        private WorkControlViewModelBase _workVM;
+        public WorkControlViewModelBase WorkVM
         {
-            _generate_TaskTypesCb();
-
-            if (WorksVM.Dictionary.ContainsKey(workID))
-            {
-                Work = WorksVM.Dictionary[workID].Work;
-                WorkInBlockID = new WorkIDDependency(workID);
-                SelectedWorkTypeIndex = Work.WorkTypeID;
-            }
-        }
-
-        private Work _work;
-        public Work Work
-        {
-            get { return _work; }
+            get { return _workVM; }
             set
             {
-                SetField(ref _work, value);
+                SetField(ref _workVM, value);
             }
+        }
+
+        public Work Work
+        {
+            get { return _workVM.Work; }
         }
         public WorkIDDependency WorkInBlockID;
 
+        #region Path
+
+        private List<string> _fullPath;
+
+        public string FullPath
+        {
+            get
+            {
+                StringBuilder stringPath = new StringBuilder();
+                for (int i = 0; i < _fullPath.Count; ++i)
+                {
+                    if (i != 0)
+                        stringPath.Append("->");
+                    stringPath.Append(_fullPath[i]);
+                }
+                stringPath.Append(">>" + Work.WorkName);
+                return stringPath.ToString();
+            }
+        }       
+        public string Path
+        {
+            get
+            {
+                StringBuilder stringPath = new StringBuilder();
+                for (int i = 0; i < Math.Min(3, _fullPath.Count); ++i)
+                {
+                    if (i != 0)
+                        stringPath.Append("->");
+                    stringPath.Append(_fullPath[i]);
+                }
+
+                if (_fullPath.Count > 3)
+                    stringPath.Append("...");
+
+                stringPath.Append(">>" + Work.WorkName);
+                return stringPath.ToString();
+            }
+        }
+
+        #endregion
+
+        #region Time
+
+        private void StartTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
+        {
+            DateTime old = Work.StartDate;
+            Work.StartDate = new DateTime(old.Year, old.Month, old.Day, //Я не придумала ничего лучше
+                e.NewTime.Hours, e.NewTime.Minutes, e.NewTime.Seconds);
+            Work.EndDate = Work.StartDate.AddMinutes(Work.Minutes);
+        }
+
+        private void EndTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
+        {
+            DateTime old = Work.EndDate;
+            Work.EndDate = new DateTime(old.Year, old.Month, old.Day,
+                e.NewTime.Hours, e.NewTime.Minutes, e.NewTime.Seconds);
+            Work.StartDate = Work.EndDate.AddMinutes(-Work.Minutes);
+        }
+
+        public int StartHours
+        {
+            get { return Work.StartDate.Hour; }
+            set
+            {
+                DateTime old = Work.StartDate;
+                Work.StartDate = new DateTime(old.Year, old.Month, old.Day,
+                    value, old.Minute, old.Second);
+                RaisePropertyChanged("StartHours");
+            }
+        }
+        public int StartMinutes
+        {
+            get { return Work.StartDate.Minute; }
+            set
+            {
+                DateTime old = Work.StartDate;
+                Work.StartDate = new DateTime(old.Year, old.Month, old.Day,
+                    old.Hour, value, old.Second);
+                RaisePropertyChanged("StartMinutes");
+            }
+        }
+
+        public int EndHours
+        {
+            get { return Work.StartDate.Hour; }
+            set
+            {
+                DateTime old = Work.EndDate;
+                Work.EndDate = new DateTime(old.Year, old.Month, old.Day,
+                    value, old.Minute, old.Second);
+                RaisePropertyChanged("StartHours");
+            }
+        }
+        public int EndMinutes
+        {
+            get { return Work.StartDate.Minute; }
+            set
+            {
+                DateTime old = Work.EndDate;
+                Work.EndDate = new DateTime(old.Year, old.Month, old.Day,
+                    old.Hour, value, old.Second);
+                RaisePropertyChanged("StartMinutes");
+            }
+        }
+
+        #endregion
+
         #region Edit
+
+        public Boolean IsEdititig
+        {
+            get { return _workVM.IsEdititig; }
+            set
+            {
+                _workVM.IsEdititig = value; //Потому что нельзя передать свойство по ссылке в SetField
+                RaisePropertyChanged("IsEdititig");
+                RaisePropertyChanged("IsRed");
+                RaisePropertyChanged("IsReadOnly");
+                RaisePropertyChanged("IsEnabled");
+
+                RaisePropertyChanged("FullPath");
+                RaisePropertyChanged("Path");
+            }
+        }
+        public Boolean IsRed
+        {
+            get
+            {
+                return _workVM.IsEdititig;
+            }
+        }
+        public Boolean IsReadOnly
+        {
+            get
+            {
+                return !_workVM.IsEdititig;
+            }
+        }
+        public Boolean IsEnabled
+        {
+            get
+            {
+                return _workVM.IsEdititig;
+            }
+        }
+
+        private readonly ICommand _editCommand;
+        public ICommand EditCommand
+        {
+            get
+            {
+                return _editCommand;
+            }
+        }
+
+        private bool CanEdit(object obj)
+        {
+            return true;
+        }
+        private void Edit(object obj)
+        {
+            if (IsEdititig)
+            {
+                Work.WorkTypeID = SelectedWorkTypeIndex;
+                WorkVM.UpdateWork();
+            
+                IsEdititig = false;
+            }
+            else
+            {
+                IsEdititig = true;
+            }          
+        }
+
+        #endregion
+
+        #region Delete
+
+        private readonly ICommand _deleteCommand;
+        public ICommand DeleteCommand
+        {
+            get
+            {
+                return _deleteCommand;
+            }
+        }
+        private bool CanDelete(object obj)
+        {
+            return true;
+        }
+        private void Delete(object obj)
+        {
+            WorkVM.DeleteWork();
+        }
 
         #endregion
 
@@ -83,231 +278,6 @@ namespace Staff_time.ViewModel
         }
 
         #endregion
-        //_generate_WorkInBlock(work);
-        //_generate_WorkTypesCb();
-        //SelectedWorkTypeIndex = work.WorkTypeID;
 
-        //if (isEditting == true)
-        //{
-        //    IsChangingType = false; IsEnabledCbx = true;
-        //    WorkInBlock.WorkControlDataContext.IsEdititig = false;
-        //    IsExpanded = true;
-        //}
-        //else
-        //{
-        //    IsChangingType = true; IsEnabledCbx = false;
-        //    WorkInBlock.WorkControlDataContext.IsEdititig = true;
-        //    IsExpanded = false;
-        //}
-
-        //_changeTypeCommand = new RelayCommand(ChangeType, CanChangeType);
-        //_editCommand = new RelayCommand(Edit, CanEdit);
-        //_deleteCommand = new RelayCommand(Delete, CanDelete);
     }
-
-    //#region WorkInBlock
-    //private ObservableCollection<WorkInBlock> _workInThisBlock;
-    //public ObservableCollection<WorkInBlock> WorkInThisBlock
-    //{
-    //    get { return _workInThisBlock; }
-    //    set
-    //    {
-    //        SetField < ObservableCollection<WorkInBlock>>(ref _workInThisBlock, value);
-    //    }
-    //}
-
-    //private WorkInBlock _workInBlock;
-    //public WorkInBlock WorkInBlock
-    //{
-    //    get { return _workInBlock; }
-    //    set
-    //    {
-    //        SetField(ref _workInBlock, value);
-    //    }
-    //}
-
-    //private void _generate_WorkInBlock(Work work)
-    //{
-    //    WorkInBlockFactory workInBlockFactory = new WorkInBlockFactory();
-    //    WorkInBlock = workInBlockFactory.CreateWorkInBlock(work);
-    //    WorkInThisBlock = new ObservableCollection<WorkInBlock>();
-    //    WorkInThisBlock.Add((WorkInBlock)WorkInBlock);
-
-    //    int taskId = WorkInBlock.WorkControlDataContext.Work.TaskID;
-    //    if (TasksVM.Dictionary.ContainsKey(taskId))
-    //        Path = TasksVM.generate_PathForTask(TasksVM.Dictionary[WorkInBlock.WorkControlDataContext.Work.TaskID]) + "-->" + WorkInBlock.WorkControlDataContext.Work.WorkName;
-    //    else
-    //        Path = "Ошибка пути";
-    //}
-
-    //private string _path;
-    //public string Path
-    //{
-    //    get { return _path; }
-    //    set
-    //    {
-    //        SetField(ref _path, value);
-    //    }
-    //}
-    //#endregion
-
-    //private int _selectedWorkTypeIndex;
-    //public int SelectedWorkTypeIndex
-    //{
-    //    get { return _selectedWorkTypeIndex; }
-    //    set
-    //    {
-    //        SetField<int>(ref _selectedWorkTypeIndex, value);
-    //        ChangeWorkType();
-    //    }
-    //}
-    //private ObservableCollection<WorkType> _workTypesCb;
-    //public ObservableCollection<WorkType> WorkTypesCb
-    //{
-    //    get { return _workTypesCb; }
-    //    set
-    //    {
-    //        SetField<ObservableCollection<WorkType>>(ref _workTypesCb, value);
-    //    }
-    //}
-    //private void _generate_WorkTypesCb()
-    //{
-    //    WorkTypesCb = new ObservableCollection<WorkType>();
-    //    List<WorkType> types = Context.typesWork.Read_WorkTypes();
-    //    foreach (var t in types)
-    //    {
-    //        WorkTypesCb.Add(t);
-    //    }
-    //}
-
-    //#endregion
-    //private Boolean _isChangingType;
-    //public Boolean IsChangingType
-    //{
-    //    get { return _isChangingType; }
-    //    set
-    //    {
-    //        SetField(ref _isChangingType, value);
-    //    }
-    //}
-    //private Boolean _isEnabledCbx;
-    //public Boolean IsEnabledCbx
-    //{
-    //    get { return _isEnabledCbx; }
-    //    set
-    //    {
-    //        SetField<Boolean>(ref _isEnabledCbx, value);
-    //    }
-    //}
-    //private readonly ICommand _changeTypeCommand;
-    //public ICommand ChangeTypeCommand
-    //{
-    //    get
-    //    {
-    //        return _changeTypeCommand;
-    //    }
-    //}
-    //private bool CanChangeType(object obj)
-    //{
-    //    return true;
-    //}
-    //private void ChangeType(object obj)
-    //{
-    //    if (!IsChangingType)
-    //    {
-    //        IsEnabledCbx = false;
-    //        IsChangingType = true;
-    //    }
-    //    else
-    //    {
-    //        IsEnabledCbx =  true;
-    //        IsChangingType = false;
-    //    }
-    //}
-    //void ChangeWorkType()
-    //{
-    //    if (!IsChangingType)
-    //    {
-    //        WorkInBlock.WorkControlDataContext.Work.WorkTypeID = SelectedWorkTypeIndex;
-
-    //        WorkInBlock.WorkControlDataContext.UpdateWork();
-
-    //        MessengerInstance.Send<NotificationMessage>(new NotificationMessage("Update!"));
-    //    }
-    //}
-    //#endregion
-    //#region Delete Command
-    //private readonly ICommand _deleteCommand;
-    //public ICommand DeleteCommand
-    //{
-    //    get
-    //    {
-    //        return _deleteCommand;
-    //    }
-    //}
-    //private bool CanDelete(object obj)
-    //{
-    //    return true;
-    //}
-    //private void Delete(object obj)
-    //{
-    //    WorkInBlock.WorkControlDataContext.DeleteWork();
-    //    MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(0,
-    //        WorkInBlock.WorkControlDataContext.Work));
-    //}
-    //#endregion
-    //#region Edit Command
-    //private Boolean _isEnabled;
-    //public Boolean IsEnabled
-    //{
-    //    get { return _isEnabled; }
-    //    set
-    //    {
-    //        SetField<Boolean>(ref _isEnabled, value);
-    //    }
-    //}
-    //private readonly ICommand _editCommand;
-    //public ICommand EditCommand
-    //{
-    //    get
-    //    {
-    //        return _editCommand;
-    //    }
-    //}
-    //private bool CanEdit(object obj)
-    //{
-    //    return true;
-    //}
-    //private void Edit(object obj)
-    //{
-    //    if (!WorkInBlock.WorkControlDataContext.IsEdititig)
-    //    {
-    //        WorkInBlock.WorkControlDataContext.Work.WorkTypeID = SelectedWorkTypeIndex;
-
-    //        MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(1,
-    //            WorkInBlock.WorkControlDataContext.Work));
-
-    //        WorkInBlock.WorkControlDataContext.UpdateWork();
-
-    //        WorkInBlock.WorkControlDataContext.IsEdititig = true;
-    //        IsEnabled = false;
-    //    }
-    //    else
-    //    {
-    //        WorkInBlock.WorkControlDataContext.IsEdititig = false;
-    //        IsEnabled = true;
-    //    }
-    //}
-    //#endregion
-
-    //private Boolean _isExpanded;
-    //public Boolean IsExpanded
-    //{
-    //    get { return _isExpanded; }
-    //    set
-    //    {
-    //        SetField(ref _isExpanded, value);
-    //    }
-    //}
-
 }

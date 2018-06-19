@@ -63,24 +63,5 @@ namespace Staff_time.ViewModel
             }
             return new TreeNode(task);
         }
-
-        public TreeNode ChangeType(TreeNode treeNode, Task task)
-        {
-            TaskTypeEnum type = (TaskTypeEnum)treeNode.Task.TaskTypeID;
-            switch (type)
-            {
-                case TaskTypeEnum.TaskNone:
-                    return (TreeNode)treeNode;
-                case TaskTypeEnum.TaskCustomer:
-                    return (TreeNodeCustomer)treeNode;
-                case TaskTypeEnum.TaskSpecialty:
-                    return (TreeNodeSpecialty)treeNode;
-                case TaskTypeEnum.TaskСompany:
-                    return (TreeNodeСompany)treeNode;
-               // case TaskTypeEnum.TaskСontract: !!!
-                 //   return (TreeNodeСontract)treeNode;
-            }
-            return (TreeNode)treeNode;
-        }
     }
 }

@@ -312,59 +312,10 @@ namespace Staff_time.ViewModel
             }
 
             _dialogDependency.DialogViewModel = null;
-            _dialogDependency = null;
             IsShowed = false;
         }
 
         #endregion
-
-        //private readonly ICommand _editCommand;
-        //public ICommand EditCommand
-        //{
-        //    get
-        //    {
-        //        return _editCommand;
-        //    }
-        //}
-        //private bool CanEdit(object obj)
-        //{
-        //    return SelectedTaskNode != null;
-        //}
-        //private void Edit(object obj)
-        //{
-        //    if (!IsEditing)
-        //    {
-        //        EditTask.TaskTypeID = SelectedTaskTypeIndex;
-        //        if (EditTask.ParentTaskID == 0)
-        //            EditTask.ParentTaskID = null;
-        //        else if (EditTask.ParentTaskID != null && !TasksVM.Dictionary.ContainsKey((int)EditTask.ParentTaskID)
-        //            || SelectedTaskNode.Task.ID == EditTask.ParentTaskID)
-        //            return;
-
-
-        //        IsEditing = true;
-        //        IsEnabled = false;
-
-        //        Task task = (Task)EditTask.Clone();
-        //        _deleteNode(SelectedTaskNode, false);
-        //        _addNewNode(task);
-
-        //        List<int> works = Context.workWork.Read_WorksForTask(task.ID);
-        //        foreach (var id in works)
-        //        {
-        //            Work w = WorksVM.Dictionary[id];
-        //            MessengerInstance.Send<KeyValuePair<int, Work>>(new KeyValuePair<int, Work>(1, w));
-        //        }
-        //        Context.taskWork.Update_Task(task);
-        //    }
-        //    else
-        //    {
-        //        IsEditing = false;
-        //        IsEnabled = true;
-        //    }
-        //}
-        //#endregion
-
         
     }
 }

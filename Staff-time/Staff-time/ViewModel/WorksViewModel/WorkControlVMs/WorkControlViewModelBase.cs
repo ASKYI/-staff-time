@@ -27,29 +27,7 @@ namespace Staff_time.ViewModel
             }
         }
 
-        //protected ObservableCollection<AttrValueExtended> _attrValues;
-        //public ObservableCollection<AttrValueExtended> AttrValues
-        //{
-        //    get { return _attrValues; }
-        //    set
-        //    {
-        //        SetField<ObservableCollection<AttrValueExtended>>(ref _attrValues, value);
-        //    }
-        //}
-        //protected void _generate_AttrValues()
-        //{
-        //    AttrValues = new ObservableCollection<AttrValueExtended>();
-        //    List<AttrValue> values = Context.attrWork.Read_AttrValues_ForWork(Work);
-        //    foreach (var v in values)
-        //    {
-        //        AttrValues.Add(new AttrValueExtended(IsEdititig, v));
-        //    }
-        //}
-
-        abstract public void DeleteWork();
-        abstract public void UpdateWork();
-
-        protected Boolean _isEditing; //false = edit
+        protected Boolean _isEditing;
         public Boolean IsEdititig
         {
             get { return _isEditing; }
@@ -57,9 +35,15 @@ namespace Staff_time.ViewModel
             {
                 SetField(ref _isEditing, value);
 
-                //foreach (var v in AttrValues)
-                //    v.IsEditing = value;
             }
         }
+
+        public Boolean IsEnabled
+        {
+            get { return !_isEditing; }
+        }
+
+        abstract public void UpdateWork();
+        abstract public void DeleteWork();
     }
 }

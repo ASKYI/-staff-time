@@ -20,27 +20,25 @@ namespace Staff_time.View
     /// </summary>
     public partial class WorkBlockControl : UserControl
     {
-        public ViewModel.WorkBlockControlViewModel context = new ViewModel.WorkBlockControlViewModel();
-
         public WorkBlockControl()
         {
             InitializeComponent();
-            DataContext = context;
         }
 
-        public int WorkID
+        private void StartTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
         {
-            get { return (int)GetValue(WorkIDProperty); }
-            set { SetValue(WorkIDProperty, value); }
+            //DateTime old = Work.StartDate;
+            //Work.StartDate = new DateTime(old.Year, old.Month, old.Day, //Я не придумала ничего лучше
+            //    e.NewTime.Hours, e.NewTime.Minutes, e.NewTime.Seconds);
+            //RaisePropertyChanged("StartHours");
         }
-        
-        public static readonly DependencyProperty WorkIDProperty =
-            DependencyProperty.Register("WorkID", typeof(int), typeof(WorkBlockControl), new PropertyMetadata(IdChanged));
 
-        private static void IdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private void EndTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
         {
-            WorkBlockControl changedObject = d as WorkBlockControl;
-            changedObject.context.InitWork(changedObject.WorkID);
+            //DateTime old = Work.EndDate;
+            //Work.EndDate = new DateTime(old.Year, old.Month, old.Day,
+            //    e.NewTime.Hours, e.NewTime.Minutes, e.NewTime.Seconds);
+            //RaisePropertyChanged("StartHours");
         }
     }
 }

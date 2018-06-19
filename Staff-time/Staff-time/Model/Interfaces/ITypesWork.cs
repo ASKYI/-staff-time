@@ -9,6 +9,7 @@ namespace Staff_time.Model.Interfaces
     public interface ITypesWork
     {
         List<WorkType> Read_WorkTypes();
+
         List<TaskType> Read_TaskTypes();
     }
 }

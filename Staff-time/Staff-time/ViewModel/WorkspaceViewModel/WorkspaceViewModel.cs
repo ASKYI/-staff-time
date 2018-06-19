@@ -30,7 +30,7 @@ namespace Staff_time.ViewModel
             {
                 SetField(ref _selectedDate_Picker, value);
 
-                Generate_Week(SelectedDate_Picker);
+                Generate_Week(_selectedDate_Picker);
             }
         }
 
@@ -44,7 +44,8 @@ namespace Staff_time.ViewModel
                 {
                     SetField(ref _selectedTabIndex, value);
 
-                    //update !!!
+                    //update !!! - что я имела в виду???
+                    //больше не буду писать непоятные комментарии
                     chosenDate = WeekTabs[SelectedTabIndex].Date;
                     WeekTabs[SelectedTabIndex].Generate_WorksForDate();
                     SumTime = WeekTabs[SelectedTabIndex].SumTime; 
@@ -72,8 +73,7 @@ namespace Staff_time.ViewModel
         {
             WeekTabs = new ObservableCollection<TabItem>();
 
-            int dayOfWeek = (int)date.DayOfWeek;
-            dayOfWeek = (dayOfWeek + 6) % 7; //День недели с понедельника
+            int dayOfWeek = (int)date.DayOfWeek - 1; //День недели с понедельника
             DateTime startDay = date.AddDays(-dayOfWeek);
 
             for (int i = 0; i < 7; ++i)

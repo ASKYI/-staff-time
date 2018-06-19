@@ -161,6 +161,7 @@
     <Compile Include="ViewModel\FaveViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TasksBlockViewModel.cs" />
+    <Compile Include="ViewModel\WorkspaceViewModel\TabVMs\WorkInTab.cs" />
     <Compile Include="ViewModel\WorksViewModel\AttrValueExtended.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkBlockControlViewModel.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkControlVMs\WorkControlViewModel.cs" />
@@ -274,6 +275,10 @@
     <Resource Include="pilot.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AvalonControlsLibrary\AvalonControlsLibrary.csproj">
+      <Project>{f2e7b3f0-e03e-4341-984f-2962aca8c07e}</Project>
+      <Name>AvalonControlsLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DialogControl\DialogControl.csproj">
       <Project>{2fe99167-c6bf-488b-8d0e-9796fdb4b1ef}</Project>
       <Name>DialogControl</Name>

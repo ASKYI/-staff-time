@@ -50,7 +50,8 @@ namespace Staff_time.ViewModel
                 {
                     Dictionary[id].Task = task;
                     treeNode = Dictionary[id];
-                    treeNodeFactory.ChangeType(treeNode, task);
+                    treeNode = treeNodeFactory.CreateTreeNode(task);
+ //                   treeNodeFactory.ChangeType(treeNode, task);
                 }
 
                 if (task.ParentTaskID != null)
@@ -185,12 +186,12 @@ namespace Staff_time.ViewModel
                     tasksNodes.Add(Dictionary[q]);
             return tasksNodes;
         }
-        public static string generate_PathForTask(TreeNode taskTreeNode)
+
+        public static List<string> generate_PathForTask(int taskID)
         {
-            StringBuilder stringPath = new StringBuilder();
             List<string> path = new List<string>();
 
-            TreeNode t = taskTreeNode;
+            TreeNode t = Dictionary[taskID];
             while (t.ParentNode != null)
             {
                 path.Add(t.Task.TaskName);
@@ -199,13 +200,7 @@ namespace Staff_time.ViewModel
             path.Add(t.Task.TaskName);
 
             path.Reverse();
-            for (int i = 0; i < path.Count; ++i)
-            {
-                if (i != 0)
-                    stringPath.Append("->");
-                stringPath.Append(path[i]);
-            }
-            return stringPath.ToString();
+            return path;
         }
 
         #endregion

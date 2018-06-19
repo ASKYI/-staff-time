@@ -1,5 +1,5 @@
 ﻿ <UserControl x:Class="Staff_time.View.WorkBlockControl"
-              x:Name="WorkBlock"
+              x:Name="workBlock"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,6 +8,7 @@
             
              xmlns:vm="clr-namespace:Staff_time.ViewModel"
              xmlns:m="clr-namespace:Staff_time.Model"
+             xmlns:avalon="http://schemas.AvalonControls/AvalonControlsLibrary/Controls"
             
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -35,33 +36,17 @@
 
         <Style x:Key="EditButtonStyle" TargetType="Button">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}" Value="True">
+                <DataTrigger Binding="{Binding IsRed}" Value="False">
                     <Setter Property="Background" Value="LightGray"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}" Value="False">
+                <DataTrigger Binding="{Binding IsRed}" Value="True">
                     <Setter Property="Background" Value="LightCoral"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
-        <!--Вызов контрола по типу работы--><!--
-        <DataTemplate DataType="{x:Type vm:WorkInBlock}" >
-            <local:WorkControl DataContext="{Binding WorkControlDataContext}"></local:WorkControl>
-         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:WorkConsultationsByPhone_InBlock}" >
-            <local:WorkConsultationsByPhone_Control DataContext="{Binding WorkControlDataContext}"></local:WorkConsultationsByPhone_Control>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:WorkError_InBlock}" >
-            <local:WorkError_Control DataContext="{Binding WorkControlDataContext}"></local:WorkError_Control>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:WorkPatch_InBlock}" >
-            <local:WorkPatch_Control DataContext="{Binding WorkControlDataContext}"></local:WorkPatch_Control>
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:WorkRefractoring_InBlock}" >
-            <local:WorkRefractoring_Control DataContext="{Binding WorkControlDataContext}"></local:WorkRefractoring_Control>
-        </DataTemplate>-->
     </UserControl.Resources>
-     
+
     <Expander Margin="3"  Header="{Binding Path}" Padding="5" BorderThickness="3" 
               IsExpanded="{Binding IsExpanded}" Style="{StaticResource ExpanderStyle}">
         <StackPanel>
@@ -70,36 +55,46 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBlock Text="Имя работы: " Grid.Column="0"></TextBlock>
-                <TextBox  TextWrapping="Wrap" IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  
+                <TextBox  TextWrapping="Wrap" IsReadOnly="{Binding IsReadOnly}"  
                           Text="{Binding Work.WorkName}" Grid.Column="1"></TextBox>
             </Grid>
-           
-            
-            <!--<Grid Margin="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Дата окончания работы: " Grid.Column="0"></TextBlock>
-                <DatePicker Grid.Column="1" IsDropDownOpen="False" 
-                            SelectedDate="{Binding WorkInBlock.WorkControlDataContext.Work.EndDate}"
-                            IsEnabled="{Binding IsEnabled}"></DatePicker>
-            </Grid>-->
-            
+
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBlock Text="Время работы (в минутах): " Grid.Column="0"></TextBlock>
-                <TextBox TextWrapping="Wrap" IsReadOnly="{Binding WorkInBlock.WorkControlDataContext.IsEdititig}"  
+                <TextBox TextWrapping="Wrap" IsReadOnly="{Binding IsReadOnly}"  
                          Text="{Binding Work.Minutes}" Grid.Column="1"></TextBox>
             </Grid>
-            
-            <Separator Height="3"></Separator>
+
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <!--Help!!!-->
+                <!--SelectedTimeChanged="StartTime_Changed"-->
+                <!--SelectedTimeChanged="StartTime_Changed"-->
+
+                <avalon:TimePicker Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Right"
+                                  
+                                   SelectedHour="{Binding StartHours}" SelectedMinute="{Binding StartMinutes}"
+                                   IsEnabled="{Binding IsEnabled}"></avalon:TimePicker>
+                <TextBlock Text="-" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                <avalon:TimePicker Grid.Column="2" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left"   
+                                   
+                                   SelectedHour="{Binding EndHours}" SelectedMinute="{Binding EndMinutes}"
+                                   IsEnabled="{Binding IsEnabled}"></avalon:TimePicker>
+            </Grid>
+
+            <Separator></Separator>
             
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
@@ -117,13 +112,9 @@
                 </ComboBox>
             </Grid>
 
-            <!--<local:WorkControl ID="{Binding Path=WorkInBlockID.WorkID, ElementName=WorkBlock}"></local:WorkControl>-->
-            <local:WorkControl ID="35"></local:WorkControl>
+            <local:WorkControl ID="{Binding WorkInBlockID.WorkID, ElementName=workBlock}" ></local:WorkControl>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="100" Background="LightGray"></Button>
-                <Button Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}" Width="100"></Button>
-            </StackPanel>
+            <Separator></Separator>
 
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
@@ -131,12 +122,28 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Дата: " Grid.Column="0"></TextBlock>
+                <TextBlock Text="Дата начала работы: " Grid.Column="0"></TextBlock>
                 <DatePicker Grid.Column="1" IsDropDownOpen="False" 
                             SelectedDate="{Binding Work.StartDate}"
                             IsEnabled="{Binding IsEnabled}"></DatePicker>
             </Grid>
-            
+
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Дата окончания работы: " Grid.Column="0"></TextBlock>
+                <DatePicker Grid.Column="1" IsDropDownOpen="False" 
+                            SelectedDate="{Binding Work.EndDate}"
+                            IsEnabled="{Binding IsEnabled}"></DatePicker>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="100" Background="LightGray"></Button>
+                <Button Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}" Width="100"></Button>
+            </StackPanel>
+
         </StackPanel>
     </Expander>
 </UserControl>

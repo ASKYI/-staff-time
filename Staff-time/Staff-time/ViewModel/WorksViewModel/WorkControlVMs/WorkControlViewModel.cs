@@ -20,12 +20,10 @@ namespace Staff_time.ViewModel
         public WorkControlViewModel(Work work)
         {
             Work = work;
+            IsEdititig = false;
         }
 
-        public WorkControlViewModel()
-        {
-            //_generate_AttrValues();
-        }
+        public WorkControlViewModel() {}
 
         public void InitWorkControl(int workID)
         {
@@ -37,17 +35,13 @@ namespace Staff_time.ViewModel
 
         public override void DeleteWork()
         {
-            //Context.workWork.Delete_Work(Work.ID);
+            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
+                (WorkCommandEnum.Delete, Work));
         }
         public override void UpdateWork()
         {
-            //Context.workWork.Update_Work(Work);
-
-            //List<AttrValue> values = new List<AttrValue>();
-            //foreach (var v in AttrValues)
-            //    values.Add(v.AttrValue);
-
-            //Context.attrWork.Update_AttrValues_ForWork(values);
+            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
+                (WorkCommandEnum.Update, Work));
         }
     }
 }

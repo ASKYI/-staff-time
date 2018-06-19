@@ -13,6 +13,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+//TimePicker
+//https://social.msdn.microsoft.com/Forums/vstudio/en-US/359125db-b4e9-4e52-82ea-6bc8cd736f30/wpf-timepicker-control?forum=wpf
+//https://marlongrech.wordpress.com/about/
+using AC.AvalonControlsLibrary.Controls;
+
 namespace Staff_time.View
 {
     /// <summary>
@@ -20,12 +25,10 @@ namespace Staff_time.View
     /// </summary>
     public partial class WorkControl : UserControl
     {
-        public ViewModel.WorkControlViewModel context = new ViewModel.WorkControlViewModel();
 
         public WorkControl()
         {
             InitializeComponent();
-            DataContext = context;
         }
 
         public int ID
@@ -35,12 +38,14 @@ namespace Staff_time.View
         }
 
         public static readonly DependencyProperty IDProperty =
-            DependencyProperty.Register("WorkID", typeof(int), typeof(WorkControl), new PropertyMetadata(IdChanged));
+            DependencyProperty.Register("ID", typeof(int), typeof(WorkControl), new PropertyMetadata(IdChanged));
 
         private static void IdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             WorkControl changedObject = d as WorkControl;
-            changedObject.context.InitWorkControl(changedObject.ID);
+            ViewModel.WorkControlViewModel context = new ViewModel.WorkControlViewModel();
+            context.InitWorkControl(changedObject.ID);
+            changedObject.DataContext = context;
         }
     }
 }
