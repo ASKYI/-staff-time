@@ -120,8 +120,7 @@ namespace Staff_time.Model
 
         public List<int> Read_WorksForDate(DateTime date)
         {
-            List<int> l = (from w in Works where w.StartDate == date.Date select w.ID).ToList(); //!!! Date
-            return l;
+            return (from w in Works where w.StartDate == date.Date select w.ID).ToList();
         }
         public List<int> Read_WorksForTask(int taskID)
         {

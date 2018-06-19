@@ -66,6 +66,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ParentTaskID" Type="int" />
           <Property Name="WorkTypeID" Type="int" Nullable="false" />
+          <Property Name="Descriptions" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="TaskTypeProps">
           <Key>
@@ -107,7 +108,7 @@
           <Property Name="WorkTypeID" Type="int" Nullable="false" />
           <Property Name="StartDate" Type="date" Nullable="false" />
           <Property Name="EndDate" Type="date" Nullable="false" />
-          <Property Name="Minutes" Type="bigint" Nullable="false" />
+          <Property Name="Minutes" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="WorkTypeAttrs">
           <Key>
@@ -453,6 +454,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ParentTaskID" Type="Int32" />
           <Property Name="WorkTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Descriptions" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PropValues" Relationship="Self.FK_PropValues_Tasks" FromRole="Tasks" ToRole="PropValues" />
           <NavigationProperty Name="Tasks1" Relationship="Self.FK_Tasks_Tasks" FromRole="Tasks" ToRole="Tasks1" />
           <NavigationProperty Name="Task1" Relationship="Self.FK_Tasks_Tasks" FromRole="Tasks1" ToRole="Tasks" />
@@ -859,6 +861,7 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="ParentTaskID" ColumnName="ParentTaskID" />
                 <ScalarProperty Name="WorkTypeID" ColumnName="WorkTypeID" />
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

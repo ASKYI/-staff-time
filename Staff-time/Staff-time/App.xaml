@@ -72,6 +72,16 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
+                        <TextBlock TextWrapping="Wrap" Text="Описание: " Grid.Column="0"></TextBlock>
+                        <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditingTask.Descriptions}" Grid.Column="1"></TextBox>
+                    </Grid>
+
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
                         <TextBlock  Text="Тип задачи: " Grid.Column="0"></TextBlock>
                         <ComboBox Grid.Column="1"
                               ItemsSource="{Binding Path=TaskTypesCb}"

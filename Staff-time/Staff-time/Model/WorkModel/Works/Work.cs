@@ -22,7 +22,12 @@ namespace Staff_time.Model
 
             this.Task = work.Task;
             this.WorkType = work.WorkType;
-            this.AttrValues = work.AttrValues;
+
+            this.AttrValues = new List<AttrValue>();
+            foreach (var a in work.AttrValues)
+            {
+                this.AttrValues.Add(a);
+            }
         }
 
         public object Clone()

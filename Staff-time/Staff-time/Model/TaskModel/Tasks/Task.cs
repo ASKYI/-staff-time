@@ -14,6 +14,7 @@ namespace Staff_time.Model
             this.TaskName = task.TaskName;
             this.TaskTypeID = task.TaskTypeID;
             this.ParentTaskID = task.ParentTaskID;
+            this.Descriptions = task.Descriptions;
 
             this.TaskType = task.TaskType;
             this.Works = task.Works;
