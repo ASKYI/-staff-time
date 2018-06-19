@@ -10,14 +10,15 @@
         
         MouseDown="TasksBlockView_MouseDown"  
         
-        Title="" Height="450" Width="800" Icon="pilot.ico">
+        Title="" Height="450" Width="800" MinWidth="250" MinHeight="300"
+        Icon="pilot.ico">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*" MinWidth="250"></ColumnDefinition>
             <ColumnDefinition Width="2.5*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="6*"></RowDefinition>
+            <RowDefinition Height="6*" MinHeight="300"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         
@@ -27,6 +28,6 @@
             <view:WorkspaceView ></view:WorkspaceView>
         </Border>
 
-        <view:FaveView Grid.Column="0" Grid.Row="1"></view:FaveView>
+        <!--<view:FaveView Grid.Column="0" Grid.Row="1"></view:FaveView>-->
     </Grid>
 </Window>

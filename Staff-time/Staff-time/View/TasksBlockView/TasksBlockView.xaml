@@ -82,13 +82,13 @@
                 </Grid>
 
                 <StackPanel Orientation="Horizontal">
-                    <Button FontSize="10" Content="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}"></Button>
-                    <Button FontSize="10" Content="Добавить подзадачу" Command="{Binding AddChildTaskCommand}"></Button>
+                    <Button FontSize="10" Content="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}" Background="White"></Button>
+                    <Button FontSize="10" Content="Добавить подзадачу" Command="{Binding AddChildTaskCommand}" Background="White"></Button>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <Button FontSize="10" Command="{Binding EditTaskCommand}" Content="Реадктировать задачу"></Button>
-                    <Button FontSize="10" Command="{Binding DeleteTaskCommand}" Content="Удалить задачу"></Button>
+                    <Button FontSize="10" Command="{Binding EditTaskCommand}" Content="Реадктировать задачу" Background="White"></Button>
+                    <Button FontSize="10" Command="{Binding DeleteTaskCommand}" Content="Удалить задачу" Background="White"></Button>
                 </StackPanel>
             </StackPanel>
         </Border>
