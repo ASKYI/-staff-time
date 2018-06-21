@@ -160,7 +160,7 @@ namespace Staff_time.ViewModel
                 newTask.ParentTaskID = SelectedTaskNode.Task.ParentTaskID;
             newTask.TaskName = "Новая задача";
 
-            dialog = new View.AddDialogWindow(new TaskViewModel(newTask, TreeRoots, TaskCommandEnum.Add));
+            dialog = new View.AddDialogWindow(new TaskDialogViewModel(newTask, TreeRoots, TaskCommandEnum.Add));
             dialog.Show();
         }
         private readonly ICommand _addChildTaskCommand;
@@ -184,7 +184,7 @@ namespace Staff_time.ViewModel
             newTask.ParentTaskID = SelectedTaskNode.Task.ID;
             newTask.TaskName = "Новая подзадача";
             
-            dialog = new View.AddDialogWindow(new TaskViewModel(newTask, TreeRoots, TaskCommandEnum.Add));
+            dialog = new View.AddDialogWindow(new TaskDialogViewModel(newTask, TreeRoots, TaskCommandEnum.Add));
             dialog.Show();
         }
         #endregion
@@ -206,9 +206,8 @@ namespace Staff_time.ViewModel
         {
             base.CancelEditing();
 
-            //DialogTitle = "Редактировать задачу";
-            //DialogDependency = new DialogDependency(SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit);
-            //IsShowed = true;
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit));
+            dialog.Show();
         }
 
         #region Delete Task
@@ -258,6 +257,8 @@ namespace Staff_time.ViewModel
 
         private void _doTaskCommand(KeyValuePair<TaskCommandEnum, Task> pair)
         {
+            dialog = null;
+
             TaskCommandEnum command = pair.Key;
             Task task = pair.Value;
 
@@ -284,7 +285,6 @@ namespace Staff_time.ViewModel
 
                     break;
             }
-            dialog = null;
         }
 
         #endregion

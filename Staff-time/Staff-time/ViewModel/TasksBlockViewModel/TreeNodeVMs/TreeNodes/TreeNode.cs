@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace Staff_time.ViewModel
 {
-    public class TreeNode
+    public class TreeNode : MainViewModel
     {
         public TreeNode()
         {
@@ -23,11 +23,19 @@ namespace Staff_time.ViewModel
             Task = treeNode.Task;
             ParentNode = treeNode.ParentNode;
             TreeNodes = treeNode.TreeNodes;
-            Path = treeNode.Path;
+            FullPath = treeNode.FullPath;
         }
 
-        public Task Task { get; set; }
-        public string Path { get; set; }
+        private Task _task;
+        public Task Task {
+            get { return _task; }
+            set
+            {
+                SetField(ref _task, value);
+                FullPath = TasksVM.generate_PathForTask(_task.ID);
+            }
+        }
+        public List<string> FullPath { get; set; }
 
         #region Nodes
         public TreeNode ParentNode { get; set; }

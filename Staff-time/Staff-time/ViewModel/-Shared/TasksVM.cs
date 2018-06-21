@@ -67,6 +67,11 @@ namespace Staff_time.ViewModel
                     treeNode.ParentNode = parentTreeNode;
                 }
             }
+
+            foreach (var pair in Dictionary)
+            {
+                pair.Value.FullPath = generate_PathForTask(pair.Key);
+            }
         }
 
         public static void Add(Task task)
@@ -112,7 +117,7 @@ namespace Staff_time.ViewModel
             //}
         }
 
-        public static void Edit(Task task)
+        public static void Edit(Task task) //TreeNode
         {
             //DB
             Context.taskWork.Update_Task(task);
@@ -131,6 +136,7 @@ namespace Staff_time.ViewModel
             foreach (var n in node.TreeNodes)
             {
                 n.ParentNode = editNode;
+                n.FullPath = generate_PathForTask(n.Task.ID);
                 //n.Task.ParentTaskID = editNode.Task.ID;
             }
 
@@ -144,6 +150,7 @@ namespace Staff_time.ViewModel
 
             Dictionary.Remove(task.ID);
             Dictionary.Add(task.ID, editNode);
+            editNode.FullPath = generate_PathForTask(task.ID);
         }
 
         public static void DeleteAlone(int taskID)
@@ -189,6 +196,9 @@ namespace Staff_time.ViewModel
 
         public static List<string> generate_PathForTask(int taskID)
         {
+            if (!Dictionary.ContainsKey(taskID))
+                return new List<string>();
+
             List<string> path = new List<string>();
 
             TreeNode t = Dictionary[taskID];
@@ -201,6 +211,25 @@ namespace Staff_time.ViewModel
 
             path.Reverse();
             return path;
+        }
+
+        public static bool CheckIsChild(int parentID, int? childID)
+        {
+            TreeNode parentNode = Dictionary[parentID];
+            TreeNode childNode = null;
+            if (childID != null)
+            {
+                childNode = Dictionary[(int)childID];
+
+                TreeNode curParent = childNode.ParentNode;
+                while (curParent != null)
+                {
+                    if (curParent == parentNode)
+                        return true;
+                    curParent = curParent.ParentNode;
+                }
+            }
+            return false;
         }
 
         #endregion
