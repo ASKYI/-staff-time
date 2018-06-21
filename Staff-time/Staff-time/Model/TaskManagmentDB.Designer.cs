@@ -1,4 +1,4 @@
-﻿// Создание кода T4 для модели "D:\Projects\-staff-time\Staff-time\Staff-time\Model\TaskManagmentDBModel.edmx" включено. 
+﻿// Создание кода T4 для модели "D:\Projects\-staff-time\Staff-time\Staff-time\Model\TaskManagmentDB.edmx" включено. 
 // Чтобы включить формирование кода прежних версий, измените значение свойства "Стратегия создания кода" конструктора
 // на "Legacy ObjectContext". Это свойство доступно в окне "Свойства", если модель
 // открыта в конструкторе.

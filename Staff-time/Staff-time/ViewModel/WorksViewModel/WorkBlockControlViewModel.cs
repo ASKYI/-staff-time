@@ -92,17 +92,19 @@ namespace Staff_time.ViewModel
             get
             {
                 StringBuilder stringPath = new StringBuilder();
-                for (int i = 0; i < Math.Min(3, _fullPath.Count); ++i)
+                stringPath.Append(Work.WorkName + "::");
+
+                for (int i = _fullPath.Count - 1;  i > Math.Max(0, _fullPath.Count - 3); --i)
                 {
-                    if (i != 0)
-                        stringPath.Append("->");
                     stringPath.Append(_fullPath[i]);
+                    stringPath.Append("<-");
                 }
 
                 if (_fullPath.Count > 3)
                     stringPath.Append("...");
 
-                stringPath.Append(">>" + Work.WorkName);
+                stringPath.Append(_fullPath[0]);
+
                 return stringPath.ToString();
             }
         }
@@ -111,34 +113,11 @@ namespace Staff_time.ViewModel
 
         #region Time
 
-        public void StartTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
-        {
-            DateTime old = Work.StartDate;
-            Work.StartDate = new DateTime(old.Year, old.Month, old.Day, //Я не придумала ничего лучше
-                e.NewTime.Hours, e.NewTime.Minutes, e.NewTime.Seconds);
-            Work.EndDate = Work.StartDate.AddMinutes(Work.Minutes);
-
-            RaisePropertyChanged("StartHours");
-            RaisePropertyChanged("StartMinutes");
-            RaisePropertyChanged("EndHours");
-            RaisePropertyChanged("EndMinutes");
-        }
-
-        public void EndTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
-        {
-            DateTime old = Work.EndDate;
-            Work.EndDate = new DateTime(old.Year, old.Month, old.Day,
-                e.NewTime.Hours, e.NewTime.Minutes, e.NewTime.Seconds);
- 
-            RaisePropertyChanged("StartHours");
-            RaisePropertyChanged("StartMinutes");
-            RaisePropertyChanged("EndHours");
-            RaisePropertyChanged("EndMinutes");
-        }
-
         public void Minutes_Changed(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            int minutes = 0;
+            //Оно не всегда хорошо работает
+            
+            /*int minutes = 0;
             try
             {
                 minutes = Convert.ToInt32(((System.Windows.Controls.TextBox)sender).Text);
@@ -148,56 +127,98 @@ namespace Staff_time.ViewModel
                 minutes = 0;
             }
 
-            Work.EndDate = Work.StartDate.AddMinutes(minutes);
+            int hours = (minutes / 60) % 24; //Нельзя больше дня
+            minutes %= 60;
+            EndMinutes = StartMinutes + minutes;
+            EndHours = StartHours + hours;
+
+            Minutes = hours * 60 + minutes;
 
             RaisePropertyChanged("StartHours");
             RaisePropertyChanged("StartMinutes");
             RaisePropertyChanged("EndHours");
-            RaisePropertyChanged("EndMinutes");
+            RaisePropertyChanged("EndMinutes");*/
         }
 
         public int StartHours
         {
-            get { return Work.StartDate.Hour; }
+            get { return Work.StartTime.Hour; }
             set
             {
-                DateTime old = Work.StartDate;
-                Work.StartDate = new DateTime(old.Year, old.Month, old.Day,
+                DateTime old = Work.StartTime;
+                Work.StartTime = new DateTime(old.Year, old.Month, old.Day,
                     value, old.Minute, old.Second);
+                Work.Minutes -= (value - old.Hour) * 60;
+
+                RaisePropertyChanged("Minutes");
                 RaisePropertyChanged("StartHours");
+                RaisePropertyChanged("StartMinutes");
+                RaisePropertyChanged("EndHours");
+                RaisePropertyChanged("EndMinutes");
             }
         }
         public int StartMinutes
         {
-            get { return Work.StartDate.Minute; }
+            get { return Work.StartTime.Minute; }
             set
             {
-                DateTime old = Work.StartDate;
-                Work.StartDate = new DateTime(old.Year, old.Month, old.Day,
+                DateTime old = Work.StartTime;
+                Work.StartTime = new DateTime(old.Year, old.Month, old.Day,
                     old.Hour, value, old.Second);
+
+                Work.StartTime = new DateTime(old.Year, old.Month, old.Day,
+                    value, old.Minute, old.Second);
+                Work.Minutes -= old.Minute - value;
+
+                RaisePropertyChanged("Minutes");
+                RaisePropertyChanged("StartHours");
                 RaisePropertyChanged("StartMinutes");
+                RaisePropertyChanged("EndHours");
+                RaisePropertyChanged("EndMinutes");
+            }
+        }
+        
+        public int EndHours
+        {
+            get { return Work.StartTime.Hour + Work.Minutes / 60; }
+            set
+            {
+                Work.Minutes = (value * 60 + EndMinutes) - (StartHours * 60 + StartMinutes);
+
+                RaisePropertyChanged("Minutes");
+                RaisePropertyChanged("StartHours");
+                RaisePropertyChanged("StartMinutes");
+                RaisePropertyChanged("EndHours");
+                RaisePropertyChanged("EndMinutes");
+            }
+        }
+        
+        public int EndMinutes
+        {
+            get { return Work.StartTime.Minute + Work.Minutes % 60; }
+            set
+            {
+                Work.Minutes = (EndHours * 60 + value) - (StartHours * 60 + StartMinutes);
+
+                RaisePropertyChanged("Minutes");
+                RaisePropertyChanged("StartHours");
+                RaisePropertyChanged("StartMinutes");
+                RaisePropertyChanged("EndHours");
+                RaisePropertyChanged("EndMinutes");
             }
         }
 
-        public int EndHours
+        public int Minutes
         {
-            get { return Work.EndDate.Hour; }
+            get { return Work.Minutes; }
             set
             {
-                DateTime old = Work.EndDate;
-                Work.EndDate = new DateTime(old.Year, old.Month, old.Day,
-                    value, old.Minute, old.Second);
+                Work.Minutes = value;
+
+                RaisePropertyChanged("Minutes");
+                RaisePropertyChanged("StartHours");
+                RaisePropertyChanged("StartMinutes");
                 RaisePropertyChanged("EndHours");
-            }
-        }
-        public int EndMinutes
-        {
-            get { return Work.EndDate.Minute; }
-            set
-            {
-                DateTime old = Work.EndDate;
-                Work.EndDate = new DateTime(old.Year, old.Month, old.Day,
-                    old.Hour, value, old.Second);
                 RaisePropertyChanged("EndMinutes");
             }
         }

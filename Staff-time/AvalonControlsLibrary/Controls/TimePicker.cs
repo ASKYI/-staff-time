@@ -276,11 +276,11 @@ namespace AC.AvalonControlsLibrary.Controls
             minutes.GotMouseCapture += TextGotFocus;
 
             //get the seconds textbox and hook the events to it
-            seconds = GetTemplateChild("PART_Seconds") as TextBox;
-            seconds.PreviewTextInput += SecondsTextChanged;
-            seconds.KeyUp += SecondsKeyUp;
-            seconds.GotFocus += TextGotFocus;
-            seconds.GotMouseCapture += TextGotFocus;
+            //seconds = GetTemplateChild("PART_Seconds") as TextBox;
+            //seconds.PreviewTextInput += SecondsTextChanged;
+            //seconds.KeyUp += SecondsKeyUp;
+            //seconds.GotFocus += TextGotFocus;
+            //seconds.GotMouseCapture += TextGotFocus;
 
             //Get the increase button and hook to the click event
             ButtonBase increaseButton = GetTemplateChild("PART_IncreaseTime") as ButtonBase;
@@ -431,12 +431,12 @@ namespace AC.AvalonControlsLibrary.Controls
                 SelectedHour = MathUtil.IncrementDecrementNumber(hours.Text, HourMinValue, HourMaxValue, increment);
 
             //check if minute is selected if yes set it
-            else if (minutes == currentlySelectedTextBox)
+            else
                 SelectedMinute = MathUtil.IncrementDecrementNumber(minutes.Text, MinuteMinValue, MinuteMaxValue, increment);
 
             //if non of the above are selected assume that the seconds is selected
-            else
-                SelectedSecond = MathUtil.IncrementDecrementNumber(seconds.Text, SecondMinValue, SecondMaxValue, increment);
+            //else
+              //  SelectedSecond = MathUtil.IncrementDecrementNumber(seconds.Text, SecondMinValue, SecondMaxValue, increment);
         }
 
         #region Validate and set properties
