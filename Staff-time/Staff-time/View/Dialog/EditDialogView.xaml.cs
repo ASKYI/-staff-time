@@ -12,12 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Staff_time.View.Dialog
+namespace Staff_time.View
 {
     /// <summary>
     /// Логика взаимодействия для EditDialogWindow.xaml
     /// </summary>
-    public partial class EditDialogWindow : Window
+    public partial class EditDialogWindow : IDialogView
     {
         public EditDialogWindow()
         {
@@ -31,6 +31,11 @@ namespace Staff_time.View.Dialog
         }
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }

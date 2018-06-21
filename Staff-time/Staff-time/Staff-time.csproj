@@ -170,10 +170,10 @@
     <Compile Include="View\Dialog\AddDialogWindow.xaml.cs">
       <DependentUpon>AddDialogWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Dialog\EditDialogWindow.xaml.cs">
-      <DependentUpon>EditDialogWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Dialog\IDialogView.cs" />
+    <Compile Include="View\Dialog\EditDialogView.xaml.cs">
+      <DependentUpon>EditDialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TasksBlockView\ExtendedTreeView.xaml.cs">
       <DependentUpon>ExtendedTreeView.xaml</DependentUpon>
     </Compile>
@@ -208,7 +208,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialog\EditDialogWindow.xaml">
+    <Page Include="View\Dialog\EditDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

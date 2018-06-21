@@ -206,9 +206,8 @@ namespace Staff_time.ViewModel
         {
             base.CancelEditing();
 
-            //DialogTitle = "Редактировать задачу";
-            //DialogDependency = new DialogDependency(SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit);
-            //IsShowed = true;
+            dialog = new View.EditDialogWindow(new TaskViewModel(SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit));
+            dialog.Show();
         }
 
         #region Delete Task
