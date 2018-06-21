@@ -130,7 +130,7 @@ namespace Staff_time.ViewModel
             work.WorkName = "Новая работа";
             work.TaskID = SelectedTaskNode.Task.ID;
             work.StartDate = chosenDate.Date;
-            work.EndDate = work.StartDate;
+            work.StartTime = DateTime.Now;
 
             MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(
                 new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Add, work));

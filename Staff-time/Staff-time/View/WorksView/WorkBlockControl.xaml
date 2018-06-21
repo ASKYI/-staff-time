@@ -83,14 +83,12 @@
                     <ColumnDefinition Width="4*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <avalon:TimePicker Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Right"
-                                   SelectedTimeChanged="StartTime_Changed"
-                                   SelectedHour="{Binding StartHours}" SelectedMinute="{Binding StartMinutes}"
+                <avalon:TimePicker Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Right"                                   
+                                   SelectedHour="{Binding StartHours, Mode=TwoWay}" SelectedMinute="{Binding StartMinutes, Mode=TwoWay}"
                                    IsEnabled="{Binding IsEnabled}"></avalon:TimePicker>
                 <TextBlock Text="-" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                 <avalon:TimePicker Grid.Column="2" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left"   
-                                   SelectedTimeChanged="EndTime_Changed"
-                                   SelectedHour="{Binding EndHours}" SelectedMinute="{Binding EndMinutes}"
+                                   SelectedHour="{Binding EndHours, Mode=TwoWay}" SelectedMinute="{Binding EndMinutes, Mode=TwoWay}"
                                    IsEnabled="{Binding IsEnabled}"></avalon:TimePicker>
             </Grid>
 

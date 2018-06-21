@@ -24,20 +24,9 @@ namespace Staff_time.View
         {
             InitializeComponent();
         }
-        
+
         //Пробрасываение методов
         //Ищу решение лучше
-        private void StartTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
-        {
-            if (DataContext != null)
-                ((ViewModel.WorkBlockControlViewModel)DataContext).StartTime_Changed(sender, e);
-        }
-
-        private void EndTime_Changed(object sender, AC.AvalonControlsLibrary.Controls.TimeSelectedChangedRoutedEventArgs e)
-        {
-            if (DataContext != null)
-                ((ViewModel.WorkBlockControlViewModel)DataContext).EndTime_Changed(sender, e);
-        }
 
         private void workBlock_MouseLeave(object sender, MouseEventArgs e)
         {
