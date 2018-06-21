@@ -52,6 +52,8 @@ namespace Staff_time.ViewModel
             MessengerInstance.Send<string>("Cancel");
         }
 
+        protected View.IDialogView dialog; //Ага, ViewModel видит View...
+
         #region INotifyPropertyChanged Member
 
         public bool SetField<T>(ref T field, T value,

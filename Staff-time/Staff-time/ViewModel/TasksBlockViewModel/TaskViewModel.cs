@@ -149,7 +149,7 @@ namespace Staff_time.ViewModel
         {
             return true;
         }
-        private void Accept(object obj)
+        public void Accept(object obj)
         {
             _task = _editingTask;
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
@@ -160,7 +160,7 @@ namespace Staff_time.ViewModel
         {
             return true;
         }
-        private void Cancel(object obj)
+        public void Cancel(object obj)
         {
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
                 new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));

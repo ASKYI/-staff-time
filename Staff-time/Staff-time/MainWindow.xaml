@@ -8,6 +8,9 @@
         xmlns:view="clr-namespace:Staff_time.View"     
         mc:Ignorable="d"
         
+        xmlns:m="clr-namespace:Staff_time.Model"
+        xmlns:vm="clr-namespace:Staff_time.ViewModel"  
+        
         MouseDown="TasksBlockView_MouseDown"  
         
         Title="" Height="450" Width="800" MinWidth="250" MinHeight="300"

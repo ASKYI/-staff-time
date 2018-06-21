@@ -156,8 +156,7 @@
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeSpecialty.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeСompany.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeСontract.cs" />
-    <Compile Include="ViewModel\TasksBlockViewModel\TaskDialogVMs\DialogDependency.cs" />
-    <Compile Include="ViewModel\TasksBlockViewModel\TaskDialogVMs\TaskViewModel.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TaskViewModel.cs" />
     <Compile Include="ViewModel\FaveViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TasksBlockViewModel.cs" />
@@ -168,6 +167,13 @@
     <Compile Include="ViewModel\WorkspaceViewModel\WorkspaceViewModel.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkControlVMs\WorkControlViewModelBase.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkIDDependency.cs" />
+    <Compile Include="View\Dialog\AddDialogWindow.xaml.cs">
+      <DependentUpon>AddDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialog\EditDialogWindow.xaml.cs">
+      <DependentUpon>EditDialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialog\IDialogView.cs" />
     <Compile Include="View\TasksBlockView\ExtendedTreeView.xaml.cs">
       <DependentUpon>ExtendedTreeView.xaml</DependentUpon>
     </Compile>
@@ -198,6 +204,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Dialog\AddDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialog\EditDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\TasksBlockView\ExtendedTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

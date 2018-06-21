@@ -275,7 +275,7 @@ namespace Staff_time.ViewModel
 
         private bool CanEdit(object obj)
         {
-            return true;
+            return dialog == null;
         }
         private void Edit(object obj)
         {
@@ -288,6 +288,7 @@ namespace Staff_time.ViewModel
             }
             else
             {
+                base.CancelEditing();
                 IsEdititig = true;
             }          
         }
@@ -312,10 +313,11 @@ namespace Staff_time.ViewModel
         }
         private bool CanDelete(object obj)
         {
-            return true;
+            return dialog == null;
         }
         private void Delete(object obj)
         {
+            base.CancelEditing();
             WorkVM.DeleteWork();
         }
 
