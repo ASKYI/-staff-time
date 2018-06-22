@@ -52,7 +52,7 @@ namespace Staff_time.ViewModel
             MessengerInstance.Send<string>("Cancel");
         }
 
-        protected View.IDialogView dialog; //Ага, ViewModel видит View...
+        protected static View.IDialogView dialog; //Ага, ViewModel видит View...
 
         #region INotifyPropertyChanged Member
 

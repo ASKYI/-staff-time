@@ -113,11 +113,12 @@
             <local:WorkControl ID="{Binding WorkInBlockID.WorkID, ElementName=workBlock}" ></local:WorkControl>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <DatePicker Grid.Column="1" IsDropDownOpen="False" 
+                <DatePicker Grid.Column="1" IsDropDownOpen="False" HorizontalAlignment="Right"
                             SelectedDate="{Binding Work.StartDate}"
                             IsEnabled="{Binding IsEnabled}"></DatePicker>
-                <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="100" Background="LightGray"></Button>
-                <Button Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}" Width="100"></Button>
+                <Button Content="Изменить задачу" Command="{Binding ChangeTaskCommand}" Width="100" Background="LightGray" HorizontalAlignment="Right"></Button>
+                <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="100" Background="LightGray" HorizontalAlignment="Right"></Button>
+                <Button Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}" Width="100" HorizontalAlignment="Right"></Button>
             </StackPanel>
 
         </StackPanel>

@@ -112,7 +112,7 @@ namespace Staff_time.ViewModel
             //}
         }
 
-        public static void Edit(Task task)
+        public static void Edit(Task task) //TreeNode
         {
             //DB
             Context.taskWork.Update_Task(task);

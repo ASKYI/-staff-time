@@ -29,6 +29,7 @@ namespace Staff_time.ViewModel
             
             _editCommand = new RelayCommand(Edit, CanEdit);
             _deleteCommand = new RelayCommand(Delete, CanDelete);
+            _changeTaskCommand = new RelayCommand(ChangeTask, CanChangeTask);
             MessengerInstance.Register<string>(this, _cancelEditing);
 
             if (IsEdititig)
@@ -319,6 +320,30 @@ namespace Staff_time.ViewModel
         {
             base.CancelEditing();
             WorkVM.DeleteWork();
+        }
+
+        #endregion
+
+        #region Change Task
+
+        private readonly ICommand _changeTaskCommand;
+        public ICommand ChangeTaskCommand
+        {
+            get
+            {
+                return _changeTaskCommand;
+            }
+        }
+        private bool CanChangeTask(object obj)
+        {
+            return dialog == null;
+        }
+        private void ChangeTask(object obj)
+        {
+            base.CancelEditing();
+
+            dialog = new View.WorkDialogView(new WorkDialogViewModel(_workVM));
+            dialog.Show();
         }
 
         #endregion

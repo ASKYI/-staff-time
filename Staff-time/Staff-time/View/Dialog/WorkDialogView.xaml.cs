@@ -15,20 +15,20 @@ using System.Windows.Shapes;
 namespace Staff_time.View
 {
     /// <summary>
-    /// Логика взаимодействия для EditDialogWindow.xaml
+    /// Логика взаимодействия для WorkDialogView.xaml
     /// </summary>
-    public partial class EditDialogWindow : IDialogView
+    public partial class WorkDialogView : Window, IDialogView
     {
-        public EditDialogWindow()
+        public WorkDialogView()
         {
             InitializeComponent();
         }
 
-        public EditDialogWindow(object context)
+        public WorkDialogView(object context)
         {
             InitializeComponent();
-            base.DataContext = context;
-            Closing += ((ViewModel.TaskDialogViewModel)DataContext).OnWindowClosing;
+            DataContext = context;
+            Closing += ((ViewModel.WorkDialogViewModel)DataContext).OnWindowClosing;
         }
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)

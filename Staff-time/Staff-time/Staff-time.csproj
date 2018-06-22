@@ -156,7 +156,7 @@
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeSpecialty.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeСompany.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeСontract.cs" />
-    <Compile Include="ViewModel\TasksBlockViewModel\TaskViewModel.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TaskDialogViewModel.cs" />
     <Compile Include="ViewModel\FaveViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TasksBlockViewModel.cs" />
@@ -166,6 +166,7 @@
     <Compile Include="ViewModel\WorksViewModel\WorkControlVMs\WorkControlViewModel.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel\WorkspaceViewModel.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkControlVMs\WorkControlViewModelBase.cs" />
+    <Compile Include="ViewModel\WorksViewModel\WorkDialogViewModel.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkIDDependency.cs" />
     <Compile Include="View\Dialog\AddDialogWindow.xaml.cs">
       <DependentUpon>AddDialogWindow.xaml</DependentUpon>
@@ -182,6 +183,9 @@
     </Compile>
     <Compile Include="View\TasksBlockView\TasksBlockView.xaml.cs">
       <DependentUpon>TasksBlockView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialog\WorkDialogView.xaml.cs">
+      <DependentUpon>WorkDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\WorksView\WorkBlockControl.xaml.cs">
       <DependentUpon>WorkBlockControl.xaml</DependentUpon>
@@ -221,6 +225,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\TasksBlockView\TasksBlockView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialog\WorkDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
