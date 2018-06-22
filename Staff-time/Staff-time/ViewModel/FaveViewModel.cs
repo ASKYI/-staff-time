@@ -54,7 +54,7 @@ namespace Staff_time.ViewModel
                         stringPath.Append("->");
                     stringPath.Append(path[i]);
                 }
-                ft.Path = stringPath.ToString();
+               // ft.Path = stringPath.ToString();
             }
         }
         #endregion

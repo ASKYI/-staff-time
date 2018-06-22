@@ -91,11 +91,7 @@ namespace Staff_time.ViewModel
                 SetField<TreeNode>(ref _selectedTaskNode, value);
                 if (_selectedTaskNode != null)
                 {
-
-                    if (_selectedTaskNode.Task == _task)
-                        EditingTask.ParentTaskID = _task.ParentTaskID;
-
-                    else if (TreeRoots != null && _selectedTaskNode == TreeRoots[0])
+                    if (TreeRoots != null && _selectedTaskNode == TreeRoots[0])
                         EditingTask.ParentTaskID = null;
                     else
                         EditingTask.ParentTaskID = _selectedTaskNode.Task.ID;
@@ -151,8 +147,15 @@ namespace Staff_time.ViewModel
         }
         public void Accept(object obj)
         {
-            _task = _editingTask;
+            if (_editingTask.ID == _editingTask.ParentTaskID || TasksVM.CheckIsChild(_editingTask.ID, _editingTask.ParentTaskID)) 
+            {
+                MessageBox.Show("Нельзя назначить новым родителем потомка или самого себя");
+                MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
+                    new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
+                return;
+            }
 
+            _task = _editingTask;
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
                 new KeyValuePair<TaskCommandEnum, Task>(_command, _task));
         }

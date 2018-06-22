@@ -22,8 +22,6 @@ namespace Staff_time.ViewModel
             WorkVM = WorksVM.Dictionary[workID];
             WorkInBlockID = new WorkIDDependency(workID);
 
-            _fullPath = TasksVM.generate_PathForTask(Work.TaskID);
-
             SelectedWorkTypeIndex = WorkVM.Work.WorkTypeID;
             _generate_TaskTypesCb();
             
@@ -71,18 +69,18 @@ namespace Staff_time.ViewModel
 
         #region Path
 
-        private List<string> _fullPath;
-
         public string FullPath
         {
             get
             {
+                TreeNode taskNode = TasksVM.Dictionary[Work.TaskID];
+
                 StringBuilder stringPath = new StringBuilder();
-                for (int i = 0; i < _fullPath.Count; ++i)
+                for (int i = 0; i <  taskNode.FullPath.Count; ++i)
                 {
                     if (i != 0)
                         stringPath.Append("->");
-                    stringPath.Append(_fullPath[i]);
+                    stringPath.Append(taskNode.FullPath[i]);
                 }
                 stringPath.Append(">>" + Work.WorkName);
                 return stringPath.ToString();
@@ -92,19 +90,21 @@ namespace Staff_time.ViewModel
         {
             get
             {
+                TreeNode taskNode = TasksVM.Dictionary[Work.TaskID];
+
                 StringBuilder stringPath = new StringBuilder();
                 stringPath.Append(Work.WorkName + "::");
 
-                for (int i = _fullPath.Count - 1;  i > Math.Max(0, _fullPath.Count - 3); --i)
+                for (int i = taskNode.FullPath.Count - 1;  i > Math.Max(0, taskNode.FullPath.Count - 3); --i)
                 {
-                    stringPath.Append(_fullPath[i]);
+                    stringPath.Append(taskNode.FullPath[i]);
                     stringPath.Append("<-");
                 }
 
-                if (_fullPath.Count > 3)
+                if (taskNode.FullPath.Count > 3)
                     stringPath.Append("...");
 
-                stringPath.Append(_fullPath[0]);
+                stringPath.Append(taskNode.FullPath[0]);
 
                 return stringPath.ToString();
             }
