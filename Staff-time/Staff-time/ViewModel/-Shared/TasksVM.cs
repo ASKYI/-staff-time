@@ -138,6 +138,7 @@ namespace Staff_time.ViewModel
                 n.ParentNode = editNode;
                 n.FullPath = generate_PathForTask(n.Task.ID);
                 //n.Task.ParentTaskID = editNode.Task.ID;
+                editNode.AddChild(n);
             }
 
             if (node.ParentNode != null)

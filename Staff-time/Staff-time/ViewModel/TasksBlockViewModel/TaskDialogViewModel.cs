@@ -147,13 +147,14 @@ namespace Staff_time.ViewModel
         }
         public void Accept(object obj)
         {
-            if (_editingTask.ID == _editingTask.ParentTaskID || TasksVM.CheckIsChild(_editingTask.ID, _editingTask.ParentTaskID)) 
-            {
-                MessageBox.Show("Нельзя назначить новым родителем потомка или самого себя");
-                MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
-                    new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
-                return;
-            }
+            if (_command == TaskCommandEnum.Edit)
+                if (_editingTask.ID == _editingTask.ParentTaskID || TasksVM.CheckIsChild(_editingTask.ID, _editingTask.ParentTaskID)) 
+                {
+                    MessageBox.Show("Нельзя назначить новым родителем потомка или самого себя");
+                    MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
+                        new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
+                    return;
+                }
 
             _task = _editingTask;
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
