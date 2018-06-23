@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:Staff_time.View"
              
              xmlns:vm="clr-namespace:Staff_time.ViewModel"
-             xmlns:dialog="clr-namespace:DialogControl;assembly=DialogControl"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              
              mc:Ignorable="d" 
@@ -52,14 +51,6 @@
             <RowDefinition Height="0.75*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-
-        <!--Диалог-->
-        <dialog:Dialog Showing="{Binding IsShowed}"
-                       CancelCommand="{Binding Path=DialogDependency.DialogViewModel.CancelCommand}"
-                       Title="{Binding DialogTitle}" 
-                       Content="{Binding Path=DialogDependency.DialogViewModel}"
-                       ContentTemplate="{StaticResource DialogTemplate}">
-        </dialog:Dialog>
 
         <!--Дерево-->
         <Border  Grid.Row="0" Margin="3" BorderBrush="Gray" BorderThickness="2">

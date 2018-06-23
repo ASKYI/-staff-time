@@ -12,7 +12,7 @@ using GalaSoft.MvvmLight;
 
 namespace Staff_time.ViewModel
 {
-    enum WorkCommandEnum { Add, Delete, Update }
+    enum WorkCommandEnum { Add, Delete, Update, None }
     
     public class TabItem : MainViewModel
     {
@@ -71,9 +71,13 @@ namespace Staff_time.ViewModel
 
         private void _doWorkCommand(KeyValuePair<WorkCommandEnum, Work> pair)
         {
+            dialog = null;
+
             WorkCommandEnum command = pair.Key;
             Work work = pair.Value;
 
+            if (command == WorkCommandEnum.None)
+                return;
             if (command == WorkCommandEnum.Add 
                 && work.StartDate.Date == Date.Date)
             {

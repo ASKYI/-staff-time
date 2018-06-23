@@ -11,7 +11,7 @@
     <Application.Resources>
         
         <!--Отображение диалога-->
-        <DataTemplate x:Key="DialogTemplate" DataType="{x:Type vm:TaskViewModel}">
+        <DataTemplate x:Key="DialogTemplate" DataType="{x:Type vm:TaskDialogViewModel}">
             <DataTemplate.Resources>
                 <!--Отображение узлов дерева-->
                 <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}" ItemsSource="{Binding TreeNodes}">

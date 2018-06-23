@@ -27,7 +27,7 @@ namespace Staff_time.ViewModel
             _editTaskCommand = new RelayCommand(EditTask, CanEditTask);
                 
 
-            IsShowed = false; //Dialog
+           /* IsShowed = false; */
 
             MessengerInstance.Register<List<int>>(this, _addRoots);
             MessengerInstance.Register<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
@@ -120,7 +120,7 @@ namespace Staff_time.ViewModel
 
         private bool CanAddWork(object obj)
         {
-            return SelectedTaskNode != null;
+            return SelectedTaskNode != null && dialog == null;
         }
         private void AddWork(object obj)
         {
@@ -149,7 +149,7 @@ namespace Staff_time.ViewModel
 
         private bool CanAddNearTask(object obj)
         {
-            return IsShowed == false;
+            return dialog == null;
         }
         private void AddNearTask(object obj)
         {
@@ -160,9 +160,8 @@ namespace Staff_time.ViewModel
                 newTask.ParentTaskID = SelectedTaskNode.Task.ParentTaskID;
             newTask.TaskName = "Новая задача";
 
-            DialogTitle = "Новая задача";
-            DialogDependency = new DialogDependency(newTask, TreeRoots, TaskCommandEnum.Add);
-            IsShowed = true;
+            dialog = new View.AddDialogWindow(new TaskDialogViewModel(newTask, TreeRoots, TaskCommandEnum.Add));
+            dialog.Show();
         }
         private readonly ICommand _addChildTaskCommand;
         public ICommand AddChildTaskCommand
@@ -175,7 +174,7 @@ namespace Staff_time.ViewModel
 
         private bool CanAddChildTask(object obj)
         {
-            return SelectedTaskNode != null && IsShowed == false;
+            return SelectedTaskNode != null && dialog == null;
         }
         private void AddChildTask(object obj)
         {
@@ -184,10 +183,9 @@ namespace Staff_time.ViewModel
             Task newTask = new Task();
             newTask.ParentTaskID = SelectedTaskNode.Task.ID;
             newTask.TaskName = "Новая подзадача";
-
-            DialogTitle = "Новая подзадача";
-            DialogDependency = new DialogDependency(newTask, TreeRoots, TaskCommandEnum.Add);
-            IsShowed = true;
+            
+            dialog = new View.AddDialogWindow(new TaskDialogViewModel(newTask, TreeRoots, TaskCommandEnum.Add));
+            dialog.Show();
         }
         #endregion
 
@@ -202,15 +200,14 @@ namespace Staff_time.ViewModel
 
         private bool CanEditTask(object obj)
         {
-            return SelectedTaskNode != null && IsShowed == false;
+            return SelectedTaskNode != null && dialog == null;
         }
         private void EditTask(object obj)
         {
             base.CancelEditing();
 
-            DialogTitle = "Редактировать задачу";
-            DialogDependency = new DialogDependency(SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit);
-            IsShowed = true;
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit));
+            dialog.Show();
         }
 
         #region Delete Task
@@ -225,7 +222,7 @@ namespace Staff_time.ViewModel
 
         private bool CanDelteTask(object obj)
         {
-            return SelectedTaskNode != null;
+            return SelectedTaskNode != null && dialog == null;
         }
         private void DeleteTask(object obj)
         {
@@ -256,44 +253,12 @@ namespace Staff_time.ViewModel
         }
         #endregion
 
-        #region Dialog
-        //https://www.codeproject.com/Articles/35553/XAML-Dialog-Control-Enabling-MVVM-and-Dialogs-in-W
-
-        private Boolean _isShowed;
-        public Boolean IsShowed
-        {
-            get { return _isShowed; }
-            set
-            {
-                SetField(ref _isShowed, value);
-            }
-        }
-
-        private string _dialogTitle;
-        public string DialogTitle
-        {
-            get { return _dialogTitle; }
-            set
-            {
-                SetField(ref _dialogTitle, value);
-            }
-        }
-
-        private DialogDependency _dialogDependency;
-        public DialogDependency DialogDependency
-        {
-            get { return _dialogDependency; }
-            set
-            {
-                SetField(ref _dialogDependency, value);
-            }
-        }
-        #endregion
-
         #region Do Task: Add, Edit
 
         private void _doTaskCommand(KeyValuePair<TaskCommandEnum, Task> pair)
         {
+            dialog = null;
+
             TaskCommandEnum command = pair.Key;
             Task task = pair.Value;
 
@@ -320,9 +285,6 @@ namespace Staff_time.ViewModel
 
                     break;
             }
-
-            _dialogDependency.DialogViewModel = null;
-            IsShowed = false;
         }
 
         #endregion
