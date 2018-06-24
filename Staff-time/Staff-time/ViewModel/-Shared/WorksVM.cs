@@ -18,7 +18,7 @@ namespace Staff_time.ViewModel
     {
         //Так как с работами удобнее работать как с WorkVM (дополнительные поля, доступные из WorkBlockControlVM), 
         //они хранятся в виде WorkVM
-        public static Dictionary<int, WorkControlViewModelBase> Dictionary { get; set; }
+        public static SortedDictionary<int, WorkControlViewModelBase> Dictionary { get; set; }
 
         public static bool init_tracker = false;
         public static void Init()
@@ -27,7 +27,7 @@ namespace Staff_time.ViewModel
                 return;
             init_tracker = true;
 
-            Dictionary = new Dictionary<int, WorkControlViewModelBase>();
+            Dictionary = new SortedDictionary<int, WorkControlViewModelBase>();
 
             List<Work> worksDB = Context.workWork.Read_AllWorks();
             foreach(Work work in worksDB)

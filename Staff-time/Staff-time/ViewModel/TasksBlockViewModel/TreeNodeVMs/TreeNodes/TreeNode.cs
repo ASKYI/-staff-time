@@ -39,14 +39,20 @@ namespace Staff_time.ViewModel
         public List<string> FullPath { get; set; }
 
         #region Nodes
+
         public TreeNode ParentNode { get; set; }
+
         public ObservableCollection<TreeNode> TreeNodes { get; set; }
+
         public void AddChild(TreeNode treeNode)
         {
             TreeNodes.Add(treeNode);
             TreeNodes = new ObservableCollection<TreeNode>(TreeNodes.OrderBy(t => t.Task.ID)); //Можно переписать на вставку по индексу
         }
+
         #endregion
+
+        #region View Properties
 
         private Boolean _isSelected;
         public Boolean IsSelected
@@ -54,6 +60,7 @@ namespace Staff_time.ViewModel
             get { return _isSelected; }
             set
             {
+                //SetField(ref _isSelected, value); - Не работает
                 _isSelected = value;
                 NotifyPropertyChanged("IsSelected");
             }
@@ -65,9 +72,12 @@ namespace Staff_time.ViewModel
             get { return _isSelected; }
             set
             {
-                SetField(ref _isExpanded, value);
+                _isExpanded = value;
+                NotifyPropertyChanged("IsExpanded");
             }
         }
+
+        #endregion
 
         #region INotifyPropertyChanged
 

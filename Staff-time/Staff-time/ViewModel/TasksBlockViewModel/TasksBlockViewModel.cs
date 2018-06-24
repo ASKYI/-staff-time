@@ -260,9 +260,7 @@ namespace Staff_time.ViewModel
             TasksVM.DeleteAlone(delTaskID);
 
             if (TasksVM.Dictionary.ContainsKey(delTaskID + 1))
-            {
                 ChangeSelection(TasksVM.Dictionary[delTaskID + 1]);
-            }
             else
                 ChangeSelection(TasksVM.Dictionary.FirstOrDefault().Value);
         }
