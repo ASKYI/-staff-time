@@ -288,6 +288,8 @@ namespace Staff_time.ViewModel
                     }
 
                     ChangeSelection(newNode);
+                    if (newNode.ParentNode != null)
+                        newNode.ParentNode.IsExpanded = true;
 
                     break;
                 case TaskCommandEnum.Edit:

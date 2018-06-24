@@ -65,6 +65,13 @@
                             <DataTrigger Binding="{Binding IsSelected}" Value="False">
                                 <Setter Property="IsSelected" Value="False"></Setter>
                             </DataTrigger>
+
+                            <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                                <Setter Property="IsExpanded" Value="True"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsExpanded}" Value="False">
+                                <Setter Property="IsExpanded" Value="False"></Setter>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </local:ExtendedTreeView.Resources>

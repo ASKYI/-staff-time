@@ -14,6 +14,8 @@ namespace Staff_time.ViewModel
         public TreeNode()
         {
             TreeNodes = new ObservableCollection<TreeNode>();
+
+            IsExpanded = true;
         }
         public TreeNode(Task task) : this()
         {
@@ -72,6 +74,7 @@ namespace Staff_time.ViewModel
             get { return _isSelected; }
             set
             {
+                //SetField(ref _isExpanded, value);
                 _isExpanded = value;
                 NotifyPropertyChanged("IsExpanded");
             }
