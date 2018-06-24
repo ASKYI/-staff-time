@@ -19,7 +19,7 @@ namespace Staff_time.ViewModel
     {
         //Так как с задачами удобнее работать как с узлами дерева (имея доступ ко всем наследникам и предку), 
         //они хранятся в виде узлов
-        public static Dictionary<int, TreeNode> Dictionary { get; set; }
+        public static SortedDictionary<int, TreeNode> Dictionary { get; set; }
 
         public static bool Init_tracker = false;
         public static void Init()
@@ -28,7 +28,7 @@ namespace Staff_time.ViewModel
                 return;
             Init_tracker = true;
 
-            Dictionary = new Dictionary<int, TreeNode>();
+            Dictionary = new SortedDictionary<int, TreeNode>();
 
             //В Tasks ссылка на родителя может содержать идентификатор на задачу, 
             //которая еще не встречалась в таблице при последовательном чтении.
@@ -147,7 +147,7 @@ namespace Staff_time.ViewModel
                 Dictionary[oldParentID].TreeNodes.Remove(node);
             }
             if (parentNode != null)
-                parentNode.TreeNodes.Add(editNode);
+                parentNode.AddChild(editNode);
 
             Dictionary.Remove(task.ID);
             Dictionary.Add(task.ID, editNode);

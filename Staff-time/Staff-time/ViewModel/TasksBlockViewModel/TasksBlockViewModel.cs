@@ -258,6 +258,13 @@ namespace Staff_time.ViewModel
                 TreeRoots.Remove(SelectedTaskNode);
 
             TasksVM.DeleteAlone(delTaskID);
+
+            if (TasksVM.Dictionary.ContainsKey(delTaskID + 1))
+            {
+                ChangeSelection(TasksVM.Dictionary[delTaskID + 1]);
+            }
+            else
+                ChangeSelection(TasksVM.Dictionary.FirstOrDefault().Value);
         }
         #endregion
 
@@ -277,7 +284,10 @@ namespace Staff_time.ViewModel
                     TreeNode newNode = TasksVM.Dictionary[task.ID];
 
                     if (newNode.ParentNode == null)
+                    {
                         TreeRoots.Add(newNode);
+                        TreeRoots = new ObservableCollection<TreeNode>(TreeRoots.OrderBy(t => t.Task.ID));//Можно переписать на вставку по индексу
+                    }
 
                     ChangeSelection(newNode);
 
@@ -291,7 +301,10 @@ namespace Staff_time.ViewModel
                     newNode = TasksVM.Dictionary[task.ID];
 
                     if (newNode.ParentNode == null)
+                    {
                         TreeRoots.Add(newNode);
+                        TreeRoots = new ObservableCollection<TreeNode>(TreeRoots.OrderBy(t => t.Task.ID));
+                    }
 
                     break;
             }
