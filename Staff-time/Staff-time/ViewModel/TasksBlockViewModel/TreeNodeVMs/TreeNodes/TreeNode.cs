@@ -15,7 +15,7 @@ namespace Staff_time.ViewModel
         {
             TreeNodes = new ObservableCollection<TreeNode>();
 
-            IsExpanded = true;
+            IsExpanded = false;
         }
         public TreeNode(Task task) : this()
         {

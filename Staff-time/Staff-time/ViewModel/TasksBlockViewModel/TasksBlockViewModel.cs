@@ -25,6 +25,8 @@ namespace Staff_time.ViewModel
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
             _editTaskCommand = new RelayCommand(EditTask, CanEditTask);
+            _collapseAllCommand = new RelayCommand(CollapseAll, CanCollapseAll);
+            _expandAllCommand = new RelayCommand(ExpandAll, CanExpandAll);
 
             MessengerInstance.Register<List<int>>(this, _addRoots);
             MessengerInstance.Register<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
@@ -197,6 +199,8 @@ namespace Staff_time.ViewModel
         }
         #endregion
 
+        #region Edit Task
+
         private readonly ICommand _editTaskCommand;
         public ICommand EditTaskCommand
         {
@@ -218,7 +222,10 @@ namespace Staff_time.ViewModel
             dialog.Show();
         }
 
+        #endregion
+
         #region Delete Task
+
         private readonly ICommand _deleteTaskCommand;
         public ICommand DeleteTaskCommand
         {
@@ -264,6 +271,57 @@ namespace Staff_time.ViewModel
             else
                 ChangeSelection(TasksVM.Dictionary.FirstOrDefault().Value);
         }
+
+        #endregion
+
+        #region Expand Collapse
+
+        private readonly ICommand _collapseAllCommand;
+        public ICommand CollapseAllCommand
+        {
+            get
+            {
+                return _collapseAllCommand;
+            }
+        }
+
+        private bool CanCollapseAll(object obj)
+        {
+            return dialog == null;
+        }
+        private void CollapseAll(object obj)
+        {
+            base.CancelEditing();
+
+            foreach(var t in TasksVM.Dictionary)
+            {
+                t.Value.IsExpanded = false;
+            }
+        }
+
+        private readonly ICommand _expandAllCommand;
+        public ICommand ExpandAllCommand
+        {
+            get
+            {
+                return _expandAllCommand;
+            }
+        }
+
+        private bool CanExpandAll(object obj)
+        {
+            return dialog == null;
+        }
+        private void ExpandAll(object obj)
+        {
+            base.CancelEditing();
+
+            foreach (var t in TasksVM.Dictionary)
+            {
+                t.Value.IsExpanded = true;
+            }
+        }
+
         #endregion
 
         #region Do Task: Add, Edit

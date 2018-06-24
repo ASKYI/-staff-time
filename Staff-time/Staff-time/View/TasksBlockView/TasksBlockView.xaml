@@ -48,14 +48,14 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2.5*"></RowDefinition>
-            <RowDefinition Height="0.75*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
         <!--Дерево-->
         <Border  Grid.Row="0" Margin="3" BorderBrush="Gray" BorderThickness="2">
             <local:ExtendedTreeView SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" Grid.Row="0" 
-                                    ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
+                                    ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"
+                                    TreeViewItem.Expanded="ExtendedTreeView_Expanded">
                 <local:ExtendedTreeView.Resources>
                     <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
                         <Setter Property="IsSelected" Value="{Binding IsSelected}"></Setter>
@@ -88,6 +88,12 @@
                 <StackPanel Orientation="Horizontal">
                     <Button FontSize="10" Command="{Binding EditTaskCommand}" Content="Реадктировать задачу" Background="White"></Button>
                     <Button FontSize="10" Command="{Binding DeleteTaskCommand}" Content="Удалить задачу" Background="White"></Button>
+                </StackPanel>
+
+
+                <StackPanel Orientation="Horizontal">
+                    <Button FontSize="10" Command="{Binding CollapseAllCommand}" Content="Свернуть всё" Background="White"></Button>
+                    <Button FontSize="10" Command="{Binding ExpandAllCommand}" Content="Развернуть всё" Background="White"></Button>
                 </StackPanel>
             </StackPanel>
         </Border>
