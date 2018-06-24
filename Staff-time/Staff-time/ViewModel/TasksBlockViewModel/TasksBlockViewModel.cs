@@ -25,9 +25,6 @@ namespace Staff_time.ViewModel
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
             _editTaskCommand = new RelayCommand(EditTask, CanEditTask);
-                
-
-           /* IsShowed = false; */
 
             MessengerInstance.Register<List<int>>(this, _addRoots);
             MessengerInstance.Register<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
@@ -65,6 +62,17 @@ namespace Staff_time.ViewModel
             {
                 SetField<TreeNode>(ref _selectedTaskNode, value);
             }
+        }
+
+        public void ChangeSelection(TreeNode value) //Нельзя в сетер - будет переполнение стека
+        {
+            if (_selectedTaskNode != null)
+                _selectedTaskNode.IsSelected = false;
+
+            SetField<TreeNode>(ref _selectedTaskNode, value);
+
+            if (_selectedTaskNode != null)
+                _selectedTaskNode.IsSelected = true;
         }
 
         private void _addRoots(List<int> ids)
@@ -270,6 +278,8 @@ namespace Staff_time.ViewModel
 
                     if (newNode.ParentNode == null)
                         TreeRoots.Add(newNode);
+
+                    ChangeSelection(newNode);
 
                     break;
                 case TaskCommandEnum.Edit:

@@ -5,10 +5,11 @@ using System.Text;
 
 using Staff_time.Model;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Staff_time.ViewModel
 {
-    public class TreeNode : MainViewModel
+    public class TreeNode : MainViewModel, INotifyPropertyChanged
     {
         public TreeNode()
         {
@@ -46,5 +47,36 @@ namespace Staff_time.ViewModel
         }
         #endregion
 
+        private Boolean _isSelected;
+        public Boolean IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                NotifyPropertyChanged("IsSelected");
+            }
+        }
+
+        private Boolean _isExpanded;
+        public Boolean IsExpanded
+        {
+            get { return _isSelected; }
+            set
+            {
+                SetField(ref _isExpanded, value);
+            }
+        }
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(String aPropertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(aPropertyName));
+        }
+
+        #endregion
     }
 }

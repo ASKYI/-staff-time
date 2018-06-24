@@ -22,7 +22,12 @@ namespace Staff_time.View
 
     public partial class ExtendedTreeView : System.Windows.Controls.TreeView, INotifyPropertyChanged
     {
-        public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register("SelectedItem", typeof(Object), typeof(ExtendedTreeView), new PropertyMetadata(null));
+        public ExtendedTreeView()
+            : base()
+        {
+            base.SelectedItemChanged += new RoutedPropertyChangedEventHandler<Object>(ExtendedTreeView_SelectedItemChanged);
+        }
+
         public new Object SelectedItem
         {
             get { return (Object)GetValue(SelectedItemProperty); }
@@ -33,11 +38,7 @@ namespace Staff_time.View
             }
         }
 
-        public ExtendedTreeView()
-            : base()
-        {
-            base.SelectedItemChanged += new RoutedPropertyChangedEventHandler<Object>(ExtendedTreeView_SelectedItemChanged);
-        }
+        public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register("SelectedItem", typeof(Object), typeof(ExtendedTreeView), new PropertyMetadata(null));
 
         private void ExtendedTreeView_SelectedItemChanged(Object sender, RoutedPropertyChangedEventArgs<Object> e)
         {
@@ -45,12 +46,14 @@ namespace Staff_time.View
         }
 
         #region INotifyPropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String aPropertyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(aPropertyName));
         }
+
         #endregion
     }
 }
