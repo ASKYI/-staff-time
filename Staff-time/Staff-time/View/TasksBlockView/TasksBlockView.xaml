@@ -58,21 +58,8 @@
                                     ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
                 <local:ExtendedTreeView.Resources>
                     <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                <Setter Property="IsSelected" Value="True"></Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsSelected}" Value="False">
-                                <Setter Property="IsSelected" Value="False"></Setter>
-                            </DataTrigger>
-
-                            <DataTrigger Binding="{Binding IsExpanded}" Value="True">
-                                <Setter Property="IsExpanded" Value="True"></Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsExpanded}" Value="False">
-                                <Setter Property="IsExpanded" Value="False"></Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
+                        <Setter Property="IsSelected" Value="{Binding IsSelected}"></Setter>
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded}"></Setter>
                     </Style>
                 </local:ExtendedTreeView.Resources>
             </local:ExtendedTreeView>

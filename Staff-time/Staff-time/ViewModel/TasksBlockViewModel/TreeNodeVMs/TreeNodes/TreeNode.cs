@@ -71,12 +71,14 @@ namespace Staff_time.ViewModel
         private Boolean _isExpanded;
         public Boolean IsExpanded
         {
-            get { return _isSelected; }
+            get { return _isExpanded; }
             set
             {
-                //SetField(ref _isExpanded, value);
-                _isExpanded = value;
-                NotifyPropertyChanged("IsExpanded");
+                if (_isExpanded != value)
+                {
+                    _isExpanded = value;
+                    NotifyPropertyChanged("IsExpanded");
+                }
             }
         }
 
