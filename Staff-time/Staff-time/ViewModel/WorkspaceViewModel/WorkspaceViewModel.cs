@@ -72,7 +72,9 @@ namespace Staff_time.ViewModel
         {
             WeekTabs = new ObservableCollection<TabItem>();
 
-            int dayOfWeek = (int)date.DayOfWeek - 1; //День недели с понедельника
+            int dayOfWeek = (int)date.DayOfWeek - 1 ; //День недели с понедельника
+            if (dayOfWeek == -1)
+                dayOfWeek = 6;
             DateTime startDay = date.AddDays(-dayOfWeek);
 
             for (int i = 0; i < 7; ++i)

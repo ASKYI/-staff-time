@@ -52,6 +52,12 @@ namespace Staff_time.ViewModel
             }
         }
 
+        public void AddWork(WorkInTab work)
+        {
+            WorksInTab.Add(work);
+            WorksInTab = new ObservableCollection<WorkInTab>(WorksInTab.OrderBy(w => w.WorkBlockContext.Work.ID));
+        }
+
         public void Generate_WorksForDate()
         {
             SumTime = 0;
@@ -83,8 +89,8 @@ namespace Staff_time.ViewModel
             {
                 WorksVM.Add(work);
                 Work newWork = WorksVM.Dictionary[work.ID].Work;
-
-                WorksInTab.Add(new WorkInTab(newWork.ID));
+                
+                AddWork(new WorkInTab(newWork.ID));
 
                 SumTime += newWork.Minutes;
                 MessengerInstance.Send<long>(SumTime);
@@ -124,7 +130,7 @@ namespace Staff_time.ViewModel
 
                     if (work.StartDate.Date == Date.Date)
                     {
-                        WorksInTab.Add(new WorkInTab(newWork.ID));
+                        AddWork(new WorkInTab(newWork.ID));
                         SumTime += newWork.Minutes;
                     }
 
