@@ -30,7 +30,7 @@ namespace Staff_time.View
 
         private void ExtendedTreeView_Expanded(object sender, RoutedEventArgs e)
         {
-            //
+            sender.GetType();
         }
     }
 }

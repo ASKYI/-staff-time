@@ -90,10 +90,14 @@
                     <Button FontSize="10" Command="{Binding DeleteTaskCommand}" Content="Удалить задачу" Background="White"></Button>
                 </StackPanel>
 
-
                 <StackPanel Orientation="Horizontal">
                     <Button FontSize="10" Command="{Binding CollapseAllCommand}" Content="Свернуть всё" Background="White"></Button>
                     <Button FontSize="10" Command="{Binding ExpandAllCommand}" Content="Развернуть всё" Background="White"></Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button FontSize="10" Command="{Binding MoveUpCommand}" Content="Переместить вверх" Background="White"></Button>
+                    <Button FontSize="10" Command="{Binding MoveDownCommand}" Content="Переместить вниз" Background="White"></Button>
                 </StackPanel>
             </StackPanel>
         </Border>

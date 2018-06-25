@@ -34,9 +34,7 @@ namespace Staff_time.ViewModel
 
             EditingTask = task;
             SelectedTaskTypeIndex = task.TaskTypeID;
-            if (task.ParentTaskID != null)
-                ChangeSelection(TasksVM.Dictionary[(int)task.ParentTaskID]);
-
+            
             AcceptCommand = new RelayCommand(Accept, CanAccept);
             CancelCommand = new RelayCommand(Cancel, CanCancel);
         }
@@ -93,25 +91,18 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField<TreeNode>(ref _selectedTaskNode, value);
-                if (_selectedTaskNode != null)
-                {
-                    if (TreeRoots != null && _selectedTaskNode == TreeRoots[0])
-                        EditingTask.ParentTaskID = null;
-                    else
-                        EditingTask.ParentTaskID = _selectedTaskNode.Task.ID;
-                }
+                if (value.Task.ID == 0)
+                    _editingTask.ParentTaskID = null;
+                else
+                    _editingTask.ParentTaskID = value.Task.ID;
+                //if (_selectedTaskNode != null)
+                //{
+                //    //if (TreeRoots != null && _selectedTaskNode == TreeRoots[0])
+                //    //    EditingTask.ParentTaskID = null;
+                //    //else
+                //    //    EditingTask.ParentTaskID = _selectedTaskNode.Task.ID;
+                //}
             }
-        }
-
-        public void ChangeSelection(TreeNode value) //Нельзя в сетер - будет переполнение стека
-        {
-            if (_selectedTaskNode != null)
-                _selectedTaskNode.IsSelected = false;
-
-            SetField<TreeNode>(ref _selectedTaskNode, value);
-
-            if (_selectedTaskNode != null)
-                _selectedTaskNode.IsSelected = true;
         }
 
         #endregion
@@ -163,13 +154,15 @@ namespace Staff_time.ViewModel
         public void Accept(object obj)
         {
             if (_command == TaskCommandEnum.Edit)
-                if (_editingTask.ID == _editingTask.ParentTaskID || TasksVM.CheckIsChild(_editingTask.ID, _editingTask.ParentTaskID)) 
+                if (_editingTask.ID == _editingTask.ParentTaskID || TasksVM.CheckIsChild(_editingTask.ID, _editingTask.ParentTaskID))
                 {
                     MessageBox.Show("Нельзя назначить новым родителем потомка или самого себя");
                     MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
                         new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
                     return;
                 }
+                else
+                    _editingTask.ParentTaskID = _task.ParentTaskID;
 
             _task = _editingTask;
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
