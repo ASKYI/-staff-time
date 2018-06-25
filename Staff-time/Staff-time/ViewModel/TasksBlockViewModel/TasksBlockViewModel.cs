@@ -338,6 +338,8 @@ namespace Staff_time.ViewModel
 
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index].Task));
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index - 1].Task));
+
+                parentNode.TreeNodes.Move(index, index - 1);
             }
             else
             {
@@ -347,6 +349,8 @@ namespace Staff_time.ViewModel
 
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, TreeRoots[index].Task));
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, TreeRoots[index - 1].Task));
+
+                TreeRoots.Move(index, index - 1);
             }
         }
 
