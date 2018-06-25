@@ -28,6 +28,7 @@ namespace Staff_time.ViewModel
             _collapseAllCommand = new RelayCommand(CollapseAll, CanCollapseAll);
             _expandAllCommand = new RelayCommand(ExpandAll, CanExpandAll);
             _moveUpCommand = new RelayCommand(MoveUp, CanMoveUp);
+            _moveDownCommand = new RelayCommand(MoveDown, CanMoveDown);
             
             MessengerInstance.Register<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
         }
@@ -351,6 +352,66 @@ namespace Staff_time.ViewModel
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, TreeRoots[index - 1].Task));
 
                 TreeRoots.Move(index, index - 1);
+            }
+        }
+
+        private readonly ICommand _moveDownCommand;
+        public ICommand MoveDownCommand
+        {
+            get
+            {
+                return _moveDownCommand;
+            }
+        }
+
+        private bool CanMoveDown(object obj)
+        {
+            if (SelectedTaskNode == null || dialog != null)
+                return false;
+
+            if (SelectedTaskNode.ParentNode != null)
+            {
+                TreeNode parentNode = SelectedTaskNode.ParentNode;
+                int index = parentNode.TreeNodes.IndexOf(SelectedTaskNode);
+                if (index + 1 < parentNode.TreeNodes.Count)
+                    return true;
+            }
+            else
+            {
+                int index = TreeRoots.IndexOf(SelectedTaskNode);
+                if (index + 1 < TreeRoots.Count)
+                    return true;
+            }
+            return false;
+        }
+        private void MoveDown(object obj)
+        {
+            base.CancelEditing();
+
+            int curI = (int)SelectedTaskNode.Task.IndexNumber;
+
+            if (SelectedTaskNode.ParentNode != null)
+            {
+                TreeNode parentNode = SelectedTaskNode.ParentNode;
+                int index = parentNode.TreeNodes.IndexOf(SelectedTaskNode);
+                parentNode.TreeNodes[index].Task.IndexNumber = parentNode.TreeNodes[index + 1].Task.IndexNumber;
+                parentNode.TreeNodes[index + 1].Task.IndexNumber = curI;
+
+                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index].Task));
+                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index + 1].Task));
+
+                parentNode.TreeNodes.Move(index, index + 1);
+            }
+            else
+            {
+                int index = TreeRoots.IndexOf(SelectedTaskNode);
+                TreeRoots[index].Task.IndexNumber = TreeRoots[index + 1].Task.IndexNumber;
+                TreeRoots[index + 1].Task.IndexNumber = curI;
+
+                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, TreeRoots[index].Task));
+                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, TreeRoots[index + 1].Task));
+
+                TreeRoots.Move(index, index + 1);
             }
         }
 
