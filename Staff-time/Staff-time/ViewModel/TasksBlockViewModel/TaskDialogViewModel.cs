@@ -26,12 +26,7 @@ namespace Staff_time.ViewModel
 
             if (command == TaskCommandEnum.Edit)
             {
-                TreeRoots = new ObservableCollection<TreeNode>();
-                TreeRoots.Add(new TreeNode() { Task = new Task() { TaskName = "Задачи" } });
-                
-                foreach (var r in roots)
-                    TreeRoots[0].AddChild(r);
-
+                _generate_Tree(roots);
                 Message = "Выбрать задачу-родителя";
             }
             _command = command;
@@ -40,7 +35,7 @@ namespace Staff_time.ViewModel
             EditingTask = task;
             SelectedTaskTypeIndex = task.TaskTypeID;
             if (task.ParentTaskID != null)
-                SelectedTaskNode = TasksVM.Dictionary[(int)task.ParentTaskID];
+                ChangeSelection(TasksVM.Dictionary[(int)task.ParentTaskID]);
 
             AcceptCommand = new RelayCommand(Accept, CanAccept);
             CancelCommand = new RelayCommand(Cancel, CanCancel);
@@ -82,6 +77,15 @@ namespace Staff_time.ViewModel
             }
         }
 
+        private void _generate_Tree(ObservableCollection<TreeNode> roots)
+        {
+            TreeRoots = new ObservableCollection<TreeNode>();
+            TreeRoots.Add(new TreeNode() { Task = new Task() { TaskName = "Задачи" } });
+
+            foreach (var r in roots)
+                TreeRoots[0].AddChild(r);
+        }
+
         private TreeNode _selectedTaskNode;
         public TreeNode SelectedTaskNode
         {
@@ -97,6 +101,17 @@ namespace Staff_time.ViewModel
                         EditingTask.ParentTaskID = _selectedTaskNode.Task.ID;
                 }
             }
+        }
+
+        public void ChangeSelection(TreeNode value) //Нельзя в сетер - будет переполнение стека
+        {
+            if (_selectedTaskNode != null)
+                _selectedTaskNode.IsSelected = false;
+
+            SetField<TreeNode>(ref _selectedTaskNode, value);
+
+            if (_selectedTaskNode != null)
+                _selectedTaskNode.IsSelected = true;
         }
 
         #endregion

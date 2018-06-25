@@ -20,7 +20,8 @@ namespace Staff_time.View
     /// </summary>
     public partial class TasksBlockView : UserControl
     {
-        ViewModel.TasksBlockViewModel context = new ViewModel.TasksBlockViewModel();
+        ViewModel.TasksBlockViewModel context = 
+            new ViewModel.TasksBlockViewModel();
         public TasksBlockView()
         {
             InitializeComponent();

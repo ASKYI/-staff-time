@@ -22,9 +22,12 @@ namespace Staff_time.ViewModel
             WorkVM = work;
             _generate_Tree();
             Message = "Выбор задачи";
+            ChangeSelection(TasksVM.Dictionary[work.Work.TaskID]);
 
             AcceptCommand = new RelayCommand(Accept, CanAccept);
             CancelCommand = new RelayCommand(Cancel, CanCancel);
+
+            WorkVM.IsEdititig = false;
         }
 
         private WorkControlViewModelBase _workVM;
@@ -57,6 +60,17 @@ namespace Staff_time.ViewModel
             {
                 SetField<TreeNode>(ref _selectedTaskNode, value);
             }
+        }
+
+        public void ChangeSelection(TreeNode value) //Нельзя в сетер - будет переполнение стека
+        {
+            if (_selectedTaskNode != null)
+                _selectedTaskNode.IsSelected = false;
+
+            SetField<TreeNode>(ref _selectedTaskNode, value);
+
+            if (_selectedTaskNode != null)
+                _selectedTaskNode.IsSelected = true;
         }
 
         private void _generate_Tree()

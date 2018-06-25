@@ -266,10 +266,7 @@ namespace Staff_time.ViewModel
         {
             base.CancelEditing();
 
-            foreach(var t in TasksVM.Dictionary)
-            {
-                t.Value.IsExpanded = false;
-            }
+            TasksVM.CollapseAll();
         }
 
         private readonly ICommand _expandAllCommand;
@@ -289,10 +286,7 @@ namespace Staff_time.ViewModel
         {
             base.CancelEditing();
 
-            foreach (var t in TasksVM.Dictionary)
-            {
-                t.Value.IsExpanded = true;
-            }
+            TasksVM.ExpandAll();
         }
 
         #endregion

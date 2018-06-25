@@ -154,6 +154,22 @@ namespace Staff_time.ViewModel
             Dictionary.Remove(taskID);
         }
 
+        public static void CollapseAll()
+        {
+            foreach (var t in TasksVM.Dictionary)
+            {
+                t.Value.IsExpanded = false;
+            }
+        }
+
+        public static void ExpandAll()
+        {
+            foreach (var t in TasksVM.Dictionary)
+            {
+                t.Value.IsExpanded = true;
+            }
+        }
+
         #region Other Methods
 
         public static ObservableCollection<TreeNode> Convert_TasksIntoNodes(List<int> t)

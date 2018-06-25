@@ -100,7 +100,7 @@
                                     ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
                     <local:ExtendedTreeView.Resources>
                         <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
-                            <Setter Property="IsSelected" Value="False"></Setter>
+                            <Setter Property="IsSelected" Value="{Binding IsSelected}"></Setter>
                             <Setter Property="IsExpanded" Value="True"></Setter>
                         </Style>
                     </local:ExtendedTreeView.Resources>
