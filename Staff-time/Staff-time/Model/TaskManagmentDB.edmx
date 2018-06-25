@@ -67,6 +67,7 @@
           <Property Name="ParentTaskID" Type="int" />
           <Property Name="WorkTypeID" Type="int" Nullable="false" />
           <Property Name="Descriptions" Type="varchar(max)" />
+          <Property Name="IndexNumber" Type="int" />
         </EntityType>
         <EntityType Name="TaskTypeProps">
           <Key>
@@ -455,6 +456,7 @@
           <Property Name="ParentTaskID" Type="Int32" />
           <Property Name="WorkTypeID" Type="Int32" Nullable="false" />
           <Property Name="Descriptions" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IndexNumber" Type="Int32" />
           <NavigationProperty Name="PropValues" Relationship="Self.FK_PropValues_Tasks" FromRole="Tasks" ToRole="PropValues" />
           <NavigationProperty Name="Tasks1" Relationship="Self.FK_Tasks_Tasks" FromRole="Tasks" ToRole="Tasks1" />
           <NavigationProperty Name="Task1" Relationship="Self.FK_Tasks_Tasks" FromRole="Tasks1" ToRole="Tasks" />
@@ -862,6 +864,7 @@
                 <ScalarProperty Name="ParentTaskID" ColumnName="ParentTaskID" />
                 <ScalarProperty Name="WorkTypeID" ColumnName="WorkTypeID" />
                 <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+                <ScalarProperty Name="IndexNumber" ColumnName="IndexNumber" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -30,9 +30,10 @@ namespace Staff_time.Model
         public List<Task> Read_AllTasks() 
         {
             List<Task> tasks = new List<Task>();
+            List<Task> tasksDB = new List<Task>(Tasks.OrderBy(t => t.IndexNumber));
 
             TaskFactory taskFactory = new TaskFactory();
-            foreach (Task t in Tasks)
+            foreach (Task t in tasksDB)
             {
                 tasks.Add(taskFactory.CreateTask(t));
             }

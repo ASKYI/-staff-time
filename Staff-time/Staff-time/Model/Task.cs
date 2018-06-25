@@ -29,6 +29,7 @@ namespace Staff_time.Model
         public Nullable<int> ParentTaskID { get; set; }
         public int WorkTypeID { get; set; }
         public string Descriptions { get; set; }
+        public Nullable<int> IndexNumber { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PropValue> PropValues { get; set; }

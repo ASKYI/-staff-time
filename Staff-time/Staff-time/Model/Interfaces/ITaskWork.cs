@@ -13,7 +13,7 @@ namespace Staff_time.Model.Interfaces
         //Добавить задачу в избранное
         void Create_TaskToFave(int taskID, int curUserID);
 
-        //Возвращает список правильно созданных (верный тип) задач
+        //Возвращает список правильно созданных (верный тип) задач в правильном порядке
         List<Task> Read_AllTasks();
 
         //Возвращает список ID корневых задач

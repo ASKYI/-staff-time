@@ -49,7 +49,6 @@ namespace Staff_time.ViewModel
         public void AddChild(TreeNode treeNode)
         {
             TreeNodes.Add(treeNode);
-            TreeNodes = new ObservableCollection<TreeNode>(TreeNodes.OrderBy(t => t.Task.ID)); //Можно переписать на вставку по индексу
         }
 
         #endregion

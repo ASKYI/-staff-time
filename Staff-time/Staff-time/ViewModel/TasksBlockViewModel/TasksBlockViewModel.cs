@@ -27,8 +27,7 @@ namespace Staff_time.ViewModel
             _editTaskCommand = new RelayCommand(EditTask, CanEditTask);
             _collapseAllCommand = new RelayCommand(CollapseAll, CanCollapseAll);
             _expandAllCommand = new RelayCommand(ExpandAll, CanExpandAll);
-
-            MessengerInstance.Register<List<int>>(this, _addRoots);
+            
             MessengerInstance.Register<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
         }
         
@@ -39,9 +38,22 @@ namespace Staff_time.ViewModel
         {
             get { return _treeRoots; }
             set
-            {
+            { //Как бы заблокировать возможность добавления/удаления узлов
                 SetField(ref _treeRoots, value);
             }
+        }
+
+        public void AddRootNode(TreeNode node)
+        {
+            TreeRoots.Add(node);
+        }
+        public void DeleteRootNode(TreeNode node)
+        {
+            TreeRoots.Remove(node);
+        }
+        public void UpdateRootNode(int oldNodeIndex, TreeNode newNode)
+        {
+            TreeRoots[oldNodeIndex] = newNode;
         }
 
         private void _generate_Tree()
@@ -75,45 +87,6 @@ namespace Staff_time.ViewModel
 
             if (_selectedTaskNode != null)
                 _selectedTaskNode.IsSelected = true;
-        }
-
-        private void _addRoots(List<int> ids)
-        {
-            foreach(int id in ids)
-            {
-                TreeRoots.Add(TasksVM.Dictionary[id]);
-            }
-        }
-
-        private void _addNewNode(Task task)
-        {
-            TreeNodeFactory factory = new TreeNodeFactory();
-
-            TreeNode node = factory.CreateTreeNode(task);
-            TasksVM.Dictionary.Add(task.ID, node);
-            if (task.ParentTaskID == null || task.ParentTaskID == 0)
-            {
-                TreeRoots.Add(node);
-            }
-            else
-            {
-                TasksVM.Dictionary[(int)task.ParentTaskID].AddChild(node);
-                node.ParentNode = TasksVM.Dictionary[(int)task.ParentTaskID];
-            }
-
-            List<int> childTasks = Context.taskWork.Read_ChildTasks(task.ID);
-            foreach(var t in childTasks)
-            {
-                TreeNode childNode = TasksVM.Dictionary[t];
-
-                if (childNode.ParentNode != null)
-                    childNode.ParentNode.TreeNodes.Remove(TasksVM.Dictionary[t]);
-                else
-                    TreeRoots.Remove(TasksVM.Dictionary[t]);
-
-                node.AddChild(childNode);
-                childNode.ParentNode = node;
-            }
         }
       
         #endregion
@@ -340,10 +313,7 @@ namespace Staff_time.ViewModel
                     TreeNode newNode = TasksVM.Dictionary[task.ID];
 
                     if (newNode.ParentNode == null)
-                    {
-                        TreeRoots.Add(newNode);
-                        TreeRoots = new ObservableCollection<TreeNode>(TreeRoots.OrderBy(t => t.Task.ID));//Можно переписать на вставку по индексу
-                    }
+                        AddRootNode(newNode);
 
                     ChangeSelection(newNode);
                     if (newNode.ParentNode != null)
@@ -351,18 +321,21 @@ namespace Staff_time.ViewModel
 
                     break;
                 case TaskCommandEnum.Edit:
+                    TreeNode oldNode = TasksVM.Dictionary[task.ID];
+                    int index = -1;
 
-                    if (TasksVM.Dictionary[task.ID].ParentNode == null)
-                        TreeRoots.Remove(TasksVM.Dictionary[task.ID]);
+                    if (oldNode.ParentNode == null)
+                        index = TreeRoots.IndexOf(oldNode);
 
                     TasksVM.Edit(task);
                     newNode = TasksVM.Dictionary[task.ID];
 
-                    if (newNode.ParentNode == null)
-                    {
-                        TreeRoots.Add(newNode);
-                        TreeRoots = new ObservableCollection<TreeNode>(TreeRoots.OrderBy(t => t.Task.ID));
-                    }
+                    if (index != -1 && newNode.ParentNode == null)
+                        UpdateRootNode(index, newNode);
+                    else if (newNode.ParentNode == null)
+                        AddRootNode(newNode);
+                    else
+                        DeleteRootNode(oldNode);
 
                     break;
             }
