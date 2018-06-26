@@ -147,11 +147,12 @@ namespace Staff_time.ViewModel
             set
             {
                 DateTime old = Work.StartTime;
+                Work.Minutes -= (value - old.Hour) * 60;
+                RaisePropertyChanged("Minutes");
+
                 Work.StartTime = new DateTime(old.Year, old.Month, old.Day,
                     value, old.Minute, old.Second);
-                Work.Minutes -= (value - old.Hour) * 60;
 
-                RaisePropertyChanged("Minutes");
                 RaisePropertyChanged("StartHours");
                 RaisePropertyChanged("StartMinutes");
                 RaisePropertyChanged("EndHours");
@@ -164,14 +165,12 @@ namespace Staff_time.ViewModel
             set
             {
                 DateTime old = Work.StartTime;
+                Work.Minutes += old.Minute - value;
+                RaisePropertyChanged("Minutes");
+
                 Work.StartTime = new DateTime(old.Year, old.Month, old.Day,
                     old.Hour, value, old.Second);
 
-                Work.StartTime = new DateTime(old.Year, old.Month, old.Day,
-                    value, old.Minute, old.Second);
-                Work.Minutes -= old.Minute - value;
-
-                RaisePropertyChanged("Minutes");
                 RaisePropertyChanged("StartHours");
                 RaisePropertyChanged("StartMinutes");
                 RaisePropertyChanged("EndHours");
