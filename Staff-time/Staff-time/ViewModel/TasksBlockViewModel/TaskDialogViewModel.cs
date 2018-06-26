@@ -78,7 +78,7 @@ namespace Staff_time.ViewModel
         private void _generate_Tree(ObservableCollection<TreeNode> roots)
         {
             TreeRoots = new ObservableCollection<TreeNode>();
-            TreeRoots.Add(new TreeNode() { Task = new Task() { TaskName = "Задачи" } });
+            TreeRoots.Add(new TreeNode() { Task = new Task() { TaskName = "Задачи" }, IsExpanded = true });
 
             foreach (var r in roots)
                 TreeRoots[0].AddChild(r);
@@ -95,13 +95,6 @@ namespace Staff_time.ViewModel
                     _editingTask.ParentTaskID = null;
                 else
                     _editingTask.ParentTaskID = value.Task.ID;
-                //if (_selectedTaskNode != null)
-                //{
-                //    //if (TreeRoots != null && _selectedTaskNode == TreeRoots[0])
-                //    //    EditingTask.ParentTaskID = null;
-                //    //else
-                //    //    EditingTask.ParentTaskID = _selectedTaskNode.Task.ID;
-                //}
             }
         }
 
