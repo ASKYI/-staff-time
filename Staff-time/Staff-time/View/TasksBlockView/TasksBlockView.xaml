@@ -54,12 +54,11 @@
         <!--Дерево-->
         <Border  Grid.Row="0" Margin="3" BorderBrush="Gray" BorderThickness="2">
             <local:ExtendedTreeView SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" Grid.Row="0" 
-                                    ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"
-                                    TreeViewItem.Expanded="ExtendedTreeView_Expanded">
+                                    ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
                 <local:ExtendedTreeView.Resources>
                     <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
                         <Setter Property="IsSelected" Value="{Binding IsSelected}"></Setter>
-                        <Setter Property="IsExpanded" Value="{Binding IsExpanded}"></Setter>
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"></Setter>
                     </Style>
                 </local:ExtendedTreeView.Resources>
             </local:ExtendedTreeView>

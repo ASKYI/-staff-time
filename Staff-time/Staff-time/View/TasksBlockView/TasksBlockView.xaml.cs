@@ -27,10 +27,5 @@ namespace Staff_time.View
             InitializeComponent();
             DataContext = context;
         }
-
-        private void ExtendedTreeView_Expanded(object sender, RoutedEventArgs e)
-        {
-            sender.GetType();
-        }
     }
 }
