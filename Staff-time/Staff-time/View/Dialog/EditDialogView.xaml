@@ -93,19 +93,22 @@
                 </Grid>
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Grid.Row="0">
-                <TextBlock Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Message}"></TextBlock>
-                <v:ExtendedTreeView Grid.Row ="0" Grid.Column="1" Margin="3"
+
+            <ScrollViewer  Grid.Column="1" Grid.Row="0">
+                <StackPanel>
+                    <TextBlock Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Message}"></TextBlock>
+                    <v:ExtendedTreeView Grid.Row ="0" Grid.Column="1" Margin="3"
                                     SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" 
                                     ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
-                    <local:ExtendedTreeView.Resources>
-                        <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
-                            <Setter Property="IsExpanded" Value="True"></Setter>
-                        </Style>
-                    </local:ExtendedTreeView.Resources>
-                </v:ExtendedTreeView>
-            </StackPanel>
-
+                        <local:ExtendedTreeView.Resources>
+                            <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                                <Setter Property="IsExpanded" Value="True"></Setter>
+                            </Style>
+                        </local:ExtendedTreeView.Resources>
+                    </v:ExtendedTreeView>
+                </StackPanel>
+            </ScrollViewer>
+            
             <StackPanel Margin="2" HorizontalAlignment="Right" Grid.Row="1" Orientation="Horizontal">
                 <Button Content="Ок" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="120" HorizontalAlignment="Right"></Button>
                 <Button Content="Отмена" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="120" HorizontalAlignment="Right"></Button>
