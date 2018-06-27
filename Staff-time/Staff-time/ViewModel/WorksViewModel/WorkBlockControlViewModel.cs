@@ -93,7 +93,7 @@ namespace Staff_time.ViewModel
                 TreeNode taskNode = TasksVM.Dictionary[Work.TaskID];
 
                 StringBuilder stringPath = new StringBuilder();
-                stringPath.Append(Work.WorkName + "::");
+                stringPath.Append(Work.WorkName + "<-");
 
                 for (int i = taskNode.FullPath.Count - 1;  i > Math.Max(0, taskNode.FullPath.Count - 3); --i)
                 {
@@ -104,7 +104,8 @@ namespace Staff_time.ViewModel
                 if (taskNode.FullPath.Count > 3)
                     stringPath.Append("...");
 
-                stringPath.Append(taskNode.FullPath[0]);
+                if (taskNode.FullPath.Count > 0)
+                    stringPath.Append(taskNode.FullPath[0]);
 
                 return stringPath.ToString();
             }

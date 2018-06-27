@@ -10,7 +10,8 @@
         xmlns:v="clr-namespace:Staff_time.View"  
         
         mc:Ignorable="d"
-        Title="Редактирование" Height="450" Width="500">
+        Title="Редактирование" Height="310" Width="500" MinHeight="310" MinWidth="500"
+        WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <!--Отображение узлов дерева-->
@@ -108,10 +109,10 @@
                     </v:ExtendedTreeView>
                 </StackPanel>
             </ScrollViewer>
-            
-            <StackPanel Margin="2" HorizontalAlignment="Right" Grid.Row="1" Orientation="Horizontal">
-                <Button Content="Ок" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="120" HorizontalAlignment="Right"></Button>
-                <Button Content="Отмена" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="120" HorizontalAlignment="Right"></Button>
+
+            <StackPanel Margin="2" HorizontalAlignment="Left"  Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom">
+                <Button Content="Ок" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="110" HorizontalAlignment="Right"></Button>
+                <Button Content="Отмена" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="110" HorizontalAlignment="Right"></Button>
             </StackPanel>
         </Grid>
     </Grid>

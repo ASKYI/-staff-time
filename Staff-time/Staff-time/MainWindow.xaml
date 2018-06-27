@@ -14,7 +14,8 @@
         MouseDown="TasksBlockView_MouseDown"  
         
         Title="" Height="450" Width="800" MinWidth="250" MinHeight="300"
-        Icon="pilot.ico">
+        Icon="Resources/appImage.ico"
+>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="250"></ColumnDefinition>

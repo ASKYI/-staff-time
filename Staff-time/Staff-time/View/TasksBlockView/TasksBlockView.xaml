@@ -9,7 +9,7 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="1082.967" d:DesignWidth="1640.659">
 
     <UserControl.Resources>
         <!--Отображение дерева-->
@@ -47,12 +47,44 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
             <RowDefinition Height="2.5*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
+        
+        <!--Панелька-->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" >
+            <Button Margin ="2,0,0,0" ToolTip="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}" Background="White"  ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/add.ico"></Image>
+            </Button>
+            <Button Margin ="2,0,0,0" ToolTip="Добавить подзадачу" Command="{Binding AddChildTaskCommand}" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/add_subitem.ico"></Image>
+            </Button>
+            <Button Margin ="2,0,0,0" Command="{Binding EditTaskCommand}" ToolTip="Редактировать задачу" Background="White"  ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/edit.ico"></Image>
+            </Button>
+            <Button  Margin ="2,0,0,0" Command="{Binding DeleteTaskCommand}" ToolTip="Удалить задачу" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/delete.ico"></Image>
+            </Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right" >
+                <Button Margin ="2,0,0,0" Command="{Binding CollapseAllCommand}" ToolTip="Свернуть всё" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/collapse.ico"></Image>
+            </Button>
+            <Button Margin ="2,0,0,0" Command="{Binding ExpandAllCommand}" ToolTip="Развернуть всё" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/expand.ico"></Image>
+            </Button>
+            <Button Margin ="2,0,0,0"  Command="{Binding MoveUpCommand}" ToolTip="Переместить вверх" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/up.ico"></Image>
+            </Button>
+            <Button Margin ="2,0,0,0"  Command="{Binding MoveDownCommand}" ToolTip="Переместить вниз" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/down.ico"></Image>
+            </Button>
+
+        </StackPanel>
 
         <!--Дерево-->
-        <Border  Grid.Row="0" Margin="3" BorderBrush="Gray" BorderThickness="2">
+        <Border  Grid.Row="1" Margin="3" BorderBrush="Gray" BorderThickness="2">
             <local:ExtendedTreeView SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" Grid.Row="0" 
                                     ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
                 <local:ExtendedTreeView.Resources>
@@ -63,9 +95,9 @@
                 </local:ExtendedTreeView.Resources>
             </local:ExtendedTreeView>
         </Border>
-        
+
         <!--Управление-->
-        <Border  Grid.Row="1" Margin="3" BorderBrush="Gray" BorderThickness="2">
+        <Border  Grid.Row="2" Margin="3" BorderBrush="Gray" BorderThickness="2">
             <StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -79,12 +111,12 @@
                     <Button Grid.Column="1" Content="Добавить работу" Command="{Binding AddWorkCommand}" FontSize="10" Background="White"></Button>
                 </Grid>
 
-                <StackPanel Orientation="Horizontal">
+                <!--<StackPanel Orientation="Horizontal">
                     <Button FontSize="10" Content="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}" Background="White"></Button>
                     <Button FontSize="10" Content="Добавить подзадачу" Command="{Binding AddChildTaskCommand}" Background="White"></Button>
-                </StackPanel>
+                </StackPanel>-->
 
-                <StackPanel Orientation="Horizontal">
+                <!--<StackPanel Orientation="Horizontal">
                     <Button FontSize="10" Command="{Binding EditTaskCommand}" Content="Реадктировать задачу" Background="White"></Button>
                     <Button FontSize="10" Command="{Binding DeleteTaskCommand}" Content="Удалить задачу" Background="White"></Button>
                 </StackPanel>
@@ -97,7 +129,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Button FontSize="10" Command="{Binding MoveUpCommand}" Content="Переместить вверх" Background="White"></Button>
                     <Button FontSize="10" Command="{Binding MoveDownCommand}" Content="Переместить вниз" Background="White"></Button>
-                </StackPanel>
+                </StackPanel>-->
             </StackPanel>
         </Border>
     </Grid>

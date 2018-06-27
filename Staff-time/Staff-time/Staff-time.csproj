@@ -296,9 +296,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="pilot.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\AvalonControlsLibrary\AvalonControlsLibrary.csproj">
       <Project>{f2e7b3f0-e03e-4341-984f-2962aca8c07e}</Project>
       <Name>AvalonControlsLibrary</Name>
@@ -319,6 +316,17 @@
       <DependentUpon>TaskManagmentDB.edmx</DependentUpon>
       <LastGenOutput>TaskManagmentDB.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\appImage.ico" />
+    <Resource Include="Resources\add_subitem.ico" />
+    <Resource Include="Resources\collapse.ico" />
+    <Resource Include="Resources\down.ico" />
+    <Resource Include="Resources\expand.ico" />
+    <Resource Include="Resources\up.ico" />
+    <Resource Include="Resources\delete.ico" />
+    <Resource Include="Resources\edit.ico" />
+    <Resource Include="Resources\add.ico" />
+    <Resource Include="Resources\pilot.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

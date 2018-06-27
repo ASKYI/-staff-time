@@ -10,12 +10,13 @@
         xmlns:vm="clr-namespace:Staff_time.ViewModel"  
         xmlns:v="clr-namespace:Staff_time.View"  
         
-        Title="Новая задача" Height="450" Width="300">
+        Title="Новая задача" Height="200" Width="300" MinHeight="200" MinWidth="300"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="10*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0" Margin="2">
@@ -57,9 +58,9 @@
             </StackPanel>
 
 
-            <StackPanel Margin="2" HorizontalAlignment="Right" Grid.Row="1" Orientation="Horizontal">
-                <Button Content="Ок" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="120" HorizontalAlignment="Right"></Button>
-                <Button Content="Отмена" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="120" HorizontalAlignment="Right"></Button>
+            <StackPanel Margin="2" HorizontalAlignment="Left" Grid.Row="1" Orientation="Horizontal">
+                <Button Content="Ок" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="120" HorizontalAlignment="Left"></Button>
+                <Button Content="Отмена" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="120" HorizontalAlignment="Left"></Button>
             </StackPanel>
                     
         </Grid>
