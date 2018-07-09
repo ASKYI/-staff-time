@@ -85,30 +85,34 @@
 
         <!--Дерево-->
         <Border  Grid.Row="1" Margin="3" BorderBrush="Gray" BorderThickness="2">
-            <local:ExtendedTreeView SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" Grid.Row="0" 
+            <local:ExtendedTreeView x:Name="Tree" SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" Grid.Row="0" 
                                     ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
                 <local:ExtendedTreeView.Resources>
+                    
                     <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"></Setter>
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"></Setter>
+
+                        <EventSetter Event="PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
                     </Style>
+                    
                 </local:ExtendedTreeView.Resources>
             </local:ExtendedTreeView>
         </Border>
 
         <!--Управление-->
-        <Border  Grid.Row="2" Margin="3" BorderBrush="Gray" BorderThickness="2">
-            <StackPanel>
+        <Border Grid.Row="2" Margin="3"  BorderBrush="Gray" BorderThickness="2">
+            <StackPanel Grid.Row="2" Margin="3" >
                 <Grid>
-                    <Grid.ColumnDefinitions>
+                    <!--<Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
+                    </Grid.ColumnDefinitions>-->
 
-                    <Border Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
+                    <!--<Border Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
                         <Label FontSize="10" Content="Управление" Background="LightGray"></Label>
-                    </Border>
-                    <Button Grid.Column="1" Content="Добавить работу" Command="{Binding AddWorkCommand}" FontSize="10" Background="White"></Button>
+                    </Border>-->
+                    <Button Grid.Column="1" Content="Добавить работу" Command="{Binding AddWorkCommand}" Background="White"></Button>
                 </Grid>
 
                 <!--<StackPanel Orientation="Horizontal">
@@ -117,7 +121,7 @@
                 </StackPanel>-->
 
                 <!--<StackPanel Orientation="Horizontal">
-                    <Button FontSize="10" Command="{Binding EditTaskCommand}" Content="Реадктировать задачу" Background="White"></Button>
+                    <Button FontSize="10" Command="{Binding EditTaskCommand}" Content="Редактировать задачу" Background="White"></Button>
                     <Button FontSize="10" Command="{Binding DeleteTaskCommand}" Content="Удалить задачу" Background="White"></Button>
                 </StackPanel>
 
