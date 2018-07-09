@@ -40,7 +40,7 @@ namespace Staff_time.ViewModel
         {
             get { return _treeRoots; }
             set
-            { //Как бы заблокировать возможность добавления/удаления узлов
+            { 
                 SetField(ref _treeRoots, value);
             }
         }
