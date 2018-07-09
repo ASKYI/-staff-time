@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Staff-time", "Staff-time\St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonControlsLibrary", "AvalonControlsLibrary\AvalonControlsLibrary.csproj", "{F2E7B3F0-E03E-4341-984F-2962ACA8C07E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DialogControl", "DialogControl\DialogControl.csproj", "{2FE99167-C6BF-488B-8D0E-9796FDB4B1EF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{F2E7B3F0-E03E-4341-984F-2962ACA8C07E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2E7B3F0-E03E-4341-984F-2962ACA8C07E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2E7B3F0-E03E-4341-984F-2962ACA8C07E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2FE99167-C6BF-488B-8D0E-9796FDB4B1EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2FE99167-C6BF-488B-8D0E-9796FDB4B1EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2FE99167-C6BF-488B-8D0E-9796FDB4B1EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2FE99167-C6BF-488B-8D0E-9796FDB4B1EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

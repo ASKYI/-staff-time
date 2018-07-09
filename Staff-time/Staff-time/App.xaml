@@ -5,7 +5,6 @@
              
              xmlns:v="clr-namespace:Staff_time.View"
              xmlns:vm="clr-namespace:Staff_time.ViewModel"
-             xmlns:dialog="clr-namespace:DialogControl;assembly=DialogControl"
              
              StartupUri="MainWindow.xaml">
     <Application.Resources>
