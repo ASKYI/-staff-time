@@ -329,6 +329,7 @@ namespace Staff_time.ViewModel
             base.CancelEditing();
 
             int curI = (int)SelectedTaskNode.Task.IndexNumber;
+            TreeNode newSeleted = SelectedTaskNode;
 
             if (SelectedTaskNode.ParentNode != null)
             {
@@ -341,6 +342,7 @@ namespace Staff_time.ViewModel
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index - 1].Task));
 
                 parentNode.TreeNodes.Move(index, index - 1);
+                ChangeSelection(parentNode.TreeNodes[index - 1]);
             }
             else
             {
@@ -352,6 +354,7 @@ namespace Staff_time.ViewModel
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, TreeRoots[index - 1].Task));
 
                 TreeRoots.Move(index, index - 1);
+                ChangeSelection(TreeRoots[index - 1]);
             }
         }
 
@@ -387,7 +390,7 @@ namespace Staff_time.ViewModel
         private void MoveDown(object obj)
         {
             base.CancelEditing();
-
+            
             int curI = (int)SelectedTaskNode.Task.IndexNumber;
 
             if (SelectedTaskNode.ParentNode != null)
@@ -401,6 +404,7 @@ namespace Staff_time.ViewModel
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index + 1].Task));
 
                 parentNode.TreeNodes.Move(index, index + 1);
+                ChangeSelection(parentNode.TreeNodes[index + 1]);
             }
             else
             {
@@ -412,6 +416,7 @@ namespace Staff_time.ViewModel
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, TreeRoots[index + 1].Task));
 
                 TreeRoots.Move(index, index + 1);
+                ChangeSelection(TreeRoots[index + 1]);
             }
         }
 
