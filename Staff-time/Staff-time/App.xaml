@@ -6,7 +6,8 @@
              xmlns:v="clr-namespace:Staff_time.View"
              xmlns:vm="clr-namespace:Staff_time.ViewModel"
              
-             StartupUri="MainWindow.xaml">
+             StartupUri="MainWindow.xaml"
+             >
     <Application.Resources>
         
         <!--Отображение диалога-->
