@@ -227,6 +227,11 @@ namespace Staff_time.ViewModel
                 return;
             }
 
+            if (MessageBox.Show("Вы уверены, что хотите удалить задачу и все ее подзадачи?", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.No)
+            {
+                return;
+            }
+
             //Roots
             int delTaskID = SelectedTaskNode.Task.ID;
             if (TreeRoots.Contains(SelectedTaskNode))
