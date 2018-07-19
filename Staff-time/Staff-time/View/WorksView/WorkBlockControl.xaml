@@ -52,7 +52,7 @@
 
     </UserControl.Resources>
 
-    <Expander Margin="3"  Header="{Binding Path}" Padding="5" BorderThickness="3" 
+    <Expander Margin="3"  Header="{Binding Path, Mode=OneWay}" Padding="5" BorderThickness="3" 
               IsExpanded="{Binding IsExpanded}" Style="{StaticResource ExpanderStyle}">
         <Expander.ToolTip>
             <ToolTip Content="{Binding FullPath}"></ToolTip>

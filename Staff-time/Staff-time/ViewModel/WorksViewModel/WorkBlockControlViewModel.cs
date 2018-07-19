@@ -97,7 +97,7 @@ namespace Staff_time.ViewModel
         {
             get
             {
-                int max_k = Block_Width / 20;
+                int max_k = Block_Width / 200;
 
                 TreeNode taskNode = TasksVM.Dictionary[Work.TaskID];
 
@@ -112,7 +112,7 @@ namespace Staff_time.ViewModel
                         stringPath.Append("<-");
                 }
 
-                if (taskNode.FullPath.Count > 5)
+                if (taskNode.FullPath.Count > max_k)
                     stringPath.Append("...");
 
                 return stringPath.ToString();
@@ -436,6 +436,7 @@ namespace Staff_time.ViewModel
             set
             {
                 _width = value;
+                RaisePropertyChanged("Path");
             }
         }
     }
