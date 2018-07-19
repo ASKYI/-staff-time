@@ -38,6 +38,8 @@ namespace Staff_time.ViewModel
 
             _endHours = Work.StartTime.Hour + Work.Minutes / 60;
             _endMinutes = Work.StartTime.Minute + Work.Minutes % 60;
+
+            _endTime = Work.StartTime.AddMinutes(Work.Minutes);
         }
 
         private WorkControlViewModelBase _workVM;
@@ -147,6 +149,30 @@ namespace Staff_time.ViewModel
             RaisePropertyChanged("EndHours");
             RaisePropertyChanged("EndMinutes");*/
         }
+        
+        public DateTime StartTime
+        {
+            get { return Work.StartTime; }
+            set
+            {
+                Work.StartTime = value;
+                Work.Minutes = (EndTime - StartTime).Hours * 60 + (EndTime - StartTime).Minutes;
+                RaisePropertyChanged("StartTime");
+                RaisePropertyChanged("Minutes");
+            }
+        }
+        private DateTime _endTime;
+        public DateTime EndTime
+        {
+            get { return _endTime; }
+            set
+            {
+                _endTime = value;
+                Work.Minutes = (EndTime - StartTime).Hours * 60 + (EndTime - StartTime).Minutes;
+                RaisePropertyChanged("EndTime");
+                RaisePropertyChanged("Minutes");
+            }
+        }
 
         public int StartHours
         {
@@ -231,7 +257,12 @@ namespace Staff_time.ViewModel
                 _endHours = Work.StartTime.Hour + Work.Minutes / 60 + _endMinutes / 60;
                 _endMinutes = _endMinutes % 60;
 
+                EndTime = Work.StartTime.AddMinutes(Work.Minutes);
+
                 RaisePropertyChanged("Minutes");
+                RaisePropertyChanged("StartTime");
+                RaisePropertyChanged("EndTime");
+
                 RaisePropertyChanged("StartHours");
                 RaisePropertyChanged("StartMinutes");
                 RaisePropertyChanged("EndHours");
@@ -398,15 +429,6 @@ namespace Staff_time.ViewModel
 
         #endregion
 
-        //private int _sep_width;
-        //public int Separator_Width
-        //{
-        //    get { return _sep_width; }
-        //    set
-        //    {
-        //        _sep_width = value;
-        //    }
-        //}
         private int _width;
         public int Block_Width
         {
@@ -414,19 +436,6 @@ namespace Staff_time.ViewModel
             set
             {
                 _width = value;
-            }
-        }
-
-        private DateTime currentDateTime = DateTime.Now;
-        public DateTime CurrentDateTime
-        {
-            get
-            {
-                return currentDateTime;
-            }
-            set
-            {
-                currentDateTime = value;
             }
         }
     }

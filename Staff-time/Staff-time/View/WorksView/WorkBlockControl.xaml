@@ -93,8 +93,12 @@
 
                 <!--<xctk:TimePicker Grid.Column="0" HorizontalAlignment="Right" Value="{Binding CurrentDateTime}"
                                  Format="Custom" FormatString="hh:mm:ss tt" ></xctk:TimePicker>-->
-                <xctk:DateTimeUpDown  Grid.Column="0" HorizontalAlignment="Right" Value="{Binding CurrentDateTime}" Format="ShortTime"></xctk:DateTimeUpDown>
-                    <!--<TextBlock Text="-" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>-->
+                <xctk:DateTimeUpDown  Grid.Column="0" HorizontalAlignment="Right" Value="{Binding StartTime}"  IsEnabled="{Binding IsEnabled}"
+                                      Format="ShortTime"></xctk:DateTimeUpDown>
+                <TextBlock Text="-" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                <xctk:DateTimeUpDown  Grid.Column="2" HorizontalAlignment="Left"  Value="{Binding EndTime}" IsEnabled="{Binding IsEnabled}"
+                                      Format="ShortTime"></xctk:DateTimeUpDown>
+
                 <!--<avalon:TimePicker Grid.Column="2" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left"   
                                    SelectedHour="{Binding EndHours, Mode=TwoWay}" SelectedMinute="{Binding EndMinutes, Mode=TwoWay}"
                                    IsEnabled="{Binding IsEnabled}"></avalon:TimePicker>-->
