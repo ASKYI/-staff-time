@@ -145,11 +145,6 @@ namespace Staff_time.ViewModel
             foreach (var n in delNode.TreeNodes)
             {
                 DeleteAlone(n.Task.ID);
-                //n.ParentNode = parentNode;
-                //n.Task.ParentTaskID = parentID;
-
-                //if (parentNode != null)
-                //    parentNode.TreeNodes.Add(n);
             }
 
             if (parentNode != null)
@@ -159,6 +154,9 @@ namespace Staff_time.ViewModel
 
         public static void DeleteAlone(int taskID)
         {
+            //DB
+            Context.taskWork.Delete_Task(taskID);
+
             //Works
             List<int> works = Context.workWork.Read_WorksForTask(taskID);
             foreach (var id in works)
