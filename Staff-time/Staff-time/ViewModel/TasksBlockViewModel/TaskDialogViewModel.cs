@@ -158,9 +158,7 @@ namespace Staff_time.ViewModel
 
         #endregion
 
-        #region Commands
-
-        public bool ToClose = false;
+        #region Commands       
 
         public ICommand AcceptCommand { get; set; }
         public ICommand CancelCommand { get; set; }
@@ -177,19 +175,19 @@ namespace Staff_time.ViewModel
                     MessageBox.Show("Нельзя назначить новым родителем потомка или самого себя");
                     MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
                         new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
-                    ToClose = false;
                     return;
                 }
                 else
                     _editingTask.ParentTaskID = _task.ParentTaskID;
-
-            ToClose = true;
             _task = _editingTask;
+
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
                 new KeyValuePair<TaskCommandEnum, Task>(_command, _task));
-            dialog.Close();
-            dialog = null;
-            
+            if (dialog != null)
+            {
+                dialog.Close();
+                dialog = null;
+            }
         }
 
         private bool CanCancel(object obj)
@@ -200,12 +198,18 @@ namespace Staff_time.ViewModel
         {
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
                 new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
+            if (dialog != null)
+            {
+                dialog.Close();
+                dialog = null;
+            }
         }
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
                 new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
+            dialog = null;
         }
 
         #endregion

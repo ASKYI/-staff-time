@@ -127,6 +127,7 @@ namespace Staff_time.ViewModel
         {
             MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
                (WorkCommandEnum.None, WorkVM.Work));
+            dialog = null;
         }
 
         #endregion

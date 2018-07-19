@@ -221,6 +221,12 @@ namespace Staff_time.ViewModel
         {
             base.CancelEditing();
 
+            if (TasksVM.CheckWorks(SelectedTaskNode.Task.ID))
+            {
+                MessageBox.Show("Нельзя удалить задачи с существующими работами.");
+                return;
+            }
+
             //Roots
             int delTaskID = SelectedTaskNode.Task.ID;
             if (TreeRoots.Contains(SelectedTaskNode))
@@ -413,7 +419,6 @@ namespace Staff_time.ViewModel
 
         private void _doTaskCommand(KeyValuePair<TaskCommandEnum, Task> pair)
         {       
-
             TaskCommandEnum command = pair.Key;
             Task task = pair.Value;
 

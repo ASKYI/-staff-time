@@ -155,7 +155,6 @@ namespace Staff_time.ViewModel
             foreach (var n in delNode.TreeNodes)
             {
                 DeleteAlone(n.Task.ID);
-               // DeleteWithChildren(n.Task.ID);
             }
 
             if (parentNode != null)
@@ -187,7 +186,6 @@ namespace Staff_time.ViewModel
             foreach (var n in delNode.TreeNodes)
             {
                 DeleteAlone(n.Task.ID);
-                // DeleteWithChildren(n.Task.ID);
             }
 
             Dictionary.Remove(taskID);
@@ -198,6 +196,18 @@ namespace Staff_time.ViewModel
             List<int> works = Context.workWork.Read_WorksForTask(taskID);
             if (works.Count > 0)
                 return true;
+
+            TreeNode node = Dictionary[taskID];
+
+            TreeNode parentNode = node.ParentNode;
+            int? parentID = node.Task.ParentTaskID;
+
+            foreach (var n in node.TreeNodes)
+            {
+                if (CheckWorks(n.Task.ID))
+                    return true;
+            }
+
             return false;
         }
 
