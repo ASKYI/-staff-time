@@ -221,28 +221,12 @@ namespace Staff_time.ViewModel
         {
             base.CancelEditing();
 
-            //Works
-            List<int> works = Context.workWork.Read_WorksForTask(SelectedTaskNode.Task.ID);
-            foreach (var id in works)
-            {
-                Work w = WorksVM.Dictionary[id].Work;
-                MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>
-                    (new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, w));
-            }
-
             //Roots
             int delTaskID = SelectedTaskNode.Task.ID;
-            if (SelectedTaskNode.ParentNode == null)
-            {
-                foreach(var n in SelectedTaskNode.TreeNodes)
-                {
-                    TreeRoots.Add(n);
-                }
-            }
             if (TreeRoots.Contains(SelectedTaskNode))
                 TreeRoots.Remove(SelectedTaskNode);
 
-            TasksVM.DeleteAlone(delTaskID);
+            TasksVM.DeleteWithChildren(delTaskID);
 
             if (TasksVM.Dictionary.ContainsKey(delTaskID + 1))
                 ChangeSelection(TasksVM.Dictionary[delTaskID + 1]);

@@ -131,7 +131,7 @@ namespace Staff_time.ViewModel
             newNode.FullPath = generate_PathForTask(task.ID);
         }
 
-        public static void DeleteAlone(int taskID)
+        public static void DeleteWithChildren(int taskID)
         {
             //DB
             Context.taskWork.Delete_Task(taskID);
@@ -144,15 +144,31 @@ namespace Staff_time.ViewModel
 
             foreach (var n in delNode.TreeNodes)
             {
-                n.ParentNode = parentNode;
-                n.Task.ParentTaskID = parentID;
+                DeleteAlone(n.Task.ID);
+                //n.ParentNode = parentNode;
+                //n.Task.ParentTaskID = parentID;
 
-                if (parentNode != null)
-                    parentNode.TreeNodes.Add(n);
+                //if (parentNode != null)
+                //    parentNode.TreeNodes.Add(n);
             }
 
             if (parentNode != null)
                 parentNode.TreeNodes.Remove(delNode);
+            Dictionary.Remove(taskID);
+        }
+
+        public static void DeleteAlone(int taskID)
+        {
+            //Works
+            List<int> works = Context.workWork.Read_WorksForTask(taskID);
+            foreach (var id in works)
+            {
+                Work w = WorksVM.Dictionary[id].Work;
+                WorksVM.Delete(w.ID);
+                //MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>
+                //    (new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, w));
+            }
+
             Dictionary.Remove(taskID);
         }
 
