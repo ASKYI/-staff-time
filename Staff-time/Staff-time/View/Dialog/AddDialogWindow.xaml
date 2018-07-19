@@ -10,7 +10,7 @@
         xmlns:vm="clr-namespace:Staff_time.ViewModel"  
         xmlns:v="clr-namespace:Staff_time.View"  
         
-        Title="Новая задача" Height="200" Width="300" MinHeight="200" MinWidth="300"
+        Title="Новая задача" Height="200" Width="300" MinHeight="250" MinWidth="300"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid>
@@ -37,7 +37,14 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock TextWrapping="Wrap" Text="Описание: " Grid.Column="0"></TextBlock>
-                    <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditingTask.Descriptions}" Grid.Column="1" TextWrapping="Wrap"></TextBox>
+
+                    <ScrollViewer  Grid.Column="1" >
+                        <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditingTask.Descriptions}"
+                                 TextWrapping="Wrap" MinLines="5" MinHeight="100"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 ScrollViewer.VerticalScrollBarVisibility="Visible"></TextBox>
+                    </ScrollViewer>
+                    
                 </Grid>
 
                 <Grid Margin="2">

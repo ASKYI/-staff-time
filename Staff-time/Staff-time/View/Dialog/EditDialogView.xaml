@@ -75,7 +75,13 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock TextWrapping="Wrap" Text="Описание: " Grid.Column="0"></TextBlock>
-                    <TextBox IsReadOnly="{Binding IsReadOnly}" TextWrapping="Wrap" Text="{Binding EditingTask.Descriptions}" Grid.Column="1"></TextBox>
+
+                    <ScrollViewer  Grid.Column="1" >
+                        <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditingTask.Descriptions}"
+                                 TextWrapping="Wrap" MinLines="5" MinHeight="100"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 ScrollViewer.VerticalScrollBarVisibility="Visible"></TextBox>
+                    </ScrollViewer>
                 </Grid>
 
                 <Grid Margin="2">
