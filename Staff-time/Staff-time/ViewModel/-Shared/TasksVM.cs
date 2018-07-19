@@ -136,6 +136,16 @@ namespace Staff_time.ViewModel
             //DB
             Context.taskWork.Delete_Task(taskID);
 
+            //Works
+            List<int> works = Context.workWork.Read_WorksForTask(taskID);
+            foreach (var id in works)
+            {
+                Work w = WorksVM.Dictionary[id].Work;
+                WorksVM.Delete(w.ID);
+                //MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>
+                //    (new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, w));
+            }
+
             //VM
             TreeNode delNode = Dictionary[taskID];
 
@@ -145,6 +155,7 @@ namespace Staff_time.ViewModel
             foreach (var n in delNode.TreeNodes)
             {
                 DeleteAlone(n.Task.ID);
+               // DeleteWithChildren(n.Task.ID);
             }
 
             if (parentNode != null)
@@ -167,7 +178,27 @@ namespace Staff_time.ViewModel
                 //    (new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, w));
             }
 
+            //VM
+            TreeNode delNode = Dictionary[taskID];
+
+            TreeNode parentNode = delNode.ParentNode;
+            int? parentID = delNode.Task.ParentTaskID;
+
+            foreach (var n in delNode.TreeNodes)
+            {
+                DeleteAlone(n.Task.ID);
+                // DeleteWithChildren(n.Task.ID);
+            }
+
             Dictionary.Remove(taskID);
+        }
+
+        public static bool CheckWorks(int taskID)
+        {
+            List<int> works = Context.workWork.Read_WorksForTask(taskID);
+            if (works.Count > 0)
+                return true;
+            return false;
         }
 
         public static void CollapseAll()
