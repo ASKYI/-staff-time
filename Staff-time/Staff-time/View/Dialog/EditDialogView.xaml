@@ -60,27 +60,27 @@
             <StackPanel Grid.Column="0" Grid.Row="0">
                 <Grid Margin="2">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock TextWrapping="Wrap" Text="Имя задачи: " Grid.Column="0"></TextBlock>
-                    <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditingTask.TaskName}" Grid.Column="1"></TextBox>
+                    <TextBox IsReadOnly="{Binding IsReadOnly}" TextWrapping="Wrap" Text="{Binding EditingTask.TaskName}" Grid.Column="1"></TextBox>
                 </Grid>
 
                 <Grid Margin="2">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock TextWrapping="Wrap" Text="Описание: " Grid.Column="0"></TextBlock>
-                    <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditingTask.Descriptions}" Grid.Column="1"></TextBox>
+                    <TextBox IsReadOnly="{Binding IsReadOnly}" TextWrapping="Wrap" Text="{Binding EditingTask.Descriptions}" Grid.Column="1"></TextBox>
                 </Grid>
 
                 <Grid Margin="2">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
