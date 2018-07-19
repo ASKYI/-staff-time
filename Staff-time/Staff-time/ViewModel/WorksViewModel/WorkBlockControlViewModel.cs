@@ -35,6 +35,9 @@ namespace Staff_time.ViewModel
             else
                 IsExpanded = false;
             MouseLeft = false;
+
+            _endHours = Work.StartTime.Hour + Work.Minutes / 60;
+            _endMinutes = Work.StartTime.Minute + Work.Minutes % 60;
         }
 
         private WorkControlViewModelBase _workVM;
@@ -155,9 +158,9 @@ namespace Staff_time.ViewModel
                     value, old.Minute, old.Second);
 
                 RaisePropertyChanged("StartHours");
-                RaisePropertyChanged("StartMinutes");
-                RaisePropertyChanged("EndHours");
-                RaisePropertyChanged("EndMinutes");
+                //RaisePropertyChanged("StartMinutes");
+                //RaisePropertyChanged("EndHours");
+                //RaisePropertyChanged("EndMinutes");
             }
         }
         public int StartMinutes
@@ -172,39 +175,43 @@ namespace Staff_time.ViewModel
                 Work.StartTime = new DateTime(old.Year, old.Month, old.Day,
                     old.Hour, value, old.Second);
 
-                RaisePropertyChanged("StartHours");
+                //RaisePropertyChanged("StartHours");
                 RaisePropertyChanged("StartMinutes");
-                RaisePropertyChanged("EndHours");
-                RaisePropertyChanged("EndMinutes");
+                //RaisePropertyChanged("EndHours");
+                //RaisePropertyChanged("EndMinutes");
             }
         }
-        
+
+        private int _endHours;
         public int EndHours
         {
-            get { return Work.StartTime.Hour + Work.Minutes / 60; }
+            get { return _endHours; }
             set
             {
+                _endHours = value;
                 Work.Minutes = (value * 60 + EndMinutes) - (StartHours * 60 + StartMinutes);
 
                 RaisePropertyChanged("Minutes");
-                RaisePropertyChanged("StartHours");
-                RaisePropertyChanged("StartMinutes");
+                //RaisePropertyChanged("StartHours");
+                //RaisePropertyChanged("StartMinutes");
                 RaisePropertyChanged("EndHours");
-                RaisePropertyChanged("EndMinutes");
+                //RaisePropertyChanged("EndMinutes");
             }
         }
-        
+
+        private int _endMinutes;
         public int EndMinutes
         {
-            get { return Work.StartTime.Minute + Work.Minutes % 60; }
+            get { return _endMinutes; }
             set
             {
+                _endMinutes = value;
                 Work.Minutes = (EndHours * 60 + value) - (StartHours * 60 + StartMinutes);
 
                 RaisePropertyChanged("Minutes");
-                RaisePropertyChanged("StartHours");
-                RaisePropertyChanged("StartMinutes");
-                RaisePropertyChanged("EndHours");
+                //RaisePropertyChanged("StartHours");
+                //RaisePropertyChanged("StartMinutes");
+                //RaisePropertyChanged("EndHours");
                 RaisePropertyChanged("EndMinutes");
             }
         }
@@ -215,6 +222,11 @@ namespace Staff_time.ViewModel
             set
             {
                 Work.Minutes = value;
+
+
+                _endMinutes = Work.StartTime.Minute + Work.Minutes % 60;
+                _endHours = Work.StartTime.Hour + Work.Minutes / 60 + _endMinutes / 60;
+                _endMinutes = _endMinutes % 60;
 
                 RaisePropertyChanged("Minutes");
                 RaisePropertyChanged("StartHours");
