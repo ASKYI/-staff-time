@@ -99,7 +99,7 @@
             </StackPanel>
 
 
-            <ScrollViewer  Grid.Column="1" Grid.Row="0">
+            <ScrollViewer  Grid.Column="1" Grid.Row="0" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
                 <StackPanel>
                     <TextBlock Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Message}"></TextBlock>
                     <v:ExtendedTreeView Grid.Row ="0" Grid.Column="1" Margin="3"
