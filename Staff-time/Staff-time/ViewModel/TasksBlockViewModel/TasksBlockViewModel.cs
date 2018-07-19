@@ -194,7 +194,9 @@ namespace Staff_time.ViewModel
         {
             base.CancelEditing();
 
-            dialog = new View.EditDialogWindow(new TaskDialogViewModel(SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit));
+            TreeNode node = SelectedTaskNode;
+            ChangeSelection(SelectedTaskNode.ParentNode);
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(node.Task, TreeRoots, TaskCommandEnum.Edit));
             dialog.Show();
         }
 

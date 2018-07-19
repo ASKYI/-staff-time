@@ -34,7 +34,15 @@ namespace Staff_time.ViewModel
 
             EditingTask = task;
             SelectedTaskTypeIndex = task.TaskTypeID;
-            
+            if (EditingTask.ParentTaskID == null)
+            {
+                ChangeSelection(_root);
+                SelectedTaskNode = _root;
+            }
+            else
+                //ChangeSelection(TasksVM.Dictionary[(int)EditingTask.ParentTaskID]);
+                SelectedTaskNode = TasksVM.Dictionary[(int)task.ParentTaskID];
+
             AcceptCommand = new RelayCommand(Accept, CanAccept);
             CancelCommand = new RelayCommand(Cancel, CanCancel);
         }
@@ -75,10 +83,11 @@ namespace Staff_time.ViewModel
             }
         }
 
+        private TreeNode _root = new TreeNode() { Task = new Task() { TaskName = "Задачи" }, IsExpanded = true };
         private void _generate_Tree(ObservableCollection<TreeNode> roots)
         {
             TreeRoots = new ObservableCollection<TreeNode>();
-            TreeRoots.Add(new TreeNode() { Task = new Task() { TaskName = "Задачи" }, IsExpanded = true });
+            TreeRoots.Add(_root);
 
             foreach (var r in roots)
                 TreeRoots[0].AddChild(r);
@@ -90,12 +99,26 @@ namespace Staff_time.ViewModel
             get { return _selectedTaskNode; }
             set
             {
+                if (value.Task.ID == EditingTask.ID)
+                    return;
                 SetField<TreeNode>(ref _selectedTaskNode, value);
                 if (value.Task.ID == 0)
                     _editingTask.ParentTaskID = null;
                 else
                     _editingTask.ParentTaskID = value.Task.ID;
             }
+        }
+
+        public void ChangeSelection(TreeNode value) //Нельзя в сетер - будет переполнение стека
+        {
+            if (_selectedTaskNode != null)
+                _selectedTaskNode.IsSelected = false;
+
+            SetField<TreeNode>(ref _selectedTaskNode, value);
+            //SelectedTaskNode = value;
+
+            if (_selectedTaskNode != null)
+                _selectedTaskNode.IsSelected = true;
         }
 
         #endregion

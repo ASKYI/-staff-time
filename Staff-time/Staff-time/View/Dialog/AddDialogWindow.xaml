@@ -40,9 +40,7 @@
 
                     <ScrollViewer  Grid.Column="1" >
                         <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditingTask.Descriptions}"
-                                 TextWrapping="Wrap" MinLines="5" MinHeight="100"
-                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                 ScrollViewer.VerticalScrollBarVisibility="Visible"></TextBox>
+                                 TextWrapping="Wrap" MinLines="5" MinHeight="100"></TextBox>
                     </ScrollViewer>
                     
                 </Grid>
