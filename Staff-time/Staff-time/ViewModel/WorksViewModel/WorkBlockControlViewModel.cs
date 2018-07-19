@@ -21,6 +21,7 @@ namespace Staff_time.ViewModel
         {
             WorkVM = WorksVM.Dictionary[workID];
             WorkInBlockID = new WorkIDDependency(workID);
+            _generate_path();
 
             SelectedWorkTypeIndex = WorkVM.Work.WorkTypeID;
             _generate_TaskTypesCb();
@@ -92,30 +93,38 @@ namespace Staff_time.ViewModel
                 
                 return stringPath.ToString();
             }
-        }       
+        }
+
+        private string _path;
+        private void _generate_path()
+        {
+            int max_k = Block_Width / 200;
+
+            TreeNode taskNode = TasksVM.Dictionary[Work.TaskID];
+
+            StringBuilder stringPath = new StringBuilder();
+            stringPath.Append(Work.WorkName + "<-");
+
+            int n_i = Math.Max(0, taskNode.FullPath.Count - max_k);
+            for (int i = taskNode.FullPath.Count - 1; i >= n_i; --i)
+            {
+                stringPath.Append(taskNode.FullPath[i]);
+                if (i != n_i)
+                    stringPath.Append("<-");
+            }
+
+            if (taskNode.FullPath.Count > max_k)
+                stringPath.Append("...");
+
+            _path = stringPath.ToString();
+        }
+
         public string Path
         {
             get
             {
-                int max_k = Block_Width / 200;
-
-                TreeNode taskNode = TasksVM.Dictionary[Work.TaskID];
-
-                StringBuilder stringPath = new StringBuilder();
-                stringPath.Append(Work.WorkName + "<-");
-
-                int n_i = Math.Max(0, taskNode.FullPath.Count - max_k);
-                for (int i = taskNode.FullPath.Count - 1;  i >= n_i; --i)
-                {
-                    stringPath.Append(taskNode.FullPath[i]);
-                    if (i != n_i)
-                        stringPath.Append("<-");
-                }
-
-                if (taskNode.FullPath.Count > max_k)
-                    stringPath.Append("...");
-
-                return stringPath.ToString();
+                _generate_path();
+                return _path;
             }
         }
 
@@ -429,7 +438,7 @@ namespace Staff_time.ViewModel
 
         #endregion
 
-        private int _width;
+        private int _width = 500;
         public int Block_Width
         {
             get { return _width; }

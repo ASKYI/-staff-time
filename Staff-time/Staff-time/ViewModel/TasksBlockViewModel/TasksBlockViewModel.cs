@@ -427,7 +427,9 @@ namespace Staff_time.ViewModel
             TaskCommandEnum command = pair.Key;
             Task task = pair.Value;
 
-            switch(command)
+            ChangeSelection(SelectedTaskNode);
+
+            switch (command)
             {
                 case TaskCommandEnum.Add:
                     TasksVM.Add(task);

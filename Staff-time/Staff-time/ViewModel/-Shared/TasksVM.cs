@@ -94,6 +94,8 @@ namespace Staff_time.ViewModel
                 newNode.ParentNode = Dictionary[parentID];
                 Dictionary[parentID].AddChild(newNode);
             }
+
+            newNode.FullPath = generate_PathForTask(task.ID);
         }
 
         public static void Edit(Task task) //TreeNode
