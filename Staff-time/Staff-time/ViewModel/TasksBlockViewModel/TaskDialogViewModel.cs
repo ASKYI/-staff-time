@@ -16,7 +16,7 @@ using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
 {
-    public class TaskDialogViewModel : ViewModelBase
+    public class TaskDialogViewModel : MainViewModel
     {
         public TaskDialogViewModel(Task task, ObservableCollection<TreeNode> roots, TaskCommandEnum command)
         {
@@ -160,6 +160,8 @@ namespace Staff_time.ViewModel
 
         #region Commands
 
+        public bool ToClose = false;
+
         public ICommand AcceptCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
@@ -175,14 +177,19 @@ namespace Staff_time.ViewModel
                     MessageBox.Show("Нельзя назначить новым родителем потомка или самого себя");
                     MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
                         new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
+                    ToClose = false;
                     return;
                 }
                 else
                     _editingTask.ParentTaskID = _task.ParentTaskID;
 
+            ToClose = true;
             _task = _editingTask;
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
                 new KeyValuePair<TaskCommandEnum, Task>(_command, _task));
+            dialog.Close();
+            dialog = null;
+            
         }
 
         private bool CanCancel(object obj)

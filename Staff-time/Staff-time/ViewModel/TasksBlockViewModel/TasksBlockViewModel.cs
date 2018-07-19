@@ -428,8 +428,7 @@ namespace Staff_time.ViewModel
         #region Do Task: Add, Edit
 
         private void _doTaskCommand(KeyValuePair<TaskCommandEnum, Task> pair)
-        {
-            dialog = null;
+        {       
 
             TaskCommandEnum command = pair.Key;
             Task task = pair.Value;

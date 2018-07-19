@@ -33,7 +33,8 @@ namespace Staff_time.View
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+       //     if (((ViewModel.TaskDialogViewModel)DataContext).ToClose)
+          //      this.Close();
         }
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
