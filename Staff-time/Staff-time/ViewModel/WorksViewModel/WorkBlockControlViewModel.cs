@@ -79,13 +79,15 @@ namespace Staff_time.ViewModel
                 TreeNode taskNode = TasksVM.Dictionary[Work.TaskID];
 
                 StringBuilder stringPath = new StringBuilder();
-                for (int i = 0; i <  taskNode.FullPath.Count; ++i)
+                stringPath.Append(Work.WorkName + "<-");
+                
+                for (int i = taskNode.FullPath.Count - 1; i >= 0; --i)
                 {
-                    if (i != 0)
-                        stringPath.Append("->");
                     stringPath.Append(taskNode.FullPath[i]);
+                    if (i != 0)
+                        stringPath.Append("<-");
                 }
-                stringPath.Append(">>" + Work.WorkName);
+                
                 return stringPath.ToString();
             }
         }       
@@ -93,22 +95,23 @@ namespace Staff_time.ViewModel
         {
             get
             {
+                int max_k = Block_Width / 20;
+
                 TreeNode taskNode = TasksVM.Dictionary[Work.TaskID];
 
                 StringBuilder stringPath = new StringBuilder();
                 stringPath.Append(Work.WorkName + "<-");
 
-                for (int i = taskNode.FullPath.Count - 1;  i > Math.Max(0, taskNode.FullPath.Count - 3); --i)
+                int n_i = Math.Max(0, taskNode.FullPath.Count - max_k);
+                for (int i = taskNode.FullPath.Count - 1;  i >= n_i; --i)
                 {
                     stringPath.Append(taskNode.FullPath[i]);
-                    stringPath.Append("<-");
+                    if (i != n_i)
+                        stringPath.Append("<-");
                 }
 
-                if (taskNode.FullPath.Count > 3)
+                if (taskNode.FullPath.Count > 5)
                     stringPath.Append("...");
-
-                if (taskNode.FullPath.Count > 0)
-                    stringPath.Append(taskNode.FullPath[0]);
 
                 return stringPath.ToString();
             }
@@ -395,5 +398,36 @@ namespace Staff_time.ViewModel
 
         #endregion
 
+        //private int _sep_width;
+        //public int Separator_Width
+        //{
+        //    get { return _sep_width; }
+        //    set
+        //    {
+        //        _sep_width = value;
+        //    }
+        //}
+        private int _width;
+        public int Block_Width
+        {
+            get { return _width; }
+            set
+            {
+                _width = value;
+            }
+        }
+
+        private DateTime currentDateTime = DateTime.Now;
+        public DateTime CurrentDateTime
+        {
+            get
+            {
+                return currentDateTime;
+            }
+            set
+            {
+                currentDateTime = value;
+            }
+        }
     }
 }

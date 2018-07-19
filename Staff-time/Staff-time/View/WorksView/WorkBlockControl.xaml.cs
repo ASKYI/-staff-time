@@ -42,5 +42,10 @@ namespace Staff_time.View
         {
             ((ViewModel.WorkBlockControlViewModel)DataContext).Minutes_Changed(sender, e);
         }
+
+        private void workBlock_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ((ViewModel.WorkBlockControlViewModel)DataContext).Block_Width = (int) e.NewSize.Width;
+        }
     }
 }

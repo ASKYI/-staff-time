@@ -9,15 +9,16 @@
              xmlns:vm="clr-namespace:Staff_time.ViewModel"
              xmlns:m="clr-namespace:Staff_time.Model"
              xmlns:avalon="http://schemas.AvalonControls/AvalonControlsLibrary/Controls"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
             
              mc:Ignorable="d" 
               
              MouseLeave="workBlock_MouseLeave"
              MouseEnter="workBlock_MouseEnter"
               
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" SizeChanged="workBlock_SizeChanged" >
     <UserControl.Resources>
-        
+
         <Style x:Key="ExpanderStyle" TargetType="Expander">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Work.WorkTypeID}" Value="0"><!--WorkNone-->
@@ -53,6 +54,9 @@
 
     <Expander Margin="3"  Header="{Binding Path}" Padding="5" BorderThickness="3" 
               IsExpanded="{Binding IsExpanded}" Style="{StaticResource ExpanderStyle}">
+        <Expander.ToolTip>
+            <ToolTip Content="{Binding FullPath}"></ToolTip>
+        </Expander.ToolTip>
         <StackPanel>
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
@@ -83,13 +87,17 @@
                     <ColumnDefinition Width="4*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <avalon:TimePicker Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Right"                                   
+                <!--<avalon:TimePicker Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Right"                                   
                                    SelectedHour="{Binding StartHours, Mode=TwoWay}" SelectedMinute="{Binding StartMinutes, Mode=TwoWay}"
-                                   IsEnabled="{Binding IsEnabled}"></avalon:TimePicker>
-                <TextBlock Text="-" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                <avalon:TimePicker Grid.Column="2" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left"   
+                                   IsEnabled="{Binding IsEnabled}"></avalon:TimePicker>-->
+
+                <!--<xctk:TimePicker Grid.Column="0" HorizontalAlignment="Right" Value="{Binding CurrentDateTime}"
+                                 Format="Custom" FormatString="hh:mm:ss tt" ></xctk:TimePicker>-->
+                <xctk:DateTimeUpDown  Grid.Column="0" HorizontalAlignment="Right" Value="{Binding CurrentDateTime}" Format="ShortTime"></xctk:DateTimeUpDown>
+                    <!--<TextBlock Text="-" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>-->
+                <!--<avalon:TimePicker Grid.Column="2" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left"   
                                    SelectedHour="{Binding EndHours, Mode=TwoWay}" SelectedMinute="{Binding EndMinutes, Mode=TwoWay}"
-                                   IsEnabled="{Binding IsEnabled}"></avalon:TimePicker>
+                                   IsEnabled="{Binding IsEnabled}"></avalon:TimePicker>-->
             </Grid>
 
             <Separator></Separator>
