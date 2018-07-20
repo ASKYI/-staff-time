@@ -194,9 +194,7 @@ namespace Staff_time.ViewModel
         {
             base.CancelEditing();
 
-            TreeNode node = SelectedTaskNode;
-            ChangeSelection(SelectedTaskNode.ParentNode);
-            dialog = new View.EditDialogWindow(new TaskDialogViewModel(node.Task, TreeRoots, TaskCommandEnum.Edit));
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit));
             dialog.Show();
         }
 
@@ -421,13 +419,11 @@ namespace Staff_time.ViewModel
         #endregion
 
         #region Do Task: Add, Edit
-
+        
         private void _doTaskCommand(KeyValuePair<TaskCommandEnum, Task> pair)
         {       
             TaskCommandEnum command = pair.Key;
             Task task = pair.Value;
-
-            ChangeSelection(SelectedTaskNode);
 
             switch (command)
             {

@@ -113,7 +113,8 @@ namespace Staff_time.ViewModel
             if (newNode.Task.ParentTaskID != null)
             {
                 newNode.ParentNode = Dictionary[(int)newNode.Task.ParentTaskID];
-                newNode.ParentNode.AddChild(newNode);
+                if (oldNode.ParentNode != newNode.ParentNode)
+                    newNode.ParentNode.AddChild(newNode);
             }
             if (oldNode.ParentNode != null)
             {

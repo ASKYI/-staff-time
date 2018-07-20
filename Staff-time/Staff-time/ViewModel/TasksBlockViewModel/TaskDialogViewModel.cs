@@ -34,14 +34,16 @@ namespace Staff_time.ViewModel
 
             EditingTask = task;
             SelectedTaskTypeIndex = task.TaskTypeID;
-            if (EditingTask.ParentTaskID == null)
-            {
-                ChangeSelection(_root);
-                SelectedTaskNode = _root;
-            }
-            else
-                //ChangeSelection(TasksVM.Dictionary[(int)EditingTask.ParentTaskID]);
-                SelectedTaskNode = TasksVM.Dictionary[(int)task.ParentTaskID];
+            //if (EditingTask.ParentTaskID == null)
+            //{
+            //    ChangeSelection(_root);
+            //    SelectedTaskNode = _root;
+            //}
+            //else
+            //{
+            //   // ChangeSelection(TasksVM.Dictionary[(int)EditingTask.ParentTaskID]);
+            //    SelectedTaskNode = TasksVM.Dictionary[(int)task.ParentTaskID];
+            //}
 
             AcceptCommand = new RelayCommand(Accept, CanAccept);
             CancelCommand = new RelayCommand(Cancel, CanCancel);
@@ -99,8 +101,8 @@ namespace Staff_time.ViewModel
             get { return _selectedTaskNode; }
             set
             {
-                if (value.Task.ID == EditingTask.ID)
-                    return;
+               // if (value.Task.ID == EditingTask.ID)
+                 //   return;
                 SetField<TreeNode>(ref _selectedTaskNode, value);
                 if (value.Task.ID == 0)
                     _editingTask.ParentTaskID = null;
@@ -111,14 +113,13 @@ namespace Staff_time.ViewModel
 
         public void ChangeSelection(TreeNode value) //Нельзя в сетер - будет переполнение стека
         {
-            if (_selectedTaskNode != null)
-                _selectedTaskNode.IsSelected = false;
+            //if (_selectedTaskNode != null)
+            //    _selectedTaskNode.IsSelected = false;
 
-            SetField<TreeNode>(ref _selectedTaskNode, value);
-            //SelectedTaskNode = value;
+            //SetField<TreeNode>(ref _selectedTaskNode, value);
 
-            if (_selectedTaskNode != null)
-                _selectedTaskNode.IsSelected = true;
+            //if (_selectedTaskNode != null)
+            //    _selectedTaskNode.IsSelected = true;
         }
 
         #endregion
@@ -173,8 +174,8 @@ namespace Staff_time.ViewModel
                 if (_editingTask.ID == _editingTask.ParentTaskID || TasksVM.CheckIsChild(_editingTask.ID, _editingTask.ParentTaskID))
                 {
                     MessageBox.Show("Нельзя назначить новым родителем потомка или самого себя");
-                    MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
-                        new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
+                  //  MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
+                    //    new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
                     return;
                 }
                 else
@@ -207,6 +208,7 @@ namespace Staff_time.ViewModel
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
+            ChangeSelection(null);
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
                 new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
             dialog = null;
