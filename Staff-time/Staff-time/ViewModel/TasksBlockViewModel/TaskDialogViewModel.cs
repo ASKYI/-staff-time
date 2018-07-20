@@ -101,8 +101,6 @@ namespace Staff_time.ViewModel
             get { return _selectedTaskNode; }
             set
             {
-               // if (value.Task.ID == EditingTask.ID)
-                 //   return;
                 SetField<TreeNode>(ref _selectedTaskNode, value);
                 if (value.Task.ID == 0)
                     _editingTask.ParentTaskID = null;

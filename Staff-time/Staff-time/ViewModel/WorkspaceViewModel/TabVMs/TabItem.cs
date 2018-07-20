@@ -124,7 +124,7 @@ namespace Staff_time.ViewModel
 
                     WorksVM.Update(work);
                     Work newWork = WorksVM.Dictionary[work.ID].Work;
-
+                    
                     SumTime -= oldWorkMinutes;
                     WorksInTab.Remove(WorksInTab[index]);
 
