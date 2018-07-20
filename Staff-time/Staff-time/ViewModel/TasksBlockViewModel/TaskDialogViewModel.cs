@@ -32,7 +32,7 @@ namespace Staff_time.ViewModel
             _command = command;
             Command = (int)_command;
 
-            EditingTask = task;
+            EditingTask = new Task(task);
             SelectedTaskTypeIndex = task.TaskTypeID;
             //if (EditingTask.ParentTaskID == null)
             //{
@@ -176,12 +176,10 @@ namespace Staff_time.ViewModel
                     //    new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
                     return;
                 }
-                else
-                    _editingTask.ParentTaskID = _task.ParentTaskID;
-            _task = _editingTask;
+           // _task = new Task(_editingTask);
 
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
-                new KeyValuePair<TaskCommandEnum, Task>(_command, _task));
+                new KeyValuePair<TaskCommandEnum, Task>(_command,  _editingTask));
             if (dialog != null)
             {
                 dialog.Close();
