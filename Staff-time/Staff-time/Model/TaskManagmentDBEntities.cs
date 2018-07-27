@@ -17,7 +17,7 @@ namespace Staff_time.Model
     {
         #region ITaskWork
 
-        public void Create_Task(Task task)
+        public void Create_Task(Task task) // todo здесь надо подобрать более точное название, Register или Add, по сути ведь Task уже создан, так что точно не Create
         {
             Tasks.Add(task);
             SaveChanges();
@@ -29,10 +29,14 @@ namespace Staff_time.Model
 
         public List<Task> Read_AllTasks() 
         {
+            TaskFactory taskFactory = new TaskFactory();
+            
+            // как альтернатива
+            //return Tasks.OrderBy(t => t.IndexNumber).Select(task => taskFactory.CreateTask(task)).ToList();
+
             List<Task> tasks = new List<Task>();
             List<Task> tasksDB = new List<Task>(Tasks.OrderBy(t => t.IndexNumber));
 
-            TaskFactory taskFactory = new TaskFactory();
             foreach (Task t in tasksDB)
             {
                 tasks.Add(taskFactory.CreateTask(t));
@@ -40,7 +44,7 @@ namespace Staff_time.Model
             return tasks;
         }
 
-        public List<int> Read_RootTasks()
+        public List<int> Read_RootTasks() // todo в имени не отражено, что считывются идетификаторы
         {
             return (from t in Tasks where t.ParentTaskID == null select t.ID).ToList();
         }
@@ -52,11 +56,14 @@ namespace Staff_time.Model
 
         public List<int> Read_ChildTasks(int taskID)
         {
+            // todo как альтернатива
+            //return Tasks.Where(t => t.ParentTaskID == taskID).Select(task => task.ID).ToList();
+
             List<Task> tasksDB = Tasks.Where(t => t.ParentTaskID == taskID).ToList();
 
             List<int> tasks = new List<int>();
 
-            TaskFactory taskFactory = new TaskFactory();
+            TaskFactory taskFactory = new TaskFactory(); // todo зачем эта штука?
             foreach (Task t in tasksDB)
             {
                 tasks.Add(t.ID);
@@ -140,7 +147,8 @@ namespace Staff_time.Model
 
             Works.AddOrUpdate(work);
 
-            if (workDB.WorkTypeID != work.WorkTypeID) //При изменении типа! Удалить-перенести атрибуты типа
+            // todo была ошибка, проверить в истории
+            if (oldTypeID != newTypeID) //При изменении типа! Удалить-перенести атрибуты типа
                 Update_AttrValuesFields_ForWork(work.ID, (WorkTypeEnum)oldTypeID, (WorkTypeEnum)newTypeID);
 
             SaveChanges();
@@ -166,7 +174,7 @@ namespace Staff_time.Model
             {
                 AttrValue value = new AttrValue();
                 value.WorkID = WorkID;
-                value.AttrID = a;
+                value.AttrID = a;           // todo почему здесь не заполняется поле DataType ? 
                 AttrValues.Add(value);
             }
             SaveChanges();
@@ -174,17 +182,20 @@ namespace Staff_time.Model
 
         public List<AttrValue> Read_AttrValues_ForWork(Work work)
         {
-            return AttrValues.Include(a => a.Attribute).Where(a => a.WorkID == work.ID).ToList();
+            return AttrValues.Include(a => a.Attribute).Where(a => a.WorkID == work.ID).ToList(); // todo, не нашёл где используется этот метод
         }
 
         public void Update_AttrValuesFields_ForWork(int WorkID, WorkTypeEnum oldType, WorkTypeEnum newType)
         {
-            Delete_AttrValuesFields_ForWork(WorkID);
+            //Delete_AttrValuesFields_ForWork(WorkID);  // todo, надо дописать только недостающие атрибуты, т.к. в старых может содержаться важная информация
             Create_AttrValuesFields_ForWork(WorkID, newType);
         }
 
         public void Delete_AttrValuesFields_ForWork(int WorkID)
         {
+            // todo довольно странный способ удаления объектов, но в EF реально грустно
+            // здесь есть некоторый ускоритель, в некоторых случаях он реально может спасти https://habr.com/post/203214/
+
             IEnumerable<AttrValue> toDeleteDB = (from a in AttrValues where a.WorkID == WorkID select a).ToList();
             AttrValues.RemoveRange(toDeleteDB);
         }

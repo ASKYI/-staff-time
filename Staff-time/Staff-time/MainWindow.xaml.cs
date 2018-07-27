@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Staff_time.Model;
-using Staff_time.ViewModel;
+using Staff_time.ViewModel;         // todo после окончания работы над файлом желательно убрать лишние using
 
 namespace Staff_time
 {

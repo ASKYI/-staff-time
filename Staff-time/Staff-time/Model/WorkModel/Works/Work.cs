@@ -32,7 +32,7 @@ namespace Staff_time.Model
 
         public object Clone()
         {
-            return this.MemberwiseClone();
+            return this.MemberwiseClone(); // todo смотреть аналогично у Task
         }
     }
 }

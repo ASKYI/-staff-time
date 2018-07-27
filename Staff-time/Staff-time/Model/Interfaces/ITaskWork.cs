@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Staff_time.Model.Interfaces
 {
-    public interface ITaskWork
+    public interface ITaskWork  // todo функционал очень похож на репозиторий, странно что не фигурирует это имя Если используется паттерн, очень хорошо упоминать это в имени, т.к. это маркер другим программистам
     {
         void Create_Task(Task task);
 

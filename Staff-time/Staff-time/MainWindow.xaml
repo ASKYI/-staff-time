@@ -14,7 +14,7 @@
         MouseDown="TasksBlockView_MouseDown"  
         
         Title="" Height="450" Width="800" MinWidth="250" MinHeight="300"
-        Icon="Resources/appImage.ico"
+        Icon="Resources/appImage.ico" WindowStartupLocation="CenterScreen" WindowState="Maximized"
 >
     <Grid>
         <Grid.ColumnDefinitions>
