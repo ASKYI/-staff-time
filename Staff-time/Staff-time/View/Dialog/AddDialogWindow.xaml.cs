@@ -28,10 +28,10 @@ namespace Staff_time.View
         {
             InitializeComponent();
             base.DataContext = context;
-            Closing += ((ViewModel.TaskDialogViewModel)DataContext).OnWindowClosing;
+            Closing += ((ViewModel.TaskDialogViewModel)DataContext).OnWindowClosing;  // todo косяк зависимостей, здесь это не должно быть, это может быть в вызывающей функции
         }
 
-        private void OK_Button_Click(object sender, RoutedEventArgs e)
+        private void OK_Button_Click(object sender, RoutedEventArgs e) // todo по видимому лишние функции
         {
         }
 

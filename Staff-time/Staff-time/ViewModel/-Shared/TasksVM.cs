@@ -49,8 +49,8 @@ namespace Staff_time.ViewModel
                 else
                 {
                     Dictionary[id].Task = task;
-                    treeNode = Dictionary[id];
-                    treeNode = treeNodeFactory.CreateTreeNode(task);
+                    treeNode = Dictionary[id];                          // todo мне кажется, или эти 2 строчки несогласованы между собой
+                    treeNode = treeNodeFactory.CreateTreeNode(task);    // 
                 }
 
                 if (task.ParentTaskID != null)
@@ -67,7 +67,7 @@ namespace Staff_time.ViewModel
                 }
             }
             
-            Dictionary = Dictionary.OrderBy(pair => pair.Value.Task.IndexNumber).ToDictionary(pair => pair.Key, pair => pair.Value);
+            Dictionary = Dictionary.OrderBy(pair => pair.Value.Task.IndexNumber).ToDictionary(pair => pair.Key, pair => pair.Value); // todo не думал что у dictionary есть порядок
 
             foreach (var pair in Dictionary)
             {
@@ -83,10 +83,10 @@ namespace Staff_time.ViewModel
             Context.taskWork.Update_Task(task);
 
             //VM
-            TreeNodeFactory factory = new TreeNodeFactory();
+            TreeNodeFactory factory = new TreeNodeFactory(); // todo на текущий момент TreeNodeFactory имеет интерфейс ITreeNodeFactory, но при этом создаётся здесь и используется без учёта этого факта
             TreeNode newNode = factory.CreateTreeNode(task);
 
-            TasksVM.Dictionary.Add(task.ID, newNode);
+            TasksVM.Dictionary.Add(task.ID, newNode); // todo интересный момент использования классом самого себя
 
             if (task.ParentTaskID != null)
             {
@@ -113,8 +113,8 @@ namespace Staff_time.ViewModel
             if (newNode.Task.ParentTaskID != null)
             {
                 newNode.ParentNode = Dictionary[(int)newNode.Task.ParentTaskID];
-                if (oldNode.ParentNode != newNode.ParentNode)
-                    newNode.ParentNode.AddChild(newNode);
+                if (oldNode.ParentNode != newNode.ParentNode) // todo а если родитель не поменялся, значит не надо в нём регистрироваться? Хм увидел позже. Функциональность размазана, из-за этого сложно, код можно написать по-другому, см. пример
+                    newNode.ParentNode.AddChild(newNode);     // условие newNode.Task.ParentTaskID != null   подразумевает, что внутри блока будет работа полностью с newNode
             }
             if (oldNode.ParentNode != null)
             {
@@ -123,7 +123,28 @@ namespace Staff_time.ViewModel
                 else
                     oldNode.ParentNode.TreeNodes.Remove(oldNode);
             }
-            
+
+
+            //// пример реализации
+            //TreeNode oldParent = null;
+            //TreeNode newParent = null;
+
+            //if (oldNode.Task.ParentTaskID.HasValue)
+            //    Dictionary.TryGetValue(oldNode.Task.ParentTaskID.Value, out oldParent);
+
+            //if (newNode.Task.ParentTaskID.HasValue)
+            //    Dictionary.TryGetValue(newNode.Task.ParentTaskID.Value, out newParent);
+
+            //if (oldParent == newParent)
+            //    newParent?.UpdateChild(oldNode, newNode);   // придётся дописать
+            //else
+            //{
+            //    oldParent?.RemoveChild(oldNode);            // и это тоже
+            //    newParent?.AddChild(newNode);
+            //}
+
+
+
             //Children
             foreach (var n in oldNode.TreeNodes)
             {
@@ -131,7 +152,8 @@ namespace Staff_time.ViewModel
                 n.FullPath = generate_PathForTask(n.Task.ID);
                 newNode.AddChild(n);
             }
-            
+
+            // todo чем не устроил Dictionary[task.ID] = newNode; ?
             Dictionary.Remove(task.ID);
             Dictionary.Add(task.ID, newNode);
             newNode.FullPath = generate_PathForTask(task.ID);
@@ -156,14 +178,14 @@ namespace Staff_time.ViewModel
             TreeNode delNode = Dictionary[taskID];
 
             TreeNode parentNode = delNode.ParentNode;
-            int? parentID = delNode.Task.ParentTaskID;
+            int? parentID = delNode.Task.ParentTaskID; // todo ?
 
             foreach (var n in delNode.TreeNodes)
             {
                 DeleteAlone(n.Task.ID);
             }
 
-            if (parentNode != null)
+            if (parentNode != null)         // todo можно так parentNode?.TreeNodes?.Remove(delNode);
                 parentNode.TreeNodes.Remove(delNode);
             Dictionary.Remove(taskID);
         }
@@ -187,7 +209,7 @@ namespace Staff_time.ViewModel
             TreeNode delNode = Dictionary[taskID];
 
             TreeNode parentNode = delNode.ParentNode;
-            int? parentID = delNode.Task.ParentTaskID;
+            int? parentID = delNode.Task.ParentTaskID; // todo
 
             foreach (var n in delNode.TreeNodes)
             {
@@ -199,14 +221,14 @@ namespace Staff_time.ViewModel
 
         public static bool CheckWorks(int taskID)
         {
-            List<int> works = Context.workWork.Read_WorksForTask(taskID);
-            if (works.Count > 0)
+            List<int> works = Context.workWork.Read_WorksForTask(taskID); // todo var
+            if (works.Count > 0)            // todo какой здесь вопрос задаётся контейнеру? сколько элементов? 3 или 5 это важно?  Здесь вопрос - пустой он или нет, желательно задавать точные вопросы works.IsEmpty , плохо что такого нет у List
                 return true;
 
             TreeNode node = Dictionary[taskID];
 
             TreeNode parentNode = node.ParentNode;
-            int? parentID = node.Task.ParentTaskID;
+            int? parentID = node.Task.ParentTaskID; // todo
 
             foreach (var n in node.TreeNodes)
             {
@@ -235,12 +257,12 @@ namespace Staff_time.ViewModel
 
         #region Other Methods
 
-        public static ObservableCollection<TreeNode> Convert_TasksIntoNodes(List<int> t)
+        public static ObservableCollection<TreeNode> Convert_TasksIntoNodes(List<int> t) // todo - почему возвращает ObservableCollection, а не List, который гораздо проще
         {
-            ObservableCollection<TreeNode> tasksNodes = new ObservableCollection<TreeNode>();
+            ObservableCollection<TreeNode> tasksNodes = new ObservableCollection<TreeNode>(); // todo длинное имя дважды в строке, var
             if (t != null)
                 foreach (var q in t)
-                    tasksNodes.Add(Dictionary[q]);
+                    tasksNodes.Add(Dictionary[q]); // todo а что будет если в dictionary не будет числа q ? будет эксепшн
             return tasksNodes;
         }
 

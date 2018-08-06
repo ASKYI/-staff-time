@@ -14,6 +14,7 @@
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid>
+            <!--todo второй грид лишний, можно было бы у первого настроить столбцы  -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="10*"></RowDefinition>
                 <RowDefinition Height="25"></RowDefinition>
@@ -42,7 +43,7 @@
                         <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditingTask.Descriptions}"
                                  TextWrapping="Wrap" MinLines="5" MinHeight="100"></TextBox>
                     </ScrollViewer>
-                    
+
                 </Grid>
 
                 <Grid Margin="2">
@@ -65,9 +66,10 @@
 
             <StackPanel Margin="2" HorizontalAlignment="Left" Grid.Row="1" Orientation="Horizontal">
                 <Button Content="Ок" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="120" HorizontalAlignment="Left"></Button>
+                <!--todo для чего? Click="OK_Button_Click"-->
                 <Button Content="Отмена" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="120" HorizontalAlignment="Left"></Button>
             </StackPanel>
-                    
+
         </Grid>
     </Grid>
 </Window>

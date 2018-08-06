@@ -29,7 +29,7 @@ namespace Staff_time.ViewModel
 
             Dictionary = new SortedDictionary<int, WorkControlViewModelBase>();
 
-            List<Work> worksDB = Context.workWork.Read_AllWorks();
+            List<Work> worksDB = Context.workWork.Read_AllWorks(); // todo нам же все работы не нужны! с течением времени будет запускаться всё дольше + нам не нужны будут работы других пользователей
             foreach(Work work in worksDB)
             {
                 //Если разделять представления для разных типов работ, здесь понадобится Factory
