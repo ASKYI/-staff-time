@@ -21,7 +21,7 @@ namespace Staff_time.ViewModel
         //они хранятся в виде узлов
         public static Dictionary<int, TreeNode> Dictionary { get; set; }
 
-        public static bool Init_tracker = false;
+        public static bool Init_tracker = false; // todo для чего поле public?
         public static void Init()
         {
             if (Init_tracker)
@@ -271,7 +271,7 @@ namespace Staff_time.ViewModel
             if (!Dictionary.ContainsKey(taskID))
                 return new List<string>();
 
-            List<string> path = new List<string>();
+            List<string> path = new List<string>(); // todo дважды создаётся пустой список, достаточно одного пустого
 
             TreeNode t = Dictionary[taskID];
             while (t.ParentNode != null)
@@ -287,11 +287,11 @@ namespace Staff_time.ViewModel
 
         public static bool CheckIsChild(int parentID, int? childID)
         {
-            TreeNode parentNode = Dictionary[parentID];
-            TreeNode childNode = null;
+            TreeNode parentNode = Dictionary[parentID]; // todo, а если в Dictionary нет элемента parentID
+            TreeNode childNode = null; // todo преждевременно объявленная переменная
             if (childID != null)
             {
-                childNode = Dictionary[(int)childID];
+                childNode = Dictionary[(int)childID]; // todo в dictionary может не оказаться этого элемента
 
                 TreeNode curParent = childNode.ParentNode;
                 while (curParent != null)

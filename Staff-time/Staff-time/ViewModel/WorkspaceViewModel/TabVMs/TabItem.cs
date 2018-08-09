@@ -12,8 +12,16 @@ using GalaSoft.MvvmLight;
 
 namespace Staff_time.ViewModel
 {
-    enum WorkCommandEnum { Add, Delete, Update, None }
-    
+    enum WorkCommandEnum { Add, Delete, Update, None } // todo, чтобы воспользоваться этим enum, надо вписать using Staff_time.ViewModel, здесь же можно сделать расширение для Work, чтобы легче было вызывать
+
+    //static class WorkExtension
+    //{
+    //    public static void Add(this Work work, IMessenger messenger)  // теперь в любом месте можно легко вызывать
+    //    {
+    //        messenger.Send(new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, work));
+    //    }
+    //}
+
     public class TabItem : MainViewModel
     {
         public TabItem(string tabName_DayOfWeek, DateTime dateTime)
@@ -117,7 +125,7 @@ namespace Staff_time.ViewModel
                     WorksVM.Delete(work.ID);
                     WorksInTab.Remove(WorksInTab[index]);
 
-                    MessengerInstance.Send<long>(SumTime);
+                    MessengerInstance.Send<long>(SumTime); // todo а это нельзя сделать в сэттере свойства SumTime ?
                     break;
                 case WorkCommandEnum.Update:
                     int oldWorkMinutes = Context.workWork.Read_WorkByID(work.ID).Minutes;

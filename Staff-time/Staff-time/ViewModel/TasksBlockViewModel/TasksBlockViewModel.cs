@@ -56,7 +56,7 @@ namespace Staff_time.ViewModel
         }
         public void UpdateRootNode(int oldNodeIndex, TreeNode newNode)
         {
-            TreeRoots[oldNodeIndex] = newNode;
+            TreeRoots[oldNodeIndex] = newNode; // todo а если oldNodeIndex элемента нет в коллекции
         }
 
         private void _generate_Tree()
@@ -396,7 +396,7 @@ namespace Staff_time.ViewModel
                 parentNode.TreeNodes[index].Task.IndexNumber = parentNode.TreeNodes[index + 1].Task.IndexNumber;
                 parentNode.TreeNodes[index + 1].Task.IndexNumber = curI;
 
-                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index].Task));
+                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index].Task));        // todo было бы прикольно вызывать так: parentNode.TreeNodes[index].Task.EditCommand()
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index + 1].Task));
 
                 parentNode.TreeNodes.Move(index, index + 1);

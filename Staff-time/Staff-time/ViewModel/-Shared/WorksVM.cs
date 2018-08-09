@@ -18,9 +18,9 @@ namespace Staff_time.ViewModel
     {
         //Так как с работами удобнее работать как с WorkVM (дополнительные поля, доступные из WorkBlockControlVM), 
         //они хранятся в виде WorkVM
-        public static SortedDictionary<int, WorkControlViewModelBase> Dictionary { get; set; }
+        public static SortedDictionary<int, WorkControlViewModelBase> Dictionary { get; set; } // todo зачем здесь sortedDictionary ? его доп. функциональность не используется
 
-        public static bool init_tracker = false;
+        public static bool init_tracker = false; // todo для чего поле public?
         public static void Init()
         {
             if (init_tracker)

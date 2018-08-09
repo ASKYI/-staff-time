@@ -17,7 +17,7 @@ using System.Runtime.CompilerServices;
 namespace Staff_time.ViewModel
 {
     //Обертка над контестом WorkBlock для передачи через шаблон
-    public class WorkInTab : ViewModelBase, INotifyPropertyChanged
+    public class WorkInTab : ViewModelBase, INotifyPropertyChanged // todo довольно странный класс, не вижу в нём смысла
     {
         public WorkInTab(int workID)
         {

@@ -45,13 +45,13 @@ namespace Staff_time.ViewModel
             //    SelectedTaskNode = TasksVM.Dictionary[(int)task.ParentTaskID];
             //}
 
-            AcceptCommand = new RelayCommand(Accept, CanAccept);
-            CancelCommand = new RelayCommand(Cancel, CanCancel);
+            AcceptCommand = new RelayCommand(Accept, CanAccept); // todo чем чётче мы показываем намерения, тем легче программа 
+            CancelCommand = new RelayCommand(Cancel, CanCancel); // в данном случае у нас return true всегда, наглядней было бы CancelCommand = new RelayCommand(Cancel, (_) => true);
         }
 
         private Task _task; //TaskNode
         private TaskCommandEnum _command;
-        public int Command;
+        public int Command; // todo для чего эта переменная?
 
         private Task _editingTask;
         public Task EditingTask
@@ -101,7 +101,7 @@ namespace Staff_time.ViewModel
             get { return _selectedTaskNode; }
             set
             {
-                SetField<TreeNode>(ref _selectedTaskNode, value);
+                SetField<TreeNode>(ref _selectedTaskNode, value); // todo вроде c# по параметру сам должен распознать тип Generic
                 if (value.Task.ID == 0)
                     _editingTask.ParentTaskID = null;
                 else
@@ -137,7 +137,7 @@ namespace Staff_time.ViewModel
         }
 
         private ObservableCollection<TaskType> _taskTypesCb;
-        public ObservableCollection<TaskType> TaskTypesCb
+        public ObservableCollection<TaskType> TaskTypesCb //todo для чего Observable ? обычный List подойдёт
         {
             get { return _taskTypesCb; }
             set
@@ -169,7 +169,7 @@ namespace Staff_time.ViewModel
         public void Accept(object obj)
         {
             if (_command == TaskCommandEnum.Edit)
-                if (_editingTask.ID == _editingTask.ParentTaskID || TasksVM.CheckIsChild(_editingTask.ID, _editingTask.ParentTaskID))
+                if (_editingTask.ID == _editingTask.ParentTaskID || TasksVM.CheckIsChild(_editingTask.ID, _editingTask.ParentTaskID)) // todo по моему параметры неверно передаются в функцию CheckIsChild
                 {
                     MessageBox.Show("Нельзя назначить новым родителем потомка или самого себя");
                   //  MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
@@ -179,7 +179,7 @@ namespace Staff_time.ViewModel
            // _task = new Task(_editingTask);
 
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
-                new KeyValuePair<TaskCommandEnum, Task>(_command,  _editingTask));
+                new KeyValuePair<TaskCommandEnum, Task>(_command,  _editingTask)); // todo  две команды на строчку : создать экземпляр, вызвать Send
             if (dialog != null)
             {
                 dialog.Close();

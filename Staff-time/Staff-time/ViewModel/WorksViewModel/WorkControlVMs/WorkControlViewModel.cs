@@ -35,7 +35,7 @@ namespace Staff_time.ViewModel
 
         public override void DeleteWork()
         {
-            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
+            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work> // todo очень грузно
                 (WorkCommandEnum.Delete, Work));
         }
         public override void UpdateWork()

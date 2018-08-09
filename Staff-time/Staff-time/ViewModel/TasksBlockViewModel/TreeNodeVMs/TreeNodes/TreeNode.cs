@@ -9,8 +9,8 @@ using System.ComponentModel;
 
 namespace Staff_time.ViewModel
 {
-    public class TreeNode : MainViewModel, INotifyPropertyChanged
-    {
+    public class TreeNode : MainViewModel, INotifyPropertyChanged // todo ViewModelBase уже имеет реализованный интерфейс INotifyPropertyChanged
+    {                                                             // todo для чего treeNode унаследован от MainViewModel?
         public TreeNode()
         {
             TreeNodes = new ObservableCollection<TreeNode>();
@@ -26,7 +26,7 @@ namespace Staff_time.ViewModel
             Task = treeNode.Task;
             ParentNode = treeNode.ParentNode;
             TreeNodes = treeNode.TreeNodes;
-            FullPath = treeNode.FullPath;
+            FullPath = treeNode.FullPath; // todo здесь будет 1 массив на двоих, если кто-то один почистит его, другой  удивится
         }
 
         private Task _task;
@@ -34,7 +34,7 @@ namespace Staff_time.ViewModel
             get { return _task; }
             set
             {
-                SetField(ref _task, value);
+                SetField(ref _task, value); // todo Должно быть ошибкой, т.к. наши подписчики подписаны на наш ivent, а не на ivent базового класса, поэтому здесь не отработает оповещение
                 FullPath = TasksVM.generate_PathForTask(_task.ID);
             }
         }
@@ -44,7 +44,7 @@ namespace Staff_time.ViewModel
 
         public TreeNode ParentNode { get; set; }
 
-        public ObservableCollection<TreeNode> TreeNodes { get; set; }
+        public ObservableCollection<TreeNode> TreeNodes { get; set; } // todo при замене списка не произойдёт обновление view, т.к. нотификации об этом нет
 
         public void AddChild(TreeNode treeNode)
         {

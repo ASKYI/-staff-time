@@ -22,7 +22,7 @@ namespace Staff_time.ViewModel
 
         #region Selected Date TabIndex
 
-        private DateTime _selectedDate_Picker;
+        private DateTime _selectedDate_Picker; // todo picker - это графический элемент, вьюмодель о нём не должна знать
         public DateTime SelectedDate_Picker
         {
             get { return _selectedDate_Picker; }
