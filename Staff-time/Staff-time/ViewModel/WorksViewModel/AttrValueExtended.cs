@@ -30,7 +30,7 @@ namespace Staff_time.ViewModel
             get { return _isEditing; }
             set
             {
-                SetField(ref _isEditing, value);
+                SetField(ref _isEditing, value); // todo у какого объекта вызывается Notify?
             }
         }
 

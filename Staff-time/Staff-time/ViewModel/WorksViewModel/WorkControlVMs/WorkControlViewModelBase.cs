@@ -37,8 +37,9 @@ namespace Staff_time.ViewModel
 
             }
         }
+        
 
-        public Boolean IsEnabled
+        public Boolean IsEnabled // todo модный нынче способ "expression bodied properties", выгдядит так: public Boolean IsEnabled => !_isEditing;
         {
             get { return !_isEditing; }
         }

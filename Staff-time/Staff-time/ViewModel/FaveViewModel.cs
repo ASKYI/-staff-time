@@ -48,7 +48,7 @@ namespace Staff_time.ViewModel
                 path.Add(t.Task.TaskName);
 
                 path.Reverse();
-                for (int i = 0; i < path.Count; ++i)
+                for (int i = 0; i < path.Count; ++i) // todo string.join
                 {
                     if (i != 0)
                         stringPath.Append("->");
@@ -71,7 +71,7 @@ namespace Staff_time.ViewModel
         }
 
         private readonly ICommand _selectTaskCommand;
-        public ICommand SelectTaskCommand
+        public ICommand SelectTaskCommand // todo c#6.0  бестелесное свойство
         {
             get
             {

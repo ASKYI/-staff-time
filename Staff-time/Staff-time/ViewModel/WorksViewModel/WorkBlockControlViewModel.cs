@@ -81,10 +81,11 @@ namespace Staff_time.ViewModel
             {
                 TreeNode taskNode = TasksVM.Dictionary[Work.TaskID];
 
+                
                 StringBuilder stringPath = new StringBuilder();
                 stringPath.Append(Work.WorkName + "<-");
                 
-                for (int i = taskNode.FullPath.Count - 1; i >= 0; --i)
+                for (int i = taskNode.FullPath.Count - 1; i >= 0; --i) // todo есть замечательный оператор string.Join советую к нему присмотреться
                 {
                     stringPath.Append(taskNode.FullPath[i]);
                     if (i != 0)
@@ -166,7 +167,7 @@ namespace Staff_time.ViewModel
             {
                 Work.StartTime = value;
                 Work.Minutes = (EndTime - StartTime).Hours * 60 + (EndTime - StartTime).Minutes;
-                RaisePropertyChanged("StartTime");
+                RaisePropertyChanged("StartTime"); // todo посмотреть функцию nameof
                 RaisePropertyChanged("Minutes");
             }
         }
