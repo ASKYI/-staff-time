@@ -4,12 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище TaskManagmentDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="TaskManagmentDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Attributes">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DateType" Type="int" Nullable="false" />
         </EntityType>
@@ -31,7 +31,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="DataType" Type="int" Nullable="false" />
-          <Property Name="PropName" Type="varchar(max)" Nullable="false" />
+          <Property Name="PropName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="PropValues">
@@ -47,21 +47,11 @@
           <Property Name="ValueDate" Type="date" />
           <Property Name="ValueTime" Type="time" Precision="7" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="Tasks">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TaskName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TaskName" Type="varchar" MaxLength="255" />
           <Property Name="TaskTypeID" Type="int" Nullable="false" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ParentTaskID" Type="int" />
@@ -81,7 +71,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TypeName" Type="varchar(max)" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
@@ -89,7 +79,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="UserTasks">
           <Key>
@@ -103,7 +93,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="WorkName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="WorkName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TaskID" Type="int" Nullable="false" />
           <Property Name="WorkTypeID" Type="int" Nullable="false" />
@@ -123,7 +113,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TypeName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ID" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_AttrValues_Attributes1">
@@ -306,12 +296,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище TaskManagmentDBModelContainer">
+        <EntityContainer Name="TaskManagmentDBModelStoreContainer">
           <EntitySet Name="Attributes" EntityType="Self.Attributes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AttrValues" EntityType="Self.AttrValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Properties" EntityType="Self.Properties" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PropValues" EntityType="Self.PropValues" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskTypeProps" EntityType="Self.TaskTypeProps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskTypes" EntityType="Self.TaskTypes" Schema="dbo" store:Type="Tables" />
@@ -390,7 +379,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DateType" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AttrValues" Relationship="Self.FK_AttrValues_Attributes1" FromRole="Attributes" ToRole="AttrValues" />
@@ -416,7 +405,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="DataType" Type="Int32" Nullable="false" />
-          <Property Name="PropName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PropName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="PropValues" Relationship="Self.FK_PropValues_Properties" FromRole="Properties" ToRole="PropValues" />
           <NavigationProperty Name="TaskTypeProps" Relationship="Self.FK_TaskTypeProps_Properties" FromRole="Properties" ToRole="TaskTypeProps" />
@@ -436,21 +425,11 @@
           <NavigationProperty Name="Property" Relationship="Self.FK_PropValues_Properties" FromRole="PropValues" ToRole="Properties" />
           <NavigationProperty Name="Task" Relationship="Self.FK_PropValues_Tasks" FromRole="PropValues" ToRole="Tasks" />
         </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="Task">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TaskName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TaskName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="TaskTypeID" Type="Int32" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ParentTaskID" Type="Int32" />
@@ -479,7 +458,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_TaskTypes" FromRole="TaskTypes" ToRole="Tasks" />
           <NavigationProperty Name="TaskTypeProps" Relationship="Self.FK_TaskTypeProps_TaskTypes" FromRole="TaskTypes" ToRole="TaskTypeProps" />
@@ -489,7 +468,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="UserTasks" Relationship="Self.FK_UserTasks_Users" FromRole="Users" ToRole="UserTasks" />
         </EntityType>
         <EntityType Name="UserTask">
@@ -506,7 +485,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="WorkName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="WorkName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TaskID" Type="Int32" Nullable="false" />
           <Property Name="WorkTypeID" Type="Int32" Nullable="false" />
@@ -531,7 +510,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_WorkTypes" FromRole="WorkTypes" ToRole="Tasks" />
           <NavigationProperty Name="Works" Relationship="Self.FK_Works_WorkTypes" FromRole="WorkTypes" ToRole="Works" />
@@ -722,7 +701,6 @@
           <EntitySet Name="AttrValues" EntityType="Self.AttrValue" />
           <EntitySet Name="Properties" EntityType="Self.Property" />
           <EntitySet Name="PropValues" EntityType="Self.PropValue" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Tasks" EntityType="Self.Task" />
           <EntitySet Name="TaskTypeProps" EntityType="Self.TaskTypeProp" />
           <EntitySet Name="TaskTypes" EntityType="Self.TaskType" />
@@ -797,7 +775,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище TaskManagmentDBModelContainer" CdmEntityContainer="TaskManagmentDBEntities">
+        <EntityContainerMapping StorageEntityContainer="TaskManagmentDBModelStoreContainer" CdmEntityContainer="TaskManagmentDBEntities">
           <EntitySetMapping Name="Attributes">
             <EntityTypeMapping TypeName="TaskManagmentDBModel.Attribute">
               <MappingFragment StoreEntitySet="Attributes">
@@ -841,17 +819,6 @@
                 <ScalarProperty Name="ValueInt" ColumnName="ValueInt" />
                 <ScalarProperty Name="ValueDate" ColumnName="ValueDate" />
                 <ScalarProperty Name="ValueTime" ColumnName="ValueTime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="TaskManagmentDBModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -949,7 +916,7 @@
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
