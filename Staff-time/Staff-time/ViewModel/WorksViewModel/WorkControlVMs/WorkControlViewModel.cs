@@ -1,17 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Staff_time.Model;
-using System.Windows.Input;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using GalaSoft.MvvmLight;
-
-using System.Data.Entity.Infrastructure;
-using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
 { 
@@ -35,13 +25,13 @@ namespace Staff_time.ViewModel
 
         public override void DeleteWork()
         {
-            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
-                (WorkCommandEnum.Delete, Work));
+            var toSend = new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, Work); //done: разделено
+            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(toSend);
         }
         public override void UpdateWork()
         {
-            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
-                (WorkCommandEnum.Update, Work));
+            var toSend = new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Update, Work);
+            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(toSend);
         }
     }
 }

@@ -183,7 +183,6 @@ namespace Staff_time.Model
 
         public void UpdateAttributeValuesFieldsForWork(int WorkID, WorkTypeEnum oldType, WorkTypeEnum newType)
         {
-            DeleteAttributValuesFieldsForWork(WorkID);
             AddAtributeValuesFields(WorkID, newType);
         }
 

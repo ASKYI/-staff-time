@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-
 using System.Data.Entity;
-
 using Staff_time.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using GalaSoft.MvvmLight;
-
 using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
 
