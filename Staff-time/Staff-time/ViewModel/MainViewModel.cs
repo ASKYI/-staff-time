@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Staff_time.Model;
 using Staff_time.Model.Repositories;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using GalaSoft.MvvmLight;
-
-using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
