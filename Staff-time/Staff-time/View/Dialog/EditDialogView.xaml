@@ -14,6 +14,7 @@
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
+        <!--todo это надо выносить в отдельный компонент, потому что по проекту много где дублируется-->
         <!--Отображение узлов дерева-->
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="LightGreen" BorderThickness="2">
