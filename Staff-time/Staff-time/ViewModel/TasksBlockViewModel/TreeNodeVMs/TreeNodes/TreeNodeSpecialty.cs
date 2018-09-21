@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Staff_time.Model;
+using System.Collections.ObjectModel;
 
 namespace Staff_time.ViewModel
 {

@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Staff_time.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace Staff_time.ViewModel
 {
-    public class TreeNode : MainViewModel, INotifyPropertyChanged
+    public class TreeNode : INotifyPropertyChanged //done: не насленик MainViewModel
     {
         public TreeNode()
         {
@@ -21,12 +18,14 @@ namespace Staff_time.ViewModel
         {
             Task = task;
         }
-        public TreeNode(TreeNode treeNode) : this()
+        public TreeNode(TreeNode treeNode) : this() //done: исправлена глубина копирования
         {
             Task = treeNode.Task;
             ParentNode = treeNode.ParentNode;
             TreeNodes = treeNode.TreeNodes;
-            FullPath = treeNode.FullPath;
+            FullPath = new List<string>();
+            foreach (var s in treeNode.FullPath)
+                FullPath.Add(s);
         }
 
         private Task _task;
@@ -34,7 +33,8 @@ namespace Staff_time.ViewModel
             get { return _task; }
             set
             {
-                SetField(ref _task, value);
+                NotifyPropertyChanged("Task"); //done: было _task, случайно
+                _task = value;
                 FullPath = TasksVM.generate_PathForTask(_task.ID);
             }
         }
@@ -44,7 +44,18 @@ namespace Staff_time.ViewModel
 
         public TreeNode ParentNode { get; set; }
 
-        public ObservableCollection<TreeNode> TreeNodes { get; set; }
+        private ObservableCollection<TreeNode> _treeNodes;
+        public ObservableCollection<TreeNode> TreeNodes //done: Нотификации
+        {
+            get
+            {
+                return _treeNodes;
+            }
+            set
+            {
+                _treeNodes = value;
+            }
+        }
 
         public void AddChild(TreeNode treeNode)
         {
@@ -61,7 +72,6 @@ namespace Staff_time.ViewModel
             get { return _isSelected; }
             set
             {
-                //SetField(ref _isSelected, value); - Не работает
                 _isSelected = value;
                 NotifyPropertyChanged("IsSelected");
             }
