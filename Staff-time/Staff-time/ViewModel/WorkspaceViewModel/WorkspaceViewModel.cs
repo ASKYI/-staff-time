@@ -1,13 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Staff_time.Model;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using System.ComponentModel;
-using GalaSoft.MvvmLight.Messaging;
 
 namespace Staff_time.ViewModel
 {
@@ -15,22 +8,22 @@ namespace Staff_time.ViewModel
     {
         public WorkspaceViewModel()
         {
-            SelectedDate_Picker = chosenDate;
+            SelectedDatePickerTime = chosenDate;
             
             MessengerInstance.Register<long>(this, SumTimeChange);
         }
 
         #region Selected Date TabIndex
 
-        private DateTime _selectedDate_Picker;
-        public DateTime SelectedDate_Picker
+        private DateTime _selectedDatePickerTime; //done: переименование
+        public DateTime SelectedDatePickerTime
         {
-            get { return _selectedDate_Picker; }
+            get { return _selectedDatePickerTime; }
             set
             {
-                SetField(ref _selectedDate_Picker, value);
+                SetField(ref _selectedDatePickerTime, value);
 
-                Generate_Week(_selectedDate_Picker);
+                Generate_Week(_selectedDatePickerTime);
             }
         }
 
@@ -40,7 +33,7 @@ namespace Staff_time.ViewModel
             get { return _selectedTabIndex; }
             set
             {
-                if (value >= 0 && value < WeekTabs.Count) //Иногда он сюда попадает
+                if (value >= 0 && value < WeekTabs.Count)
                 {
                     SetField(ref _selectedTabIndex, value);
                     
