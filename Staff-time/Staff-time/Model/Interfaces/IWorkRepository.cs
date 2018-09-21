@@ -1,32 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Staff_time.Model.Interfaces
 {
-    public interface IWorkWork
+    public interface IWorkRepository  // done: переименован интерфейс, функции, убраны лишние библиотеки
     {
         //Создает работу и пустые поля значений атрибутов
-        void Create_Work(Work work);
+        void AddWork(Work work);
 
         //Возвращает список правильно созданных (верный тип) работ (с загрузкой задач)
-        List<Work> Read_AllWorks();
+        List<Work> GetAllWorks();
 
         //Возвращает список правильно созданных (верный тип) работ за определенную дату - дата начала (с загрузкой задач)
-        List<int> Read_WorksForDate(DateTime date);
+        List<int> GetWorksForDate(DateTime date);
 
         //Возвращает список правильно созданных (верный тип) работ для определенной задачи (с загрузкой задач)
-        List<int> Read_WorksForTask(int taskID);
+        List<int> GetWorksForTask(int taskID);
 
         //Возвращает работу по ID
-        Work Read_WorkByID(int workID);
+        Work GetWorkByID(int workID);
 
         //Обнволение работы
-        void Update_Work(Work work);
+        void UpdateWork(Work work);
 
         //Удаление работы
-        void Delete_Work(int workID);
+        void DeleteWork(int workID);
     }
 }

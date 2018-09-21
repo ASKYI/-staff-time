@@ -29,7 +29,7 @@ namespace Staff_time.ViewModel
 
             Dictionary = new SortedDictionary<int, WorkControlViewModelBase>();
 
-            List<Work> worksDB = Context.workWork.Read_AllWorks();
+            List<Work> worksDB = Context.workWork.GetAllWorks();
             foreach(Work work in worksDB)
             {
                 //Если разделять представления для разных типов работ, здесь понадобится Factory
@@ -40,7 +40,7 @@ namespace Staff_time.ViewModel
         public static void Add(Work work)
         {
             //DB
-            Context.workWork.Create_Work(work);
+            Context.workWork.AddWork(work);
 
             //VM
             WorkFactory factory = new WorkFactory();
@@ -50,7 +50,7 @@ namespace Staff_time.ViewModel
         public static void Delete (int workID)
         {
             //DB
-            Context.workWork.Delete_Work(workID);
+            Context.workWork.DeleteWork(workID);
 
             //Vm
             Dictionary.Remove(workID);
@@ -58,7 +58,7 @@ namespace Staff_time.ViewModel
         public static void Update(Work work)
         {
             //DB
-            Context.workWork.Update_Work(work);
+            Context.workWork.UpdateWork(work);
 
             //VM
             Dictionary.Remove(work.ID);

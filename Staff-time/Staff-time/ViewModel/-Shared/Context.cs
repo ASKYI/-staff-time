@@ -17,10 +17,10 @@ namespace Staff_time.ViewModel
     public static class Context
     {
         private static TaskManagmentDBEntities _context;
-        public static ITaskWork taskWork;
-        public static IWorkWork workWork;
-        public static IAttrWork attrWork;
-        public static ITypesWork typesWork;
+        public static ITaskRepository taskWork;
+        public static IWorkRepository workWork;
+        public static IAttributeRepository attrWork;
+        public static ITypesRepository typesWork;
 
         private static bool _init_tracker = false;
         public static void Init()

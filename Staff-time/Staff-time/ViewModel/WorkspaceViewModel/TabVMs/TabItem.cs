@@ -63,7 +63,7 @@ namespace Staff_time.ViewModel
             SumTime = 0;
             WorksInTab = new ObservableCollection<WorkInTab>();
 
-            List<int> works = Context.workWork.Read_WorksForDate(Date);
+            List<int> works = Context.workWork.GetWorksForDate(Date);
             foreach (int id in works)
             {
                 Work w = WorksVM.Dictionary[id].Work;
@@ -120,7 +120,7 @@ namespace Staff_time.ViewModel
                     MessengerInstance.Send<long>(SumTime);
                     break;
                 case WorkCommandEnum.Update:
-                    int oldWorkMinutes = Context.workWork.Read_WorkByID(work.ID).Minutes;
+                    int oldWorkMinutes = Context.workWork.GetWorkByID(work.ID).Minutes;
 
                     WorksVM.Update(work);
                     Work newWork = WorksVM.Dictionary[work.ID].Work;

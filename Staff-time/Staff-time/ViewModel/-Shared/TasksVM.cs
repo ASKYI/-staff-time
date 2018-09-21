@@ -36,7 +36,7 @@ namespace Staff_time.ViewModel
             //В бд невозможно добавить ссылку на несуществующую задачу 
 
             TreeNodeFactory treeNodeFactory = new TreeNodeFactory();
-            List<Task> tasksBD = Context.taskWork.Read_AllTasks();
+            List<Task> tasksBD = Context.taskWork.GetAllTasks();
             foreach (Task task in tasksBD)
             {
                 int id = task.ID;
@@ -78,9 +78,9 @@ namespace Staff_time.ViewModel
         public static void Add(Task task)
         {
             //DB
-            Context.taskWork.Create_Task(task);
+            Context.taskWork.AddTask(task);
             task.IndexNumber = task.ID;
-            Context.taskWork.Update_Task(task);
+            Context.taskWork.UpdateTask(task);
 
             //VM
             TreeNodeFactory factory = new TreeNodeFactory();
@@ -101,7 +101,7 @@ namespace Staff_time.ViewModel
         public static void Edit(Task task) //TreeNode
         {
             //DB
-            Context.taskWork.Update_Task(task);
+            Context.taskWork.UpdateTask(task);
 
             //VM
             TreeNode oldNode = Dictionary[task.ID];
@@ -140,10 +140,10 @@ namespace Staff_time.ViewModel
         public static void DeleteWithChildren(int taskID)
         {
             //DB
-            Context.taskWork.Delete_Task(taskID);
+            Context.taskWork.DeleteTask(taskID);
 
             //Works
-            List<int> works = Context.workWork.Read_WorksForTask(taskID);
+            List<int> works = Context.workWork.GetWorksForTask(taskID);
             foreach (var id in works)
             {
                 Work w = WorksVM.Dictionary[id].Work;
@@ -171,10 +171,10 @@ namespace Staff_time.ViewModel
         public static void DeleteAlone(int taskID)
         {
             //DB
-            Context.taskWork.Delete_Task(taskID);
+            Context.taskWork.DeleteTask(taskID);
 
             //Works
-            List<int> works = Context.workWork.Read_WorksForTask(taskID);
+            List<int> works = Context.workWork.GetWorksForTask(taskID);
             foreach (var id in works)
             {
                 Work w = WorksVM.Dictionary[id].Work;
@@ -199,7 +199,7 @@ namespace Staff_time.ViewModel
 
         public static bool CheckWorks(int taskID)
         {
-            List<int> works = Context.workWork.Read_WorksForTask(taskID);
+            List<int> works = Context.workWork.GetWorksForTask(taskID);
             if (works.Count > 0)
                 return true;
 

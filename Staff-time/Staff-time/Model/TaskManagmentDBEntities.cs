@@ -13,21 +13,22 @@ using Staff_time.Model.Interfaces;
 namespace Staff_time.Model
 {
     public partial class TaskManagmentDBEntities : DbContext,
-        ITaskWork, IWorkWork, IAttrWork, ITypesWork
+        ITaskRepository, IWorkRepository, IAttributeRepository, ITypesRepository
     {
-        #region ITaskWork
 
-        public void Create_Task(Task task)
+        #region ITaskRepository
+
+        public void AddTask(Task task)
         {
             Tasks.Add(task);
             SaveChanges();
         }
-        public void Create_TaskToFave(int taskID, int curUserID)
+        public void AddTaskToFave(int taskID, int curUserID)
         {
             throw new NotImplementedException();
         }
 
-        public List<Task> Read_AllTasks() 
+        public List<Task> GetAllTasks() 
         {
             List<Task> tasks = new List<Task>();
             List<Task> tasksDB = new List<Task>(Tasks.OrderBy(t => t.IndexNumber));
@@ -40,17 +41,17 @@ namespace Staff_time.Model
             return tasks;
         }
 
-        public List<int> Read_RootTasks()
+        public List<int> GetRootTasks()
         {
             return (from t in Tasks where t.ParentTaskID == null select t.ID).ToList();
         }
      
-        public List<int> Read_FaveTasks(int userID)
+        public List<int> GetFaveTasks(int userID)
         {
             return (from t in UserTasks where t.UserID == userID select t.TaskID).ToList();
         }
 
-        public List<int> Read_ChildTasks(int taskID)
+        public List<int> GetChildTasks(int taskID)
         {
             List<Task> tasksDB = Tasks.Where(t => t.ParentTaskID == taskID).ToList();
 
@@ -64,13 +65,13 @@ namespace Staff_time.Model
             return tasks;
         }
 
-        public void Update_Task(Task task)
+        public void UpdateTask(Task task)
         {
             Tasks.AddOrUpdate(task);
             SaveChanges();
         }
        
-        public void Delete_Task(int taskID)
+        public void DeleteTask(int taskID)
         {
             Task taskBD = Tasks.Where(t => t.ID == taskID).FirstOrDefault();
 
@@ -80,7 +81,7 @@ namespace Staff_time.Model
 
             List<Work> worksBD = (from w in Works where w.TaskID == taskID select w).ToList();
             foreach (var w in worksBD) {
-                Delete_AttrValuesFields_ForWork(w.ID);
+                DeleteAttributValuesFieldsForWork(w.ID);
                 Works.Remove(w);
             }
 
@@ -88,25 +89,25 @@ namespace Staff_time.Model
                 Tasks.Remove(taskBD);
             SaveChanges();
         }
-        public void Delete_TaskFromFave(int taskID)
+        public void DeleteTaskFromFave(int taskID)
         {
             throw new NotImplementedException();
         }
 
         #endregion
 
-        #region IWorkWork
-        
-        public void Create_Work(Work work)
+        #region IWorkRepository
+
+        public void AddWork(Work work)
         {
             Works.Add(work);
             
             //Создание пустых полей для атрибутов в соотвествии с типом работы
-            Create_AttrValuesFields_ForWork(work.ID, (WorkTypeEnum)work.WorkTypeID); 
+            AddAtributeValuesFields(work.ID, (WorkTypeEnum)work.WorkTypeID); 
             SaveChanges();
         }
   
-        public List<Work> Read_AllWorks()
+        public List<Work> GetAllWorks()
         {
             List<Work> worksDB = Works.Include(w => w.AttrValues.Select(a => a.Attribute)).ToList();
 
@@ -119,21 +120,21 @@ namespace Staff_time.Model
             return works;
         }
 
-        public List<int> Read_WorksForDate(DateTime date)
+        public List<int> GetWorksForDate(DateTime date)
         {
             return (from w in Works where w.StartDate == date.Date select w.ID).ToList();
         }
-        public List<int> Read_WorksForTask(int taskID)
+        public List<int> GetWorksForTask(int taskID)
         {
             return (from w in Works where w.TaskID == taskID select w.ID).ToList();
         }
 
-        public Work Read_WorkByID(int workID)
+        public Work GetWorkByID(int workID)
         {
             return (from w in Works where w.ID == workID select w).FirstOrDefault();
         }
 
-        public void Update_Work(Work work)
+        public void UpdateWork(Work work)
         {
             var workDB = Works.Where(x => x.ID == work.ID).FirstOrDefault();
             int oldTypeID = workDB.WorkTypeID, newTypeID = work.WorkTypeID;
@@ -141,24 +142,26 @@ namespace Staff_time.Model
             Works.AddOrUpdate(work);
 
             if (workDB.WorkTypeID != work.WorkTypeID) //При изменении типа! Удалить-перенести атрибуты типа
-                Update_AttrValuesFields_ForWork(work.ID, (WorkTypeEnum)oldTypeID, (WorkTypeEnum)newTypeID);
+                UpdateAttributeValuesFieldsForWork(work.ID, (WorkTypeEnum)oldTypeID, (WorkTypeEnum)newTypeID);
 
             SaveChanges();
         }
 
-        public void Delete_Work(int workID)
+        public void DeleteWork(int workID)
         {
-            Delete_AttrValuesFields_ForWork(workID); //Удаление атрибутов работы
+            DeleteAttributValuesFieldsForWork(workID); //Удаление атрибутов работы
             var workDB = Works.Where(x => x.ID == workID).FirstOrDefault();
             if (workDB != null)
                 Works.Remove(workDB);
 
             SaveChanges();
         }
+
         #endregion
 
-        #region IAttrWork
-        public void Create_AttrValuesFields_ForWork(int WorkID, WorkTypeEnum type)
+        #region IAttributeRepository
+
+        public void AddAtributeValuesFields(int WorkID, WorkTypeEnum type)
         {
             int typeID = (int)type;
             List<int> attrIDs = (from a in WorkTypeAttrs where a.WorkTypeID == typeID select a.AttrID).ToList();
@@ -172,24 +175,24 @@ namespace Staff_time.Model
             SaveChanges();
         }    
 
-        public List<AttrValue> Read_AttrValues_ForWork(Work work)
+        public List<AttrValue> GetAttributeValuesForWork(Work work)
         {
             return AttrValues.Include(a => a.Attribute).Where(a => a.WorkID == work.ID).ToList();
         }
 
-        public void Update_AttrValuesFields_ForWork(int WorkID, WorkTypeEnum oldType, WorkTypeEnum newType)
+        public void UpdateAttributeValuesFieldsForWork(int WorkID, WorkTypeEnum oldType, WorkTypeEnum newType)
         {
-            Delete_AttrValuesFields_ForWork(WorkID);
-            Create_AttrValuesFields_ForWork(WorkID, newType);
+            DeleteAttributValuesFieldsForWork(WorkID);
+            AddAtributeValuesFields(WorkID, newType);
         }
 
-        public void Delete_AttrValuesFields_ForWork(int WorkID)
+        public void DeleteAttributValuesFieldsForWork(int WorkID)
         {
             IEnumerable<AttrValue> toDeleteDB = (from a in AttrValues where a.WorkID == WorkID select a).ToList();
             AttrValues.RemoveRange(toDeleteDB);
         }
 
-        public void Update_AttrValues_ForWork(List<AttrValue> values)
+        public void UpdateAttributeValuesForWork(List<AttrValue> values)
         {
             foreach (var v in values)
             {
@@ -197,18 +200,22 @@ namespace Staff_time.Model
                 SaveChanges();
             }
         }
+
         #endregion
 
-        #region ITypesWork
-        public List<WorkType> Read_WorkTypes()
+        #region ITypesRepository
+
+        public List<WorkType> GetWorkTypes()
         {
             return WorkTypes.ToList();
         }
 
-        public List<TaskType> Read_TaskTypes()
+        public List<TaskType> GetTaskTypes()
         {
             return TaskTypes.ToList();
         }
+
         #endregion
+
     }
 }

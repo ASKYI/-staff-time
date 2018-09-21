@@ -1,37 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Staff_time.Model.Interfaces
 {
-    public interface ITaskWork
+    public interface ITaskRepository // done: переименован интерфейс, функции, убраны лишние библиотеки
     {
-        void Create_Task(Task task);
+        void AddTask(Task task);
 
         //Добавить задачу в избранное
-        void Create_TaskToFave(int taskID, int curUserID);
+        void AddTaskToFave(int taskID, int curUserID);
 
         //Возвращает список правильно созданных (верный тип) задач в правильном порядке
-        List<Task> Read_AllTasks();
+        List<Task> GetAllTasks();
 
         //Возвращает список ID корневых задач
-        List<int> Read_RootTasks();
+        List<int> GetRootTasks();
 
         //Возвращает список ID избранных задач пользователя
-        List<int> Read_FaveTasks(int curUser);
+        List<int> GetFaveTasks(int curUser);
 
         //Возвращает список ID подзадач для данной задачи
-        List<int> Read_ChildTasks(int taskID);
+        List<int> GetChildTasks(int taskID);
 
         //Обновление задачи
-        void Update_Task(Task task);
+        void UpdateTask(Task task);
 
         //Удаление задачи. Родителем потомка становятся родитель удаляемой задачи, работы удаляются.
-        void Delete_Task(int taskID);
+        void DeleteTask(int taskID);
 
         //Убрать задачу из избранного
-        void Delete_TaskFromFave(int taskID);
+        void DeleteTaskFromFave(int taskID);
     }
 }
