@@ -165,7 +165,6 @@
     <Compile Include="ViewModel\WorkspaceViewModel\TabVMs\TabItem.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel\TabVMs\TabItemHeaderConverter.cs" />
     <Compile Include="ViewModel\-Shared\WorksVM.cs" />
-    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\ITreeNodeFactory.cs" />
     <Compile Include="ViewModel\-Shared\Context.cs" />
     <Compile Include="ViewModel\-Shared\TasksVM.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodeFactory.cs" />

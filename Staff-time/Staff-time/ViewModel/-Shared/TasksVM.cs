@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Windows;
-
 using Staff_time.Model;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using System.ComponentModel;
-using GalaSoft.MvvmLight.Messaging;
-
-using System.Data.Entity.Infrastructure;
-using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
 {
@@ -21,12 +12,12 @@ namespace Staff_time.ViewModel
         //они хранятся в виде узлов
         public static Dictionary<int, TreeNode> Dictionary { get; set; }
 
-        public static bool Init_tracker = false;
+        private static bool _init_tracker = false; //done: private
         public static void Init()
         {
-            if (Init_tracker)
+            if (_init_tracker)
                 return;
-            Init_tracker = true;
+            _init_tracker = true;
 
             Dictionary = new Dictionary<int, TreeNode>();
 
@@ -49,8 +40,8 @@ namespace Staff_time.ViewModel
                 else
                 {
                     Dictionary[id].Task = task;
-                    treeNode = Dictionary[id];
-                    treeNode = treeNodeFactory.CreateTreeNode(task);
+                    treeNode = Dictionary[id]; // todo мне кажется, или эти 2 строчки несогласованы между собой
+                    treeNode = treeNodeFactory.CreateTreeNode(task); //
                 }
 
                 if (task.ParentTaskID != null)
@@ -67,7 +58,7 @@ namespace Staff_time.ViewModel
                 }
             }
             
-            Dictionary = Dictionary.OrderBy(pair => pair.Value.Task.IndexNumber).ToDictionary(pair => pair.Key, pair => pair.Value);
+            Dictionary = Dictionary.OrderBy(pair => pair.Value.Task.IndexNumber).ToDictionary(pair => pair.Key, pair => pair.Value); // todo не думал что у dictionary есть порядок
 
             foreach (var pair in Dictionary)
             {
@@ -83,10 +74,10 @@ namespace Staff_time.ViewModel
             Context.taskWork.UpdateTask(task);
 
             //VM
-            TreeNodeFactory factory = new TreeNodeFactory();
+            TreeNodeFactory factory = new TreeNodeFactory(); //done: ITreeNodeFactory удален из-за ненадобности
             TreeNode newNode = factory.CreateTreeNode(task);
 
-            TasksVM.Dictionary.Add(task.ID, newNode);
+            Dictionary.Add(task.ID, newNode); //done: TasksVM.Dictionary исправлено
 
             if (task.ParentTaskID != null)
             {
@@ -98,6 +89,7 @@ namespace Staff_time.ViewModel
             newNode.FullPath = generate_PathForTask(task.ID);
         }
 
+        //done-todo: Переписана функция
         public static void Edit(Task task) //TreeNode
         {
             //DB
@@ -131,9 +123,8 @@ namespace Staff_time.ViewModel
                 n.FullPath = generate_PathForTask(n.Task.ID);
                 newNode.AddChild(n);
             }
-            
-            Dictionary.Remove(task.ID);
-            Dictionary.Add(task.ID, newNode);
+
+            Dictionary[task.ID] = newNode;
             newNode.FullPath = generate_PathForTask(task.ID);
         }
 
@@ -163,8 +154,9 @@ namespace Staff_time.ViewModel
                 DeleteAlone(n.Task.ID);
             }
 
-            if (parentNode != null)
-                parentNode.TreeNodes.Remove(delNode);
+            //if (parentNode != null)
+              //  parentNode.TreeNodes.Remove(delNode);
+            parentNode?.TreeNodes?.Remove(delNode); //done
             Dictionary.Remove(taskID);
         }
 
@@ -187,7 +179,7 @@ namespace Staff_time.ViewModel
             TreeNode delNode = Dictionary[taskID];
 
             TreeNode parentNode = delNode.ParentNode;
-            int? parentID = delNode.Task.ParentTaskID;
+            int? parentID = delNode.Task.ParentTaskID; //todo
 
             foreach (var n in delNode.TreeNodes)
             {
@@ -199,14 +191,14 @@ namespace Staff_time.ViewModel
 
         public static bool CheckWorks(int taskID)
         {
-            List<int> works = Context.workWork.GetWorksForTask(taskID);
+            List<int> works = Context.workWork.GetWorksForTask(taskID); //todo var
             if (works.Count > 0)
                 return true;
 
             TreeNode node = Dictionary[taskID];
 
             TreeNode parentNode = node.ParentNode;
-            int? parentID = node.Task.ParentTaskID;
+            int? parentID = node.Task.ParentTaskID; // todo
 
             foreach (var n in node.TreeNodes)
             {
@@ -235,9 +227,9 @@ namespace Staff_time.ViewModel
 
         #region Other Methods
 
-        public static ObservableCollection<TreeNode> Convert_TasksIntoNodes(List<int> t)
+        public static ObservableCollection<TreeNode> Convert_TasksIntoNodes(List<int> t) //done: ObservableCollection, потому что используется во View
         {
-            ObservableCollection<TreeNode> tasksNodes = new ObservableCollection<TreeNode>();
+            var tasksNodes = new ObservableCollection<TreeNode>(); //done: var
             if (t != null)
                 foreach (var q in t)
                     tasksNodes.Add(Dictionary[q]);
@@ -246,30 +238,33 @@ namespace Staff_time.ViewModel
 
         public static List<string> generate_PathForTask(int taskID)
         {
-            if (!Dictionary.ContainsKey(taskID))
-                return new List<string>();
+            //if (!Dictionary.ContainsKey(taskID))
+            //    return new List<string>();
 
-            List<string> path = new List<string>();
+            List<string> path = new List<string>(); //done: убран лишний возврат
 
-            TreeNode t = Dictionary[taskID];
-            while (t.ParentNode != null)
+            if (Dictionary.ContainsKey(taskID))
             {
+                TreeNode t = Dictionary[taskID];
+                while (t.ParentNode != null)
+                {
+                    path.Add(t.Task.TaskName);
+                    t = t.ParentNode;
+                }
                 path.Add(t.Task.TaskName);
-                t = t.ParentNode;
-            }
-            path.Add(t.Task.TaskName);
 
-            path.Reverse();
+                path.Reverse();
+            }
             return path;
         }
 
         public static bool CheckIsChild(int parentID, int? childID)
         {
-            TreeNode parentNode = Dictionary[parentID];
-            TreeNode childNode = null;
+            TreeNode parentNode = Dictionary[parentID]; // todo, а если в Dictionary нет элемента parentID
+            TreeNode childNode = null; // todo преждевременно объявленная переменная
             if (childID != null)
             {
-                childNode = Dictionary[(int)childID];
+                childNode = Dictionary[(int)childID]; // todo в dictionary может не оказаться этого элемента
 
                 TreeNode curParent = childNode.ParentNode;
                 while (curParent != null)

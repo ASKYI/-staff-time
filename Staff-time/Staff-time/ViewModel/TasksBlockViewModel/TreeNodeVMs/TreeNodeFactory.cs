@@ -7,7 +7,7 @@ using Staff_time.Model;
 
 namespace Staff_time.ViewModel
 {
-    public class TreeNodeFactory : ITreeNodeFactory
+    public class TreeNodeFactory
     {
         public TreeNode CreateTreeNode(TaskTypeEnum type)
         {
