@@ -27,7 +27,7 @@ namespace Staff_time.ViewModel
             }
         }
 
-        public Boolean IsEnabled => !_isEditing;
+        public Boolean IsEnabled => !_isEditing; //done
 
         abstract public void UpdateWork();
         abstract public void DeleteWork();

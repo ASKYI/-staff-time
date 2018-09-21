@@ -1,17 +1,10 @@
-﻿using System;
+﻿using System.ComponentModel;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-
 using Staff_time.Model;
-using Staff_time.Model.Repositories;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using GalaSoft.MvvmLight;
 using System.Windows.Input;
-
-using System.Data.Entity.Infrastructure;
-using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
 
 namespace Staff_time.ViewModel
 {
@@ -22,7 +15,6 @@ namespace Staff_time.ViewModel
             WorkVM = work;
             _generate_Tree();
             Message = "Выбор задачи";
-          //  ChangeSelection(TasksVM.Dictionary[work.Work.TaskID]);
 
             AcceptCommand = new RelayCommand(Accept, CanAccept);
             CancelCommand = new RelayCommand(Cancel, CanCancel);
@@ -62,16 +54,16 @@ namespace Staff_time.ViewModel
             }
         }
 
-        public void ChangeSelection(TreeNode value) //Нельзя в сетер - будет переполнение стека
-        {
-            //if (_selectedTaskNode != null)
-            //    _selectedTaskNode.IsSelected = false;
+        //public void ChangeSelection(TreeNode value) //Нельзя в сетер - будет переполнение стека
+        //{
+        //    //if (_selectedTaskNode != null)
+        //    //    _selectedTaskNode.IsSelected = false;
 
-            //SetField<TreeNode>(ref _selectedTaskNode, value);
+        //    //SetField<TreeNode>(ref _selectedTaskNode, value);
 
-            //if (_selectedTaskNode != null)
-            //    _selectedTaskNode.IsSelected = true;
-        }
+        //    //if (_selectedTaskNode != null)
+        //    //    _selectedTaskNode.IsSelected = true;
+        //}
 
         private void _generate_Tree()
         {

@@ -27,12 +27,7 @@ namespace Staff_time.View
         private void workBlock_MouseEnter(object sender, MouseEventArgs e)
         {
             ((ViewModel.WorkBlockControlViewModel)DataContext).MouseLeft = false;
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            ((ViewModel.WorkBlockControlViewModel)DataContext).Minutes_Changed(sender, e);
-        }
+        }      
 
         private void workBlock_SizeChanged(object sender, SizeChangedEventArgs e)
         {

@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Data.Entity;
 using Staff_time.Model;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using GalaSoft.MvvmLight;
-using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
@@ -18,7 +12,7 @@ namespace Staff_time.ViewModel
         public AttrValueExtended (Boolean isEditing, AttrValue value)
         {
             IsEditing = isEditing;
-             AttrValue = value;
+            AttrValue = value;
         }
 
         private Boolean _isEditing;
@@ -27,7 +21,7 @@ namespace Staff_time.ViewModel
             get { return _isEditing; }
             set
             {
-                SetField(ref _isEditing, value);
+                SetField(ref _isEditing, value, "IsEditing"); //done: забыла IsEditing
             }
         }
 
@@ -38,12 +32,13 @@ namespace Staff_time.ViewModel
             set
             {
 
-                SetField(ref _attrValue, value);
+                SetField(ref _attrValue, value, "AttrValue");
             }
         }
 
 
         #region INotifyPropertyChanged Member
+
         protected bool SetField<T>(ref T field, T value,
             [CallerMemberName] string propertyName = null)
         {
@@ -52,6 +47,7 @@ namespace Staff_time.ViewModel
             RaisePropertyChanged(propertyName);
             return true;
         }
+
         #endregion
     }
 }

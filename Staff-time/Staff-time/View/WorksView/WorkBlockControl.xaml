@@ -76,7 +76,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="Время работы (в минутах): " Grid.Column="0"></TextBlock>
-                <TextBox TextWrapping="Wrap" IsReadOnly="{Binding IsReadOnly}" TextChanged="TextBox_TextChanged"
+                <TextBox TextWrapping="Wrap" IsReadOnly="{Binding IsReadOnly}"
                          Text="{Binding Minutes}" Grid.Column="1"></TextBox>
             </Grid>
 

@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-
 using Staff_time.Model;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using GalaSoft.MvvmLight;
-
-using System.Data.Entity.Infrastructure;
-using System.Runtime.CompilerServices;
-using GalaSoft.MvvmLight.Messaging;
 
 namespace Staff_time.ViewModel
 {
@@ -84,7 +76,7 @@ namespace Staff_time.ViewModel
                 StringBuilder stringPath = new StringBuilder();
                 stringPath.Append(Work.WorkName + "<-");
                 
-                for (int i = taskNode.FullPath.Count - 1; i >= 0; --i)
+                for (int i = taskNode.FullPath.Count - 1; i >= 0; --i)  // todo есть замечательный оператор string.Join советую к нему присмотреться
                 {
                     stringPath.Append(taskNode.FullPath[i]);
                     if (i != 0)
@@ -131,33 +123,6 @@ namespace Staff_time.ViewModel
         #endregion
 
         #region Time
-
-        public void Minutes_Changed(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-            //Оно не всегда хорошо работает
-            
-            /*int minutes = 0;
-            try
-            {
-                minutes = Convert.ToInt32(((System.Windows.Controls.TextBox)sender).Text);
-            }
-            catch
-            {
-                minutes = 0;
-            }
-
-            int hours = (minutes / 60) % 24; //Нельзя больше дня
-            minutes %= 60;
-            EndMinutes = StartMinutes + minutes;
-            EndHours = StartHours + hours;
-
-            Minutes = hours * 60 + minutes;
-
-            RaisePropertyChanged("StartHours");
-            RaisePropertyChanged("StartMinutes");
-            RaisePropertyChanged("EndHours");
-            RaisePropertyChanged("EndMinutes");*/
-        }
         
         public DateTime StartTime
         {
@@ -196,9 +161,6 @@ namespace Staff_time.ViewModel
                     value, old.Minute, old.Second);
 
                 RaisePropertyChanged("StartHours");
-                //RaisePropertyChanged("StartMinutes");
-                //RaisePropertyChanged("EndHours");
-                //RaisePropertyChanged("EndMinutes");
             }
         }
         public int StartMinutes
@@ -212,11 +174,8 @@ namespace Staff_time.ViewModel
 
                 Work.StartTime = new DateTime(old.Year, old.Month, old.Day,
                     old.Hour, value, old.Second);
-
-                //RaisePropertyChanged("StartHours");
+                
                 RaisePropertyChanged("StartMinutes");
-                //RaisePropertyChanged("EndHours");
-                //RaisePropertyChanged("EndMinutes");
             }
         }
 
@@ -230,10 +189,7 @@ namespace Staff_time.ViewModel
                 Work.Minutes = (value * 60 + EndMinutes) - (StartHours * 60 + StartMinutes);
 
                 RaisePropertyChanged("Minutes");
-                //RaisePropertyChanged("StartHours");
-                //RaisePropertyChanged("StartMinutes");
                 RaisePropertyChanged("EndHours");
-                //RaisePropertyChanged("EndMinutes");
             }
         }
 
@@ -247,9 +203,6 @@ namespace Staff_time.ViewModel
                 Work.Minutes = (EndHours * 60 + value) - (StartHours * 60 + StartMinutes);
 
                 RaisePropertyChanged("Minutes");
-                //RaisePropertyChanged("StartHours");
-                //RaisePropertyChanged("StartMinutes");
-                //RaisePropertyChanged("EndHours");
                 RaisePropertyChanged("EndMinutes");
             }
         }
