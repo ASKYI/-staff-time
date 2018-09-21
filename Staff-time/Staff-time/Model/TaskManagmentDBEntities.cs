@@ -10,9 +10,12 @@ using System.Data.Entity.Migrations;
 
 using Staff_time.Model.Interfaces;
 
+//done: Переименовано
+//Не везде можно лямбды, ведь я возвращаю уже задачи верного типа
+
 namespace Staff_time.Model
 {
-    public partial class TaskManagmentDBEntities : DbContext,
+    public partial class TaskManagmentDBEntities : DbContext, 
         ITaskRepository, IWorkRepository, IAttributeRepository, ITypesRepository
     {
 
@@ -39,6 +42,7 @@ namespace Staff_time.Model
                 tasks.Add(taskFactory.CreateTask(t));
             }
             return tasks;
+            //return Tasks.ToList(); - без верных типов
         }
 
         public List<int> GetRootTasks()
@@ -56,13 +60,12 @@ namespace Staff_time.Model
             List<Task> tasksDB = Tasks.Where(t => t.ParentTaskID == taskID).ToList();
 
             List<int> tasks = new List<int>();
-
-            TaskFactory taskFactory = new TaskFactory();
             foreach (Task t in tasksDB)
             {
                 tasks.Add(t.ID);
             }
             return tasks;
+            //return Tasks.Where(t => t.ParentTaskID == taskID).Select(task => task.ID).ToList(); - без верных типов
         }
 
         public void UpdateTask(Task task)
@@ -141,7 +144,8 @@ namespace Staff_time.Model
 
             Works.AddOrUpdate(work);
 
-            if (workDB.WorkTypeID != work.WorkTypeID) //При изменении типа! Удалить-перенести атрибуты типа
+            // done: была ошибка со сравнением одного и того же объекта
+            if (oldTypeID != newTypeID) //При изменении типа! Изменить атрибуты типа
                 UpdateAttributeValuesFieldsForWork(work.ID, (WorkTypeEnum)oldTypeID, (WorkTypeEnum)newTypeID);
 
             SaveChanges();
@@ -170,12 +174,13 @@ namespace Staff_time.Model
                 AttrValue value = new AttrValue();
                 value.WorkID = WorkID;
                 value.AttrID = a;
+                //value.DataType = ; //done-todo: заполнить тип откуда?
                 AttrValues.Add(value);
             }
             SaveChanges();
         }    
 
-        public List<AttrValue> GetAttributeValuesForWork(Work work)
+        public List<AttrValue> GetAttributeValuesForWork(Work work) //done: Пусть будет запасной метод, как и для избранных задач
         {
             return AttrValues.Include(a => a.Attribute).Where(a => a.WorkID == work.ID).ToList();
         }
@@ -188,6 +193,9 @@ namespace Staff_time.Model
 
         public void DeleteAttributValuesFieldsForWork(int WorkID)
         {
+            // todo: довольно странный способ удаления объектов, но в EF реально грустно
+            // здесь есть некоторый ускоритель, в некоторых случаях он реально может спасти https://habr.com/post/203214/
+
             IEnumerable<AttrValue> toDeleteDB = (from a in AttrValues where a.WorkID == WorkID select a).ToList();
             AttrValues.RemoveRange(toDeleteDB);
         }
