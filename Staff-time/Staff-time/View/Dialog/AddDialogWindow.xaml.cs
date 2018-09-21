@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Staff_time.View
 {
     /// <summary>
     /// Логика взаимодействия для AddDialogWindow.xaml
     /// </summary>
-    public partial class AddDialogWindow : Window, IDialogView
+    public partial class AddDialogWindow : Window, IDialogView //done: убраны лишнии функции, оставили Closing += (+ метод при закрытии)
     {
         public AddDialogWindow()
         {
@@ -30,13 +21,5 @@ namespace Staff_time.View
             base.DataContext = context;
             Closing += ((ViewModel.TaskDialogViewModel)DataContext).OnWindowClosing;
         }
-
-        private void OK_Button_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void Cancel_Button_Click(object sender, RoutedEventArgs e)
-        {
-        } 
     }
 }

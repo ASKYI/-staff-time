@@ -67,8 +67,8 @@
         </ScrollViewer>
 
         <StackPanel Margin="2" HorizontalAlignment="Right" Grid.Row="1" Orientation="Horizontal">
-            <Button Content="Ок" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="120" HorizontalAlignment="Right"></Button>
-            <Button Content="Отмена" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="120" HorizontalAlignment="Right"></Button>
+            <Button Content="Ок" Command="{Binding AcceptCommand}" Width="120" HorizontalAlignment="Right"></Button>
+            <Button Content="Отмена" Command="{Binding CancelCommand}" Width="120" HorizontalAlignment="Right"></Button>
         </StackPanel>
     </Grid>
 </Window>
