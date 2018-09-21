@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
 using Staff_time.Model;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -12,8 +10,10 @@ using GalaSoft.MvvmLight;
 
 namespace Staff_time.ViewModel
 {
-    enum WorkCommandEnum { Add, Delete, Update, None }
-    
+    enum WorkCommandEnum { Add, Delete, Update, None }  
+    // todo, чтобы воспользоваться этим enum, надо вписать using Staff_time.ViewModel, здесь же можно сделать расширение для Work, чтобы легче было вызывать
+    //но ведь он используется только в ViewModel
+
     public class TabItem : MainViewModel
     {
         public TabItem(string tabName_DayOfWeek, DateTime dateTime)
@@ -37,6 +37,7 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField(ref _sumTime, value);
+                MessengerInstance.Send<long>(SumTime); //done
             }
         }
 
@@ -93,7 +94,6 @@ namespace Staff_time.ViewModel
                 AddWork(new WorkInTab(newWork.ID));
 
                 SumTime += newWork.Minutes;
-                MessengerInstance.Send<long>(SumTime);
                 return;
             }
 
@@ -116,8 +116,7 @@ namespace Staff_time.ViewModel
 
                     WorksVM.Delete(work.ID);
                     WorksInTab.Remove(WorksInTab[index]);
-
-                    MessengerInstance.Send<long>(SumTime);
+                    
                     break;
                 case WorkCommandEnum.Update:
                     int oldWorkMinutes = Context.workWork.GetWorkByID(work.ID).Minutes;
@@ -133,8 +132,7 @@ namespace Staff_time.ViewModel
                         AddWork(new WorkInTab(newWork.ID));
                         SumTime += newWork.Minutes;
                     }
-
-                    MessengerInstance.Send<long>(SumTime);
+                    
                     break;
             }
         }

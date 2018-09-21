@@ -1,23 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using System.Data.Entity;
-
 using Staff_time.Model;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using GalaSoft.MvvmLight;
-
-using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
 {
     //Обертка над контестом WorkBlock для передачи через шаблон
-    public class WorkInTab : ViewModelBase, INotifyPropertyChanged
+    public class WorkInTab : ViewModelBase, INotifyPropertyChanged //dome: класс, потому что через шаблон нельзя обратиться к предку
     {
         public WorkInTab(int workID)
         {
