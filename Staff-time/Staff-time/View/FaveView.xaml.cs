@@ -18,7 +18,7 @@ namespace Staff_time.View
     /// <summary>
     /// Логика взаимодействия для FaveView.xaml
     /// </summary>
-    public partial class FaveView : UserControl
+    public partial class FaveView : UserControl //Не реализовано
     {
         public FaveView()
         {
