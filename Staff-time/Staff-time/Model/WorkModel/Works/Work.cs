@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Staff_time.Model
 {
-    public partial class Work : ICloneable
+    public partial class Work //done: ICloneable не нужен
     {
-        //Есть ли более умный способ написания конструктора копирования?
         public Work(Work work)
         { 
             this.ID = work.ID;
@@ -28,11 +24,6 @@ namespace Staff_time.Model
             {
                 this.AttrValues.Add(a);
             }
-        }
-
-        public object Clone()
-        {
-            return this.MemberwiseClone();
         }
     }
 }
