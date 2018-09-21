@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Staff_time.Model
 {
-    public partial class Task : ICloneable
+    public partial class Task //done: ICloneable не нужен, исправлен конструктор копирования (недостаточная глубина)
     {
-        //Есть ли более умный способ написания конструктора копирования?
         public Task(Task task) 
         {
             this.ID = task.ID;
@@ -16,15 +13,14 @@ namespace Staff_time.Model
             this.ParentTaskID = task.ParentTaskID;
             this.Descriptions = task.Descriptions;
             this.IndexNumber = task.IndexNumber;
-
             this.TaskType = task.TaskType;
-            this.Works = task.Works;
-            this.PropValues = task.PropValues;
-        }
 
-        public object Clone()
-        {
-            return this.MemberwiseClone();
+            this.Works = new List<Work>();
+            foreach(var t in task.Works)
+                this.Works.Add(t);
+            this.PropValues = new List<PropValue>();
+            foreach (var pv in task.PropValues)
+                this.PropValues.Add(pv);
         }
     }
 }

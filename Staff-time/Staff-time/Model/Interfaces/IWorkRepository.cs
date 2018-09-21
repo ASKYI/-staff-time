@@ -11,6 +11,7 @@ namespace Staff_time.Model.Interfaces
         //Возвращает список правильно созданных (верный тип) работ (с загрузкой задач)
         List<Work> GetAllWorks();
 
+        // todo странно, что Read_AllWorks возвращает объекты, а Read_WorksForDate возвращает идентификаторы 
         //Возвращает список правильно созданных (верный тип) работ за определенную дату - дата начала (с загрузкой задач)
         List<int> GetWorksForDate(DateTime date);
 
