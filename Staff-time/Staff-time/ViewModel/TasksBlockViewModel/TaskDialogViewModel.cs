@@ -43,7 +43,7 @@ namespace Staff_time.ViewModel
             //{
             //   // ChangeSelection(TasksVM.Dictionary[(int)EditingTask.ParentTaskID]);
             //    SelectedTaskNode = TasksVM.Dictionary[(int)task.ParentTaskID];
-            //}
+        
 
             AcceptCommand = new RelayCommand(Accept, CanAccept);
             CancelCommand = new RelayCommand(Cancel, CanCancel);
