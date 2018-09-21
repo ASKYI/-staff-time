@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 
 using Staff_time.Model;
-using Staff_time.Model.Interfaces;
+using Staff_time.Model.Repositories;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using GalaSoft.MvvmLight;

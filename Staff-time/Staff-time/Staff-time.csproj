@@ -108,10 +108,10 @@
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Enums.cs" />
-    <Compile Include="Model\Interfaces\IAttributeRepository.cs" />
-    <Compile Include="Model\Interfaces\ITaskRepository.cs" />
-    <Compile Include="Model\Interfaces\ITypesRepository.cs" />
-    <Compile Include="Model\Interfaces\IWorkRepository.cs" />
+    <Compile Include="Model\Repositories\IAttributeRepository.cs" />
+    <Compile Include="Model\Repositories\ITaskRepository.cs" />
+    <Compile Include="Model\Repositories\ITypesRepository.cs" />
+    <Compile Include="Model\Repositories\IWorkRepository.cs" />
     <Compile Include="Model\Property.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
