@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
-
 using Staff_time.Model;
 using Staff_time.Model.Repositories;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using GalaSoft.MvvmLight;
-
 using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
 
@@ -30,28 +25,18 @@ namespace Staff_time.ViewModel
                 Message = "Выбрать задачу-родителя";
             }
             _command = command;
-            Command = (int)_command;
+            CurCommandType = (int)_command;
 
             EditingTask = new Task(task);
             SelectedTaskTypeIndex = task.TaskTypeID;
-            //if (EditingTask.ParentTaskID == null)
-            //{
-            //    ChangeSelection(_root);
-            //    SelectedTaskNode = _root;
-            //}
-            //else
-            //{
-            //   // ChangeSelection(TasksVM.Dictionary[(int)EditingTask.ParentTaskID]);
-            //    SelectedTaskNode = TasksVM.Dictionary[(int)task.ParentTaskID];
         
-
-            AcceptCommand = new RelayCommand(Accept, CanAccept);
-            CancelCommand = new RelayCommand(Cancel, CanCancel);
+            AcceptCommand = new RelayCommand(Accept, (_) => true); //done (_) => true
+            CancelCommand = new RelayCommand(Cancel, (_) => true);
         }
 
         private Task _task; //TaskNode
         private TaskCommandEnum _command;
-        public int Command;
+        public int CurCommandType; //done: переменная для поддержки типа команды (для чего окно)
 
         private Task _editingTask;
         public Task EditingTask
@@ -101,7 +86,7 @@ namespace Staff_time.ViewModel
             get { return _selectedTaskNode; }
             set
             {
-                SetField<TreeNode>(ref _selectedTaskNode, value);
+                SetField(ref _selectedTaskNode, value); //done: распознавание типа по параметру
                 if (value.Task.ID == 0)
                     _editingTask.ParentTaskID = null;
                 else
@@ -136,18 +121,19 @@ namespace Staff_time.ViewModel
             }
         }
 
-        private ObservableCollection<TaskType> _taskTypesCb;
-        public ObservableCollection<TaskType> TaskTypesCb
+        private List<TaskType> _taskTypesCb; //done: не ObservableCollection
+        public List<TaskType> TaskTypesCb
         {
             get { return _taskTypesCb; }
             set
             {
-                SetField<ObservableCollection<TaskType>>(ref _taskTypesCb, value);
+                SetField(ref _taskTypesCb, value);
             }
         }
+
         private void _generate_TaskTypesCb()
         {
-            TaskTypesCb = new ObservableCollection<TaskType>();
+            TaskTypesCb = new List<TaskType>();
             List<TaskType> types = Context.typesWork.GetTaskTypes();
             foreach (var t in types)
             {
@@ -162,21 +148,14 @@ namespace Staff_time.ViewModel
         public ICommand AcceptCommand { get; set; }
         public ICommand CancelCommand { get; set; }
 
-        private bool CanAccept(object obj)
-        {
-            return true;
-        }
         public void Accept(object obj)
         {
             if (_command == TaskCommandEnum.Edit)
                 if (_editingTask.ID == _editingTask.ParentTaskID || TasksVM.CheckIsChild(_editingTask.ID, _editingTask.ParentTaskID))
                 {
                     MessageBox.Show("Нельзя назначить новым родителем потомка или самого себя");
-                  //  MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
-                    //    new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
                     return;
                 }
-           // _task = new Task(_editingTask);
 
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
                 new KeyValuePair<TaskCommandEnum, Task>(_command,  _editingTask));
@@ -187,10 +166,6 @@ namespace Staff_time.ViewModel
             }
         }
 
-        private bool CanCancel(object obj)
-        {
-            return true;
-        }
         public void Cancel(object obj)
         {
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(

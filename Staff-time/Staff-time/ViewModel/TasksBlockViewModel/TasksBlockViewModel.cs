@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
-
 using Staff_time.Model;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -16,7 +14,6 @@ namespace Staff_time.ViewModel
 
     public class TasksBlockViewModel : MainViewModel
     {
-        //test
         public TasksBlockViewModel()
         {
             _generate_Tree();
@@ -56,7 +53,8 @@ namespace Staff_time.ViewModel
         }
         public void UpdateRootNode(int oldNodeIndex, TreeNode newNode)
         {
-            TreeRoots[oldNodeIndex] = newNode;
+            if (oldNodeIndex >= 0 && oldNodeIndex < TreeRoots.Count ) //done
+                TreeRoots[oldNodeIndex] = newNode;
         }
 
         private void _generate_Tree()
@@ -95,6 +93,7 @@ namespace Staff_time.ViewModel
         #endregion
 
         #region Add Work
+
         private readonly ICommand _addWorkCommand;
         public ICommand AddWorkCommand
         {
@@ -108,6 +107,7 @@ namespace Staff_time.ViewModel
         {
             return SelectedTaskNode != null && dialog == null;
         }
+
         private void AddWork(object obj)
         {
             base.CancelEditing();
@@ -121,9 +121,11 @@ namespace Staff_time.ViewModel
             MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(
                 new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Add, work));
         }
+
         #endregion
 
         #region Add Task
+
         private readonly ICommand _addNearTaskCommand;
         public ICommand AddNearTaskCommand
         {
@@ -137,6 +139,7 @@ namespace Staff_time.ViewModel
         {
             return dialog == null;
         }
+
         private void AddNearTask(object obj)
         {
             base.CancelEditing();
@@ -149,6 +152,7 @@ namespace Staff_time.ViewModel
             dialog = new View.AddDialogWindow(new TaskDialogViewModel(newTask, TreeRoots, TaskCommandEnum.Add));
             dialog.Show();
         }
+
         private readonly ICommand _addChildTaskCommand;
         public ICommand AddChildTaskCommand
         {
@@ -162,6 +166,7 @@ namespace Staff_time.ViewModel
         {
             return SelectedTaskNode != null && dialog == null;
         }
+
         private void AddChildTask(object obj)
         {
             base.CancelEditing();
@@ -173,6 +178,7 @@ namespace Staff_time.ViewModel
             dialog = new View.AddDialogWindow(new TaskDialogViewModel(newTask, TreeRoots, TaskCommandEnum.Add));
             dialog.Show();
         }
+
         #endregion
 
         #region Edit Task
@@ -190,6 +196,7 @@ namespace Staff_time.ViewModel
         {
             return SelectedTaskNode != null && dialog == null;
         }
+
         private void EditTask(object obj)
         {
             base.CancelEditing();
@@ -203,6 +210,7 @@ namespace Staff_time.ViewModel
         #region Delete Task
 
         private readonly ICommand _deleteTaskCommand;
+
         public ICommand DeleteTaskCommand
         {
             get
@@ -215,6 +223,7 @@ namespace Staff_time.ViewModel
         {
             return SelectedTaskNode != null && dialog == null;
         }
+
         private void DeleteTask(object obj)
         {
             base.CancelEditing();
@@ -248,6 +257,7 @@ namespace Staff_time.ViewModel
         #region Expand Collapse
 
         private readonly ICommand _collapseAllCommand;
+
         public ICommand CollapseAllCommand
         {
             get
@@ -260,6 +270,7 @@ namespace Staff_time.ViewModel
         {
             return dialog == null;
         }
+
         private void CollapseAll(object obj)
         {
             base.CancelEditing();
@@ -268,6 +279,7 @@ namespace Staff_time.ViewModel
         }
 
         private readonly ICommand _expandAllCommand;
+
         public ICommand ExpandAllCommand
         {
             get
@@ -280,6 +292,7 @@ namespace Staff_time.ViewModel
         {
             return dialog == null;
         }
+
         private void ExpandAll(object obj)
         {
             base.CancelEditing();
@@ -292,6 +305,7 @@ namespace Staff_time.ViewModel
         #region Navigation
 
         private readonly ICommand _moveUpCommand;
+
         public ICommand MoveUpCommand
         {
             get
@@ -320,6 +334,7 @@ namespace Staff_time.ViewModel
             }
             return false;
         }
+
         private void MoveUp(object obj)
         {
             base.CancelEditing();
@@ -355,6 +370,7 @@ namespace Staff_time.ViewModel
         }
 
         private readonly ICommand _moveDownCommand;
+
         public ICommand MoveDownCommand
         {
             get
@@ -383,6 +399,7 @@ namespace Staff_time.ViewModel
             }
             return false;
         }
+
         private void MoveDown(object obj)
         {
             base.CancelEditing();
