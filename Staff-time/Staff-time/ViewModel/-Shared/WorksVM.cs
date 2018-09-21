@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
 using Staff_time.Model;
-using Staff_time.Model.Repositories;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using GalaSoft.MvvmLight;
-
-using System.Data.Entity.Infrastructure;
-using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
 {
@@ -20,17 +12,17 @@ namespace Staff_time.ViewModel
         //они хранятся в виде WorkVM
         public static SortedDictionary<int, WorkControlViewModelBase> Dictionary { get; set; }
 
-        public static bool init_tracker = false;
+        private static bool _init_tracker = false; //done было public
         public static void Init()
         {
-            if (init_tracker)
+            if (_init_tracker)
                 return;
-            init_tracker = true;
+            _init_tracker = true;
 
             Dictionary = new SortedDictionary<int, WorkControlViewModelBase>();
 
-            List<Work> worksDB = Context.workWork.GetAllWorks();
-            foreach(Work work in worksDB)
+            List<Work> worksDB = Context.workWork.GetAllWorks(); // todo нам же все работы не нужны! с течением времени будет запускаться всё дольше + нам не нужны будут работы других пользователей
+            foreach (Work work in worksDB)
             {
                 //Если разделять представления для разных типов работ, здесь понадобится Factory
                 Dictionary.Add(work.ID, new WorkControlViewModel(work));
