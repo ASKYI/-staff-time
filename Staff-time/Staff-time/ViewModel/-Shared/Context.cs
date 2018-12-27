@@ -21,6 +21,7 @@ namespace Staff_time.ViewModel
         public static IWorkWork workWork;
         public static IAttrWork attrWork;
         public static ITypesWork typesWork;
+        public static IUserWork usersWork;
 
         private static bool _init_tracker = false;
         public static void Init()
@@ -34,6 +35,7 @@ namespace Staff_time.ViewModel
             workWork = _context;
             attrWork = _context;
             typesWork = _context;
+            usersWork = _context;
         }
 
         public static User TestUser;

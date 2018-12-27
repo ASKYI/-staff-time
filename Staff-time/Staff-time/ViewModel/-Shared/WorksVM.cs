@@ -29,7 +29,7 @@ namespace Staff_time.ViewModel
 
             Dictionary = new SortedDictionary<int, WorkControlViewModelBase>();
 
-            List<Work> worksDB = Context.workWork.Read_AllWorks(); // todo нам же все работы не нужны! с течением времени будет запускаться всё дольше + нам не нужны будут работы других пользователей
+            List<Work> worksDB = Context.workWork.Read_AllWorks(GlobalInfo.CurrentUser.ID); // todo нам же все работы не нужны! с течением времени будет запускаться всё дольше + нам не нужны будут работы других пользователей
             foreach(Work work in worksDB)
             {
                 //Если разделять представления для разных типов работ, здесь понадобится Factory
@@ -37,7 +37,7 @@ namespace Staff_time.ViewModel
             }
         }
 
-        public static void Add(Work work)
+        public static int Add(Work work)
         {
             //DB
             Context.workWork.Create_Work(work);
@@ -46,6 +46,7 @@ namespace Staff_time.ViewModel
             WorkFactory factory = new WorkFactory();
             Work newWork = factory.CreateWork(work); 
             Dictionary.Add(newWork.ID, new WorkControlViewModel(newWork) { IsEdititig = true }); //Аналогично, другое создание при разных типах
+            return newWork.ID;
         }
         public static void Delete (int workID)
         {

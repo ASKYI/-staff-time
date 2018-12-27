@@ -95,13 +95,14 @@ namespace Staff_time.ViewModel
             if (command == WorkCommandEnum.Add 
                 && work.StartDate.Date == Date.Date)
             {
-                WorksVM.Add(work);
-                Work newWork = WorksVM.Dictionary[work.ID].Work;
+                var newWorkID = WorksVM.Add(work);
+                Work newWork = WorksVM.Dictionary[newWorkID].Work;
                 
                 AddWork(new WorkInTab(newWork.ID));
 
                 SumTime += newWork.Minutes;
                 MessengerInstance.Send<long>(SumTime);
+
                 return;
             }
 
@@ -128,6 +129,7 @@ namespace Staff_time.ViewModel
                     MessengerInstance.Send<long>(SumTime); // todo а это нельзя сделать в сэттере свойства SumTime ?
                     break;
                 case WorkCommandEnum.Update:
+
                     int oldWorkMinutes = Context.workWork.Read_WorkByID(work.ID).Minutes;
 
                     WorksVM.Update(work);

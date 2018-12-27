@@ -66,6 +66,9 @@
             <Button  Margin ="2,0,0,0" Command="{Binding DeleteTaskCommand}" ToolTip="Удалить задачу" Background="White" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/delete.ico"></Image>
             </Button>
+            <Button  Margin ="2,0,0,0" Command="{Binding SaveExpandCommand}" ToolTip="Сохранить развертку дерева" Visibility="Hidden" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/save.ico"></Image>
+            </Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right" >
                 <Button Margin ="2,0,0,0" Command="{Binding CollapseAllCommand}" ToolTip="Свернуть всё" Background="White" ToolTipService.ShowOnDisabled="True">
@@ -102,18 +105,19 @@
 
         <!--Управление-->
         <Border Grid.Row="2" Margin="3"  BorderBrush="Gray" BorderThickness="2">
-            <StackPanel Grid.Row="2" Margin="3" >
-                <Grid>
-                    <!--<Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+            <StackPanel Grid.Row="2" Margin="3" Orientation="Horizontal" Height="25" VerticalAlignment="Top">
+                <!--<Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
                     </Grid.ColumnDefinitions>-->
 
                     <!--<Border Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
                         <Label FontSize="10" Content="Управление" Background="LightGray"></Label>
                     </Border>-->
-                    <Button Grid.Column="1" Content="Добавить работу" Command="{Binding AddWorkCommand}" Background="White"></Button>
-                </Grid>
+                    <Button Width="200" Content="Добавить работу" Command="{Binding AddWorkCommand}" Background="White"></Button>
+                <Button Width="auto" Content="Открыть всё дерево" Command="{Binding ShowFullTreeCommand}" Background="White"></Button>
+                <!--></Grid>-->
 
                 <!--<StackPanel Orientation="Horizontal">
                     <Button FontSize="10" Content="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}" Background="White"></Button>

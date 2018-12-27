@@ -12,7 +12,7 @@ namespace Staff_time.Model.Interfaces
         void Create_Work(Work work);
 
         //Возвращает список правильно созданных (верный тип) работ (с загрузкой задач)
-        List<Work> Read_AllWorks();
+        List<Work> Read_AllWorks(int curUser);
 
         //Возвращает список правильно созданных (верный тип) работ за определенную дату - дата начала (с загрузкой задач)
         List<int> Read_WorksForDate(DateTime date); // todo странно, что Read_AllWorks возвращает объекты, а Read_WorksForDate возвращает идентификаторы 

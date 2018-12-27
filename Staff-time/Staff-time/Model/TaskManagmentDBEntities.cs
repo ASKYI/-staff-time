@@ -13,8 +13,15 @@ using Staff_time.Model.Interfaces;
 namespace Staff_time.Model
 {
     public partial class TaskManagmentDBEntities : DbContext,
-        ITaskWork, IWorkWork, IAttrWork, ITypesWork
+        ITaskWork, IWorkWork, IAttrWork, ITypesWork, IUserWork
     {
+        #region IUserWork
+        public List<User> Read_AllUsers()
+        {
+            return Users.OrderBy(u => u.UserName).ToList();
+        }
+        #endregion
+
         #region ITaskWork
 
         public void Create_Task(Task task) // todo здесь надо подобрать более точное название, Register или Add, по сути ведь Task уже создан, так что точно не Create
@@ -24,7 +31,20 @@ namespace Staff_time.Model
         }
         public void Create_TaskToFave(int taskID, int curUserID)
         {
-            throw new NotImplementedException();
+            UserTasks.Add(new UserTask() { TaskID = taskID, UserID = curUserID });
+            SaveChanges();
+        }
+
+        public void Update_UserTaskExpended(int taskID, int curUserID, bool isExpanded)
+        {
+            var userTask = UserTasks.Where(ut => ut.TaskID == taskID && ut.UserID == curUserID).FirstOrDefault();
+            if (userTask != null)
+            {
+                userTask.IsExpanded = isExpanded;
+                UserTasks.AddOrUpdate();
+
+                SaveChanges();
+            }
         }
 
         public List<Task> Read_AllTasks() 
@@ -35,12 +55,11 @@ namespace Staff_time.Model
             //return Tasks.OrderBy(t => t.IndexNumber).Select(task => taskFactory.CreateTask(task)).ToList();
 
             List<Task> tasks = new List<Task>();
-            List<Task> tasksDB = new List<Task>(Tasks.OrderBy(t => t.IndexNumber));
+            var allPossibleTasksToFave = Tasks.Where(t => (t.LevelID <= GlobalInfo.CurrentUser.LevelID));
+            List<Task> tasksDB = new List<Task>(allPossibleTasksToFave.OrderBy(t => t.IndexNumber));
 
             foreach (Task t in tasksDB)
-            {
                 tasks.Add(taskFactory.CreateTask(t));
-            }
             return tasks;
         }
 
@@ -48,10 +67,37 @@ namespace Staff_time.Model
         {
             return (from t in Tasks where t.ParentTaskID == null select t.ID).ToList();
         }
-     
-        public List<int> Read_FaveTasks(int userID)
+
+        public bool IsExpanded(int taskID, int userID)
         {
-            return (from t in UserTasks where t.UserID == userID select t.TaskID).ToList();
+            var userFave = UserTasks.Where(ut => ut.TaskID == taskID && ut.UserID == userID).ToList();
+            if (userFave.Count == 0)
+                return false;
+            bool? isExpanded = userFave[0].IsExpanded;
+            if (isExpanded == null)
+                return false;
+            return (bool)isExpanded;
+        }
+
+        public bool IsFave(int taskID)
+        {
+            var userFave = UserTasks.Where(ut => ut.TaskID == taskID && ut.UserID == GlobalInfo.CurrentUser.ID).ToList();
+            return userFave.Count != 0;
+        }
+
+        public List<int> Read_FaveTasksID(int curUser)
+        {
+            return (from t in UserTasks where t.UserID == curUser select t.TaskID).ToList();
+        }
+
+        public List<Task> Read_FaveTasks(int userID)
+        {
+            TaskFactory taskFactory = new TaskFactory();
+
+            var userFaveTasksID = Read_FaveTasksID(userID);
+
+            var faveTasks = Tasks.OrderBy(t => t.IndexNumber).Where(task => userFaveTasksID.Contains(task.ID)).ToList();
+            return faveTasks.Select(task => taskFactory.CreateTask(task)).ToList();
         }
 
         public List<int> Read_ChildTasks(int taskID)
@@ -97,7 +143,22 @@ namespace Staff_time.Model
         }
         public void Delete_TaskFromFave(int taskID)
         {
-            throw new NotImplementedException();
+            UserTask userTaskDB = UserTasks.Where(t => t.TaskID == taskID && t.UserID == GlobalInfo.CurrentUser.ID).FirstOrDefault();
+
+            //List<Task> childTasksBD = (from t in Tasks where t.ParentTaskID == taskID select t).ToList();
+            //foreach (var t in childTasksBD)
+            //    t.ParentTaskID = taskBD.ParentTaskID; //зачем-то переподцеплять детей к родителю. Удаляем, так удаляем и поддерево!
+
+            //List<Work> worksBD = (from w in Works where w.TaskID == taskID select w).ToList();
+            //foreach (var w in worksBD)
+            //{
+            //    Delete_AttrValuesFields_ForWork(w.ID);
+            //    Works.Remove(w);
+            //}
+
+            if (userTaskDB != null)
+                UserTasks.Remove(userTaskDB);
+            SaveChanges();
         }
 
         #endregion
@@ -113,10 +174,11 @@ namespace Staff_time.Model
             SaveChanges();
         }
   
-        public List<Work> Read_AllWorks()
+        public List<Work> Read_AllWorks(int curUser)
         {
             List<Work> worksDB = Works.Include(w => w.AttrValues.Select(a => a.Attribute)).ToList();
-
+            var userFaveTasksID = Read_FaveTasksID(curUser);
+            worksDB = worksDB.Where(w => (w.UserID == curUser && userFaveTasksID.Contains(w.TaskID))).ToList();
             List<Work> works = new List<Work>();
             WorkFactory taskFactory = new WorkFactory();
             foreach(Work w in worksDB)
@@ -128,7 +190,7 @@ namespace Staff_time.Model
 
         public List<int> Read_WorksForDate(DateTime date)
         {
-            return (from w in Works where w.StartDate == date.Date select w.ID).ToList();
+            return (from w in Works where (w.StartDate == date.Date && w.UserID == GlobalInfo.CurrentUser.ID) select w.ID).ToList();
         }
         public List<int> Read_WorksForTask(int taskID)
         {

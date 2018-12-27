@@ -18,6 +18,7 @@ namespace Staff_time.Model
 
             this.Minutes = work.Minutes;
             this.StartDate = work.StartDate;
+            this.UserID = work.UserID;
             this.StartTime = work.StartTime;
 
             this.Task = work.Task;

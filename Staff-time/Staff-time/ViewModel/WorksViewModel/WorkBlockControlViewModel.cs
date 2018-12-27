@@ -29,6 +29,7 @@ namespace Staff_time.ViewModel
             _editCommand = new RelayCommand(Edit, CanEdit);
             _deleteCommand = new RelayCommand(Delete, CanDelete);
             _changeTaskCommand = new RelayCommand(ChangeTask, CanChangeTask);
+            _duplicateWorkCommand = new RelayCommand(DuplicateWork, (_) => true);
             MessengerInstance.Register<string>(this, _cancelEditing);
 
             if (IsEdititig)
@@ -280,7 +281,24 @@ namespace Staff_time.ViewModel
             }
         }
 
-        #endregion
+        private readonly ICommand _duplicateWorkCommand;
+        public ICommand DuplicateWorkCommand
+        {
+            get
+            {
+                return _duplicateWorkCommand;
+            }
+        }
+
+        private void DuplicateWork(object obj)
+        {
+            base.CancelEditing();
+            IsEdititig = false;
+            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
+               (WorkCommandEnum.Add, _workVM.Work));
+        }
+
+        #endregion //time
 
         #region Edit
 

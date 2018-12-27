@@ -13,14 +13,26 @@ namespace Staff_time.Model.Interfaces
         //Добавить задачу в избранное
         void Create_TaskToFave(int taskID, int curUserID);
 
+        //Редактировать задачу в избранном, установить развернутость
+        void Update_UserTaskExpended(int taskID, int curUserID, bool isExpanded);
+
         //Возвращает список правильно созданных (верный тип) задач в правильном порядке
         List<Task> Read_AllTasks();
 
         //Возвращает список ID корневых задач
         List<int> Read_RootTasks();
 
+        //Проверяет, есть ли в избранном задача
+        bool IsFave(int taskID);
+
+        //Проверяет, является ли задача у пользователя развернутой в дереве
+        bool IsExpanded(int taskID, int userID);
+
         //Возвращает список ID избранных задач пользователя
-        List<int> Read_FaveTasks(int curUser);
+        List<int> Read_FaveTasksID(int curUser);
+
+        //Возвращает список избранных задач пользователя
+        List<Task> Read_FaveTasks(int curUser);
 
         //Возвращает список ID подзадач для данной задачи
         List<int> Read_ChildTasks(int taskID);

@@ -20,53 +20,70 @@ namespace Staff_time.ViewModel
         //Так как с задачами удобнее работать как с узлами дерева (имея доступ ко всем наследникам и предку), 
         //они хранятся в виде узлов
         public static Dictionary<int, TreeNode> Dictionary { get; set; }
+        public static Dictionary<int, TreeNode> DictionaryFull { get; set; }
 
-        public static bool Init_tracker = false; // todo для чего поле public?
-        public static void Init()
+        private static bool Init_tracker = false; // todo для чего поле public?
+
+        private static void FillTreeDictionaryByTasks(Dictionary<int, TreeNode> curDictionary, List<Task> tasksBD)
         {
-            if (Init_tracker)
-                return;
-            Init_tracker = true;
-
-            Dictionary = new Dictionary<int, TreeNode>();
-
-            //В Tasks ссылка на родителя может содержать идентификатор на задачу, 
-            //которая еще не встречалась в таблице при последовательном чтении.
-            //В таком случае создается узел с пустым значением задачи, которая заполнится, когда задача встретится.
-            //В бд невозможно добавить ссылку на несуществующую задачу 
-
             TreeNodeFactory treeNodeFactory = new TreeNodeFactory();
-            List<Task> tasksBD = Context.taskWork.Read_AllTasks();
             foreach (Task task in tasksBD)
             {
+
                 int id = task.ID;
                 TreeNode treeNode;
-                if (!Dictionary.ContainsKey(id))
+                if (!curDictionary.ContainsKey(id))
                 {
                     treeNode = treeNodeFactory.CreateTreeNode(task);
-                    Dictionary.Add(id, treeNode);
+                    curDictionary.Add(id, treeNode);
                 }
                 else
                 {
-                    Dictionary[id].Task = task;
-                    treeNode = Dictionary[id];                          // todo мне кажется, или эти 2 строчки несогласованы между собой
-                    treeNode = treeNodeFactory.CreateTreeNode(task);    // 
+                    curDictionary[id].Task = task;
+                    treeNode = curDictionary[id];                          // todo мне кажется, или эти 2 строчки несогласованы между собой
+                    //treeNode = treeNodeFactory.CreateTreeNode(task);    // 
                 }
 
                 if (task.ParentTaskID != null)
                 {
                     int parentId = (int)task.ParentTaskID;
 
-                    if (!Dictionary.ContainsKey(parentId))
-                        Dictionary.Add(parentId, new TreeNode());
+                    if (!curDictionary.ContainsKey(parentId))
+                        curDictionary.Add(parentId, new TreeNode());
 
-                    TreeNode parentTreeNode = Dictionary[parentId];
+                    TreeNode parentTreeNode = curDictionary[parentId];
 
                     parentTreeNode.AddChild(treeNode);
                     treeNode.ParentNode = parentTreeNode;
                 }
             }
-            
+        }
+
+        private static void FillExpandedFlag(Dictionary<int, TreeNode> curDictionary)
+        {
+            //var userFaveTasksID = Context.taskWork.Read_FaveTasksID(GlobalInfo.CurrentUser.ID);
+            for (int i = 0; i < curDictionary.Count; ++i)
+            {
+                var curDictItem = curDictionary.ElementAt(i);
+                curDictItem.Value.IsExpanded = Context.taskWork.IsExpanded(curDictItem.Key, GlobalInfo.CurrentUser.ID);
+            }
+        }
+
+        public static void InitFave()
+        {
+            if (Init_tracker)
+                return;
+            Init_tracker = true;
+
+            //В Tasks ссылка на родителя может содержать идентификатор на задачу, 
+            //которая еще не встречалась в таблице при последовательном чтении.
+            //В таком случае создается узел с пустым значением задачи, которая заполнится, когда задача встретится.
+            //В бд невозможно добавить ссылку на несуществующую задачу 
+
+            List<Task> faveTasksDB = Context.taskWork.Read_FaveTasks(GlobalInfo.CurrentUser.ID);
+            Dictionary = new Dictionary<int, TreeNode>();
+            FillTreeDictionaryByTasks(Dictionary, faveTasksDB);
+            FillExpandedFlag(Dictionary);
             Dictionary = Dictionary.OrderBy(pair => pair.Value.Task.IndexNumber).ToDictionary(pair => pair.Key, pair => pair.Value); // todo не думал что у dictionary есть порядок
 
             foreach (var pair in Dictionary)
@@ -75,12 +92,57 @@ namespace Staff_time.ViewModel
             }
         }
 
+        public static void InitFullTree()
+        {
+            //В Tasks ссылка на родителя может содержать идентификатор на задачу, 
+            //которая еще не встречалась в таблице при последовательном чтении.
+            //В таком случае создается узел с пустым значением задачи, которая заполнится, когда задача встретится.
+            //В бд невозможно добавить ссылку на несуществующую задачу 
+
+            List<Task> tasksBD = Context.taskWork.Read_AllTasks();
+            DictionaryFull = new Dictionary<int, TreeNode>();
+            FillTreeDictionaryByTasks(DictionaryFull, tasksBD);
+            DictionaryFull = DictionaryFull.OrderBy(pair => pair.Value.Task.IndexNumber).ToDictionary(pair => pair.Key, pair => pair.Value); // todo не думал что у dictionary есть порядок
+
+            //foreach (var pair in Dictionary)
+            //{
+            //    pair.Value.FullPath = generate_PathForTask(pair.Key);
+            //}
+        }
+
+
         public static void Add(Task task)
         {
             //DB
             Context.taskWork.Create_Task(task);
+            Context.taskWork.Create_TaskToFave(task.ID, GlobalInfo.CurrentUser.ID);
             task.IndexNumber = task.ID;
             Context.taskWork.Update_Task(task);
+
+            //Добавим в избранное
+
+            //VM
+            TreeNodeFactory factory = new TreeNodeFactory(); // todo на текущий момент TreeNodeFactory имеет интерфейс ITreeNodeFactory, но при этом создаётся здесь и используется без учёта этого факта
+            TreeNode newNode = factory.CreateTreeNode(task);
+
+            TasksVM.Dictionary.Add(task.ID, newNode); // todo интересный момент использования классом самого себя
+
+            if (task.ParentTaskID != null)
+            {
+                int parentID = (int)task.ParentTaskID;
+                newNode.ParentNode = Dictionary[parentID];
+                Dictionary[parentID].AddChild(newNode);
+            }
+
+            newNode.FullPath = generate_PathForTask(task.ID);
+        }
+
+
+        public static void AddFave(Task task)
+        {
+            //DB
+            Context.taskWork.Create_TaskToFave(task.ID, GlobalInfo.CurrentUser.ID);
+            task.IndexNumber = task.ID;
 
             //VM
             TreeNodeFactory factory = new TreeNodeFactory(); // todo на текущий момент TreeNodeFactory имеет интерфейс ITreeNodeFactory, но при этом создаётся здесь и используется без учёта этого факта
@@ -162,17 +224,17 @@ namespace Staff_time.ViewModel
         public static void DeleteWithChildren(int taskID)
         {
             //DB
-            Context.taskWork.Delete_Task(taskID);
+            Context.taskWork.Delete_TaskFromFave(taskID);
 
-            //Works
-            List<int> works = Context.workWork.Read_WorksForTask(taskID);
-            foreach (var id in works)
-            {
-                Work w = WorksVM.Dictionary[id].Work;
-                WorksVM.Delete(w.ID);
-                //MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>
-                //    (new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, w));
-            }
+            ////Works
+            //List<int> works = Context.workWork.Read_WorksForTask(taskID);
+            //foreach (var id in works)
+            //{
+            //    Work w = WorksVM.Dictionary[id].Work;
+            //    WorksVM.Delete(w.ID);
+            //    //MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>
+            //    //    (new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, w));
+            //}
 
             //VM
             TreeNode delNode = Dictionary[taskID];
@@ -193,17 +255,17 @@ namespace Staff_time.ViewModel
         public static void DeleteAlone(int taskID)
         {
             //DB
-            Context.taskWork.Delete_Task(taskID);
+            Context.taskWork.Delete_TaskFromFave(taskID);
 
-            //Works
-            List<int> works = Context.workWork.Read_WorksForTask(taskID);
-            foreach (var id in works)
-            {
-                Work w = WorksVM.Dictionary[id].Work;
-                WorksVM.Delete(w.ID);
-                //MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>
-                //    (new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, w));
-            }
+            ////Works
+            //List<int> works = Context.workWork.Read_WorksForTask(taskID);
+            //foreach (var id in works)
+            //{
+            //    Work w = WorksVM.Dictionary[id].Work;
+            //    WorksVM.Delete(w.ID);
+            //    //MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>
+            //    //    (new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, w));
+            //}
 
             //VM
             TreeNode delNode = Dictionary[taskID];
@@ -244,6 +306,25 @@ namespace Staff_time.ViewModel
             foreach (var t in TasksVM.Dictionary)
             {
                 t.Value.IsExpanded = false;
+            }
+        }
+
+        public static void SaveCollapse(ObservableCollection<TreeNode> treeRoots)
+        {
+            Queue<TreeNode> nodeToExpended = new Queue<TreeNode>();
+
+            foreach (var rootNode in treeRoots)
+                nodeToExpended.Enqueue(rootNode);
+            
+            while (nodeToExpended.Count > 0)
+            {
+                var curNode = nodeToExpended.Dequeue();
+                Context.taskWork.Update_UserTaskExpended(curNode.Task.ID, GlobalInfo.CurrentUser.ID, curNode.IsExpanded);
+                foreach (var childNode in curNode.TreeNodes)
+                {
+                    Context.taskWork.Update_UserTaskExpended(childNode.Task.ID, GlobalInfo.CurrentUser.ID, childNode.IsExpanded);
+                    nodeToExpended.Enqueue(childNode);
+                }
             }
         }
 
@@ -304,6 +385,10 @@ namespace Staff_time.ViewModel
             return false;
         }
 
+        public static bool IsFave(int taskID)
+        {
+            return Context.taskWork.IsFave(taskID);
+        }
         #endregion
     }
 }

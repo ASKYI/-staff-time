@@ -28,8 +28,8 @@ namespace Staff_time.ViewModel
 
         private static void _generate_FavTaskNodes()
         {
-            FaveTaskNodes = TasksVM.Convert_TasksIntoNodes(Context.taskWork.Read_FaveTasks(chosenUser.ID)); // todo SOLID, single responsibility, 2 команды на строчку - не очень + промежуточные результаты смотреть не получится
-            _generate_FaveTaskPaths();
+            //FaveTaskNodes = TasksVM.Convert_TasksIntoNodes(Context.taskWork.Read_FaveTasks(chosenUser.ID)); // todo SOLID, single responsibility, 2 команды на строчку - не очень + промежуточные результаты смотреть не получится
+            //_generate_FaveTaskPaths();
         }
 
         private static void _generate_FaveTaskPaths()

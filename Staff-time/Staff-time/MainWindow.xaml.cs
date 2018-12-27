@@ -22,11 +22,23 @@ namespace Staff_time
     /// </summary>
     public partial class MainWindow : Window
     {
-        MainViewModel context = new MainViewModel();
+        //MainViewModel context = new MainViewModel();
+        MainViewModel context;
         public MainWindow()
         {
-            InitializeComponent();
-            DataContext = context;
+            Context.Init();
+            var users = Context.usersWork.Read_AllUsers();
+
+            var dialog = new View.Dialog.LoginWindow(users);
+            bool? val = dialog.ShowDialog();
+            if (val == false)
+                Environment.Exit(0);
+            else
+            {
+                context = new MainViewModel();
+                InitializeComponent();
+                DataContext = context;
+            }
         }
 
         private void TasksBlockView_MouseDown(object sender, MouseButtonEventArgs e)

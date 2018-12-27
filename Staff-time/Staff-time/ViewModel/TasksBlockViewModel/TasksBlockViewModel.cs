@@ -22,11 +22,13 @@ namespace Staff_time.ViewModel
             _generate_Tree();
 
             _addWorkCommand = new RelayCommand(AddWork, CanAddWork);
+            _showFullTreeCommand = new RelayCommand(ShowTree, (_) => true);
             _addNearTaskCommand = new RelayCommand(AddNearTask, CanAddNearTask);
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
             _editTaskCommand = new RelayCommand(EditTask, CanEditTask);
             _collapseAllCommand = new RelayCommand(CollapseAll, CanCollapseAll);
+            _saveExpandCommand = new RelayCommand(SaveCollapse, (_) => true);
             _expandAllCommand = new RelayCommand(ExpandAll, CanExpandAll);
             _moveUpCommand = new RelayCommand(MoveUp, CanMoveUp);
             _moveDownCommand = new RelayCommand(MoveDown, CanMoveDown);
@@ -43,6 +45,17 @@ namespace Staff_time.ViewModel
             set
             { 
                 SetField(ref _treeRoots, value);
+            }
+        }
+
+
+        private ObservableCollection<TreeNode> _allTreeRoots;
+        public ObservableCollection<TreeNode> AllTreeRoots
+        {
+            get { return _allTreeRoots; }
+            set
+            {
+                SetField(ref _allTreeRoots, value);
             }
         }
 
@@ -71,6 +84,18 @@ namespace Staff_time.ViewModel
             }
         }
 
+        private void _generate_Full_Tree()
+        {
+            AllTreeRoots = new ObservableCollection<TreeNode>();
+            foreach (var taskNode in TasksVM.DictionaryFull)
+            {
+                if (taskNode.Value.ParentNode == null)
+                {
+                    AllTreeRoots.Add(taskNode.Value);
+                }
+            }
+        }
+
         private TreeNode _selectedTaskNode;
         public TreeNode SelectedTaskNode
         {
@@ -91,7 +116,18 @@ namespace Staff_time.ViewModel
             if (_selectedTaskNode != null)
                 _selectedTaskNode.IsSelected = true;
         }
-      
+
+        #endregion
+
+        #region show full Tree
+        private readonly ICommand _showFullTreeCommand;
+        public ICommand ShowFullTreeCommand
+        {
+            get
+            {
+                return _showFullTreeCommand;
+            }
+        }
         #endregion
 
         #region Add Work
@@ -108,6 +144,20 @@ namespace Staff_time.ViewModel
         {
             return SelectedTaskNode != null && dialog == null;
         }
+
+        private void ShowTree(object obj)
+        {
+            Mouse.OverrideCursor = Cursors.Wait;
+            TasksVM.InitFullTree();
+            if (AllTreeRoots == null)
+                _generate_Full_Tree();
+            Mouse.OverrideCursor = Cursors.Arrow;
+
+            var dialog = new View.AllTreeDialog(new ViewModel.AllTreeDialogViewModel(AllTreeRoots, TreeRoots));
+            dialog.ShowDialog();
+            _generate_Tree();
+        }
+
         private void AddWork(object obj)
         {
             base.CancelEditing();
@@ -117,6 +167,7 @@ namespace Staff_time.ViewModel
             work.TaskID = SelectedTaskNode.Task.ID;
             work.StartDate = chosenDate.Date;
             work.StartTime = DateTime.Now;
+            work.UserID = GlobalInfo.CurrentUser.ID;
 
             MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(
                 new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Add, work));
@@ -219,21 +270,13 @@ namespace Staff_time.ViewModel
         {
             base.CancelEditing();
 
-            if (TasksVM.CheckWorks(SelectedTaskNode.Task.ID))
-            {
-                MessageBox.Show("Нельзя удалить задачи с существующими работами.");
-                return;
-            }
-
-            if (MessageBox.Show("Вы уверены, что хотите удалить задачу и все ее подзадачи?", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.No)
-            {
-                return;
-            }
-
             //Roots
             int delTaskID = SelectedTaskNode.Task.ID;
             if (TreeRoots.Contains(SelectedTaskNode))
                 TreeRoots.Remove(SelectedTaskNode);
+            //if (TasksVM.Dictionary.ContainsKey(SelectedTaskNode.Task.ID))
+            //    TasksVM.Dictionary.Remove(SelectedTaskNode.Task.ID);
+
 
             TasksVM.DeleteWithChildren(delTaskID);
 
@@ -246,6 +289,17 @@ namespace Staff_time.ViewModel
         #endregion
 
         #region Expand Collapse
+
+        
+        private readonly ICommand _saveExpandCommand;
+        public ICommand SaveExpandCommand
+        {
+            get
+            {
+                return _saveExpandCommand;
+            }
+        }
+
 
         private readonly ICommand _collapseAllCommand;
         public ICommand CollapseAllCommand
@@ -266,6 +320,12 @@ namespace Staff_time.ViewModel
 
             TasksVM.CollapseAll();
         }
+
+        private void SaveCollapse(object obj)
+        {
+            TasksVM.SaveCollapse(TreeRoots);
+        }
+        
 
         private readonly ICommand _expandAllCommand;
         public ICommand ExpandAllCommand

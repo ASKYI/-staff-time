@@ -4,12 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище TaskManagmentDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище TaskManagmentDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Attributes">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DateType" Type="int" Nullable="false" />
         </EntityType>
@@ -31,7 +31,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="DataType" Type="int" Nullable="false" />
-          <Property Name="PropName" Type="varchar(max)" Nullable="false" />
+          <Property Name="PropName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="PropValues">
@@ -61,13 +61,14 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TaskName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TaskName" Type="varchar" MaxLength="255" />
           <Property Name="TaskTypeID" Type="int" Nullable="false" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ParentTaskID" Type="int" />
           <Property Name="WorkTypeID" Type="int" Nullable="false" />
           <Property Name="Descriptions" Type="varchar(max)" />
           <Property Name="IndexNumber" Type="int" />
+          <Property Name="LevelID" Type="int" />
         </EntityType>
         <EntityType Name="TaskTypeProps">
           <Key>
@@ -81,7 +82,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TypeName" Type="varchar(max)" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
@@ -89,7 +90,10 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="8" />
+          <Property Name="LevelID" Type="int" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="UserTasks">
           <Key>
@@ -98,18 +102,20 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="IsExpanded" Type="bit" />
         </EntityType>
         <EntityType Name="Works">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="WorkName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="WorkName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TaskID" Type="int" Nullable="false" />
           <Property Name="WorkTypeID" Type="int" Nullable="false" />
           <Property Name="StartDate" Type="date" Nullable="false" />
           <Property Name="Minutes" Type="int" Nullable="false" />
           <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="UserID" Type="int" />
         </EntityType>
         <EntityType Name="WorkTypeAttrs">
           <Key>
@@ -123,7 +129,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TypeName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ID" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_AttrValues_Attributes1">
@@ -270,6 +276,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Works_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Works" Type="Self.Works" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Works">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Works_WorkTypes">
           <End Role="WorkTypes" Type="Self.WorkTypes" Multiplicity="1" />
           <End Role="Works" Type="Self.Works" Multiplicity="*" />
@@ -368,6 +386,10 @@
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="Works" EntitySet="Works" />
           </AssociationSet>
+          <AssociationSet Name="FK_Works_Users" Association="Self.FK_Works_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Works" EntitySet="Works" />
+          </AssociationSet>
           <AssociationSet Name="FK_Works_WorkTypes" Association="Self.FK_Works_WorkTypes">
             <End Role="WorkTypes" EntitySet="WorkTypes" />
             <End Role="Works" EntitySet="Works" />
@@ -381,8 +403,7 @@
             <End Role="WorkTypeAttrs" EntitySet="WorkTypeAttrs" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TaskManagmentDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -390,7 +411,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DateType" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AttrValues" Relationship="Self.FK_AttrValues_Attributes1" FromRole="Attributes" ToRole="AttrValues" />
@@ -416,7 +437,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="DataType" Type="Int32" Nullable="false" />
-          <Property Name="PropName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PropName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="PropValues" Relationship="Self.FK_PropValues_Properties" FromRole="Properties" ToRole="PropValues" />
           <NavigationProperty Name="TaskTypeProps" Relationship="Self.FK_TaskTypeProps_Properties" FromRole="Properties" ToRole="TaskTypeProps" />
@@ -450,7 +471,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TaskName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TaskName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="TaskTypeID" Type="Int32" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ParentTaskID" Type="Int32" />
@@ -464,6 +485,7 @@
           <NavigationProperty Name="WorkType" Relationship="Self.FK_Tasks_WorkTypes" FromRole="Tasks" ToRole="WorkTypes" />
           <NavigationProperty Name="UserTasks" Relationship="Self.FK_UserTasks_Tasks" FromRole="Tasks" ToRole="UserTasks" />
           <NavigationProperty Name="Works" Relationship="Self.FK_Works_Tasks" FromRole="Tasks" ToRole="Works" />
+          <Property Name="LevelID" Type="Int32" />
         </EntityType>
         <EntityType Name="TaskTypeProp">
           <Key>
@@ -479,7 +501,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_TaskTypes" FromRole="TaskTypes" ToRole="Tasks" />
           <NavigationProperty Name="TaskTypeProps" Relationship="Self.FK_TaskTypeProps_TaskTypes" FromRole="TaskTypes" ToRole="TaskTypeProps" />
@@ -489,8 +511,12 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="UserTasks" Relationship="Self.FK_UserTasks_Users" FromRole="Users" ToRole="UserTasks" />
+          <Property Name="Password" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="LevelID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Works" Relationship="TaskManagmentDBModel.FK_Works_Users" FromRole="User" ToRole="Work" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="UserTask">
           <Key>
@@ -501,12 +527,13 @@
           <Property Name="TaskID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Task" Relationship="Self.FK_UserTasks_Tasks" FromRole="UserTasks" ToRole="Tasks" />
           <NavigationProperty Name="User" Relationship="Self.FK_UserTasks_Users" FromRole="UserTasks" ToRole="Users" />
+          <Property Name="IsExpanded" Type="Boolean" />
         </EntityType>
         <EntityType Name="Work">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="WorkName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="WorkName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TaskID" Type="Int32" Nullable="false" />
           <Property Name="WorkTypeID" Type="Int32" Nullable="false" />
@@ -516,6 +543,8 @@
           <NavigationProperty Name="AttrValues" Relationship="Self.FK_AttrValues_Works" FromRole="Works" ToRole="AttrValues" />
           <NavigationProperty Name="Task" Relationship="Self.FK_Works_Tasks" FromRole="Works" ToRole="Tasks" />
           <NavigationProperty Name="WorkType" Relationship="Self.FK_Works_WorkTypes" FromRole="Works" ToRole="WorkTypes" />
+          <Property Name="UserID" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="TaskManagmentDBModel.FK_Works_Users" FromRole="Work" ToRole="User" />
         </EntityType>
         <EntityType Name="WorkTypeAttr">
           <Key>
@@ -531,7 +560,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_WorkTypes" FromRole="WorkTypes" ToRole="Tasks" />
           <NavigationProperty Name="Works" Relationship="Self.FK_Works_WorkTypes" FromRole="WorkTypes" ToRole="Works" />
@@ -791,7 +820,23 @@
             <End Role="WorkTypes" EntitySet="WorkTypes" />
             <End Role="WorkTypeAttrs" EntitySet="WorkTypeAttrs" />
           </AssociationSet>
+          <AssociationSet Name="FK_Works_Users" Association="TaskManagmentDBModel.FK_Works_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Work" EntitySet="Works" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Works_Users">
+          <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="TaskManagmentDBModel.Work" Role="Work" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Work">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -858,6 +903,7 @@
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="TaskManagmentDBModel.Task">
               <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
                 <ScalarProperty Name="TaskName" ColumnName="TaskName" />
                 <ScalarProperty Name="TaskTypeID" ColumnName="TaskTypeID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -888,6 +934,9 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="TaskManagmentDBModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
               </MappingFragment>
@@ -896,6 +945,7 @@
           <EntitySetMapping Name="UserTasks">
             <EntityTypeMapping TypeName="TaskManagmentDBModel.UserTask">
               <MappingFragment StoreEntitySet="UserTasks">
+                <ScalarProperty Name="IsExpanded" ColumnName="IsExpanded" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
@@ -905,6 +955,7 @@
           <EntitySetMapping Name="Works">
             <EntityTypeMapping TypeName="TaskManagmentDBModel.Work">
               <MappingFragment StoreEntitySet="Works">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="WorkName" ColumnName="WorkName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />

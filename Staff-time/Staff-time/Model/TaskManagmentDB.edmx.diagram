@@ -33,6 +33,7 @@
         <AssociationConnector Association="TaskManagmentDBModel.FK_UserTasks_Users" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_Works_WorkTypes" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_WorkTypeAttrs_WorkTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_Works_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

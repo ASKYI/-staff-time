@@ -17,6 +17,7 @@ namespace Staff_time.Model
             this.ParentTaskID = task.ParentTaskID;
             this.Descriptions = task.Descriptions;
             this.IndexNumber = task.IndexNumber;
+            this.LevelID = GlobalInfo.CurrentUser.LevelID;
 
             this.TaskType = task.TaskType;
             this.Works = task.Works;

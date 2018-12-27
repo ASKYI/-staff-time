@@ -49,14 +49,19 @@ namespace Staff_time.View
             item.Command = context.EditTaskCommand;
             menu.Items.Add(item);
 
-            item = new MenuItem();
-            item.Header = "Удалить задачу";
-            item.Command = context.DeleteTaskCommand;
-            menu.Items.Add(item);
+            //item = new MenuItem();
+            //item.Header = "Удалить задачу";
+            //item.Command = context.DeleteTaskCommand;
+            //menu.Items.Add(item);
 
             item = new MenuItem();
             item.Header = "Добавить работу";
             item.Command = context.AddWorkCommand;
+            menu.Items.Add(item);
+
+            item = new MenuItem();
+            item.Header = "Удалить из избранного";
+            item.Command = context.DeleteTaskCommand;
             menu.Items.Add(item);
 
             (sender as TreeViewItem).ContextMenu = menu;
