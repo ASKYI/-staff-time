@@ -99,11 +99,11 @@
 
                     <!--<xctk:TimePicker Grid.Column="0" HorizontalAlignment="Right" Value="{Binding CurrentDateTime}"
                                  Format="Custom" FormatString="hh:mm:ss tt" ></xctk:TimePicker>-->
-                    <xctk:DateTimeUpDown  Grid.Column="0" HorizontalAlignment="Right" Value="{Binding StartTime}"  IsEnabled="{Binding IsEnabled}"
-                                      Format="ShortTime"></xctk:DateTimeUpDown>
+                    <xctk:DateTimeUpDown Name="StartTimeUpDown"  Grid.Column="0" HorizontalAlignment="Right" Value="{Binding StartTime}"  IsEnabled="{Binding IsEnabled}"
+                                     Format="ShortTime" PreviewMouseDoubleClick ="DoubleClickTime"></xctk:DateTimeUpDown>
                     <TextBlock Text="-" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                     <xctk:DateTimeUpDown  Grid.Column="2" HorizontalAlignment="Left"  Value="{Binding EndTime}" IsEnabled="{Binding IsEnabled}"
-                                      Format="ShortTime"></xctk:DateTimeUpDown>
+                                      Format="ShortTime" PreviewMouseDoubleClick ="DoubleClickTime" ></xctk:DateTimeUpDown>
                     <Button Grid.Column="3" Margin ="2,0,0,0"  Height="25" Width="25" ToolTip="Добавить диапазон" Command="{Binding DuplicateWorkCommand}" Background="White" IsEnabled="{Binding IsEnabled}">
                         <Image Source="../../Resources/add.ico"></Image>
                     </Button>

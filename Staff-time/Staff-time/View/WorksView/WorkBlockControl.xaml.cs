@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Xceed.Wpf.Toolkit;
 
 namespace Staff_time.View
 {
@@ -45,7 +47,14 @@ namespace Staff_time.View
 
         private void workBlock_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            ((ViewModel.WorkBlockControlViewModel)DataContext).Block_Width = (int) e.NewSize.Width;
+            ((ViewModel.WorkBlockControlViewModel)DataContext).Block_Width = (int)e.NewSize.Width;
+        }
+
+        private void DoubleClickTime(object sender, MouseButtonEventArgs e)
+        {
+            var curTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0);
+            var tmControl = (DateTimeUpDown)sender;
+            tmControl.Value = curTime;
         }
     }
 }
