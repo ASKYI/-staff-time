@@ -166,7 +166,8 @@ namespace Staff_time.ViewModel
             get { return Work.StartTime; }
             set
             {
-                Work.StartTime = value;
+                DateTime DTvalue = new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, 0);
+                Work.StartTime = DTvalue;
                 Work.Minutes = (EndTime - StartTime).Hours * 60 + (EndTime - StartTime).Minutes;
                 RaisePropertyChanged("StartTime"); // todo посмотреть функцию nameof
                 RaisePropertyChanged("Minutes");
@@ -178,7 +179,8 @@ namespace Staff_time.ViewModel
             get { return _endTime; }
             set
             {
-                _endTime = value;
+                DateTime DTvalue = new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, 0);
+                _endTime = DTvalue;
                 Work.Minutes = (EndTime - StartTime).Hours * 60 + (EndTime - StartTime).Minutes;
                 RaisePropertyChanged("EndTime");
                 RaisePropertyChanged("Minutes");
@@ -195,7 +197,7 @@ namespace Staff_time.ViewModel
                 RaisePropertyChanged("Minutes");
 
                 Work.StartTime = new DateTime(old.Year, old.Month, old.Day,
-                    value, old.Minute, old.Second);
+                    value, old.Minute, 0);
 
                 RaisePropertyChanged("StartHours");
                 //RaisePropertyChanged("StartMinutes");
@@ -213,7 +215,7 @@ namespace Staff_time.ViewModel
                 RaisePropertyChanged("Minutes");
 
                 Work.StartTime = new DateTime(old.Year, old.Month, old.Day,
-                    old.Hour, value, old.Second);
+                    old.Hour, value, 0);
 
                 //RaisePropertyChanged("StartHours");
                 RaisePropertyChanged("StartMinutes");
@@ -292,10 +294,11 @@ namespace Staff_time.ViewModel
 
         private void DuplicateWork(object obj)
         {
-            base.CancelEditing();
-            IsEdititig = false;
+            Edit(obj);
+            var workDuplicate = (Work)_workVM.Work.Clone();
+
             MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
-               (WorkCommandEnum.Add, _workVM.Work));
+               (WorkCommandEnum.Add, workDuplicate));
         }
 
         #endregion //time
@@ -392,7 +395,7 @@ namespace Staff_time.ViewModel
         }
         private void Delete(object obj)
         {
-            base.CancelEditing();
+            Edit(obj);
             WorkVM.DeleteWork();
         }
 

@@ -235,7 +235,7 @@ namespace AC.AvalonControlsLibrary.Controls
             {
                 DateTimeSelected = new DateTime(
                     datePicker.CurrentlySelectedDate.Year, datePicker.CurrentlySelectedDate.Month, datePicker.CurrentlySelectedDate.Day,
-                    timePicker.SelectedHour, timePicker.SelectedMinute, timePicker.SelectedSecond
+                    timePicker.SelectedHour, timePicker.SelectedMinute, 0
                     );
             }
         }

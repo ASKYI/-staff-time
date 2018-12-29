@@ -37,19 +37,20 @@
                               IsEnabled="{Binding IsEnabled}"
                               Height="25"
                               Background="White"
-                              Width="175"/>
+                              Width="175"
+                              KeyDown="OnKeyDownLogin" />
             </StackPanel>
             <StackPanel Grid.Row="2">
                 <Label FontSize="12" Content="Введите пароль:"></Label>
             </StackPanel>
             <StackPanel Grid.Row="3" Orientation="Horizontal">
                 <Image Width="25" Height="25" Source="../../Resources/password.png"/>
-                <TextBox Text="{Binding Password}" Height="25" Width="175" VerticalContentAlignment="Center"  MaxLength="8" ></TextBox>
+                <TextBox Name="PasswordTBox" Text="{Binding Password}" Height="25" Width="175" VerticalContentAlignment="Center" KeyDown="OnKeyDownPassword"  MaxLength="8" />
             </StackPanel>
 
         </Grid>
         <StackPanel Margin="20" VerticalAlignment="Bottom">
-            <Button Content="Войти" Width="70" Command="{Binding AcceptCommand}" Background="White" Click="Button_Click"></Button>
+            <Button Name="OkButton" Content="Войти" Width="70" Background="White" Click="Button_Click"></Button>
         </StackPanel>
     </Grid>
 </Window>

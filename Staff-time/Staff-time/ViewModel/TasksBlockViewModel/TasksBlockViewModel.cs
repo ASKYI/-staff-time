@@ -166,7 +166,7 @@ namespace Staff_time.ViewModel
             work.WorkName = "Новая работа";
             work.TaskID = SelectedTaskNode.Task.ID;
             work.StartDate = chosenDate.Date;
-            work.StartTime = DateTime.Now;
+            work.StartTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0);
             work.UserID = GlobalInfo.CurrentUser.ID;
 
             MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(

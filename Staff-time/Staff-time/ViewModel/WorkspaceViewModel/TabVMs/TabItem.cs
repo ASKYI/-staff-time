@@ -97,7 +97,6 @@ namespace Staff_time.ViewModel
             {
                 var newWorkID = WorksVM.Add(work);
                 Work newWork = WorksVM.Dictionary[newWorkID].Work;
-                
                 AddWork(new WorkInTab(newWork.ID));
 
                 SumTime += newWork.Minutes;

@@ -21,10 +21,13 @@ namespace Staff_time.View.Dialog
     public partial class LoginWindow : Window
     {
         public List<User> users { get; set; }
-        public LoginWindow(List<User> _users)
+        public LoginWindow(List<User> _users, int lastUserID)
         {
             users = _users;
             InitializeComponent();
+            if (lastUserID > 0)
+                SelectedUser = users.Find(u => u.ID == lastUserID);
+            PasswordTBox.Focus();
             DataContext = this;
         }
 
@@ -41,6 +44,27 @@ namespace Staff_time.View.Dialog
             }
             else
                 MessageBox.Show("Неверный пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void OnKeyDownPassword(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                OkButton.Focus();
+                if (Password != null && Password.Equals(SelectedUser.Password, StringComparison.OrdinalIgnoreCase))
+                {
+                    GlobalInfo.CurrentUser = SelectedUser;
+                    this.DialogResult = true;
+                    this.Close();
+                }
+                else
+                    MessageBox.Show("Неверный пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void OnKeyDownLogin(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Tab)
+                PasswordTBox.Focus();
         }
     }
 }
