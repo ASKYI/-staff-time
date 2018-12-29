@@ -190,7 +190,9 @@ namespace Staff_time.Model
 
         public List<int> Read_WorksForDate(DateTime date)
         {
-            return (from w in Works where (w.StartDate == date.Date && w.UserID == GlobalInfo.CurrentUser.ID) select w.ID).ToList();
+            var userTasks = UserTasks.Where(ut => ut.UserID == GlobalInfo.CurrentUser.ID);
+            var userTasksID = userTasks.Select(t => t.TaskID).ToList();
+            return (from w in Works where (w.StartDate == date.Date && w.UserID == GlobalInfo.CurrentUser.ID && userTasksID.Contains(w.TaskID)) select w.ID).ToList();
         }
         public List<int> Read_WorksForTask(int taskID)
         {

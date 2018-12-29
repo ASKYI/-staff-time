@@ -20,8 +20,8 @@ namespace Staff_time.View
     /// </summary>
     public partial class TasksBlockView : UserControl
     {
-        ViewModel.TasksBlockViewModel context = 
-            new ViewModel.TasksBlockViewModel();
+        ViewModel.TasksFaveViewModel context = 
+            new ViewModel.TasksFaveViewModel();
         public TasksBlockView()
         {
             InitializeComponent();
@@ -33,21 +33,21 @@ namespace Staff_time.View
             context.ChangeSelection(((TreeViewItem)sender).DataContext as ViewModel.TreeNode);
 
             ContextMenu menu = new ContextMenu();
-
             MenuItem item = new MenuItem();
-            item.Header = "Добавить задачу рядом";
-            item.Command = context.AddNearTaskCommand;
-            menu.Items.Add(item);
 
-            item = new MenuItem();
-            item.Header = "Добавить подзадачу";
-            item.Command = context.AddChildTaskCommand;
-            menu.Items.Add(item);
+            //item.Header = "Добавить задачу рядом";
+            //item.Command = context.AddNearTaskCommand;
+            //menu.Items.Add(item);
 
-            item = new MenuItem();
-            item.Header = "Редактировать задачу";
-            item.Command = context.EditTaskCommand;
-            menu.Items.Add(item);
+            //item = new MenuItem();
+            //item.Header = "Добавить подзадачу";
+            //item.Command = context.AddChildTaskCommand;
+            //menu.Items.Add(item);
+
+            //item = new MenuItem();
+            //item.Header = "Редактировать задачу";
+            //item.Command = context.EditTaskCommand;
+            //menu.Items.Add(item);
 
             //item = new MenuItem();
             //item.Header = "Удалить задачу";

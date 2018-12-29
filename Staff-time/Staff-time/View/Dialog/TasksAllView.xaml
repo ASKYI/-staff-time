@@ -10,7 +10,7 @@
         xmlns:v="clr-namespace:Staff_time.View"  
         
         mc:Ignorable="d"
-        Title="Полное дерево задач" Height="310" Width="500" MinHeight="310" MinWidth="500"
+        Title="Полное дерево задач" Height="520" Width="500" MinHeight="310" MinWidth="500"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -46,30 +46,56 @@
             </Border>
         </HierarchicalDataTemplate>
     </Window.Resources>
-
+   
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="25"></RowDefinition>
                 <RowDefinition Height="10*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+            <!--Панелька-->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" >
+            <Button Margin ="2,0,0,0" ToolTip="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}" Background="White"  ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/add.ico"></Image>
+            </Button>
+            <Button Margin ="2,0,0,0" ToolTip="Добавить подзадачу" Command="{Binding AddChildTaskCommand}" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/add_subitem.ico"></Image>
+            </Button>
+            <Button Margin ="2,0,0,0" Command="{Binding EditTaskCommand}" ToolTip="Редактировать задачу" Background="White"  ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/edit.ico"></Image>
+            </Button>
+            <Button  Margin ="2,0,0,0" Command="{Binding DeleteTaskCommand}" ToolTip="Удалить задачу" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/delete.ico"></Image>
+            </Button>
+            <Button Margin ="2,0,0,0"  Command="{Binding MoveUpCommand}" ToolTip="Переместить вверх" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/up.ico"></Image>
+            </Button>
+            <Button Margin ="2,0,0,0"  Command="{Binding MoveDownCommand}" ToolTip="Переместить вниз" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/down.ico"></Image>
+            </Button>
+        </StackPanel>
+
+
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
                 <StackPanel>
-                    <TextBlock Margin="3" Grid.Column="1" Grid.Row="1" Text="{Binding Message}"></TextBlock>
                     <v:ExtendedTreeView Grid.Row ="0" Grid.Column="1" Margin="3"
                                     SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" 
                                     ItemsSource="{Binding AllTreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
                         <local:ExtendedTreeView.Resources>
                             <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"></Setter>
                                 <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"></Setter>
+
+                                <EventSetter Event="PreviewMouseRightButtonDown" Handler="AllTreeViewItem_PreviewMouseRightButtonDown"/>
                             </Style>
                         </local:ExtendedTreeView.Resources>
                     </v:ExtendedTreeView>
                 </StackPanel>
             </ScrollViewer>
 
-            <StackPanel Margin="2" HorizontalAlignment="Left"  Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom">
+            <StackPanel Margin="2" HorizontalAlignment="Left"  Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom">
                 <Button Content="Добавить" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="110" HorizontalAlignment="Right"></Button>
                 <Button Content="Закрыть" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="110" HorizontalAlignment="Right"></Button>
             </StackPanel>

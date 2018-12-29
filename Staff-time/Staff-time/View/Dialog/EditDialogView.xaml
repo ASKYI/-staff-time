@@ -10,7 +10,7 @@
         xmlns:v="clr-namespace:Staff_time.View"  
         
         mc:Ignorable="d"
-        Title="Редактирование" Height="310" Width="500" MinHeight="310" MinWidth="500"
+        Title="Редактирование задачи" Height="500" Width="600" MinHeight="310" MinWidth="500"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>

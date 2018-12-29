@@ -35,7 +35,7 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField(ref _task, value); // todo Должно быть ошибкой, т.к. наши подписчики подписаны на наш ivent, а не на ivent базового класса, поэтому здесь не отработает оповещение
-                FullPath = TasksVM.generate_PathForTask(_task.ID);
+                FullPath = TasksVM.generate_PathForTask(_task.ID); //todo Настя
             }
         }
         public List<string> FullPath { get; set; }

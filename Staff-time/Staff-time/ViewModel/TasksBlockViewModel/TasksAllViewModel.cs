@@ -14,37 +14,69 @@ namespace Staff_time.ViewModel
 {
     public enum TaskCommandEnum { Add, Edit, None }
 
-    public class TasksBlockViewModel : MainViewModel
+    public class TasksAllViewModel : MainViewModel
     {
-        //test
-        public TasksBlockViewModel()
+        public TasksAllViewModel(ObservableCollection<TreeNode> faveRoots)
         {
-            _generate_Tree();
+            Mouse.OverrideCursor = Cursors.Wait;
+            TasksVM.InitFullTree();
+            _generate_Full_Tree();
+            Mouse.OverrideCursor = Cursors.Arrow;
 
-            _addWorkCommand = new RelayCommand(AddWork, CanAddWork);
-            _showFullTreeCommand = new RelayCommand(ShowTree, (_) => true);
+            //_collapseAllCommand = new RelayCommand(CollapseAll, CanCollapseAll);
+            //_saveExpandCommand = new RelayCommand(SaveCollapse, (_) => true);
+            //_expandAllCommand = new RelayCommand(ExpandAll, CanExpandAll);
+            //_addWorkCommand = new RelayCommand(AddWork, CanAddWork);
             _addNearTaskCommand = new RelayCommand(AddNearTask, CanAddNearTask);
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
             _editTaskCommand = new RelayCommand(EditTask, CanEditTask);
-            _collapseAllCommand = new RelayCommand(CollapseAll, CanCollapseAll);
-            _saveExpandCommand = new RelayCommand(SaveCollapse, (_) => true);
-            _expandAllCommand = new RelayCommand(ExpandAll, CanExpandAll);
             _moveUpCommand = new RelayCommand(MoveUp, CanMoveUp);
             _moveDownCommand = new RelayCommand(MoveDown, CanMoveDown);
-            
+
+            FaveTreeRoots = faveRoots;
+
+            AcceptCommand = new RelayCommand(Accept, (_) => true); // todo чем чётче мы показываем намерения, тем легче программа 
+            CancelCommand = new RelayCommand(Cancel, (_) => true); // в данном случае у нас return true всегда, наглядней было бы CancelCommand = new RelayCommand(Cancel, (_) => true);
+
             MessengerInstance.Register<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
         }
-        
+
+
         #region Tree
 
-        private ObservableCollection<TreeNode> _treeRoots;
-        public ObservableCollection<TreeNode> TreeRoots
+        private TreeNode _root = new TreeNode() { Task = new Task() { TaskName = "Задачи" }, IsExpanded = true };
+
+        private TreeNode _selectedTaskNode;
+        public TreeNode SelectedTaskNode
         {
-            get { return _treeRoots; }
+            get { return _selectedTaskNode; }
+            set
+            {
+                _selectedTaskNode = value;
+                if (_selectedTaskNode != null)
+                    FavouritingTask = _selectedTaskNode.Task;
+                //SetField<TreeNode>(ref _selectedTaskNode, value); // todo вроде c# по параметру сам должен распознать тип Generic
+            }
+        }
+
+        private Task _favouritingTask;
+        public Task FavouritingTask
+        {
+            get { return _favouritingTask; }
+            set
+            {
+                SetField(ref _favouritingTask, value);
+            }
+        }
+
+        private ObservableCollection<TreeNode> _faveTreeRoots;
+        public ObservableCollection<TreeNode> FaveTreeRoots
+        {
+            get { return _faveTreeRoots; }
             set
             { 
-                SetField(ref _treeRoots, value);
+                SetField(ref _faveTreeRoots, value);
             }
         }
 
@@ -61,27 +93,15 @@ namespace Staff_time.ViewModel
 
         public void AddRootNode(TreeNode node)
         {
-            TreeRoots.Add(node);
+            AllTreeRoots.Add(node);
         }
         public void DeleteRootNode(TreeNode node)
         {
-            TreeRoots.Remove(node);
+            AllTreeRoots.Remove(node);
         }
         public void UpdateRootNode(int oldNodeIndex, TreeNode newNode)
         {
-            TreeRoots[oldNodeIndex] = newNode; // todo а если oldNodeIndex элемента нет в коллекции
-        }
-
-        private void _generate_Tree()
-        {
-            TreeRoots = new ObservableCollection<TreeNode>();
-            foreach (var taskNode in TasksVM.Dictionary)
-            {
-                if (taskNode.Value.ParentNode == null)
-                {
-                    TreeRoots.Add(taskNode.Value);
-                }
-            }
+            AllTreeRoots[oldNodeIndex] = newNode; // todo а если oldNodeIndex элемента нет в коллекции
         }
 
         private void _generate_Full_Tree()
@@ -96,16 +116,6 @@ namespace Staff_time.ViewModel
             }
         }
 
-        private TreeNode _selectedTaskNode;
-        public TreeNode SelectedTaskNode
-        {
-            get { return _selectedTaskNode; }
-            set
-            {
-                SetField<TreeNode>(ref _selectedTaskNode, value);
-            }
-        }
-
         public void ChangeSelection(TreeNode value) //Нельзя в сетер - будет переполнение стека
         {
             if (_selectedTaskNode != null)
@@ -117,61 +127,6 @@ namespace Staff_time.ViewModel
                 _selectedTaskNode.IsSelected = true;
         }
 
-        #endregion
-
-        #region show full Tree
-        private readonly ICommand _showFullTreeCommand;
-        public ICommand ShowFullTreeCommand
-        {
-            get
-            {
-                return _showFullTreeCommand;
-            }
-        }
-        #endregion
-
-        #region Add Work
-        private readonly ICommand _addWorkCommand;
-        public ICommand AddWorkCommand
-        {
-            get
-            {
-                return _addWorkCommand;
-            }
-        }
-
-        private bool CanAddWork(object obj)
-        {
-            return SelectedTaskNode != null && dialog == null;
-        }
-
-        private void ShowTree(object obj)
-        {
-            Mouse.OverrideCursor = Cursors.Wait;
-            TasksVM.InitFullTree();
-            if (AllTreeRoots == null)
-                _generate_Full_Tree();
-            Mouse.OverrideCursor = Cursors.Arrow;
-
-            var dialog = new View.AllTreeDialog(new ViewModel.AllTreeDialogViewModel(AllTreeRoots, TreeRoots));
-            dialog.ShowDialog();
-            _generate_Tree();
-        }
-
-        private void AddWork(object obj)
-        {
-            base.CancelEditing();
-
-            Work work = new Work();
-            work.WorkName = "Новая работа";
-            work.TaskID = SelectedTaskNode.Task.ID;
-            work.StartDate = chosenDate.Date;
-            work.StartTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0);
-            work.UserID = GlobalInfo.CurrentUser.ID;
-
-            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(
-                new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Add, work));
-        }
         #endregion
 
         #region Add Task
@@ -197,7 +152,7 @@ namespace Staff_time.ViewModel
                 newTask.ParentTaskID = SelectedTaskNode.Task.ParentTaskID;
             newTask.TaskName = "Новая задача";
 
-            dialog = new View.AddDialogWindow(new TaskDialogViewModel(newTask, TreeRoots, TaskCommandEnum.Add));
+            dialog = new View.AddDialogWindow(new TaskDialogViewModel(newTask, AllTreeRoots, TaskCommandEnum.Add));
             dialog.Show();
         }
         private readonly ICommand _addChildTaskCommand;
@@ -221,7 +176,7 @@ namespace Staff_time.ViewModel
             newTask.ParentTaskID = SelectedTaskNode.Task.ID;
             newTask.TaskName = "Новая подзадача";
             
-            dialog = new View.AddDialogWindow(new TaskDialogViewModel(newTask, TreeRoots, TaskCommandEnum.Add));
+            dialog = new View.AddDialogWindow(new TaskDialogViewModel(newTask, AllTreeRoots, TaskCommandEnum.Add));
             dialog.Show();
         }
         #endregion
@@ -245,7 +200,7 @@ namespace Staff_time.ViewModel
         {
             base.CancelEditing();
 
-            dialog = new View.EditDialogWindow(new TaskDialogViewModel(SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit));   
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(SelectedTaskNode.Task, AllTreeRoots, TaskCommandEnum.Edit));   
             dialog.Show();
         }
 
@@ -272,8 +227,8 @@ namespace Staff_time.ViewModel
 
             //Roots
             int delTaskID = SelectedTaskNode.Task.ID;
-            if (TreeRoots.Contains(SelectedTaskNode))
-                TreeRoots.Remove(SelectedTaskNode);
+            if (AllTreeRoots.Contains(SelectedTaskNode))
+                AllTreeRoots.Remove(SelectedTaskNode);
             //if (TasksVM.Dictionary.ContainsKey(SelectedTaskNode.Task.ID))
             //    TasksVM.Dictionary.Remove(SelectedTaskNode.Task.ID);
 
@@ -281,74 +236,13 @@ namespace Staff_time.ViewModel
             TasksVM.DeleteWithChildren(delTaskID);
 
             if (TasksVM.Dictionary.ContainsKey(delTaskID + 1))
-                ChangeSelection(TasksVM.Dictionary[delTaskID + 1]);
+                ChangeSelection(TasksVM.DictionaryFull[delTaskID + 1]);
             else
-                ChangeSelection(TasksVM.Dictionary.FirstOrDefault().Value);
+                ChangeSelection(TasksVM.DictionaryFull.FirstOrDefault().Value);
         }
 
         #endregion
-
-        #region Expand Collapse
-
-        
-        private readonly ICommand _saveExpandCommand;
-        public ICommand SaveExpandCommand
-        {
-            get
-            {
-                return _saveExpandCommand;
-            }
-        }
-
-
-        private readonly ICommand _collapseAllCommand;
-        public ICommand CollapseAllCommand
-        {
-            get
-            {
-                return _collapseAllCommand;
-            }
-        }
-
-        private bool CanCollapseAll(object obj)
-        {
-            return dialog == null;
-        }
-        private void CollapseAll(object obj)
-        {
-            base.CancelEditing();
-
-            TasksVM.CollapseAll();
-        }
-
-        private void SaveCollapse(object obj)
-        {
-            TasksVM.SaveCollapse(TreeRoots);
-        }
-        
-
-        private readonly ICommand _expandAllCommand;
-        public ICommand ExpandAllCommand
-        {
-            get
-            {
-                return _expandAllCommand;
-            }
-        }
-
-        private bool CanExpandAll(object obj)
-        {
-            return dialog == null;
-        }
-        private void ExpandAll(object obj)
-        {
-            base.CancelEditing();
-
-            TasksVM.ExpandAll();
-        }
-
-        #endregion
-
+     
         #region Navigation
 
         private readonly ICommand _moveUpCommand;
@@ -374,7 +268,7 @@ namespace Staff_time.ViewModel
             }
             else
             {
-                int index = TreeRoots.IndexOf(SelectedTaskNode);
+                int index = AllTreeRoots.IndexOf(SelectedTaskNode);
                 if (index - 1 >= 0)
                     return true;
             }
@@ -402,15 +296,15 @@ namespace Staff_time.ViewModel
             }
             else
             {
-                int index = TreeRoots.IndexOf(SelectedTaskNode);
-                TreeRoots[index].Task.IndexNumber = TreeRoots[index - 1].Task.IndexNumber;
-                TreeRoots[index - 1].Task.IndexNumber = curI;
+                int index = AllTreeRoots.IndexOf(SelectedTaskNode);
+                AllTreeRoots[index].Task.IndexNumber = AllTreeRoots[index - 1].Task.IndexNumber;
+                AllTreeRoots[index - 1].Task.IndexNumber = curI;
 
-                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, TreeRoots[index].Task));
-                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, TreeRoots[index - 1].Task));
+                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, AllTreeRoots[index].Task));
+                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, AllTreeRoots[index - 1].Task));
 
-                TreeRoots.Move(index, index - 1);
-                ChangeSelection(TreeRoots[index - 1]);
+                AllTreeRoots.Move(index, index - 1);
+                ChangeSelection(AllTreeRoots[index - 1]);
             }
         }
 
@@ -437,8 +331,8 @@ namespace Staff_time.ViewModel
             }
             else
             {
-                int index = TreeRoots.IndexOf(SelectedTaskNode);
-                if (index + 1 < TreeRoots.Count)
+                int index = AllTreeRoots.IndexOf(SelectedTaskNode);
+                if (index + 1 < AllTreeRoots.Count)
                     return true;
             }
             return false;
@@ -464,15 +358,15 @@ namespace Staff_time.ViewModel
             }
             else
             {
-                int index = TreeRoots.IndexOf(SelectedTaskNode);
-                TreeRoots[index].Task.IndexNumber = TreeRoots[index + 1].Task.IndexNumber;
-                TreeRoots[index + 1].Task.IndexNumber = curI;
+                int index = AllTreeRoots.IndexOf(SelectedTaskNode);
+                AllTreeRoots[index].Task.IndexNumber = AllTreeRoots[index + 1].Task.IndexNumber;
+                AllTreeRoots[index + 1].Task.IndexNumber = curI;
 
-                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, TreeRoots[index].Task));
-                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, TreeRoots[index + 1].Task));
+                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, AllTreeRoots[index].Task));
+                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, AllTreeRoots[index + 1].Task));
 
-                TreeRoots.Move(index, index + 1);
-                ChangeSelection(TreeRoots[index + 1]);
+                AllTreeRoots.Move(index, index + 1);
+                ChangeSelection(AllTreeRoots[index + 1]);
             }
         }
 
@@ -489,7 +383,7 @@ namespace Staff_time.ViewModel
             {
                 case TaskCommandEnum.Add:
                     TasksVM.Add(task);
-                    TreeNode newNode = TasksVM.Dictionary[task.ID];
+                    TreeNode newNode = TasksVM.DictionaryFull[task.ID];
 
                     if (newNode.ParentNode == null)
                         AddRootNode(newNode);
@@ -500,14 +394,14 @@ namespace Staff_time.ViewModel
 
                     break;
                 case TaskCommandEnum.Edit:
-                    TreeNode oldNode = TasksVM.Dictionary[task.ID];
+                    TreeNode oldNode = TasksVM.DictionaryFull[task.ID];
                     int index = -1;
 
                     if (oldNode.ParentNode == null)
-                        index = TreeRoots.IndexOf(oldNode);
+                        index = AllTreeRoots.IndexOf(oldNode);
 
                     TasksVM.Edit(task);
-                    newNode = TasksVM.Dictionary[task.ID];
+                    newNode = TasksVM.DictionaryFull[task.ID];
 
                     if (index != -1 && newNode.ParentNode == null)
                         UpdateRootNode(index, newNode);
@@ -521,6 +415,78 @@ namespace Staff_time.ViewModel
         }
 
         #endregion
-        
+
+        #region Commands       
+
+        public ICommand AcceptCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
+
+        private bool CanAccept(object obj)
+        {
+            return true;
+        }
+        public void Accept(object obj)
+        {
+            if (_favouritingTask == null)
+                return;
+            if (TasksVM.IsFave(_favouritingTask.ID))
+            {
+                MessageBox.Show("Данная задача уже добавлена в избранное");
+                return;
+            }
+
+            // Добавим всех родителей, если их нет в избранном
+            List<TreeNode> toAddInFave = new List<TreeNode>();
+            var parent = SelectedTaskNode.ParentNode;
+            while (parent != null && !FaveTreeRoots.Contains(parent))
+            {
+                toAddInFave.Add(parent);
+                parent = parent.ParentNode;
+            }
+            for (int i = toAddInFave.Count - 1; i >= 0; --i)
+                if (!TasksVM.IsFave(toAddInFave[i].Task.ID))
+                    TasksVM.AddFave(toAddInFave[i].Task);
+
+            // Добавим себя
+            TasksVM.AddFave(_favouritingTask);
+
+            // Добавим своё поддерево
+            Queue<TreeNode> nodeToFave = new Queue<TreeNode>();
+            nodeToFave.Enqueue(SelectedTaskNode);
+            while (nodeToFave.Count > 0)
+            {
+                var curNode = nodeToFave.Dequeue();
+                foreach (var childNode in curNode.TreeNodes)
+                {
+                    TasksVM.AddFave(childNode.Task);
+                    nodeToFave.Enqueue(childNode);
+                }
+            }
+            MessageBox.Show("Задача: " + _favouritingTask.TaskName + " добавлена в избранное", "Добавление в избранное", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private bool CanCancel(object obj)
+        {
+            return true;
+        }
+        public void Cancel(object obj)
+        {
+            if (dialog != null)
+            {
+                dialog.Close();
+                dialog = null;
+            }
+        }
+
+        public void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            //ChangeSelection(null);
+            //MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
+            //    new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
+            dialog = null;
+        }
+
+        #endregion
+
     }
 }

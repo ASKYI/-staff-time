@@ -191,6 +191,7 @@
     </Compile>
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\AllTreeDialogViewModel.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TasksAllViewModel.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel\TabVMs\TabItem.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel\TabVMs\TabItemHeaderConverter.cs" />
     <Compile Include="ViewModel\-Shared\WorksVM.cs" />
@@ -206,7 +207,7 @@
     <Compile Include="ViewModel\TasksBlockViewModel\TaskDialogViewModel.cs" />
     <Compile Include="ViewModel\FaveViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\TasksBlockViewModel\TasksBlockViewModel.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TasksFaveViewModel.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel\TabVMs\WorkInTab.cs" />
     <Compile Include="ViewModel\WorksViewModel\AttrValueExtended.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkBlockControlViewModel.cs" />
@@ -218,8 +219,8 @@
     <Compile Include="View\Dialog\AddDialogWindow.xaml.cs">
       <DependentUpon>AddDialogWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Dialog\AllTreeDialog.xaml.cs">
-      <DependentUpon>AllTreeDialog.xaml</DependentUpon>
+    <Compile Include="View\Dialog\TasksAllView.xaml.cs">
+      <DependentUpon>TasksAllView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Dialog\IDialogView.cs" />
     <Compile Include="View\Dialog\EditDialogView.xaml.cs">
@@ -265,7 +266,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialog\AllTreeDialog.xaml">
+    <Page Include="View\Dialog\TasksAllView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -373,6 +374,8 @@
       <DependentUpon>TaskManagmentDB.edmx</DependentUpon>
       <LastGenOutput>TaskManagmentDB.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\tree.ico" />
+    <Resource Include="Resources\add_work.ico" />
     <Resource Include="Resources\save.ico" />
     <Resource Include="Resources\loginBackground.png" />
     <Resource Include="Resources\login.png" />

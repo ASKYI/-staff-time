@@ -86,10 +86,10 @@ namespace Staff_time.ViewModel
             FillExpandedFlag(Dictionary);
             Dictionary = Dictionary.OrderBy(pair => pair.Value.Task.IndexNumber).ToDictionary(pair => pair.Key, pair => pair.Value); // todo не думал что у dictionary есть порядок
 
-            foreach (var pair in Dictionary)
-            {
-                pair.Value.FullPath = generate_PathForTask(pair.Key);
-            }
+            //foreach (var pair in Dictionary)
+            //{
+            //    pair.Value.FullPath = generate_PathForTask(pair.Key);
+            //}
         }
 
         public static void InitFullTree()
@@ -115,7 +115,7 @@ namespace Staff_time.ViewModel
         {
             //DB
             Context.taskWork.Create_Task(task);
-            Context.taskWork.Create_TaskToFave(task.ID, GlobalInfo.CurrentUser.ID);
+            //Context.taskWork.Create_TaskToFave(task.ID, GlobalInfo.CurrentUser.ID);
             task.IndexNumber = task.ID;
             Context.taskWork.Update_Task(task);
 
@@ -125,13 +125,13 @@ namespace Staff_time.ViewModel
             TreeNodeFactory factory = new TreeNodeFactory(); // todo на текущий момент TreeNodeFactory имеет интерфейс ITreeNodeFactory, но при этом создаётся здесь и используется без учёта этого факта
             TreeNode newNode = factory.CreateTreeNode(task);
 
-            TasksVM.Dictionary.Add(task.ID, newNode); // todo интересный момент использования классом самого себя
+            TasksVM.DictionaryFull.Add(task.ID, newNode); // todo интересный момент использования классом самого себя
 
             if (task.ParentTaskID != null)
             {
                 int parentID = (int)task.ParentTaskID;
-                newNode.ParentNode = Dictionary[parentID];
-                Dictionary[parentID].AddChild(newNode);
+                newNode.ParentNode = DictionaryFull[parentID];
+                DictionaryFull[parentID].AddChild(newNode);
             }
 
             newNode.FullPath = generate_PathForTask(task.ID);
@@ -166,7 +166,7 @@ namespace Staff_time.ViewModel
             Context.taskWork.Update_Task(task);
 
             //VM
-            TreeNode oldNode = Dictionary[task.ID];
+            TreeNode oldNode = DictionaryFull[task.ID];
 
             TreeNodeFactory factory = new TreeNodeFactory();
             TreeNode newNode = factory.CreateTreeNode(task);
@@ -174,7 +174,7 @@ namespace Staff_time.ViewModel
             //Parent
             if (newNode.Task.ParentTaskID != null)
             {
-                newNode.ParentNode = Dictionary[(int)newNode.Task.ParentTaskID];
+                newNode.ParentNode = DictionaryFull[(int)newNode.Task.ParentTaskID];
                 if (oldNode.ParentNode != newNode.ParentNode) // todo а если родитель не поменялся, значит не надо в нём регистрироваться? Хм увидел позже. Функциональность размазана, из-за этого сложно, код можно написать по-другому, см. пример
                     newNode.ParentNode.AddChild(newNode);     // условие newNode.Task.ParentTaskID != null   подразумевает, что внутри блока будет работа полностью с newNode
             }
@@ -215,29 +215,50 @@ namespace Staff_time.ViewModel
                 newNode.AddChild(n);
             }
 
-            // todo чем не устроил Dictionary[task.ID] = newNode; ?
-            Dictionary.Remove(task.ID);
-            Dictionary.Add(task.ID, newNode);
+            DictionaryFull[task.ID] = newNode;
+            //DictionaryFull.Remove(task.ID);
+            //DictionaryFull.Add(task.ID, newNode);
             newNode.FullPath = generate_PathForTask(task.ID);
+        }
+
+        public static void DeleteFaveWithChildren(int taskID)
+        {
+            //DB
+            Context.taskWork.Delete_TaskFromFave(taskID);
+
+            //VM
+            TreeNode delNode = Dictionary[taskID];
+
+            TreeNode parentNode = delNode.ParentNode;
+            int? parentID = delNode.Task.ParentTaskID; // todo ?
+
+            foreach (var n in delNode.TreeNodes)
+            {
+                DeleteFaveAlone(n.Task.ID);
+            }
+
+            if (parentNode != null)         // todo можно так parentNode?.TreeNodes?.Remove(delNode);
+                parentNode.TreeNodes.Remove(delNode);
+            Dictionary.Remove(taskID);
         }
 
         public static void DeleteWithChildren(int taskID)
         {
             //DB
-            Context.taskWork.Delete_TaskFromFave(taskID);
+            Context.taskWork.Delete_Task(taskID);
 
             ////Works
             //List<int> works = Context.workWork.Read_WorksForTask(taskID);
             //foreach (var id in works)
             //{
-            //    Work w = WorksVM.Dictionary[id].Work;
+            //    Work w = WorksVM.DictionaryFull[id].Work;
             //    WorksVM.Delete(w.ID);
             //    //MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>
             //    //    (new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, w));
             //}
 
             //VM
-            TreeNode delNode = Dictionary[taskID];
+            TreeNode delNode = DictionaryFull[taskID];
 
             TreeNode parentNode = delNode.ParentNode;
             int? parentID = delNode.Task.ParentTaskID; // todo ?
@@ -249,10 +270,10 @@ namespace Staff_time.ViewModel
 
             if (parentNode != null)         // todo можно так parentNode?.TreeNodes?.Remove(delNode);
                 parentNode.TreeNodes.Remove(delNode);
-            Dictionary.Remove(taskID);
+            DictionaryFull.Remove(taskID);
         }
 
-        public static void DeleteAlone(int taskID)
+        public static void DeleteFaveAlone(int taskID)
         {
             //DB
             Context.taskWork.Delete_TaskFromFave(taskID);
@@ -275,31 +296,60 @@ namespace Staff_time.ViewModel
 
             foreach (var n in delNode.TreeNodes)
             {
-                DeleteAlone(n.Task.ID);
+                DeleteFaveAlone(n.Task.ID);
             }
 
             Dictionary.Remove(taskID);
         }
 
-        public static bool CheckWorks(int taskID)
+        public static void DeleteAlone(int taskID)
         {
-            List<int> works = Context.workWork.Read_WorksForTask(taskID); // todo var
-            if (works.Count > 0)            // todo какой здесь вопрос задаётся контейнеру? сколько элементов? 3 или 5 это важно?  Здесь вопрос - пустой он или нет, желательно задавать точные вопросы works.IsEmpty , плохо что такого нет у List
-                return true;
+            //DB
+            Context.taskWork.Delete_Task(taskID);
 
-            TreeNode node = Dictionary[taskID];
+            ////Works
+            //List<int> works = Context.workWork.Read_WorksForTask(taskID);
+            //foreach (var id in works)
+            //{
+            //    Work w = WorksVM.DictionaryFull[id].Work;
+            //    WorksVM.Delete(w.ID);
+            //    //MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>
+            //    //    (new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, w));
+            //}
 
-            TreeNode parentNode = node.ParentNode;
-            int? parentID = node.Task.ParentTaskID; // todo
+            //VM
+            TreeNode delNode = DictionaryFull[taskID];
 
-            foreach (var n in node.TreeNodes)
+            TreeNode parentNode = delNode.ParentNode;
+            int? parentID = delNode.Task.ParentTaskID; // todo
+
+            foreach (var n in delNode.TreeNodes)
             {
-                if (CheckWorks(n.Task.ID))
-                    return true;
+                DeleteAlone(n.Task.ID);
             }
 
-            return false;
+            DictionaryFull.Remove(taskID);
         }
+
+        //public static bool CheckWorks(int taskID)
+        //{
+        //    List<int> works = Context.workWork.Read_WorksForTask(taskID); // todo var
+        //    if (works.Count > 0)            // todo какой здесь вопрос задаётся контейнеру? сколько элементов? 3 или 5 это важно?  Здесь вопрос - пустой он или нет, желательно задавать точные вопросы works.IsEmpty , плохо что такого нет у List
+        //        return true;
+
+        //    TreeNode node = Dictionary[taskID];
+
+        //    TreeNode parentNode = node.ParentNode;
+        //    int? parentID = node.Task.ParentTaskID; // todo
+
+        //    foreach (var n in node.TreeNodes)
+        //    {
+        //        if (CheckWorks(n.Task.ID))
+        //            return true;
+        //    }
+
+        //    return false;
+        //}
 
         public static void CollapseAll()
         {
@@ -349,12 +399,18 @@ namespace Staff_time.ViewModel
 
         public static List<string> generate_PathForTask(int taskID)
         {
-            if (!Dictionary.ContainsKey(taskID))
+            Dictionary<int, TreeNode> curDictionary = new Dictionary<int, TreeNode>();
+            if (DictionaryFull == null)
+                curDictionary = Dictionary;
+            else
+                curDictionary = DictionaryFull;
+
+            if (!curDictionary.ContainsKey(taskID))
                 return new List<string>();
 
             List<string> path = new List<string>(); // todo дважды создаётся пустой список, достаточно одного пустого
 
-            TreeNode t = Dictionary[taskID];
+            TreeNode t = curDictionary[taskID];
             while (t.ParentNode != null)
             {
                 path.Add(t.Task.TaskName);
@@ -368,11 +424,17 @@ namespace Staff_time.ViewModel
 
         public static bool CheckIsChild(int parentID, int? childID)
         {
-            TreeNode parentNode = Dictionary[parentID]; // todo, а если в Dictionary нет элемента parentID
-            TreeNode childNode = null; // todo преждевременно объявленная переменная
+            if (!DictionaryFull.ContainsKey(parentID))
+                throw new IndexOutOfRangeException();
+            TreeNode parentNode = DictionaryFull[parentID];
+
             if (childID != null)
             {
-                childNode = Dictionary[(int)childID]; // todo в dictionary может не оказаться этого элемента
+                if (!DictionaryFull.ContainsKey((int)childID))
+                    throw new IndexOutOfRangeException();
+
+                TreeNode childNode = null;
+                childNode = DictionaryFull[(int)childID];
 
                 TreeNode curParent = childNode.ParentNode;
                 while (curParent != null)

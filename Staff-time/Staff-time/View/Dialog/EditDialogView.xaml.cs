@@ -28,7 +28,7 @@ namespace Staff_time.View
         {
             InitializeComponent();
             base.DataContext = context;
-            Closing += ((ViewModel.TaskDialogViewModel)DataContext).OnWindowClosing; // todo аналогичное уже было
+        Closing += ((ViewModel.TaskDialogViewModel)DataContext).OnWindowClosing; // todo аналогичное уже было
         }
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)

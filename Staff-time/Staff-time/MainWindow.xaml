@@ -19,19 +19,16 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="250"></ColumnDefinition>
-            <ColumnDefinition Width="2.5*"></ColumnDefinition>
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="2.5*" MinWidth="250"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="6*" MinHeight="300"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
         
-        <view:TasksBlockView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></view:TasksBlockView>
+        <view:TasksBlockView Grid.Column="0" Grid.RowSpan="2"></view:TasksBlockView>
+        <GridSplitter Grid.Column="1" Grid.Row="0" Width="5" HorizontalAlignment="Stretch" Background="Gray" />
         
-        <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="3" BorderBrush="Gray" BorderThickness="2">
+        <Border Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Margin="3" BorderBrush="Gray" BorderThickness="2">
             <view:WorkspaceView ></view:WorkspaceView>
         </Border>
 
-        <!--<view:FaveView Grid.Column="0" Grid.Row="1"></view:FaveView>-->
     </Grid>
 </Window>
