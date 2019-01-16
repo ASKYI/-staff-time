@@ -11,6 +11,7 @@ using GalaSoft.MvvmLight;
 
 using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
+using Staff_time.Model.UserModel;
 
 namespace Staff_time.ViewModel
 {
@@ -68,5 +69,30 @@ namespace Staff_time.ViewModel
             Work newWork = factory.CreateWork(work);
             Dictionary.Add(newWork.ID, new WorkControlViewModel(newWork)); //Аналогично, другое создание при разных типах
         }
+
+        public static bool IsEditing()
+        {
+            var editWorks = Dictionary.Select(d => d.Value).Where(w => w.IsEdititig == true).ToList();
+            return editWorks.Count > 0;
+        }
+
+        #region other methods
+
+        public static void CollapseAll()
+        {
+            foreach (var t in WorksVM.Dictionary)
+            {
+                t.Value.IsExpanded = false;
+            }
+        }
+
+        public static void ExpandAll()
+        {
+            foreach (var t in WorksVM.Dictionary)
+            {
+                t.Value.IsExpanded = true;
+            }
+        }
+        #endregion //other methods
     }
 }

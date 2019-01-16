@@ -25,6 +25,9 @@ namespace Staff_time.Model.Interfaces
         //Проверяет, есть ли в избранном задача
         bool IsFave(int taskID);
 
+        //Проверяет, есть ли уже такая задача
+        bool IsExist(string taskName, int? parentTaskID);
+
         //Проверяет, является ли задача у пользователя развернутой в дереве
         bool IsExpanded(int taskID, int userID);
 
@@ -41,7 +44,7 @@ namespace Staff_time.Model.Interfaces
         void Update_Task(Task task);
 
         //Удаление задачи. Родителем потомка становятся родитель удаляемой задачи, работы удаляются.
-        void Delete_Task(int taskID);
+        bool Delete_Task(int taskID);
 
         //Убрать задачу из избранного
         void Delete_TaskFromFave(int taskID);

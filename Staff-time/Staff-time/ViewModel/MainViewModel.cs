@@ -11,6 +11,8 @@ using GalaSoft.MvvmLight;
 
 using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
+using Staff_time.Model.UserModel;
+using System.Windows.Input;
 
 namespace Staff_time.ViewModel
 {
@@ -21,7 +23,7 @@ namespace Staff_time.ViewModel
             Context.Init();
             TasksVM.InitFave();
             WorksVM.Init();
-        } 
+        }
 
         public MainViewModel()
         {
@@ -31,17 +33,18 @@ namespace Staff_time.ViewModel
 
         #region Chosen statics (User, Date)
 
-        protected static User chosenUser { get; set; }
+        public static User chosenUser { get; set; }
         protected static DateTime chosenDate { get; set; }
 
-        private static bool init_tracker = false;
+        public static bool init_tracker = false;
         private static void _initChosen()
         {
             if (init_tracker)
                 return;
             init_tracker = true;
 
-            chosenUser = Context.GetTestUser();
+            //chosenUser = Context.GetTestUser();
+            chosenUser = GlobalInfo.CurrentUser;
             chosenDate = DateTime.Now.Date;
         }
 
@@ -51,6 +54,11 @@ namespace Staff_time.ViewModel
         {
             MessengerInstance.Send<string>("Cancel");
         }
+
+        //public void ApplyChanges()
+        //{
+        //    MessengerInstance.Send<string>("Apply");
+        //}
 
         protected static View.IDialogView dialog; //Ага, ViewModel видит View...
 

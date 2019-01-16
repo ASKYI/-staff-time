@@ -50,42 +50,77 @@
                     <Setter Property="Background" Value="LightGray"></Setter>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding IsRed}" Value="True">
-                    <Setter Property="Background" Value="LightCoral"></Setter>
+                    <Setter Property="Background" Value="YellowGreen"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
     </UserControl.Resources>
 
-    <Expander Margin="3"  Header="{Binding Path, Mode=OneWay}" Padding="5" BorderThickness="3" 
+    <Expander Margin="3" Padding="5" BorderThickness="3"
               IsExpanded="{Binding IsExpanded}" Style="{StaticResource ExpanderStyle}">
         <Expander.ToolTip>
             <ToolTip Content="{Binding FullPath}"></ToolTip>
         </Expander.ToolTip>
+        <Expander.Header>
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Background="PaleGreen" Grid.Column="0" HorizontalAlignment="Left" Text="{Binding Path}"/>
+                <TextBlock Margin="10, 0, 0, 0" Grid.Column="2" Width ="250" HorizontalAlignment="Right" Text="{Binding TimeRange}"/>
+            </Grid>
+        </Expander.Header>
         <StackPanel>
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="180"></ColumnDefinition>
+                    <ColumnDefinition Width="260"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="Имя работы: " Grid.Column="0"></TextBlock>
-                <TextBox  TextWrapping="Wrap" IsReadOnly="{Binding IsReadOnly}"  
-                          Text="{Binding Work.WorkName}" Grid.Column="1"></TextBox>
+                <TextBox Name="WorkNameTextBox" Height="25" TextWrapping="Wrap" IsReadOnly="{Binding IsReadOnly}"  
+                          MaxLength="50" Text="{Binding Work.WorkName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }" Grid.Column="1"></TextBox>
             </Grid>
 
             <Grid Margin="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="11*"/>
+                    <RowDefinition Height="13*"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="180"></ColumnDefinition>
+                    <ColumnDefinition Width="260"></ColumnDefinition>
+                    <ColumnDefinition Width="42*"/>
+                    <!--<ColumnDefinition Width="657*"/>-->
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Время работы (в минутах): " Grid.Column="0"></TextBlock>
-                <TextBox TextWrapping="Wrap" IsReadOnly="{Binding IsReadOnly}" TextChanged="TextBox_TextChanged"
-                         Text="{Binding Minutes}" Grid.Column="1"></TextBox>
+                <TextBlock Text="Время работы (в минутах): " Grid.Column="0" Grid.RowSpan="2"></TextBlock>
+                <TextBox TextWrapping="Wrap" MaxLength="5" IsReadOnly="{Binding IsReadOnly}"  TextChanged="TextBox_TextChanged" PreviewTextInput="NumberValidationTextBox"
+                         Text="{Binding Minutes, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }" Grid.Column="1" Grid.RowSpan="2"></TextBox>
+                <StackPanel Grid.Column="2" Grid.RowSpan="2">
+                    <Grid Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <xctk:DateTimeUpDown Name="StartTimeUpDown"  Grid.Column="0" HorizontalAlignment="Right" Value="{Binding StartTime, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }"  IsEnabled="{Binding IsEnabled}"
+                                     Format="ShortTime" PreviewMouseDoubleClick ="DoubleClickTime"></xctk:DateTimeUpDown>
+                        <TextBlock Text="-" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <xctk:DateTimeUpDown  Grid.Column="2" HorizontalAlignment="Left"  Value="{Binding EndTime, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }" IsEnabled="{Binding IsEnabled}"
+                                      Format="ShortTime" PreviewMouseDoubleClick ="DoubleClickTime" ></xctk:DateTimeUpDown>
+                        <Button Grid.Column="3" Margin ="2,0,0,0"  Height="20" Width="20" ToolTip="Добавить диапазон" Command="{Binding DuplicateWorkCommand}" Background="White">
+                            <Image Source="../../Resources/add.ico"></Image>
+                        </Button>
+                    </Grid>
+                </StackPanel>
             </Grid>
 
-            <StackPanel>
+            <!--<StackPanel>
                 <Grid Margin="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="4*"></ColumnDefinition>
@@ -93,12 +128,14 @@
                         <ColumnDefinition Width="4*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
-                    <!--<avalon:TimePicker Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Right"                                   
+                    -->
+            <!--<avalon:TimePicker Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Right"                                   
                                    SelectedHour="{Binding StartHours, Mode=TwoWay}" SelectedMinute="{Binding StartMinutes, Mode=TwoWay}"
                                    IsEnabled="{Binding IsEnabled}"></avalon:TimePicker>-->
 
-                    <!--<xctk:TimePicker Grid.Column="0" HorizontalAlignment="Right" Value="{Binding CurrentDateTime}"
+            <!--<xctk:TimePicker Grid.Column="0" HorizontalAlignment="Right" Value="{Binding CurrentDateTime}"
                                  Format="Custom" FormatString="hh:mm:ss tt" ></xctk:TimePicker>-->
+            <!--
                     <xctk:DateTimeUpDown Name="StartTimeUpDown"  Grid.Column="0" HorizontalAlignment="Right" Value="{Binding StartTime}"  IsEnabled="{Binding IsEnabled}"
                                      Format="ShortTime" PreviewMouseDoubleClick ="DoubleClickTime"></xctk:DateTimeUpDown>
                     <TextBlock Text="-" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
@@ -108,23 +145,30 @@
                         <Image Source="../../Resources/add.ico"></Image>
                     </Button>
 
-                    <!--<avalon:TimePicker Grid.Column="2" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left"   
+                    -->
+            <!--<avalon:TimePicker Grid.Column="2" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left"   
                                    SelectedHour="{Binding EndHours, Mode=TwoWay}" SelectedMinute="{Binding EndMinutes, Mode=TwoWay}"
                                    IsEnabled="{Binding IsEnabled}"></avalon:TimePicker>-->
+            <!--
                 </Grid>
-            </StackPanel>
+            </StackPanel>-->
 
             <Separator></Separator>
 
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="60"></ColumnDefinition>
+                    <ColumnDefinition Width="380"></ColumnDefinition>
+                    <ColumnDefinition Width="120"></ColumnDefinition>
+                    <ColumnDefinition Width="180"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
+                <TextBlock Text="Описание: " Grid.Column="0"></TextBlock>
+                <TextBox TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" MinLines="3" MaxLines="3" IsReadOnly="{Binding IsReadOnly}" Grid.Column="1" Text="{Binding Work.Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }"></TextBox>
 
-                <TextBlock Text="Тип работы: " Grid.Column="0"></TextBlock>
-                <ComboBox Grid.Column="1"
+                <TextBlock Text="Тип работы: " HorizontalAlignment="Right"  Grid.Column="2"></TextBlock>
+                <ComboBox Grid.Column="3"
+                          Height="25"
+                          VerticalAlignment="Top"
                           ItemsSource="{Binding Path=WorkTypesCb}"
                           DisplayMemberPath="TypeName"
                           SelectedIndex="{Binding SelectedWorkTypeIndex}"
@@ -138,11 +182,10 @@
                 <DatePicker Grid.Column="1" IsDropDownOpen="False" HorizontalAlignment="Right"
                             SelectedDate="{Binding Work.StartDate}"
                             IsEnabled="{Binding IsEnabled}"></DatePicker>
-                <Button Content="Изменить задачу" Command="{Binding ChangeTaskCommand}" Width="100" Background="LightGray" HorizontalAlignment="Right"></Button>
-                <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="100" Background="LightGray" HorizontalAlignment="Right"></Button>
-                <Button Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}" Width="100" HorizontalAlignment="Right"></Button>
+                <Button Content="Перепривязать" Command="{Binding ChangeTaskCommand}" Width="100" Background="LightGray" HorizontalAlignment="Right"></Button>
+                <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="100" Background="LightGray" HorizontalAlignment="Right" IsEnabled="{Binding IsEnabled}"></Button>
+                <Button Name="EditBtn" Content="Редактировать" Command="{Binding EditCommand}" Style="{StaticResource EditButtonStyle}" Width="100" HorizontalAlignment="Right"></Button>
             </StackPanel>
-
         </StackPanel>
     </Expander>
 </UserControl>

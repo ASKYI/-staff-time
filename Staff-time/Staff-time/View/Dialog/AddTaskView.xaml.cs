@@ -27,6 +27,8 @@ namespace Staff_time.View
         public AddDialogWindow(object context)
         {
             InitializeComponent();
+            TaskNameTBox.Focus();
+            TaskNameTBox.SelectionStart = TaskNameTBox.Text.Length;
             base.DataContext = context;
             Closing += ((ViewModel.TaskDialogViewModel)DataContext).OnWindowClosing;  // todo косяк зависимостей, здесь это не должно быть, это может быть в вызывающей функции
         }

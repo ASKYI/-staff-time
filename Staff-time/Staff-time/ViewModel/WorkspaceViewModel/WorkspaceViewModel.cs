@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.ComponentModel;
 using GalaSoft.MvvmLight.Messaging;
+using System.Windows;
 
 namespace Staff_time.ViewModel
 {
@@ -16,8 +17,11 @@ namespace Staff_time.ViewModel
         public WorkspaceViewModel()
         {
             SelectedDate_Picker = chosenDate;
-            
+
             MessengerInstance.Register<long>(this, SumTimeChange);
+
+            _collapseAllWorksCommand = new RelayCommand(CollapseAllWorks, (_) => true);
+            _expandAllWorksCommand = new RelayCommand(ExpandAllWorks, (_) => true);
         }
 
         #region Selected Date TabIndex
@@ -43,11 +47,25 @@ namespace Staff_time.ViewModel
                 if (value >= 0 && value < WeekTabs.Count) //Иногда он сюда попадает
                 {
                     SetField(ref _selectedTabIndex, value);
-                    
+
                     chosenDate = WeekTabs[SelectedTabIndex].Date;
                     WeekTabs[SelectedTabIndex].Generate_WorksForDate();
                     SumTime = WeekTabs[SelectedTabIndex].SumTime;
-                    base.CancelEditing();
+
+                    //if (IsEditing())
+                    //{
+                    //    var dialogResult = System.Windows.MessageBox.Show("На текущий день есть несохраненные изменения в работе. Сохранить?", 
+                    //        "Подтверждение",MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                       // if (dialogResult == MessageBoxResult.No)
+                            base.CancelEditing();
+                        //else
+                        //    base.ApplyChanges();
+
+                    //}
+
+                    //base.CancelEditing(); //поменяла на принятие изменения
+
                 }
             }
         }
@@ -72,7 +90,7 @@ namespace Staff_time.ViewModel
         {
             WeekTabs = new ObservableCollection<TabItem>();
 
-            int dayOfWeek = (int)date.DayOfWeek - 1 ; //День недели с понедельника
+            int dayOfWeek = (int)date.DayOfWeek - 1; //День недели с понедельника
             if (dayOfWeek == -1)
                 dayOfWeek = 6;
             DateTime startDay = date.AddDays(-dayOfWeek);
@@ -89,7 +107,7 @@ namespace Staff_time.ViewModel
             }
         }
         #endregion
-        
+
         #region Time
 
         private long _sumTime;
@@ -130,6 +148,45 @@ namespace Staff_time.ViewModel
             SumTime = newSumTime;
         }
 
+        private bool IsEditing()
+        {
+            return WorksVM.IsEditing();
+        }
+
         #endregion
+
+        #region commands
+        private readonly ICommand _collapseAllWorksCommand;
+        public ICommand CollapseAllWorksCommand
+        {
+            get
+            {
+                return _collapseAllWorksCommand;
+            }
+        }
+
+        private void CollapseAllWorks(object obj)
+        {
+            base.CancelEditing();
+
+            WorksVM.CollapseAll();
+        }
+
+        private readonly ICommand _expandAllWorksCommand;
+        public ICommand ExpandAllWorksCommand
+        {
+            get
+            {
+                return _expandAllWorksCommand;
+            }
+        }
+
+        private void ExpandAllWorks(object obj)
+        {
+            base.CancelEditing();
+
+            WorksVM.ExpandAll();
+        }
+        #endregion //commands
     }
 }

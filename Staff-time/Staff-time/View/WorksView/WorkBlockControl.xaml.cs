@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,20 +26,35 @@ namespace Staff_time.View
         public WorkBlockControl()
         {
             InitializeComponent();
+            WorkNameTextBox.Focus();
+            WorkNameTextBox.SelectionStart = WorkNameTextBox.Text.Length;
         }
 
         //Пробрасываение методов
         //Ищу решение лучше
 
+        //private void EditBtn_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if ((string)EditBtn.Content == "Редактировать")
+        //        EditBtn.Content = "Применить";
+        //    else
+        //        EditBtn.Content = "Редактировать";
+        //}
+
         private void workBlock_MouseLeave(object sender, MouseEventArgs e)
         {
             ((ViewModel.WorkBlockControlViewModel)DataContext).MouseLeft = true;
+        }
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
 
         private void workBlock_MouseEnter(object sender, MouseEventArgs e)
         {
             ((ViewModel.WorkBlockControlViewModel)DataContext).MouseLeft = false;
-        }
+        }        
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Staff_time.Model.UserModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace Staff_time.Model
             this.ParentTaskID = task.ParentTaskID;
             this.Descriptions = task.Descriptions;
             this.IndexNumber = task.IndexNumber;
-            this.LevelID = GlobalInfo.CurrentUser.LevelID;
+            this.LevelID = 1; // todo Настя подумать GlobalInfo.CurrentUser.LevelID;
 
             this.TaskType = task.TaskType;
             this.Works = task.Works;

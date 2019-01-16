@@ -20,6 +20,7 @@ namespace Staff_time.ViewModel
         public WorkControlViewModel(Work work)
         {
             Work = work;
+            //OriginWork = (Work)work.Clone(); //todo всё ещё зависит!!
             IsEdititig = false;
         }
 
@@ -43,5 +44,10 @@ namespace Staff_time.ViewModel
             MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
                 (WorkCommandEnum.Update, Work));
         }
+
+        //public override void CancelWork()
+        //{
+        //    Work = OriginWork;
+        //}
     }
 }

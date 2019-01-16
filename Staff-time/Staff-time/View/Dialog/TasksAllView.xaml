@@ -8,7 +8,6 @@
         xmlns:m="clr-namespace:Staff_time.Model"
         xmlns:vm="clr-namespace:Staff_time.ViewModel"  
         xmlns:v="clr-namespace:Staff_time.View"  
-        
         mc:Ignorable="d"
         Title="Полное дерево задач" Height="520" Width="500" MinHeight="310" MinWidth="500"
         WindowStartupLocation="CenterScreen">
@@ -46,7 +45,7 @@
             </Border>
         </HierarchicalDataTemplate>
     </Window.Resources>
-   
+
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -56,48 +55,75 @@
             </Grid.RowDefinitions>
 
             <!--Панелька-->
-        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" >
-            <Button Margin ="2,0,0,0" ToolTip="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}" Background="White"  ToolTipService.ShowOnDisabled="True">
-                <Image Source="../../Resources/add.ico"></Image>
-            </Button>
-            <Button Margin ="2,0,0,0" ToolTip="Добавить подзадачу" Command="{Binding AddChildTaskCommand}" Background="White" ToolTipService.ShowOnDisabled="True">
-                <Image Source="../../Resources/add_subitem.ico"></Image>
-            </Button>
-            <Button Margin ="2,0,0,0" Command="{Binding EditTaskCommand}" ToolTip="Редактировать задачу" Background="White"  ToolTipService.ShowOnDisabled="True">
-                <Image Source="../../Resources/edit.ico"></Image>
-            </Button>
-            <Button  Margin ="2,0,0,0" Command="{Binding DeleteTaskCommand}" ToolTip="Удалить задачу" Background="White" ToolTipService.ShowOnDisabled="True">
-                <Image Source="../../Resources/delete.ico"></Image>
-            </Button>
-            <Button Margin ="2,0,0,0"  Command="{Binding MoveUpCommand}" ToolTip="Переместить вверх" Background="White" ToolTipService.ShowOnDisabled="True">
-                <Image Source="../../Resources/up.ico"></Image>
-            </Button>
-            <Button Margin ="2,0,0,0"  Command="{Binding MoveDownCommand}" ToolTip="Переместить вниз" Background="White" ToolTipService.ShowOnDisabled="True">
-                <Image Source="../../Resources/down.ico"></Image>
-            </Button>
-        </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Background="PowderBlue" HorizontalAlignment="Stretch">
+                <Button Margin ="2,0,0,0" ToolTip="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}" Background="White"  ToolTipService.ShowOnDisabled="True">
+                    <Image Source="../../Resources/add.ico"></Image>
+                </Button>
+                <Button Margin ="2,0,0,0" ToolTip="Добавить подзадачу" Command="{Binding AddChildTaskCommand}" Background="White" ToolTipService.ShowOnDisabled="True">
+                    <Image Source="../../Resources/add_subitem.ico"></Image>
+                </Button>
+                <Button Margin ="2,0,0,0" Command="{Binding EditTaskCommand}" ToolTip="Редактировать задачу" Background="White"  ToolTipService.ShowOnDisabled="True">
+                    <Image Source="../../Resources/edit.ico"></Image>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HaveRight}" Value="False">
+                                    <Setter Property="Visibility" Value="Hidden"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding HaveRight}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button  Margin ="2,0,0,0" Command="{Binding DeleteTaskCommand}" ToolTip="Удалить задачу" Background="White" ToolTipService.ShowOnDisabled="True">
+                    <Image Source="../../Resources/delete.ico"></Image>
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HaveRight}" Value="False">
+                                    <Setter Property="Visibility" Value="Hidden"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding HaveRight}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right">
+                <Button Margin ="2,0,0,0"  Command="{Binding MoveUpCommand}" ToolTip="Переместить вверх" Background="White" ToolTipService.ShowOnDisabled="True">
+                    <Image Source="../../Resources/up.ico"></Image>
+                </Button>
+                <Button Margin ="2,0,0,0"  Command="{Binding MoveDownCommand}" ToolTip="Переместить вниз" HorizontalAlignment="Right" Background="White" ToolTipService.ShowOnDisabled="True">
+                    <Image Source="../../Resources/down.ico"></Image>
+                </Button>
+            </StackPanel>
 
-
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
-                <StackPanel>
-                    <v:ExtendedTreeView Grid.Row ="0" Grid.Column="1" Margin="3"
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"  PreviewMouseWheel="TreeViewScrollViewer_PreviewMouseWheel" >
+                <!--<StackPanel>-->
+                <v:ExtendedTreeView Grid.Row ="0" Grid.Column="1" Margin="3"
                                     SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" 
-                                    ItemsSource="{Binding AllTreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
-                        <local:ExtendedTreeView.Resources>
-                            <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
-                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"></Setter>
-                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"></Setter>
+                                    ItemsSource="{Binding AllTreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"
+                                       
+                                        >
+                    <local:ExtendedTreeView.Resources>
+                        <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"></Setter>
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"></Setter>
 
-                                <EventSetter Event="PreviewMouseRightButtonDown" Handler="AllTreeViewItem_PreviewMouseRightButtonDown"/>
-                            </Style>
-                        </local:ExtendedTreeView.Resources>
-                    </v:ExtendedTreeView>
-                </StackPanel>
+                            <EventSetter Event="PreviewMouseRightButtonDown" Handler="AllTreeViewItem_PreviewMouseRightButtonDown"/>
+                        </Style>
+                    </local:ExtendedTreeView.Resources>
+                </v:ExtendedTreeView>
+                <!--</StackPanel>-->
             </ScrollViewer>
 
-            <StackPanel Margin="2" HorizontalAlignment="Left"  Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom">
-                <Button Content="Добавить" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="110" HorizontalAlignment="Right"></Button>
-                <Button Content="Закрыть" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="110" HorizontalAlignment="Right"></Button>
+            <StackPanel Margin="2" HorizontalAlignment="Center"  Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom">
+                <Button Margin="5" Content="Добавить" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="110" HorizontalAlignment="Right" ToolTip="Добавить в избранное" ></Button>
+                <Button Margin="5" Content="Закрыть" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="110" HorizontalAlignment="Right"></Button>
             </StackPanel>
         </Grid>
     </Grid>

@@ -14,6 +14,7 @@ namespace Staff_time.Model
             this.ID = work.ID;
             this.TaskID = work.TaskID;
             this.WorkName = work.WorkName;
+            this.Description = work.Description;
             this.WorkTypeID = work.WorkTypeID;
 
             this.Minutes = work.Minutes;

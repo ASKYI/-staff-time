@@ -9,11 +9,13 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 
 using Staff_time.Model.Interfaces;
+using System.Windows;
+using Staff_time.Model.UserModel;
 
 namespace Staff_time.Model
 {
     public partial class TaskManagmentDBEntities : DbContext,
-        ITaskWork, IWorkWork, IAttrWork, ITypesWork, IUserWork
+        ITaskWork, IWorkWork, IAttrWork, ITypesWork, IUserWork, ILevelWork
     {
         #region IUserWork
         public List<User> Read_AllUsers()
@@ -21,6 +23,14 @@ namespace Staff_time.Model
             return Users.OrderBy(u => u.UserName).ToList();
         }
         #endregion
+
+        #region ILevelWork
+        public Dictionary<string, int> Read_AllLevels()
+        {
+            return LEVELS.Select(t => new {  t.LevelName, t.LevelID })
+                   .ToDictionary(t => t.LevelName, t => t.LevelID);
+        }
+        #endregion //ILevelWork
 
         #region ITaskWork
 
@@ -47,10 +57,10 @@ namespace Staff_time.Model
             }
         }
 
-        public List<Task> Read_AllTasks() 
+        public List<Task> Read_AllTasks()
         {
             TaskFactory taskFactory = new TaskFactory();
-            
+
             // как альтернатива
             //return Tasks.OrderBy(t => t.IndexNumber).Select(task => taskFactory.CreateTask(task)).ToList();
 
@@ -83,6 +93,15 @@ namespace Staff_time.Model
         {
             var userFave = UserTasks.Where(ut => ut.TaskID == taskID && ut.UserID == GlobalInfo.CurrentUser.ID).ToList();
             return userFave.Count != 0;
+        }
+        public bool IsExist(string taskName, int? parentTaskID)
+        {
+            List<Task> tasks = new List<Task>();
+            if (parentTaskID == null || (int)parentTaskID > 0)
+                tasks = Tasks.Where(t => t.TaskName.ToLower() == taskName.ToLower() && t.ParentTaskID == parentTaskID).ToList();
+            else
+                tasks = Tasks.Where(t => t.TaskName.ToLower() == taskName.ToLower()).ToList();
+            return tasks.Count != 0;
         }
 
         public List<int> Read_FaveTasksID(int curUser)
@@ -122,17 +141,27 @@ namespace Staff_time.Model
             Tasks.AddOrUpdate(task);
             SaveChanges();
         }
-       
-        public void Delete_Task(int taskID)
+
+        public bool Delete_Task(int taskID)
         {
             Task taskBD = Tasks.Where(t => t.ID == taskID).FirstOrDefault();
-
+            if (taskBD == null)
+                return true;
+            var userDeleteTask = UserTasks.Where(ut => ut.TaskID == taskBD.ID).ToList();
+            if (userDeleteTask.Count > 0)
+            {
+                var dialogResult = System.Windows.MessageBox.Show("Данная задача содержится в избранном у других пользователей. Удалить у всех?", "Подтверждение",
+            MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (dialogResult == MessageBoxResult.No)
+                    return false;
+            }
             List<Task> childTasksBD = (from t in Tasks where t.ParentTaskID == taskID select t).ToList();
-            foreach (var t in childTasksBD)   
+            foreach (var t in childTasksBD)
                 t.ParentTaskID = taskBD.ParentTaskID;
 
             List<Work> worksBD = (from w in Works where w.TaskID == taskID select w).ToList();
-            foreach (var w in worksBD) {
+            foreach (var w in worksBD)
+            {
                 Delete_AttrValuesFields_ForWork(w.ID);
                 Works.Remove(w);
             }
@@ -140,6 +169,7 @@ namespace Staff_time.Model
             if (taskBD != null)
                 Tasks.Remove(taskBD);
             SaveChanges();
+            return true;
         }
         public void Delete_TaskFromFave(int taskID)
         {
@@ -164,24 +194,24 @@ namespace Staff_time.Model
         #endregion
 
         #region IWorkWork
-        
+
         public void Create_Work(Work work)
         {
             Works.Add(work);
-            
+
             //Создание пустых полей для атрибутов в соотвествии с типом работы
-            Create_AttrValuesFields_ForWork(work.ID, (WorkTypeEnum)work.WorkTypeID); 
+            Create_AttrValuesFields_ForWork(work.ID, (WorkTypeEnum)work.WorkTypeID);
             SaveChanges();
         }
-  
+
         public List<Work> Read_AllWorks(int curUser)
         {
             List<Work> worksDB = Works.Include(w => w.AttrValues.Select(a => a.Attribute)).ToList();
-            var userFaveTasksID = Read_FaveTasksID(curUser);
-            worksDB = worksDB.Where(w => (w.UserID == curUser && userFaveTasksID.Contains(w.TaskID))).ToList();
+            //var userFaveTasksID = Read_FaveTasksID(curUser);
+            worksDB = worksDB.Where(w => (w.UserID == curUser /*&& userFaveTasksID.Contains(w.TaskID)*/)).ToList();
             List<Work> works = new List<Work>();
             WorkFactory taskFactory = new WorkFactory();
-            foreach(Work w in worksDB)
+            foreach (Work w in worksDB)
             {
                 works.Add(taskFactory.CreateWork(w));
             }
@@ -190,9 +220,9 @@ namespace Staff_time.Model
 
         public List<int> Read_WorksForDate(DateTime date)
         {
-            var userTasks = UserTasks.Where(ut => ut.UserID == GlobalInfo.CurrentUser.ID);
-            var userTasksID = userTasks.Select(t => t.TaskID).ToList();
-            return (from w in Works where (w.StartDate == date.Date && w.UserID == GlobalInfo.CurrentUser.ID && userTasksID.Contains(w.TaskID)) select w.ID).ToList();
+            //var userTasks = UserTasks.Where(ut => ut.UserID == GlobalInfo.CurrentUser.ID);
+            //var userTasksID = userTasks.Select(t => t.TaskID).ToList();
+            return (from w in Works where (w.StartDate == date.Date && w.UserID == GlobalInfo.CurrentUser.ID) select w.ID).ToList();
         }
         public List<int> Read_WorksForTask(int taskID)
         {
@@ -234,7 +264,7 @@ namespace Staff_time.Model
         {
             int typeID = (int)type;
             List<int> attrIDs = (from a in WorkTypeAttrs where a.WorkTypeID == typeID select a.AttrID).ToList();
-            foreach(var a in attrIDs)
+            foreach (var a in attrIDs)
             {
                 AttrValue value = new AttrValue();
                 value.WorkID = WorkID;
@@ -242,7 +272,7 @@ namespace Staff_time.Model
                 AttrValues.Add(value);
             }
             SaveChanges();
-        }    
+        }
 
         public List<AttrValue> Read_AttrValues_ForWork(Work work)
         {

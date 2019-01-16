@@ -15,7 +15,7 @@ using System.Runtime.CompilerServices;
 
 namespace Staff_time.ViewModel
 {
-    abstract public class WorkControlViewModelBase : MainViewModel
+    abstract public class WorkControlViewModelBase : MainViewModel, INotifyPropertyChanged
     {
         protected Work _work;
         public Work Work
@@ -26,6 +26,38 @@ namespace Staff_time.ViewModel
                 SetField(ref _work, value);
             }
         }
+
+        //protected Work _originWork;
+        //public Work OriginWork
+        //{
+        //    get { return _originWork; }
+        //    set
+        //    {
+        //        SetField(ref _originWork, value);
+        //    }
+        //}
+
+        private Boolean _isExpanded;
+        public Boolean IsExpanded
+        {
+            get { return _isExpanded; }
+            set
+            {
+                if (_isExpanded)
+                    CancelEditing();
+                SetField(ref _isExpanded, value);
+                OnPropertyChanged("IsExpanded");
+            }
+        }
+
+        #region OnNotify (уведомить, кто хочет, что изменилось свойство)
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+        #endregion //OnNotify
 
         protected Boolean _isEditing;
         public Boolean IsEdititig
@@ -46,5 +78,6 @@ namespace Staff_time.ViewModel
 
         abstract public void UpdateWork();
         abstract public void DeleteWork();
+        //abstract public void CancelWork();
     }
 }

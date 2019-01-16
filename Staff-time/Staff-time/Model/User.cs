@@ -7,8 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using Staff_time.Model;
-
 namespace Staff_time.Model
 {
     using System;
@@ -33,15 +31,6 @@ namespace Staff_time.Model
         public virtual ICollection<UserTask> UserTasks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Work> Works { get; set; }
-    }
-}
-public static class GlobalInfo
-{
-    private static User currentUser;
-
-    public static User CurrentUser
-    {
-        get { return currentUser; }
-        set { currentUser = value; }
+        public virtual LEVEL LEVEL { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Staff_time.Model;
+using Staff_time.Model.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,14 @@ namespace Staff_time.View.Dialog
         {
             if (e.Key == Key.Enter)
             {
+                if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+                {
+                    GlobalInfo.CurrentUser = SelectedUser;
+                    this.DialogResult = true;
+                    this.Close();
+                    return;
+                }
+
                 OkButton.Focus();
                 if (Password != null && Password.Equals(SelectedUser.Password, StringComparison.OrdinalIgnoreCase))
                 {

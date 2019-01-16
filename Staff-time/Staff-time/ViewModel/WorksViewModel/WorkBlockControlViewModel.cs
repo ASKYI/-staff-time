@@ -31,6 +31,7 @@ namespace Staff_time.ViewModel
             _changeTaskCommand = new RelayCommand(ChangeTask, CanChangeTask);
             _duplicateWorkCommand = new RelayCommand(DuplicateWork, (_) => true);
             MessengerInstance.Register<string>(this, _cancelEditing);
+            //MessengerInstance.Register<string>(this, ApplyAction); //todo сделать так 
 
             if (IsEdititig)
                 IsExpanded = true;
@@ -38,10 +39,17 @@ namespace Staff_time.ViewModel
                 IsExpanded = false;
             MouseLeft = false;
 
-            _endHours = Work.StartTime.Hour + Work.Minutes / 60;
-            _endMinutes = Work.StartTime.Minute + Work.Minutes % 60;
+            _endHours = Work.StartTime.Hour + (Work.StartTime.Minute + Work.Minutes) / 60;
+            _endMinutes = (Work.StartTime.Minute + Work.Minutes) % 60;
 
             _endTime = Work.StartTime.AddMinutes(Work.Minutes);
+            WorkVM.PropertyChanged += new PropertyChangedEventHandler(SetExpended);
+        }
+
+        private void SetExpended(object sender, PropertyChangedEventArgs e)
+        {
+            var baseModel = (WorkControlViewModelBase)sender;
+            IsExpanded = baseModel.IsExpanded;
         }
 
         private WorkControlViewModelBase _workVM;
@@ -80,6 +88,10 @@ namespace Staff_time.ViewModel
         {
             get
             {
+                if (!TasksVM.Dictionary.ContainsKey(Work.TaskID))
+                {
+                    return Work.WorkName;
+                }
                 TreeNode taskNode = TasksVM.Dictionary[Work.TaskID];
 
                 
@@ -102,6 +114,11 @@ namespace Staff_time.ViewModel
         {
             int max_k = Block_Width / 200;
 
+            if (!TasksVM.Dictionary.ContainsKey(Work.TaskID))
+            {
+                _path = Work.WorkName;
+                return;
+            }
             TreeNode taskNode = TasksVM.Dictionary[Work.TaskID];
 
             StringBuilder stringPath = new StringBuilder();
@@ -130,6 +147,16 @@ namespace Staff_time.ViewModel
             }
         }
 
+        public string TimeRange
+        {
+            get
+            {
+                var startTimeString = StartTime.ToString("HH:mm");
+                var endTimeString = EndTime.ToString("HH:mm");
+                return " (" + startTimeString + " - " + endTimeString + ") - " + (Minutes / 60).ToString() + " часов " + (Minutes % 60).ToString() + " минут";
+                //return " (" + StartHours + ":" + StartMinutes + " - " + EndHours + ":" + EndMinutes + ") - " + (Minutes / 60).ToString() + " часов " + (Minutes % 60).ToString() + " минут";
+            }
+        }
         #endregion
 
         #region Time
@@ -160,7 +187,7 @@ namespace Staff_time.ViewModel
             RaisePropertyChanged("EndHours");
             RaisePropertyChanged("EndMinutes");*/
         }
-        
+
         public DateTime StartTime
         {
             get { return Work.StartTime; }
@@ -169,6 +196,10 @@ namespace Staff_time.ViewModel
                 DateTime DTvalue = new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, 0);
                 Work.StartTime = DTvalue;
                 Work.Minutes = (EndTime - StartTime).Hours * 60 + (EndTime - StartTime).Minutes;
+
+                StartMinutes = StartTime.Minute;
+                StartHours = StartTime.Hour;
+
                 RaisePropertyChanged("StartTime"); // todo посмотреть функцию nameof
                 RaisePropertyChanged("Minutes");
             }
@@ -182,6 +213,12 @@ namespace Staff_time.ViewModel
                 DateTime DTvalue = new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, 0);
                 _endTime = DTvalue;
                 Work.Minutes = (EndTime - StartTime).Hours * 60 + (EndTime - StartTime).Minutes;
+
+
+                EndMinutes = EndTime.Minute;
+                EndHours = EndTime.Hour;
+
+
                 RaisePropertyChanged("EndTime");
                 RaisePropertyChanged("Minutes");
             }
@@ -263,7 +300,7 @@ namespace Staff_time.ViewModel
             get { return Work.Minutes; }
             set
             {
-                Work.Minutes = value;
+               Work.Minutes = value;
 
 
                 _endMinutes = Work.StartTime.Minute + Work.Minutes % 60;
@@ -294,11 +331,13 @@ namespace Staff_time.ViewModel
 
         private void DuplicateWork(object obj)
         {
+            //CancelEditing(); //todo разобраться
             Edit(obj);
             var workDuplicate = (Work)_workVM.Work.Clone();
 
             MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
                (WorkCommandEnum.Add, workDuplicate));
+            Edit(obj); //не было раньше
         }
 
         #endregion //time
@@ -376,6 +415,29 @@ namespace Staff_time.ViewModel
             if (IsEdititig && MouseLeft)
                 Edit(this);
         }
+
+        //public void ApplyAction(string message)
+        //{
+        //    if (message.ToLower() == "cancel")
+        //    {
+        //        if (IsEdititig && MouseLeft)
+        //            Edit(this);
+        //        //WorkVM.CancelWork();
+        //        IsEdititig = false;
+        //    }
+        //    else if (message.ToLower() == "apply")
+        //        ApplyChanges(message);
+        //}
+
+        //public void ApplyChanges(string message)
+        //{
+        //    if (IsEdititig)
+        //    {
+        //        Work.WorkTypeID = SelectedWorkTypeIndex;
+        //        WorkVM.UpdateWork();
+        //        IsEdititig = false;
+        //    }
+        //}
 
         #endregion
 

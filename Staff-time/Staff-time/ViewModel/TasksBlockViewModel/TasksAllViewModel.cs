@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.ComponentModel;
 using GalaSoft.MvvmLight.Messaging;
+using Staff_time.Model.UserModel;
 
 namespace Staff_time.ViewModel
 {
@@ -16,11 +17,11 @@ namespace Staff_time.ViewModel
 
     public class TasksAllViewModel : MainViewModel
     {
-        public TasksAllViewModel(ObservableCollection<TreeNode> faveRoots)
+        public TasksAllViewModel(ObservableCollection<TreeNode> faveRoots, TreeNode selectedTaskNode)
         {
             Mouse.OverrideCursor = Cursors.Wait;
             TasksVM.InitFullTree();
-            _generate_Full_Tree();
+            _generate_Full_Tree(selectedTaskNode);
             Mouse.OverrideCursor = Cursors.Arrow;
 
             //_collapseAllCommand = new RelayCommand(CollapseAll, CanCollapseAll);
@@ -33,6 +34,10 @@ namespace Staff_time.ViewModel
             _editTaskCommand = new RelayCommand(EditTask, CanEditTask);
             _moveUpCommand = new RelayCommand(MoveUp, CanMoveUp);
             _moveDownCommand = new RelayCommand(MoveDown, CanMoveDown);
+
+            //Права на удаление и редактирование
+            var levels = Context.levelWork.Read_AllLevels();
+            HaveRight = GlobalInfo.CurrentUser.LevelID >= levels["Editor"];
 
             FaveTreeRoots = faveRoots;
 
@@ -104,16 +109,34 @@ namespace Staff_time.ViewModel
             AllTreeRoots[oldNodeIndex] = newNode; // todo а если oldNodeIndex элемента нет в коллекции
         }
 
-        private void _generate_Full_Tree()
+        private void _generate_Full_Tree(TreeNode selectedTaskNode)
         {
             AllTreeRoots = new ObservableCollection<TreeNode>();
             foreach (var taskNode in TasksVM.DictionaryFull)
             {
                 if (taskNode.Value.ParentNode == null)
-                {
                     AllTreeRoots.Add(taskNode.Value);
+                if (selectedTaskNode != null && IsEqualTreeNodes(selectedTaskNode, taskNode.Value))
+                {
+                    var curNode = taskNode.Value;
+                    curNode.IsExpanded = true;
+                    while (curNode.ParentNode != null)
+                    {
+                        curNode = curNode.ParentNode;
+                        curNode.IsExpanded = true;
+                    }
                 }
             }
+        }
+
+        private bool IsEqualTreeNodes(TreeNode a, TreeNode b)
+        {
+            if (a.Task.TaskName.ToLower() != b.Task.TaskName.ToLower())
+                return false;
+            if (a.Task.ParentTaskID != b.Task.ParentTaskID)
+                return false;
+
+            return true;
         }
 
         public void ChangeSelection(TreeNode value) //Нельзя в сетер - будет переполнение стека
@@ -208,6 +231,8 @@ namespace Staff_time.ViewModel
 
         #region Delete Task
 
+        public bool HaveRight { get; set; }
+
         private readonly ICommand _deleteTaskCommand;
         public ICommand DeleteTaskCommand
         {
@@ -227,13 +252,16 @@ namespace Staff_time.ViewModel
 
             //Roots
             int delTaskID = SelectedTaskNode.Task.ID;
-            if (AllTreeRoots.Contains(SelectedTaskNode))
-                AllTreeRoots.Remove(SelectedTaskNode);
+            var curNodeToDelete = SelectedTaskNode;
+            if (TasksVM.DeleteWithChildren(delTaskID) == false) //дети узла дерева удалятся внутри
+                return;
+
+            if (AllTreeRoots.Contains(curNodeToDelete))
+                AllTreeRoots.Remove(curNodeToDelete);
+
             //if (TasksVM.Dictionary.ContainsKey(SelectedTaskNode.Task.ID))
             //    TasksVM.Dictionary.Remove(SelectedTaskNode.Task.ID);
 
-
-            TasksVM.DeleteWithChildren(delTaskID);
 
             if (TasksVM.Dictionary.ContainsKey(delTaskID + 1))
                 ChangeSelection(TasksVM.DictionaryFull[delTaskID + 1]);
@@ -400,7 +428,7 @@ namespace Staff_time.ViewModel
                     if (oldNode.ParentNode == null)
                         index = AllTreeRoots.IndexOf(oldNode);
 
-                    TasksVM.Edit(task);
+                    TasksVM.Edit(task, true);
                     newNode = TasksVM.DictionaryFull[task.ID];
 
                     if (index != -1 && newNode.ParentNode == null)
@@ -434,6 +462,7 @@ namespace Staff_time.ViewModel
                 MessageBox.Show("Данная задача уже добавлена в избранное");
                 return;
             }
+            Mouse.OverrideCursor = Cursors.Wait;
 
             // Добавим всех родителей, если их нет в избранном
             List<TreeNode> toAddInFave = new List<TreeNode>();
@@ -462,6 +491,7 @@ namespace Staff_time.ViewModel
                     nodeToFave.Enqueue(childNode);
                 }
             }
+            Mouse.OverrideCursor = Cursors.Arrow;
             MessageBox.Show("Задача: " + _favouritingTask.TaskName + " добавлена в избранное", "Добавление в избранное", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 

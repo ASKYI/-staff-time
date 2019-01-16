@@ -22,6 +22,7 @@ namespace Staff_time.ViewModel
         public static IAttrWork attrWork;
         public static ITypesWork typesWork;
         public static IUserWork usersWork;
+        public static ILevelWork levelWork;
 
         private static bool _init_tracker = false;
         public static void Init()
@@ -36,18 +37,19 @@ namespace Staff_time.ViewModel
             attrWork = _context;
             typesWork = _context;
             usersWork = _context;
+            levelWork = _context;
         }
 
-        public static User TestUser;
-        private static bool _init_testUser_tracker = false;
-        public static User GetTestUser()
-        {
-            if (!_init_testUser_tracker)
-            {
-                TestUser = _context.Users.Where(u => u.ID == 1).FirstOrDefault();
-                _init_testUser_tracker = true;
-            }
-            return TestUser;
-        }
+        //public static User TestUser;
+        //private static bool _init_testUser_tracker = false;
+        //public static User GetTestUser()
+        //{
+        //    if (!_init_testUser_tracker)
+        //    {
+        //        TestUser = _context.Users.Where(u => u.ID == 1).FirstOrDefault();
+        //        _init_testUser_tracker = true;
+        //    }
+        //    return TestUser;
+        //}
     }
 }

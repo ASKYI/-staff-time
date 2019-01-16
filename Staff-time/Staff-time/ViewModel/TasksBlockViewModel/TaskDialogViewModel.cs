@@ -169,17 +169,48 @@ namespace Staff_time.ViewModel
         public void Accept(object obj)
         {
             if (_command == TaskCommandEnum.Edit)
+            {
                 if (_editingTask.ID == _editingTask.ParentTaskID || TasksVM.CheckIsChild(_editingTask.ID, _editingTask.ParentTaskID)) // todo по моему параметры неверно передаются в функцию CheckIsChild
                 {
                     MessageBox.Show("Нельзя назначить новым родителем потомка или самого себя");
-                  //  MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
+                    //  MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
                     //    new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
                     return;
                 }
-           // _task = new Task(_editingTask);
+            }
+            // _task = new Task(_editingTask);
+            else if (_command == TaskCommandEnum.Add)
+            {
+                //if (SelectedTaskNode != null)
+                //{
+                //    var parentNode = SelectedTaskNode.ParentNode;
+                //    if (parentNode != null)
+                //    {
+                //        foreach (var currentNodeNeighbour in parentNode.TreeNodes)
+                //        {
+                //            if (currentNodeNeighbour.Task.TaskName.ToLower() == _editingTask.TaskName.ToLower())
+                //            {
+                //                MessageBox.Show("Задача с таким именем уже существует!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                //                return;
+                //            }
+                //        }
+                //    }
+                //    else
+                //    {
+                //        int aa = 1;
+                //    }
+                //int parentTaskID = _editingTask.ParentTaskID == null ? 0 : (int)_editingTask.ParentTaskID;
+                if (TasksVM.IsExist(_editingTask.TaskName, _editingTask.ParentTaskID))
+                {
+                    MessageBox.Show("Задача с таким именем уже существует!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                else
+                    MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
+    new KeyValuePair<TaskCommandEnum, Task>(_command, _editingTask)); // todo  две команды на строчку : создать экземпляр, вызвать Send
+                //}
+            }
 
-            MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
-                new KeyValuePair<TaskCommandEnum, Task>(_command,  _editingTask)); // todo  две команды на строчку : создать экземпляр, вызвать Send
             if (dialog != null)
             {
                 dialog.Close();
@@ -205,8 +236,8 @@ namespace Staff_time.ViewModel
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
             ChangeSelection(null);
-            MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
-                new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
+            //MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
+            //    new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
             dialog = null;
         }
 

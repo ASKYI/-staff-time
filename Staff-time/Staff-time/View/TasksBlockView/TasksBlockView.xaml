@@ -9,7 +9,8 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              
              mc:Ignorable="d" 
-             d:DesignHeight="1082.967" d:DesignWidth="1640.659">
+             d:DesignHeight="1082.967" d:DesignWidth="1640.659"
+             KeyDown="KeyDownMainWindow">
 
     <UserControl.Resources>
         <!--Отображение дерева-->
@@ -52,8 +53,8 @@
         </Grid.RowDefinitions>
         
         <!--Панелька-->
-        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" >
-            <Button Margin ="2,0,0,0" ToolTip="Добавить работу" Command="{Binding AddWorkCommand}" Background="White"  ToolTipService.ShowOnDisabled="True">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right" >
+            <Button Margin ="2,0,0,0" Width="50" ToolTip="Добавить работу" Command="{Binding AddWorkCommand}" Background="White"  ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/add.ico"></Image>
             </Button>
             <Button Margin ="2,0,0,0" ToolTip="Открыть всё дерево" Command="{Binding ShowFullTreeCommand}" Background="White"  ToolTipService.ShowOnDisabled="True">
@@ -61,6 +62,12 @@
             </Button>
             <Button  Margin ="2,0,0,0" Command="{Binding DeleteTaskCommand}" ToolTip="Удалить из избранного" Background="White" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/delete.ico"></Image>
+            </Button>
+            <Button Margin ="2,0,0,0"  Command="{Binding MoveUpCommand}" ToolTip="Переместить вверх" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/up.ico"></Image>
+            </Button>
+            <Button Margin ="2,0,0,0"  Command="{Binding MoveDownCommand}" ToolTip="Переместить вниз" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/down.ico"></Image>
             </Button>
 
             <!--<Button Margin ="2,0,0,0" ToolTip="Добавить подзадачу" Command="{Binding AddChildTaskCommand}" Background="White" ToolTipService.ShowOnDisabled="True">
@@ -80,7 +87,7 @@
                 <Image Source="../../Resources/down.ico"></Image>
             </Button>-->
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right" >
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" >
             <Button  Margin ="2,0,0,0" Command="{Binding SaveExpandCommand}" HorizontalAlignment="Right" ToolTip="Сохранить развертку дерева" Background="White" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/save.ico"></Image>
             </Button>

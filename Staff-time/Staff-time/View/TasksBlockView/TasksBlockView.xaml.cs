@@ -28,6 +28,12 @@ namespace Staff_time.View
             DataContext = context;
         }
 
+        private void KeyDownMainWindow(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.W)
+                context.AddWorkCommand.Execute(sender);
+        }
+
         private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             context.ChangeSelection(((TreeViewItem)sender).DataContext as ViewModel.TreeNode);

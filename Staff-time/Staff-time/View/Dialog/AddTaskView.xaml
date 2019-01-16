@@ -28,7 +28,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock TextWrapping="Wrap" Text="Имя задачи: " Grid.Column="0"></TextBlock>
-                    <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditingTask.TaskName}" TextWrapping="Wrap" Grid.Column="1"></TextBox>
+                    <TextBox Name="TaskNameTBox" IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditingTask.TaskName}" TextWrapping="Wrap" Grid.Column="1"></TextBox>
                 </Grid>
 
                 <Grid Margin="2">

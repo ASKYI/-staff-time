@@ -12,6 +12,7 @@ using GalaSoft.MvvmLight.Messaging;
 
 using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
+using Staff_time.Model.UserModel;
 
 namespace Staff_time.ViewModel
 {
@@ -22,15 +23,17 @@ namespace Staff_time.ViewModel
         public static Dictionary<int, TreeNode> Dictionary { get; set; }
         public static Dictionary<int, TreeNode> DictionaryFull { get; set; }
 
-        private static bool Init_tracker = false; // todo для чего поле public?
+        public static bool Init_tracker = false;
 
         private static void FillTreeDictionaryByTasks(Dictionary<int, TreeNode> curDictionary, List<Task> tasksBD)
         {
+            tasksBD = tasksBD.OrderBy(t => t.ID).ToList();
             TreeNodeFactory treeNodeFactory = new TreeNodeFactory();
             foreach (Task task in tasksBD)
             {
-
                 int id = task.ID;
+                if (id == 413)
+                    id = 413;
                 TreeNode treeNode;
                 if (!curDictionary.ContainsKey(id))
                 {
@@ -47,7 +50,8 @@ namespace Staff_time.ViewModel
                 if (task.ParentTaskID != null)
                 {
                     int parentId = (int)task.ParentTaskID;
-
+                    if (parentId == 413)
+                        parentId = 413;
                     if (!curDictionary.ContainsKey(parentId))
                         curDictionary.Add(parentId, new TreeNode());
 
@@ -86,14 +90,19 @@ namespace Staff_time.ViewModel
             FillExpandedFlag(Dictionary);
             Dictionary = Dictionary.OrderBy(pair => pair.Value.Task.IndexNumber).ToDictionary(pair => pair.Key, pair => pair.Value); // todo не думал что у dictionary есть порядок
 
-            //foreach (var pair in Dictionary)
-            //{
-            //    pair.Value.FullPath = generate_PathForTask(pair.Key);
-            //}
+            foreach (var pair in Dictionary)
+            {
+                pair.Value.FullPath = generate_PathForTask(pair.Key);
+            }
         }
 
         public static void InitFullTree()
         {
+            //if (Init_Full_tracker)
+            //    return;
+            //Init_Full_tracker = true;
+            //if (DictionaryFull != null && DictionaryFull.Count > 0)
+            //    return;
             //В Tasks ссылка на родителя может содержать идентификатор на задачу, 
             //которая еще не встречалась в таблице при последовательном чтении.
             //В таком случае создается узел с пустым значением задачи, которая заполнится, когда задача встретится.
@@ -104,12 +113,11 @@ namespace Staff_time.ViewModel
             FillTreeDictionaryByTasks(DictionaryFull, tasksBD);
             DictionaryFull = DictionaryFull.OrderBy(pair => pair.Value.Task.IndexNumber).ToDictionary(pair => pair.Key, pair => pair.Value); // todo не думал что у dictionary есть порядок
 
-            //foreach (var pair in Dictionary)
-            //{
-            //    pair.Value.FullPath = generate_PathForTask(pair.Key);
-            //}
+            foreach (var pair in DictionaryFull)
+            {
+                pair.Value.FullPath = generate_PathForTask(pair.Key);
+            }
         }
-
 
         public static void Add(Task task)
         {
@@ -160,13 +168,14 @@ namespace Staff_time.ViewModel
             newNode.FullPath = generate_PathForTask(task.ID);
         }
 
-        public static void Edit(Task task) //TreeNode
+        public static void Edit(Task task, bool IsFullTree) //TreeNode
         {
+            var curDictionary = IsFullTree ? DictionaryFull : Dictionary;
             //DB
             Context.taskWork.Update_Task(task);
 
             //VM
-            TreeNode oldNode = DictionaryFull[task.ID];
+            TreeNode oldNode = curDictionary[task.ID];
 
             TreeNodeFactory factory = new TreeNodeFactory();
             TreeNode newNode = factory.CreateTreeNode(task);
@@ -174,7 +183,7 @@ namespace Staff_time.ViewModel
             //Parent
             if (newNode.Task.ParentTaskID != null)
             {
-                newNode.ParentNode = DictionaryFull[(int)newNode.Task.ParentTaskID];
+                newNode.ParentNode = curDictionary[(int)newNode.Task.ParentTaskID];
                 if (oldNode.ParentNode != newNode.ParentNode) // todo а если родитель не поменялся, значит не надо в нём регистрироваться? Хм увидел позже. Функциональность размазана, из-за этого сложно, код можно написать по-другому, см. пример
                     newNode.ParentNode.AddChild(newNode);     // условие newNode.Task.ParentTaskID != null   подразумевает, что внутри блока будет работа полностью с newNode
             }
@@ -215,7 +224,7 @@ namespace Staff_time.ViewModel
                 newNode.AddChild(n);
             }
 
-            DictionaryFull[task.ID] = newNode;
+            curDictionary[task.ID] = newNode;
             //DictionaryFull.Remove(task.ID);
             //DictionaryFull.Add(task.ID, newNode);
             newNode.FullPath = generate_PathForTask(task.ID);
@@ -242,10 +251,11 @@ namespace Staff_time.ViewModel
             Dictionary.Remove(taskID);
         }
 
-        public static void DeleteWithChildren(int taskID)
+        public static bool DeleteWithChildren(int taskID)
         {
             //DB
-            Context.taskWork.Delete_Task(taskID);
+            if (Context.taskWork.Delete_Task(taskID) == false)
+                return false;
 
             ////Works
             //List<int> works = Context.workWork.Read_WorksForTask(taskID);
@@ -271,6 +281,7 @@ namespace Staff_time.ViewModel
             if (parentNode != null)         // todo можно так parentNode?.TreeNodes?.Remove(delNode);
                 parentNode.TreeNodes.Remove(delNode);
             DictionaryFull.Remove(taskID);
+            return true;
         }
 
         public static void DeleteFaveAlone(int taskID)
@@ -305,7 +316,8 @@ namespace Staff_time.ViewModel
         public static void DeleteAlone(int taskID)
         {
             //DB
-            Context.taskWork.Delete_Task(taskID);
+            if (Context.taskWork.Delete_Task(taskID) == false)
+                return;
 
             ////Works
             //List<int> works = Context.workWork.Read_WorksForTask(taskID);
@@ -450,6 +462,10 @@ namespace Staff_time.ViewModel
         public static bool IsFave(int taskID)
         {
             return Context.taskWork.IsFave(taskID);
+        }
+        public static bool IsExist(string taskName, int? parentTaskID)
+        {
+            return Context.taskWork.IsExist(taskName, parentTaskID);
         }
         #endregion
     }

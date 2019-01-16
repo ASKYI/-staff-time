@@ -108,6 +108,8 @@ namespace Staff_time.ViewModel
         }
         public void Accept(object obj)
         {
+            if (SelectedTaskNode == null)
+                return;
             WorkVM.Work.TaskID = SelectedTaskNode.Task.ID;
             MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
                 (WorkCommandEnum.Update, WorkVM.Work));

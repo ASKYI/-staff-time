@@ -43,5 +43,6 @@ namespace Staff_time.Model
         public virtual ICollection<UserTask> UserTasks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Work> Works { get; set; }
+        public virtual LEVEL LEVEL { get; set; }
     }
 }

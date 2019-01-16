@@ -34,6 +34,60 @@
         <AssociationConnector Association="TaskManagmentDBModel.FK_Works_WorkTypes" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_WorkTypeAttrs_WorkTypes" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_Works_Users" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.CONPROC_MAIN_FILTER_N" Width="1.5" PointX="3.375" PointY="10.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.DFATT" Width="1.5" PointX="5.375" PointY="10.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.DFORM" Width="1.5" PointX="15.375" PointY="8.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.DFORMSDOX" Width="1.5" PointX="15.375" PointY="12.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.DFORMSDOXATT" Width="1.5" PointX="5.375" PointY="13.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.DFORMSDOXP" Width="1.5" PointX="10.375" PointY="14.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.DFORMSHISTORY" Width="1.5" PointX="17.375" PointY="8.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.DFORMSOLE" Width="1.5" PointX="17.375" PointY="11.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.DFORMSQUERY" Width="1.5" PointX="17.375" PointY="14.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.DOPLINK" Width="1.5" PointX="18.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.GLOBALOPTION" Width="1.5" PointX="18.375" PointY="3.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.IGLIST" Width="1.5" PointX="3.375" PointY="16.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.IGROUP" Width="1.5" PointX="13.375" PointY="1.25" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.INVENT" Width="1.5" PointX="5.375" PointY="16.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.INVFIELD" Width="1.5" PointX="19.375" PointY="6.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.JOURNAL" Width="1.5" PointX="19.375" PointY="9.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.JRO_LAB" Width="1.5" PointX="15.625" PointY="5.625" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LAB" Width="1.5" PointX="13.375" PointY="5" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LEVEL" Width="1.5" PointX="0.75" PointY="5.375" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LJ_LOCKF" Width="1.5" PointX="19.375" PointY="12.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LJ" Width="1.5" PointX="19.375" PointY="16.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LOGIN" Width="1.5" PointX="13.375" PointY="13.5" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LOGIN_CLJJ_RIGHTS" Width="1.5" PointX="20.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LOGIN_CLJL_RIGHTS" Width="1.5" PointX="20.375" PointY="3.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LOGIN_JGROUP_RIGHTS" Width="1.5" PointX="7.375" PointY="17.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LOGIN_JRO_RIGHTS" Width="1.5" PointX="9.375" PointY="17.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LOGIN_JUHR_RIGHTS" Width="1.5" PointX="15.375" PointY="17.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LOGIN_JURNAL_RIGHTS" Width="1.5" PointX="21.375" PointY="6.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LOGIN_NDOCS_RIGHTS" Width="1.5" PointX="21.375" PointY="9.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LOGIN_RIGHTS" Width="1.5" PointX="15.625" PointY="0.875" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LOGIN_SML_RIGHTS" Width="1.5" PointX="21.375" PointY="12.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LOGIN_TJ_RIGHTS" Width="1.5" PointX="21.375" PointY="15.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LOGIN_UNIV_RIGHTS" Width="1.5" PointX="21.375" PointY="18.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.LOGIN_UNIV2_RIGHTS" Width="1.5" PointX="22.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.METHPARVAR" Width="1.5" PointX="3.375" PointY="19.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.REGNUM" Width="1.5" PointX="5.375" PointY="20.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.SMK2_JFORMS" Width="1.5" PointX="22.375" PointY="3.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.SMK2_JOURNALS" Width="1.5" PointX="7.375" PointY="20.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.SML" Width="1.5" PointX="23.375" PointY="6.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.SPR_HEADERS" Width="1.5" PointX="9.375" PointY="20.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.SPR_VALS" Width="1.5" PointX="23.375" PointY="10.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.SR_DOC_ND" Width="1.5" PointX="15.375" PointY="20.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.STATISTIKA" Width="1.5" PointX="23.375" PointY="13.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.UNIBOOK" Width="1.5" PointX="23.375" PointY="16.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.UNILAB" Width="1.5" PointX="23.375" PointY="19.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.US" Width="1.5" PointX="24.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.UZER" Width="1.5" PointX="11.375" PointY="21.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.UZERDB" Width="1.5" PointX="25.375" PointY="4.75" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_IGROUPS_LOGIN_RIGHTS" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_JRO_LAB_LABS" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_LEVELS_LEVELS" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_Tasks_Levels" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_Users_Levels" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_LOGIN_LOGIN_RIGHTS" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
