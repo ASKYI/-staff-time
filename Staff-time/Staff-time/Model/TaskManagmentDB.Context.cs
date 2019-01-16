@@ -38,53 +38,6 @@ namespace Staff_time.Model
         public virtual DbSet<Work> Works { get; set; }
         public virtual DbSet<WorkTypeAttr> WorkTypeAttrs { get; set; }
         public virtual DbSet<WorkType> WorkTypes { get; set; }
-        public virtual DbSet<CONPROC_MAIN_FILTER_N> CONPROC_MAIN_FILTER_N { get; set; }
-        public virtual DbSet<DFATT> DFATTs { get; set; }
-        public virtual DbSet<DFORM> DFORMS { get; set; }
-        public virtual DbSet<DFORMSDOX> DFORMSDOXes { get; set; }
-        public virtual DbSet<DFORMSDOXATT> DFORMSDOXATTs { get; set; }
-        public virtual DbSet<DFORMSDOXP> DFORMSDOXPs { get; set; }
-        public virtual DbSet<DFORMSHISTORY> DFORMSHISTORies { get; set; }
-        public virtual DbSet<DFORMSOLE> DFORMSOLEs { get; set; }
-        public virtual DbSet<DFORMSQUERY> DFORMSQUERies { get; set; }
-        public virtual DbSet<DOPLINK> DOPLINKS { get; set; }
-        public virtual DbSet<GLOBALOPTION> GLOBALOPTIONS { get; set; }
-        public virtual DbSet<IGLIST> IGLISTs { get; set; }
-        public virtual DbSet<IGROUP> IGROUPS { get; set; }
-        public virtual DbSet<INVENT> INVENTS { get; set; }
-        public virtual DbSet<INVFIELD> INVFIELDS { get; set; }
-        public virtual DbSet<JOURNAL> JOURNALs { get; set; }
-        public virtual DbSet<JRO_LAB> JRO_LAB { get; set; }
-        public virtual DbSet<LAB> LABS { get; set; }
         public virtual DbSet<LEVEL> LEVELS { get; set; }
-        public virtual DbSet<LJ_LOCKF> LJ_LOCKF { get; set; }
-        public virtual DbSet<LJ> LJS { get; set; }
-        public virtual DbSet<LOGIN> LOGINs { get; set; }
-        public virtual DbSet<LOGIN_CLJJ_RIGHTS> LOGIN_CLJJ_RIGHTS { get; set; }
-        public virtual DbSet<LOGIN_CLJL_RIGHTS> LOGIN_CLJL_RIGHTS { get; set; }
-        public virtual DbSet<LOGIN_JGROUP_RIGHTS> LOGIN_JGROUP_RIGHTS { get; set; }
-        public virtual DbSet<LOGIN_JRO_RIGHTS> LOGIN_JRO_RIGHTS { get; set; }
-        public virtual DbSet<LOGIN_JUHR_RIGHTS> LOGIN_JUHR_RIGHTS { get; set; }
-        public virtual DbSet<LOGIN_JURNAL_RIGHTS> LOGIN_JURNAL_RIGHTS { get; set; }
-        public virtual DbSet<LOGIN_NDOCS_RIGHTS> LOGIN_NDOCS_RIGHTS { get; set; }
-        public virtual DbSet<LOGIN_RIGHTS> LOGIN_RIGHTS { get; set; }
-        public virtual DbSet<LOGIN_SML_RIGHTS> LOGIN_SML_RIGHTS { get; set; }
-        public virtual DbSet<LOGIN_TJ_RIGHTS> LOGIN_TJ_RIGHTS { get; set; }
-        public virtual DbSet<LOGIN_UNIV_RIGHTS> LOGIN_UNIV_RIGHTS { get; set; }
-        public virtual DbSet<LOGIN_UNIV2_RIGHTS> LOGIN_UNIV2_RIGHTS { get; set; }
-        public virtual DbSet<METHPARVAR> METHPARVARS { get; set; }
-        public virtual DbSet<REGNUM> REGNUMS { get; set; }
-        public virtual DbSet<SMK2_JFORMS> SMK2_JFORMS { get; set; }
-        public virtual DbSet<SMK2_JOURNALS> SMK2_JOURNALS { get; set; }
-        public virtual DbSet<SML> SMLs { get; set; }
-        public virtual DbSet<SPR_HEADERS> SPR_HEADERS { get; set; }
-        public virtual DbSet<SPR_VALS> SPR_VALS { get; set; }
-        public virtual DbSet<SR_DOC_ND> SR_DOC_ND { get; set; }
-        public virtual DbSet<STATISTIKA> STATISTIKAs { get; set; }
-        public virtual DbSet<UNIBOOK> UNIBOOKs { get; set; }
-        public virtual DbSet<UNILAB> UNILABs { get; set; }
-        public virtual DbSet<US> US { get; set; }
-        public virtual DbSet<UZER> UZERs { get; set; }
-        public virtual DbSet<UZERDB> UZERDBs { get; set; }
     }
 }

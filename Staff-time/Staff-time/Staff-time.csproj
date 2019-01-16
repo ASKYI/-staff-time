@@ -131,146 +131,20 @@
     <Compile Include="Model\AttrValue.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\CONPROC_MAIN_FILTER_N.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DFATT.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DFORM.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DFORMSDOX.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DFORMSDOXATT.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DFORMSDOXP.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DFORMSHISTORY.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DFORMSOLE.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DFORMSQUERY.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DOPLINK.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\Enums.cs" />
-    <Compile Include="Model\GLOBALOPTION.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\IGLIST.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\IGROUP.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\Interfaces\IAttrWork.cs" />
     <Compile Include="Model\Interfaces\ILevelWork.cs" />
     <Compile Include="Model\Interfaces\ITaskWork.cs" />
     <Compile Include="Model\Interfaces\ITypesWork.cs" />
     <Compile Include="Model\Interfaces\IUserWork.cs" />
     <Compile Include="Model\Interfaces\IWorkWork.cs" />
-    <Compile Include="Model\INVENT.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\INVFIELD.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\JOURNAL.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\JRO_LAB.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LAB.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\LEVEL.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LJ.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LJ_LOCKF.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LOGIN.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LOGIN_CLJJ_RIGHTS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LOGIN_CLJL_RIGHTS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LOGIN_JGROUP_RIGHTS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LOGIN_JRO_RIGHTS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LOGIN_JUHR_RIGHTS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LOGIN_JURNAL_RIGHTS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LOGIN_NDOCS_RIGHTS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LOGIN_RIGHTS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LOGIN_SML_RIGHTS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LOGIN_TJ_RIGHTS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LOGIN_UNIV2_RIGHTS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\LOGIN_UNIV_RIGHTS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\METHPARVAR.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Property.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\PropValue.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\REGNUM.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\SMK2_JFORMS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\SMK2_JOURNALS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\SML.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\SPR_HEADERS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\SPR_VALS.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\SR_DOC_ND.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\STATISTIKA.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\sysdiagram.cs">
@@ -301,26 +175,11 @@
     <Compile Include="Model\TaskTypeProp.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\UNIBOOK.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\UNILAB.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\US.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\User.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\UserModel\GlobalInfo.cs" />
     <Compile Include="Model\UserTask.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\UZER.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\UZERDB.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Work.cs">
