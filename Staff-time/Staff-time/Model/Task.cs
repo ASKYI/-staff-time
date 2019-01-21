@@ -32,6 +32,7 @@ namespace Staff_time.Model
         public Nullable<int> IndexNumber { get; set; }
         public Nullable<int> LevelID { get; set; }
     
+        public virtual LEVEL LEVEL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PropValue> PropValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -43,6 +44,5 @@ namespace Staff_time.Model
         public virtual ICollection<UserTask> UserTasks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Work> Works { get; set; }
-        public virtual LEVEL LEVEL { get; set; }
     }
 }

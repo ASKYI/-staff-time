@@ -15,7 +15,7 @@
               
              MouseLeave="workBlock_MouseLeave"
              MouseEnter="workBlock_MouseEnter"
-              
+             Loaded="Window_loaded"
              d:DesignHeight="450" d:DesignWidth="800" SizeChanged="workBlock_SizeChanged" >
     <UserControl.Resources>
 
@@ -78,7 +78,7 @@
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="180"></ColumnDefinition>
-                    <ColumnDefinition Width="260"></ColumnDefinition>
+                    <ColumnDefinition Width="330"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="Имя работы: " Grid.Column="0"></TextBlock>
@@ -93,27 +93,32 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="180"></ColumnDefinition>
-                    <ColumnDefinition Width="260"></ColumnDefinition>
-                    <ColumnDefinition Width="42*"/>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="123*"/>
+                    <ColumnDefinition Width="371*"/>
                     <!--<ColumnDefinition Width="657*"/>-->
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="Время работы (в минутах): " Grid.Column="0" Grid.RowSpan="2"></TextBlock>
-                <TextBox TextWrapping="Wrap" MaxLength="5" IsReadOnly="{Binding IsReadOnly}"  TextChanged="TextBox_TextChanged" PreviewTextInput="NumberValidationTextBox"
+                <TextBox TextWrapping="Wrap" MaxLength="5" IsReadOnly="{Binding IsReadOnly}" GotFocus="TimeGotFocus" MouseDoubleClick="TimeGotFocus" TextChanged="TextBox_TextChanged" PreviewTextInput="NumberValidationTextBox"
                          Text="{Binding Minutes, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }" Grid.Column="1" Grid.RowSpan="2"></TextBox>
-                <StackPanel Grid.Column="2" Grid.RowSpan="2">
+                <StackPanel Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2">
                     <Grid Margin="2">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="4*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="10"></ColumnDefinition>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <xctk:DateTimeUpDown Name="StartTimeUpDown"  Grid.Column="0" HorizontalAlignment="Right" Value="{Binding StartTime, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }"  IsEnabled="{Binding IsEnabled}"
-                                     Format="ShortTime" PreviewMouseDoubleClick ="DoubleClickTime"></xctk:DateTimeUpDown>
-                        <TextBlock Text="-" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                        <xctk:DateTimeUpDown  Grid.Column="2" HorizontalAlignment="Left"  Value="{Binding EndTime, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }" IsEnabled="{Binding IsEnabled}"
-                                      Format="ShortTime" PreviewMouseDoubleClick ="DoubleClickTime" ></xctk:DateTimeUpDown>
-                        <Button Grid.Column="3" Margin ="2,0,0,0"  Height="20" Width="20" ToolTip="Добавить диапазон" Command="{Binding DuplicateWorkCommand}" Background="White">
+                        <xctk:MaskedTextBox Mask="00:00" Grid.Column="0" Background="LightYellow" KeyDown="KeyDownStart" MouseDoubleClick="DoubleClickTime" HorizontalAlignment="Right" IsEnabled="{Binding IsEnabled}" LostFocus="TimeStartLostFocus" GotFocus="TimeGotFocus"/>
+                        <!--<xctk:DateTimeUpDown Name="StartTimeUpDown"  Grid.Column="0" HorizontalAlignment="Right" Value="{Binding StartTime, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }"  IsEnabled="{Binding IsEnabled}"
+                                     Format="ShortTime" PreviewMouseDoubleClick ="DoubleClickTime"></xctk:DateTimeUpDown>-->
+                        <TextBlock Text="-" Margin="2, 0, 2, 0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        <xctk:MaskedTextBox Mask="00:00" Grid.Column="2" Background="LightYellow" KeyDown="KeyDownStart" MouseDoubleClick="DoubleClickTime" HorizontalAlignment="Left" IsEnabled="{Binding IsEnabled}" LostFocus="TimeEndLostFocus" GotFocus="TimeGotFocus"/>
+
+                        <!--<xctk:DateTimeUpDown Name="EndTimeUpDown" Grid.Column="2" HorizontalAlignment="Left"  Value="{Binding EndTime, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }" IsEnabled="{Binding IsEnabled}"
+                                      Format="ShortTime" PreviewMouseDoubleClick ="DoubleClickTime" ></xctk:DateTimeUpDown>-->
+                        <Button Grid.Column="3" Margin ="0,0,0,0"  Height="20" Width="20" ToolTip="Дублировать работу" Command="{Binding DuplicateWorkCommand}" Background="White">
                             <Image Source="../../Resources/add.ico"></Image>
                         </Button>
                     </Grid>
@@ -158,12 +163,12 @@
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60"></ColumnDefinition>
-                    <ColumnDefinition Width="380"></ColumnDefinition>
-                    <ColumnDefinition Width="120"></ColumnDefinition>
-                    <ColumnDefinition Width="180"></ColumnDefinition>
+                    <ColumnDefinition Width="450"></ColumnDefinition>
+                    <ColumnDefinition Width="90"></ColumnDefinition>
+                    <ColumnDefinition Width="140"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Описание: " Grid.Column="0"></TextBlock>
-                <TextBox TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" MinLines="3" MaxLines="3" IsReadOnly="{Binding IsReadOnly}" Grid.Column="1" Text="{Binding Work.Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }"></TextBox>
+                <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" MinLines="3" MaxLines="3" IsReadOnly="{Binding IsReadOnly}" Grid.Column="1" Text="{Binding Work.Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }"></TextBox>
 
                 <TextBlock Text="Тип работы: " HorizontalAlignment="Right"  Grid.Column="2"></TextBlock>
                 <ComboBox Grid.Column="3"

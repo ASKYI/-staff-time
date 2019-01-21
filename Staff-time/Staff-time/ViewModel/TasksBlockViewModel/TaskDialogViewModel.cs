@@ -173,8 +173,6 @@ namespace Staff_time.ViewModel
                 if (_editingTask.ID == _editingTask.ParentTaskID || TasksVM.CheckIsChild(_editingTask.ID, _editingTask.ParentTaskID)) // todo по моему параметры неверно передаются в функцию CheckIsChild
                 {
                     MessageBox.Show("Нельзя назначить новым родителем потомка или самого себя");
-                    //  MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
-                    //    new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
                     return;
                 }
             }
@@ -205,11 +203,10 @@ namespace Staff_time.ViewModel
                     MessageBox.Show("Задача с таким именем уже существует!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
-                else
-                    MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
-    new KeyValuePair<TaskCommandEnum, Task>(_command, _editingTask)); // todo  две команды на строчку : создать экземпляр, вызвать Send
                 //}
             }
+            MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
+   new KeyValuePair<TaskCommandEnum, Task>(_command, _editingTask));
 
             if (dialog != null)
             {

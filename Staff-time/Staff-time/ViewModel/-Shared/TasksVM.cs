@@ -23,22 +23,32 @@ namespace Staff_time.ViewModel
         public static Dictionary<int, TreeNode> Dictionary { get; set; }
         public static Dictionary<int, TreeNode> DictionaryFull { get; set; }
 
-        public static bool Init_tracker = false;
+        public static bool Init_tracker = true;
+        public static bool Init_Full_tracker = false;
 
-        private static void FillTreeDictionaryByTasks(Dictionary<int, TreeNode> curDictionary, List<Task> tasksBD)
+
+        private static void FillTreeDictionaryByTasks(Dictionary<int, TreeNode> curDictionary, List<Task> tasksBD, bool isFullTree)
         {
-            tasksBD = tasksBD.OrderBy(t => t.ID).ToList();
+            //tasksBD = tasksBD.OrderBy(t => t.ID).ToList();
             TreeNodeFactory treeNodeFactory = new TreeNodeFactory();
-            foreach (Task task in tasksBD)
+            int indexNumber = 1;
+
+            foreach (Task taskTmp in tasksBD)
             {
+                Task task;
+                if (isFullTree)
+                    task = taskTmp;
+                else
+                    task = DictionaryFull[taskTmp.ID].Task; //todo Настя попробуем хранить ссылку, чтобы избранное обновлялось сразу
+
                 int id = task.ID;
-                if (id == 413)
-                    id = 413;
                 TreeNode treeNode;
                 if (!curDictionary.ContainsKey(id))
                 {
                     treeNode = treeNodeFactory.CreateTreeNode(task);
+                    treeNode.IndexNumber = indexNumber;
                     curDictionary.Add(id, treeNode);
+                    indexNumber++;
                 }
                 else
                 {
@@ -50,13 +60,11 @@ namespace Staff_time.ViewModel
                 if (task.ParentTaskID != null)
                 {
                     int parentId = (int)task.ParentTaskID;
-                    if (parentId == 413)
-                        parentId = 413;
+
                     if (!curDictionary.ContainsKey(parentId))
                         curDictionary.Add(parentId, new TreeNode());
 
                     TreeNode parentTreeNode = curDictionary[parentId];
-
                     parentTreeNode.AddChild(treeNode);
                     treeNode.ParentNode = parentTreeNode;
                 }
@@ -86,9 +94,10 @@ namespace Staff_time.ViewModel
 
             List<Task> faveTasksDB = Context.taskWork.Read_FaveTasks(GlobalInfo.CurrentUser.ID);
             Dictionary = new Dictionary<int, TreeNode>();
-            FillTreeDictionaryByTasks(Dictionary, faveTasksDB);
+            FillTreeDictionaryByTasks(Dictionary, faveTasksDB, false);
             FillExpandedFlag(Dictionary);
-            Dictionary = Dictionary.OrderBy(pair => pair.Value.Task.IndexNumber).ToDictionary(pair => pair.Key, pair => pair.Value); // todo не думал что у dictionary есть порядок
+            Dictionary = Dictionary.ToDictionary(pair => pair.Key, pair => pair.Value); // todo не думал что у dictionary есть порядок
+            //Dictionary = Dictionary.OrderBy(pair => pair.Value.Task.IndexNumber).ToDictionary(pair => pair.Key, pair => pair.Value); // todo не думал что у dictionary есть порядок
 
             foreach (var pair in Dictionary)
             {
@@ -98,25 +107,26 @@ namespace Staff_time.ViewModel
 
         public static void InitFullTree()
         {
-            //if (Init_Full_tracker)
-            //    return;
-            //Init_Full_tracker = true;
-            //if (DictionaryFull != null && DictionaryFull.Count > 0)
-            //    return;
+            if (Init_Full_tracker)
+                return;
+            Init_Full_tracker = true;
+
             //В Tasks ссылка на родителя может содержать идентификатор на задачу, 
             //которая еще не встречалась в таблице при последовательном чтении.
             //В таком случае создается узел с пустым значением задачи, которая заполнится, когда задача встретится.
             //В бд невозможно добавить ссылку на несуществующую задачу 
+         
 
             List<Task> tasksBD = Context.taskWork.Read_AllTasks();
             DictionaryFull = new Dictionary<int, TreeNode>();
-            FillTreeDictionaryByTasks(DictionaryFull, tasksBD);
+            FillTreeDictionaryByTasks(DictionaryFull, tasksBD, true);
             DictionaryFull = DictionaryFull.OrderBy(pair => pair.Value.Task.IndexNumber).ToDictionary(pair => pair.Key, pair => pair.Value); // todo не думал что у dictionary есть порядок
 
             foreach (var pair in DictionaryFull)
             {
                 pair.Value.FullPath = generate_PathForTask(pair.Key);
             }
+            Init_tracker = false;
         }
 
         public static void Add(Task task)
@@ -179,6 +189,7 @@ namespace Staff_time.ViewModel
 
             TreeNodeFactory factory = new TreeNodeFactory();
             TreeNode newNode = factory.CreateTreeNode(task);
+            newNode.IndexNumber = oldNode.IndexNumber;
 
             //Parent
             if (newNode.Task.ParentTaskID != null)
@@ -377,7 +388,7 @@ namespace Staff_time.ViewModel
 
             foreach (var rootNode in treeRoots)
                 nodeToExpended.Enqueue(rootNode);
-            
+
             while (nodeToExpended.Count > 0)
             {
                 var curNode = nodeToExpended.Dequeue();
@@ -466,6 +477,11 @@ namespace Staff_time.ViewModel
         public static bool IsExist(string taskName, int? parentTaskID)
         {
             return Context.taskWork.IsExist(taskName, parentTaskID);
+        }
+
+        public static void ReplaceUserTasks(Task task1, Task task2)
+        {
+            Context.taskWork.ReplaceUserTasks(task1, task2);
         }
         #endregion
     }

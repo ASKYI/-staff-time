@@ -20,7 +20,7 @@ namespace Staff_time.ViewModel
         public TasksAllViewModel(ObservableCollection<TreeNode> faveRoots, TreeNode selectedTaskNode)
         {
             Mouse.OverrideCursor = Cursors.Wait;
-            TasksVM.InitFullTree();
+            //TasksVM.InitFullTree();
             _generate_Full_Tree(selectedTaskNode);
             Mouse.OverrideCursor = Cursors.Arrow;
 
@@ -263,7 +263,7 @@ namespace Staff_time.ViewModel
             //    TasksVM.Dictionary.Remove(SelectedTaskNode.Task.ID);
 
 
-            if (TasksVM.Dictionary.ContainsKey(delTaskID + 1))
+            if (TasksVM.DictionaryFull.ContainsKey(delTaskID + 1))
                 ChangeSelection(TasksVM.DictionaryFull[delTaskID + 1]);
             else
                 ChangeSelection(TasksVM.DictionaryFull.FirstOrDefault().Value);
@@ -493,6 +493,8 @@ namespace Staff_time.ViewModel
             }
             Mouse.OverrideCursor = Cursors.Arrow;
             MessageBox.Show("Задача: " + _favouritingTask.TaskName + " добавлена в избранное", "Добавление в избранное", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessengerInstance.Unregister<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
+
         }
 
         private bool CanCancel(object obj)
@@ -501,6 +503,8 @@ namespace Staff_time.ViewModel
         }
         public void Cancel(object obj)
         {
+            MessengerInstance.Unregister<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
+
             if (dialog != null)
             {
                 dialog.Close();

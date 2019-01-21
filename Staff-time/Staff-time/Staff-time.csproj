@@ -15,6 +15,21 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -147,9 +162,6 @@
     <Compile Include="Model\PropValue.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\sysdiagram.cs">
-      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\Task.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
@@ -244,8 +256,8 @@
     <Compile Include="View\TasksBlockView\TasksBlockView.xaml.cs">
       <DependentUpon>TasksBlockView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Dialog\WorkDialogView.xaml.cs">
-      <DependentUpon>WorkDialogView.xaml</DependentUpon>
+    <Compile Include="View\Dialog\WorkTaskRelationView.xaml.cs">
+      <DependentUpon>WorkTaskRelationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\WorksView\WorkBlockControl.xaml.cs">
       <DependentUpon>WorkBlockControl.xaml</DependentUpon>
@@ -296,7 +308,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Dialog\WorkDialogView.xaml">
+    <Page Include="View\Dialog\WorkTaskRelationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -400,6 +412,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Staff_time\View\Dialog\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -21,6 +21,7 @@ namespace Staff_time.ViewModel
         private static void _initSharedStatics()
         {
             Context.Init();
+            TasksVM.InitFullTree();
             TasksVM.InitFave();
             WorksVM.Init();
         }

@@ -70,7 +70,6 @@ namespace Staff_time.ViewModel
         {
             SumTime = 0;
             WorksInTab = new ObservableCollection<WorkInTab>();
-
             List<int> works = Context.workWork.Read_WorksForDate(Date);
             foreach (int id in works)
             {

@@ -32,6 +32,8 @@ namespace Staff_time.ViewModel
             get { return _selectedDate_Picker; }
             set
             {
+                //if (_selectedDate_Picker == value)
+                //    return;
                 SetField(ref _selectedDate_Picker, value);
 
                 Generate_Week(_selectedDate_Picker);
@@ -57,15 +59,14 @@ namespace Staff_time.ViewModel
                     //    var dialogResult = System.Windows.MessageBox.Show("На текущий день есть несохраненные изменения в работе. Сохранить?", 
                     //        "Подтверждение",MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-                       // if (dialogResult == MessageBoxResult.No)
-                            base.CancelEditing();
-                        //else
-                        //    base.ApplyChanges();
+                    // if (dialogResult == MessageBoxResult.No)
+                    base.CancelEditing();
+                    //else
+                    //    base.ApplyChanges();
 
                     //}
 
                     //base.CancelEditing(); //поменяла на принятие изменения
-
                 }
             }
         }
@@ -102,9 +103,12 @@ namespace Staff_time.ViewModel
 
                 if (cur.Date == date.Date)
                 {
-                    SelectedTabIndex = i;
+                    SelectedTabIndex = i; 
                 }
             }
+
+            SumTime = WeekTabs[SelectedTabIndex].SumTime; // после подсчёта всей недели нужно в сумму положить текущий день
+            MessengerInstance.Send<long>(SumTime);
         }
         #endregion
 

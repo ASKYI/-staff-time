@@ -25,5 +25,20 @@ namespace Staff_time.View
             InitializeComponent();
             DataContext = new ViewModel.WorkspaceViewModel();
         }
+
+        private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            (e.Parameter as Calendar).SelectedDate = DateTime.Now.Date;
+            this.MyDatePicker.IsDropDownOpen = false;
+        }
+    }
+    public class MyCommands
+    {
+        public static RoutedCommand SelectToday = new RoutedCommand("Today", typeof(MyCommands));
     }
 }

@@ -17,8 +17,8 @@ namespace Staff_time.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public LEVEL()
         {
-            this.Tasks = new HashSet<Task>();
             this.Users = new HashSet<User>();
+            this.Tasks = new HashSet<Task>();
         }
     
         public int LevelID { get; set; }
@@ -27,8 +27,8 @@ namespace Staff_time.Model
         public virtual LEVEL LEVELS1 { get; set; }
         public virtual LEVEL LEVEL1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Task> Tasks { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

@@ -72,14 +72,14 @@ namespace Staff_time.View
             item.Command = context.AddChildTaskCommand;
             menu.Items.Add(item);
 
-            item = new MenuItem();
-            item.Header = "Редактировать задачу";
-            item.Command = context.EditTaskCommand;
-            menu.Items.Add(item);
-
             var levels = Context.levelWork.Read_AllLevels();
             if (GlobalInfo.CurrentUser.LevelID >= levels["Editor"])
             {
+                item = new MenuItem();
+                item.Header = "Редактировать задачу";
+                item.Command = context.EditTaskCommand;
+                menu.Items.Add(item);
+
                 item = new MenuItem();
                 item.Header = "Удалить задачу";
                 item.Command = context.DeleteTaskCommand;

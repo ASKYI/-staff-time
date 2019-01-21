@@ -63,7 +63,7 @@
             <Button  Margin ="2,0,0,0" Command="{Binding DeleteTaskCommand}" ToolTip="Удалить из избранного" Background="White" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/delete.ico"></Image>
             </Button>
-            <Button Margin ="2,0,0,0"  Command="{Binding MoveUpCommand}" ToolTip="Переместить вверх" Background="White" ToolTipService.ShowOnDisabled="True">
+            <Button Margin ="2,0,0,0"  Command="{Binding MoveUpCommand}"  ToolTip="Переместить вверх" Background="White" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/up.ico"></Image>
             </Button>
             <Button Margin ="2,0,0,0"  Command="{Binding MoveDownCommand}" ToolTip="Переместить вниз" Background="White" ToolTipService.ShowOnDisabled="True">

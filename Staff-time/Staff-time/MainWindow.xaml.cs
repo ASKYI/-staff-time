@@ -25,22 +25,13 @@ namespace Staff_time
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string version = "1.2";
+        static string version = "1.3";
         MainViewModel context;
         private System.Windows.Forms.NotifyIcon notifyIcon = null;
         public MainWindow()
         {
             Context.Init();
           
-            //RegistryKey currentUserKey = Registry.CurrentUser;
-            //RegistryKey softWareKey = currentUserKey.OpenSubKey("SOFTWARE", true);
-            //RegistryKey stuffTimeKey = softWareKey.CreateSubKey("ChemSoftTimeManager");
-            //stuffTimeSettingsKey = stuffTimeKey.CreateSubKey("Settings");
-            //var lastUserID = stuffTimeSettingsKey.GetValue("lastUserID");
-            //if (lastUserID == null)
-            //    lastUserID = 0;
-
-            //var dialog = new View.Dialog.LoginWindow(users, (int)lastUserID);
             bool? isOK = Authorization.Login();
 
             if (isOK == false)
@@ -51,6 +42,7 @@ namespace Staff_time
                 InitializeComponent();
                 Title = "Учёт трудозатрат, v" + version;
                 DataContext = context;
+
                 this.Show();
             }
             Closing += this.Window_Closing;

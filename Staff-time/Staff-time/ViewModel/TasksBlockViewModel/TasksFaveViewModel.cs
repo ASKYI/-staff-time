@@ -64,12 +64,13 @@ namespace Staff_time.ViewModel
         private void _generate_Tree()
         {
             TreeRoots = new ObservableCollection<TreeNode>();
+            int pos = 1;
             foreach (var taskNode in TasksVM.Dictionary)
             {
                 if (taskNode.Value.ParentNode == null)
-                {
                     TreeRoots.Add(taskNode.Value);
-                }
+                taskNode.Value.IndexNumber = pos;
+                pos++;
             }
         }
 
@@ -123,11 +124,6 @@ namespace Staff_time.ViewModel
 
         private void ShowTree(object obj)
         {
-            //Mouse.OverrideCursor = Cursors.Wait;
-            //TasksVM.InitFullTree();
-            //_generate_Full_Tree();
-            //Mouse.OverrideCursor = Cursors.Arrow;
-
             var dialog = new View.AllTreeDialog(new ViewModel.TasksAllViewModel(TreeRoots, SelectedTaskNode));
             dialog.ShowDialog();
             _generate_Tree();
@@ -138,7 +134,7 @@ namespace Staff_time.ViewModel
             base.CancelEditing();
 
             Work work = new Work();
-            work.WorkName = SelectedTaskNode.Task.TaskName;
+            work.WorkName = "";
             work.TaskID = SelectedTaskNode.Task.ID;
             work.StartDate = chosenDate.Date;
             work.StartTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0);
@@ -241,15 +237,18 @@ namespace Staff_time.ViewModel
         {
             base.CancelEditing();
 
-            int curI = (int)SelectedTaskNode.Task.IndexNumber;
-            TreeNode newSeleted = SelectedTaskNode;
+            int curI = (int)SelectedTaskNode.IndexNumber;
+            var task1 = SelectedTaskNode.Task;
+            Task task2 = null;
 
             if (SelectedTaskNode.ParentNode != null)
             {
                 TreeNode parentNode = SelectedTaskNode.ParentNode;
                 int index = parentNode.TreeNodes.IndexOf(SelectedTaskNode);
-                parentNode.TreeNodes[index].Task.IndexNumber = parentNode.TreeNodes[index - 1].Task.IndexNumber;
-                parentNode.TreeNodes[index - 1].Task.IndexNumber = curI;
+                parentNode.TreeNodes[index].IndexNumber = parentNode.TreeNodes[index - 1].IndexNumber;
+                parentNode.TreeNodes[index - 1].IndexNumber = curI;
+                task2 = parentNode.TreeNodes[index - 1].Task;
+
 
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index].Task));
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index - 1].Task));
@@ -260,8 +259,10 @@ namespace Staff_time.ViewModel
             else
             {
                 int index = TreeRoots.IndexOf(SelectedTaskNode);
-                TreeRoots[index].Task.IndexNumber = TreeRoots[index - 1].Task.IndexNumber;
-                TreeRoots[index - 1].Task.IndexNumber = curI;
+
+                TreeRoots[index].IndexNumber = TreeRoots[index - 1].IndexNumber;
+                TreeRoots[index - 1].IndexNumber = curI;
+                task2 = TreeRoots[index - 1].Task;
 
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, TreeRoots[index].Task));
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, TreeRoots[index - 1].Task));
@@ -269,6 +270,7 @@ namespace Staff_time.ViewModel
                 TreeRoots.Move(index, index - 1);
                 ChangeSelection(TreeRoots[index - 1]);
             }
+            TasksVM.ReplaceUserTasks(task1, task2);
         }
 
         private readonly ICommand _moveDownCommand;
@@ -304,14 +306,17 @@ namespace Staff_time.ViewModel
         {
             base.CancelEditing();
 
-            int curI = (int)SelectedTaskNode.Task.IndexNumber;
+            int curI = (int)SelectedTaskNode.IndexNumber;
+            var task1 = SelectedTaskNode.Task;
+            Task task2 = null;
 
             if (SelectedTaskNode.ParentNode != null)
             {
                 TreeNode parentNode = SelectedTaskNode.ParentNode;
                 int index = parentNode.TreeNodes.IndexOf(SelectedTaskNode);
-                parentNode.TreeNodes[index].Task.IndexNumber = parentNode.TreeNodes[index + 1].Task.IndexNumber;
-                parentNode.TreeNodes[index + 1].Task.IndexNumber = curI;
+                parentNode.TreeNodes[index].IndexNumber = parentNode.TreeNodes[index + 1].IndexNumber;
+                parentNode.TreeNodes[index + 1].IndexNumber = curI;
+                task2 = parentNode.TreeNodes[index + 1].Task;
 
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index].Task));        // todo было бы прикольно вызывать так: parentNode.TreeNodes[index].Task.EditCommand()
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index + 1].Task));
@@ -322,8 +327,10 @@ namespace Staff_time.ViewModel
             else
             {
                 int index = TreeRoots.IndexOf(SelectedTaskNode);
-                TreeRoots[index].Task.IndexNumber = TreeRoots[index + 1].Task.IndexNumber;
-                TreeRoots[index + 1].Task.IndexNumber = curI;
+                TreeRoots[index].IndexNumber = TreeRoots[index + 1].IndexNumber;
+                TreeRoots[index + 1].IndexNumber = curI;
+                task2 = TreeRoots[index + 1].Task;
+
 
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, TreeRoots[index].Task));
                 _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, TreeRoots[index + 1].Task));
@@ -331,6 +338,7 @@ namespace Staff_time.ViewModel
                 TreeRoots.Move(index, index + 1);
                 ChangeSelection(TreeRoots[index + 1]);
             }
+            TasksVM.ReplaceUserTasks(task1, task2);
         }
 
         #endregion
@@ -380,6 +388,9 @@ namespace Staff_time.ViewModel
         {
             TaskCommandEnum command = pair.Key;
             Task task = pair.Value;
+
+            if (!TasksVM.Dictionary.ContainsKey(task.ID))
+                return;
 
             switch (command)
             {

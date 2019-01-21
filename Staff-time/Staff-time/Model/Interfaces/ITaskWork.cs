@@ -28,6 +28,9 @@ namespace Staff_time.Model.Interfaces
         //Проверяет, есть ли уже такая задача
         bool IsExist(string taskName, int? parentTaskID);
 
+        //меняет местами задачи в избранном пользователя
+        void ReplaceUserTasks(Task task1, Task task2);
+
         //Проверяет, является ли задача у пользователя развернутой в дереве
         bool IsExpanded(int taskID, int userID);
 

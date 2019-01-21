@@ -41,7 +41,11 @@ namespace Staff_time.Model
         }
         public void Create_TaskToFave(int taskID, int curUserID)
         {
-            UserTasks.Add(new UserTask() { TaskID = taskID, UserID = curUserID });
+            var maxIndex = UserTasks.Select(ut =>  ut.IndexNumber).Max();
+            if (maxIndex == null)
+                maxIndex = 0;
+            maxIndex++;
+            UserTasks.Add(new UserTask() { TaskID = taskID, UserID = curUserID, IndexNumber = maxIndex });
             SaveChanges();
         }
 
@@ -61,9 +65,6 @@ namespace Staff_time.Model
         {
             TaskFactory taskFactory = new TaskFactory();
 
-            // как альтернатива
-            //return Tasks.OrderBy(t => t.IndexNumber).Select(task => taskFactory.CreateTask(task)).ToList();
-
             List<Task> tasks = new List<Task>();
             var allPossibleTasksToFave = Tasks.Where(t => (t.LevelID <= GlobalInfo.CurrentUser.LevelID));
             List<Task> tasksDB = new List<Task>(allPossibleTasksToFave.OrderBy(t => t.IndexNumber));
@@ -76,6 +77,26 @@ namespace Staff_time.Model
         public List<int> Read_RootTasks() // todo в имени не отражено, что считывются идетификаторы
         {
             return (from t in Tasks where t.ParentTaskID == null select t.ID).ToList();
+        }
+
+        public void ReplaceUserTasks(Task task1, Task task2)
+        {
+            var curUser = GlobalInfo.CurrentUser.ID;
+            var userTask1 = UserTasks.Where(t => t.UserID == curUser && t.TaskID == task1.ID).FirstOrDefault();
+            var userTask2 = UserTasks.Where(t => t.UserID == curUser && t.TaskID == task2.ID).FirstOrDefault();
+            if (userTask1 == null || userTask2 == null)
+            {
+                MessageBox.Show("Ошибка обмена местами задач в избранном, одна из задач отсутствует!");
+                return;
+            }
+            var index = userTask1.IndexNumber;
+            userTask1.IndexNumber = userTask2.IndexNumber;
+            userTask2.IndexNumber = index;
+
+            UserTasks.AddOrUpdate();
+            SaveChanges();
+            //var task1_number = (from t in UserTasks where t.UserID == curUser && t.TaskID == task1.ID select t.IndexNumber).ToList();
+            //var task2_number = (from t in UserTasks where t.UserID == curUser && t.TaskID == task2.ID select t.IndexNumber).ToList();
         }
 
         public bool IsExpanded(int taskID, int userID)
@@ -106,7 +127,7 @@ namespace Staff_time.Model
 
         public List<int> Read_FaveTasksID(int curUser)
         {
-            return (from t in UserTasks where t.UserID == curUser select t.TaskID).ToList();
+            return (from t in UserTasks where t.UserID == curUser orderby t.IndexNumber select t.TaskID).ToList();
         }
 
         public List<Task> Read_FaveTasks(int userID)
@@ -114,8 +135,9 @@ namespace Staff_time.Model
             TaskFactory taskFactory = new TaskFactory();
 
             var userFaveTasksID = Read_FaveTasksID(userID);
+            var faveTasks = Tasks.Where(task => userFaveTasksID.Contains(task.ID)).ToList();
+            faveTasks = faveTasks.OrderBy(t => userFaveTasksID.IndexOf(t.ID)).ToList();
 
-            var faveTasks = Tasks.OrderBy(t => t.IndexNumber).Where(task => userFaveTasksID.Contains(task.ID)).ToList();
             return faveTasks.Select(task => taskFactory.CreateTask(task)).ToList();
         }
 
@@ -271,7 +293,14 @@ namespace Staff_time.Model
                 value.AttrID = a;           // todo почему здесь не заполняется поле DataType ? 
                 AttrValues.Add(value);
             }
-            SaveChanges();
+            try
+            {
+                SaveChanges();
+            }
+            catch(Exception e)
+            {
+                int a = 0;
+            }
         }
 
         public List<AttrValue> Read_AttrValues_ForWork(Work work)

@@ -5,7 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Staff_time.View"
-             
              xmlns:m="clr-namespace:Staff_time.Model"
              xmlns:vm="clr-namespace:Staff_time.ViewModel"        
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
@@ -32,7 +31,29 @@
         </Grid.ColumnDefinitions>
 
         <Menu VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="0">
-            <DatePicker IsDropDownOpen="False" SelectedDate="{Binding SelectedDate_Picker}"></DatePicker>
+            <!--<DatePicker IsDropDownOpen="False" SelectedDate="{Binding SelectedDate_Picker}"></DatePicker>-->
+
+            <DatePicker Name="MyDatePicker" IsDropDownOpen="False" SelectedDate="{Binding SelectedDate_Picker}">
+                <DatePicker.CommandBindings>
+                    <CommandBinding Command="local:MyCommands.SelectToday" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed"/>
+                </DatePicker.CommandBindings>
+                <DatePicker.CalendarStyle>
+                    <Style TargetType="{x:Type Calendar}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Calendar}">
+                                    <StackPanel HorizontalAlignment="Center" Name="PART_Root">
+                                        <CalendarItem Background="{TemplateBinding Control.Background}" BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="{TemplateBinding Control.BorderThickness}" Name="PART_CalendarItem" Style="{TemplateBinding Calendar.CalendarItemStyle}" />
+                                        <Button Content="Сегодня" Command="local:MyCommands.SelectToday" CommandParameter="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DatePicker.CalendarStyle>
+            </DatePicker>
+
+
             <MenuItem IsEnabled="False" IsCheckable="False" Header=" " Background="Gray"></MenuItem>
             <MenuItem IsEnabled="False" IsCheckable="False" Header="Общее время дня:"></MenuItem>
             <MenuItem IsEnabled="False" IsCheckable="False" Header="{Binding SumHours}"></MenuItem>
@@ -43,7 +64,7 @@
         </Menu>
 
         <TabControl ItemsSource="{Binding WeekTabs}" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" Grid.Row="1" Grid.Column="0">
-
+        
             <TabControl.Resources>
                 <vm:TabItemHeaderConverter x:Key="tabItemHeaderConverter"></vm:TabItemHeaderConverter>
             </TabControl.Resources>
@@ -70,6 +91,7 @@
                     </ScrollViewer>
                 </DataTemplate>
             </TabControl.ContentTemplate>
+            <!--<Button Width="70" Content="QQ"></Button>-->
         </TabControl>
 
         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1">

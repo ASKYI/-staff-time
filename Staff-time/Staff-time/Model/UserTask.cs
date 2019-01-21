@@ -18,8 +18,9 @@ namespace Staff_time.Model
         public int UserID { get; set; }
         public int TaskID { get; set; }
         public Nullable<bool> IsExpanded { get; set; }
+        public Nullable<int> IndexNumber { get; set; }
     
-        public virtual Task Task { get; set; }
         public virtual User User { get; set; }
+        public virtual Task Task { get; set; }
     }
 }

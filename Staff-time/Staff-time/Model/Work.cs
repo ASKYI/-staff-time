@@ -32,8 +32,8 @@ namespace Staff_time.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AttrValue> AttrValues { get; set; }
-        public virtual Task Task { get; set; }
         public virtual WorkType WorkType { get; set; }
         public virtual User User { get; set; }
+        public virtual Task Task { get; set; }
     }
 }

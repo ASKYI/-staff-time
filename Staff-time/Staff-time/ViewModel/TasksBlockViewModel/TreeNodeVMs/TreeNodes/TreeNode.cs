@@ -26,6 +26,8 @@ namespace Staff_time.ViewModel
             Task = treeNode.Task;
             ParentNode = treeNode.ParentNode;
             TreeNodes = treeNode.TreeNodes;
+            IndexNumber = IndexNumber;
+            IsExpanded = IsExpanded;
             FullPath = treeNode.FullPath; // todo здесь будет 1 массив на двоих, если кто-то один почистит его, другой  удивится
         }
 
@@ -38,6 +40,17 @@ namespace Staff_time.ViewModel
                 FullPath = TasksVM.generate_PathForTask(_task.ID); //todo Настя
             }
         }
+
+        private Nullable<int> _indexNumber;
+        public Nullable<int> IndexNumber
+        {
+            get { return _indexNumber; }
+            set
+            {
+                _indexNumber = value;
+            }
+        }
+        
         public List<string> FullPath { get; set; }
 
         #region Nodes

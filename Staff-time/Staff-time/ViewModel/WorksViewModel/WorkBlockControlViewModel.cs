@@ -25,7 +25,8 @@ namespace Staff_time.ViewModel
 
             SelectedWorkTypeIndex = WorkVM.Work.WorkTypeID;
             _generate_TaskTypesCb();
-            
+            _generate_TimesRanges();
+
             _editCommand = new RelayCommand(Edit, CanEdit);
             _deleteCommand = new RelayCommand(Delete, CanDelete);
             _changeTaskCommand = new RelayCommand(ChangeTask, CanChangeTask);
@@ -112,28 +113,32 @@ namespace Staff_time.ViewModel
         private string _path;
         private void _generate_path()
         {
-            int max_k = Block_Width / 200;
+            //int max_k = Block_Width / 200;
+            int maxLength = Block_Width / 8 - 25;
 
-            if (!TasksVM.Dictionary.ContainsKey(Work.TaskID))
+            if (!TasksVM.DictionaryFull.ContainsKey(Work.TaskID))
             {
                 _path = Work.WorkName;
                 return;
             }
-            TreeNode taskNode = TasksVM.Dictionary[Work.TaskID];
+            TreeNode taskNode = TasksVM.DictionaryFull[Work.TaskID];
 
             StringBuilder stringPath = new StringBuilder();
             stringPath.Append(Work.WorkName + "<-");
 
-            int n_i = Math.Max(0, taskNode.FullPath.Count - max_k);
-            for (int i = taskNode.FullPath.Count - 1; i >= n_i; --i)
+            for (int i = taskNode.FullPath.Count - 1; i >= 0; --i)
             {
+                if (stringPath.Length + taskNode.FullPath[i].Length > maxLength)
+                {
+                    stringPath.Append("...");
+                    break;
+                }
                 stringPath.Append(taskNode.FullPath[i]);
-                if (i != n_i)
-                    stringPath.Append("<-");
+                stringPath.Append("<-");
             }
 
-            if (taskNode.FullPath.Count > max_k)
-                stringPath.Append("...");
+            //if (stringPath.Length > maxLength)
+            //    stringPath.Append("...");
 
             _path = stringPath.ToString();
         }
@@ -154,12 +159,31 @@ namespace Staff_time.ViewModel
                 var startTimeString = StartTime.ToString("HH:mm");
                 var endTimeString = EndTime.ToString("HH:mm");
                 return " (" + startTimeString + " - " + endTimeString + ") - " + (Minutes / 60).ToString() + " часов " + (Minutes % 60).ToString() + " минут";
-                //return " (" + StartHours + ":" + StartMinutes + " - " + EndHours + ":" + EndMinutes + ") - " + (Minutes / 60).ToString() + " часов " + (Minutes % 60).ToString() + " минут";
             }
         }
         #endregion
 
         #region Time
+
+        private ObservableCollection<string> _timeStartRanges;
+        public ObservableCollection<string> TimeStartRanges
+        {
+            get { return _timeStartRanges; }
+            set
+            {
+                SetField(ref _timeStartRanges, value);
+            }
+        }
+
+        private ObservableCollection<string> _timeEndRanges;
+        public ObservableCollection<string> TimeEndRanges
+        {
+            get { return _timeEndRanges; }
+            set
+            {
+                SetField(ref _timeEndRanges, value);
+            }
+        }
 
         public void Minutes_Changed(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
@@ -337,6 +361,7 @@ namespace Staff_time.ViewModel
 
             MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
                (WorkCommandEnum.Add, workDuplicate));
+
             Edit(obj); //не было раньше
         }
 
@@ -414,6 +439,8 @@ namespace Staff_time.ViewModel
         {
             if (IsEdititig && MouseLeft)
                 Edit(this);
+            if (IsEdititig)
+                IsEdititig = false;
         }
 
         //public void ApplyAction(string message)
@@ -517,6 +544,29 @@ namespace Staff_time.ViewModel
             foreach (var t in types)
             {
                 WorkTypesCb.Add(t);
+            }
+        }
+
+        private void _generate_TimesRanges()
+        {
+            TimeStartRanges = new ObservableCollection<string>();
+            TimeEndRanges = new ObservableCollection<string>();
+            string time = "";
+
+            for (int i = 7; i <= 21; ++i)
+            {
+                for (int j = 0; j <= 55; j += 5)
+                {
+                    string hours = i.ToString();
+                    string minutes = j.ToString();
+                    if (j >= 0 && j < 10)
+                        minutes = "0" + j.ToString();
+                    time = hours + ":" + minutes;
+
+                    //var dateTime = DateTime.ParseExact(time, "H:mm", null, System.Globalization.DateTimeStyles.None);
+                    TimeStartRanges.Add(time);
+                    TimeEndRanges.Add(time);
+                }
             }
         }
 
