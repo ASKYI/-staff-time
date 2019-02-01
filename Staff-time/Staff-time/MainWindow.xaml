@@ -34,14 +34,13 @@
             <Button Margin="2" Width="60" Content="Выйти" Click="LogoutEvent"></Button>
         </StackPanel>
 
-
         <view:TasksBlockView Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"></view:TasksBlockView>
         <GridSplitter MouseLeave="leaveSplitter" MouseMove="moveSplitter" Grid.Column="1" Grid.Row="1" Width="5" HorizontalAlignment="Stretch" Background="Gray">
 
         </GridSplitter>
 
         <Border Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Margin="3" BorderBrush="Gray" BorderThickness="2">
-            <view:WorkspaceView ></view:WorkspaceView>
+            <view:WorkspaceView></view:WorkspaceView>
         </Border>
 
     </Grid>

@@ -10,7 +10,7 @@
         xmlns:v="clr-namespace:Staff_time.View" 
         
         mc:Ignorable="d"
-        Title="Выбор задачи" Height="450" Width="300">
+        Title="Выбор задачи" Height="450" Width="300" Topmost="True">
 
     <Window.Resources>
         <!--Отображение узлов дерева-->

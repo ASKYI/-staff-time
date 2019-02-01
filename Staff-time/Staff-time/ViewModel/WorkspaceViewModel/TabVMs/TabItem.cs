@@ -22,21 +22,66 @@ namespace Staff_time.ViewModel
     //    }
     //}
 
-    public class TabItem : MainViewModel
+    public class TabItem : MainViewModel, INotifyPropertyChanged
     {
         public TabItem(string tabName_DayOfWeek, DateTime dateTime)
         {
             TabName = tabName_DayOfWeek;
             Date = dateTime;
-
+            IsEnabled = true;
             Generate_WorksForDate();
-
-            MessengerInstance.Register< KeyValuePair<WorkCommandEnum, Work> >(this, _doWorkCommand);
+            MessengerInstance.Register<KeyValuePair<WorkCommandEnum, Work>>(this, _doWorkCommand);
         }
 
-        public string TabName { get; set; }
+        public void Update(string newTabName, DateTime dateTime)
+        {
+            TabName = newTabName;
+            Date = dateTime;
 
-        public DateTime Date { get; set; }
+            Generate_WorksForDate();
+        }
+
+        private string _tabName;
+        public string TabName
+        {
+            get
+            {
+                return _tabName;
+            }
+            set
+            {
+                _tabName = value;
+                NotifyPropertyChanged("TabName");
+            }
+        }
+
+        private bool _isEnabled;
+        public bool IsEnabled
+        {
+            get
+            {
+                return _isEnabled;
+            }
+            set
+            {
+                _isEnabled = value;
+                NotifyPropertyChanged("IsEnabled");
+            }
+        }
+
+        private DateTime _date;
+        public DateTime Date
+        {
+            get
+            {
+                return _date;
+            }
+            set
+            {
+                _date = value;
+                NotifyPropertyChanged("Date");
+            }
+        }
 
         private long _sumTime;
         public long SumTime
@@ -57,6 +102,7 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField(ref _worksInTab, value);
+                NotifyPropertyChanged("WorksInTab");
             }
         }
 
@@ -91,12 +137,13 @@ namespace Staff_time.ViewModel
 
             if (command == WorkCommandEnum.None)
                 return;
-            if (command == WorkCommandEnum.Add 
+            if (command == WorkCommandEnum.Add
                 && work.StartDate.Date == Date.Date)
             {
                 var newWorkID = WorksVM.Add(work);
                 Work newWork = WorksVM.Dictionary[newWorkID].Work;
-                AddWork(new WorkInTab(newWork.ID));
+
+                AddWork(new WorkInTab(newWork.ID, true));
 
                 SumTime += newWork.Minutes;
                 MessengerInstance.Send<long>(SumTime);
@@ -132,7 +179,7 @@ namespace Staff_time.ViewModel
 
                     WorksVM.Update(work);
                     Work newWork = WorksVM.Dictionary[work.ID].Work;
-                    
+
                     SumTime -= oldWorkMinutes;
                     WorksInTab.Remove(WorksInTab[index]);
 
@@ -145,6 +192,17 @@ namespace Staff_time.ViewModel
                     MessengerInstance.Send<long>(SumTime);
                     break;
             }
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(String aPropertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(aPropertyName));
         }
 
         #endregion

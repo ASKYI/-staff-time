@@ -97,6 +97,14 @@
                               IsEnabled="{Binding IsEnabled}">
                     </ComboBox>
                 </Grid>
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock  Text="Главная задача: " Grid.Column="0" ToolTip="Используется для настройки отчетов"></TextBlock>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding EditingTask.IsMain, UpdateSourceTrigger=PropertyChanged}" ToolTip="Используется для настройки отчетов" Margin="0,2"/>
+                </Grid>
             </StackPanel>
 
 

@@ -19,9 +19,9 @@ namespace Staff_time.ViewModel
     //Обертка над контестом WorkBlock для передачи через шаблон
     public class WorkInTab : ViewModelBase, INotifyPropertyChanged // todo довольно странный класс, не вижу в нём смысла
     {
-        public WorkInTab(int workID)
+        public WorkInTab(int workID, bool IsEditingFlag = false)
         {
-            WorkBlockContext = new WorkBlockControlViewModel(workID);
+            WorkBlockContext = new WorkBlockControlViewModel(workID, IsEditingFlag);
         }
 
         private WorkBlockControlViewModel _workBlockContext;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,13 +26,26 @@ namespace Staff_time
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string version = "1.3";
+        static string version = "1.61";
         MainViewModel context;
+        private static bool _isEnable;
+        public static bool IsEnable
+        {
+            get
+            {
+                return _isEnable;
+            }
+            set
+            {
+                _isEnable = value;
+                OnGlobalPropertyChanged("IsMainWindowEnabled");
+            }
+        }
         private System.Windows.Forms.NotifyIcon notifyIcon = null;
         public MainWindow()
         {
             Context.Init();
-          
+            IsEnable = true;
             bool? isOK = Authorization.Login();
 
             if (isOK == false)
@@ -46,10 +60,29 @@ namespace Staff_time
                 this.Show();
             }
             Closing += this.Window_Closing;
+            //GlobalPropertyChanged += this.HandleGlobalPropertyChanged;
+            //qq1 = QQ;
+            ////qq.Width = this.Width;
+            ////qq.Height = this.Height;
+            ////qq.Visibility = Visibility.Hidden;
+            //Color c = Colors.Black;
+            //c.A = 100;
+            //qq1.Background = new SolidColorBrush(c);
+            //Grid.SetZIndex(qq1, 999);
         }
+
+        //void HandleGlobalPropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    NotifyPropertyChanged("DatePickerEnabled");
+        //}
 
         public void LogoutEvent(object sender, EventArgs e)
         {
+            if (!MainWindow.IsEnable)
+            {
+                MessageBox.Show("Сохраните или отмените изменения в работе. Выход не будет осуществлен.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             var oldMainWindow = this;
             this.Hide();
             TasksVM.Init_tracker = false;
@@ -58,8 +91,6 @@ namespace Staff_time
 
             new MainWindow();
             oldMainWindow.Close();
-            //this.Hide();
-            //Authorization.Login();
         }
 
 
@@ -105,7 +136,7 @@ namespace Staff_time
 
         private void TasksBlockView_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            context.CancelEditing();
+            //context.CancelEditing();
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -114,9 +145,23 @@ namespace Staff_time
                 notifyIcon.Icon.Dispose();
                 notifyIcon.Icon = null;
             }
-            if (notifyIcon != null)
+            //if (notifyIcon != null)
+            //{
+                notifyIcon.Visible = false;
                 notifyIcon.Dispose();
+            //}
             Authorization.Logout();
         }
+
+        #region INotifyPropertyChanged
+        public static event PropertyChangedEventHandler GlobalPropertyChanged = delegate { };
+
+        public static void OnGlobalPropertyChanged(string propertyName)
+        {
+            GlobalPropertyChanged(
+                typeof(WorkspaceViewModel),
+                new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
     }
 }

@@ -23,6 +23,9 @@ namespace Staff_time.ViewModel
         public static ITypesWork typesWork;
         public static IUserWork usersWork;
         public static ILevelWork levelWork;
+        public static ITimeTableWork timeTableWork;
+        public static IProcedureWork procedureWork;
+
 
         private static bool _init_tracker = false;
         public static void Init()
@@ -38,6 +41,8 @@ namespace Staff_time.ViewModel
             typesWork = _context;
             usersWork = _context;
             levelWork = _context;
+            timeTableWork = _context;
+            procedureWork = _context;
         }
 
         //public static User TestUser;

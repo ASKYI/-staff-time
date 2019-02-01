@@ -113,6 +113,7 @@
                         <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
                             <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"></Setter>
                             <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"></Setter>
+                            <Setter Property="ToolTip" Value="{Binding Task.Descriptions, Mode=TwoWay}"></Setter>
 
                             <EventSetter Event="PreviewMouseRightButtonDown" Handler="AllTreeViewItem_PreviewMouseRightButtonDown"/>
                         </Style>

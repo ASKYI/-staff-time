@@ -20,7 +20,7 @@ namespace Staff_time.ViewModel
         public WorkControlViewModel(Work work)
         {
             Work = work;
-            //OriginWork = (Work)work.Clone(); //todo всё ещё зависит!!
+            OriginWork = (Work)work.Clone();
             IsEdititig = false;
         }
 
@@ -30,7 +30,7 @@ namespace Staff_time.ViewModel
         {
             if (WorksVM.Dictionary.ContainsKey(workID))
             {
-                Work = WorksVM.Dictionary[workID].Work;
+                Work = (Work)WorksVM.Dictionary[workID].Work;
             }
         }
 
@@ -45,9 +45,10 @@ namespace Staff_time.ViewModel
                 (WorkCommandEnum.Update, Work));
         }
 
-        //public override void CancelWork()
-        //{
-        //    Work = OriginWork;
-        //}
+        public override void CancelWork()
+        {
+            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
+                (WorkCommandEnum.Update, (Work)OriginWork.Clone()));
+        }
     }
 }

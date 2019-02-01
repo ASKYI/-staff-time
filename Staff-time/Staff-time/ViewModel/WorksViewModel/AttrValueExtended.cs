@@ -18,19 +18,19 @@ namespace Staff_time.ViewModel
 {
     public class AttrValueExtended : ViewModelBase, INotifyPropertyChanged
     {
-        public AttrValueExtended (Boolean isEditing, AttrValue value)
+        public AttrValueExtended (Boolean IsEditing, AttrValue value)
         {
-            IsEditing = isEditing;
+            IsEditing = IsEditing;
              AttrValue = value;
         }
 
-        private Boolean _isEditing;
+        private Boolean _IsEditing;
         public Boolean IsEditing
         {
-            get { return _isEditing; }
+            get { return _IsEditing; }
             set
             {
-                SetField(ref _isEditing, value); // todo у какого объекта вызывается Notify?
+                SetField(ref _IsEditing, value); // todo у какого объекта вызывается Notify?
             }
         }
 

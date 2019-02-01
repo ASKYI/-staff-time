@@ -149,7 +149,9 @@
     <Compile Include="Model\Enums.cs" />
     <Compile Include="Model\Interfaces\IAttrWork.cs" />
     <Compile Include="Model\Interfaces\ILevelWork.cs" />
+    <Compile Include="Model\Interfaces\IProcedureWork.cs" />
     <Compile Include="Model\Interfaces\ITaskWork.cs" />
+    <Compile Include="Model\Interfaces\ITimeTableWork.cs" />
     <Compile Include="Model\Interfaces\ITypesWork.cs" />
     <Compile Include="Model\Interfaces\IUserWork.cs" />
     <Compile Include="Model\Interfaces\IWorkWork.cs" />
@@ -185,6 +187,9 @@
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TaskTypeProp.cs">
+      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TimeTable.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\User.cs">
@@ -250,9 +255,6 @@
     <Compile Include="View\TasksBlockView\ExtendedTreeView.xaml.cs">
       <DependentUpon>ExtendedTreeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FaveView.xaml.cs">
-      <DependentUpon>FaveView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\TasksBlockView\TasksBlockView.xaml.cs">
       <DependentUpon>TasksBlockView.xaml</DependentUpon>
     </Compile>
@@ -297,10 +299,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\TasksBlockView\ExtendedTreeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\FaveView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -392,6 +390,8 @@
       <DependentUpon>TaskManagmentDB.edmx</DependentUpon>
       <LastGenOutput>TaskManagmentDB.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\back.ico" />
+    <Resource Include="Resources\forward.ico" />
     <Resource Include="Resources\tree.ico" />
     <Resource Include="Resources\add_work.ico" />
     <Resource Include="Resources\save.ico" />

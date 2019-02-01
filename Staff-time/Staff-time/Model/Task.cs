@@ -31,6 +31,7 @@ namespace Staff_time.Model
         public string Descriptions { get; set; }
         public Nullable<int> IndexNumber { get; set; }
         public Nullable<int> LevelID { get; set; }
+        public bool IsMain { get; set; }
     
         public virtual LEVEL LEVEL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

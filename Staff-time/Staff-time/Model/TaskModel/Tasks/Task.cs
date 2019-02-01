@@ -19,6 +19,8 @@ namespace Staff_time.Model
             this.Descriptions = task.Descriptions;
             this.IndexNumber = task.IndexNumber;
             this.LevelID = 1; // todo Настя подумать GlobalInfo.CurrentUser.LevelID;
+            this.IsMain = task.IsMain;
+
 
             this.TaskType = task.TaskType;
             this.Works = task.Works;

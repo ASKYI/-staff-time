@@ -26,10 +26,13 @@ namespace Staff_time.View
         public WorkBlockControl()
         {
             InitializeComponent();
+            AddHandler(FrameworkElement.MouseDownEvent, new MouseButtonEventHandler(workBlock_MouseDown), true);
         }
+
         public void Window_loaded(object sender, RoutedEventArgs e)
         {
             WorkNameTextBox.Focus();
+            //WorkNameTextBox.Dispatcher.BeginInvoke(new Action(() => WorkNameTextBox.SelectAll()));
         }
 
         public void Description_KeyDown(object sender, KeyEventArgs e)
@@ -45,7 +48,11 @@ namespace Staff_time.View
             var textBoxTime = (MaskedTextBox)sender;
             if (e.Key == Key.Tab)
             {
-                textBoxTime.SelectedText = "    ";
+                DateTime res;
+                if (DateTime.TryParse(MaskTBoxStart.Text, out res))
+                    ((ViewModel.WorkBlockControlViewModel)DataContext).StartTime = res;
+                if (DateTime.TryParse(MaskTBoxEnd.Text, out res))
+                    ((ViewModel.WorkBlockControlViewModel)DataContext).EndTime = res;
                 return;
             }
             var text = textBoxTime.Text;
@@ -53,7 +60,7 @@ namespace Staff_time.View
             switch (curInsertPos)
             {
                 case 0:
-                    if (e.Key < Key.D0 || e.Key > Key.D2)
+                    if (!(e.Key >= Key.D0 && e.Key <= Key.D2) && !(e.Key >= Key.NumPad0 && e.Key <= Key.NumPad2))
                     {
                         e.Handled = true;
                         return;
@@ -61,21 +68,21 @@ namespace Staff_time.View
                     break;
                 case 1:
                     string hour1 = text[0].ToString();
-                    if (hour1 == "2" && (e.Key < Key.D0 || e.Key > Key.D3))
+                    if (hour1 == "2" && (!(e.Key >= Key.D0 && e.Key <= Key.D3) && !(e.Key >= Key.NumPad0 && e.Key <= Key.NumPad3)))
                     {
                         e.Handled = true;
                         return;
                     }
                     break;
                 case 3:
-                    if (e.Key < Key.D0 || e.Key > Key.D5)
+                    if (!(e.Key >= Key.D0 && e.Key <= Key.D5) && !(e.Key >= Key.NumPad0 && e.Key <= Key.NumPad5))
                     {
                         e.Handled = true;
                         return;
                     }
                     break;
                 case 4:
-                    if (e.Key < Key.D0 || e.Key > Key.D9)
+                    if (!(e.Key >= Key.D0 && e.Key <= Key.D9) && !(e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9))
                     {
                         e.Handled = true;
                         return;
@@ -112,18 +119,33 @@ namespace Staff_time.View
         //Пробрасываение методов
         //Ищу решение лучше
 
-        //private void EditBtn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if ((string)EditBtn.Content == "Редактировать")
-        //        EditBtn.Content = "Применить";
-        //    else
-        //        EditBtn.Content = "Редактировать";
-        //}
+        private void workBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left && e.GetPosition(this).Y >= 30) //чтобы сворачивание задач не учитывалось
+            {
+                ((ViewModel.WorkBlockControlViewModel)DataContext).IsEditing = true;
+                MainWindow.IsEnable = false;
+            }
+        }
 
         private void workBlock_MouseLeave(object sender, MouseEventArgs e)
         {
+            //if (((ViewModel.WorkBlockControlViewModel)DataContext).IsEditing)
+            //{
+            //    IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.MainWindow);
+            //    if (focusedControl.GetType() == typeof(ScrollViewer))
+            //    {
+            //        Mouse.Capture(WorkNameTextBox);
+            //    }
+            //    else
+            //    {
+            //        Mouse.Capture(focusedControl);
+            //    }
+            //    return;
+            //}
             ((ViewModel.WorkBlockControlViewModel)DataContext).MouseLeft = true;
         }
+
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
@@ -147,10 +169,9 @@ namespace Staff_time.View
 
         private void DoubleClickTime(object sender, MouseButtonEventArgs e)
         {
-            var curTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0);
+            var curTime = new DateTime(1899, 12, 30, DateTime.Now.Hour, DateTime.Now.Minute, 0);
             var tmControl = (MaskedTextBox)sender;
-            tmControl.Text = curTime.ToString("hh:mm");
-            //tmControl.Text = DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString();
+            tmControl.Text = curTime.ToString("HH:mm");
         }
     }
 }

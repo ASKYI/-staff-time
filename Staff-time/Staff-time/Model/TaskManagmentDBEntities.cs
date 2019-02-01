@@ -15,7 +15,7 @@ using Staff_time.Model.UserModel;
 namespace Staff_time.Model
 {
     public partial class TaskManagmentDBEntities : DbContext,
-        ITaskWork, IWorkWork, IAttrWork, ITypesWork, IUserWork, ILevelWork
+        ITaskWork, IWorkWork, IAttrWork, ITypesWork, IUserWork, ILevelWork, ITimeTableWork, IProcedureWork
     {
         #region IUserWork
         public List<User> Read_AllUsers()
@@ -27,10 +27,28 @@ namespace Staff_time.Model
         #region ILevelWork
         public Dictionary<string, int> Read_AllLevels()
         {
-            return LEVELS.Select(t => new {  t.LevelName, t.LevelID })
+            return LEVELS.Select(t => new { t.LevelName, t.LevelID })
                    .ToDictionary(t => t.LevelName, t => t.LevelID);
         }
         #endregion //ILevelWork
+
+        #region ITimeTableWork
+        public double Read_TimeByDate(DateTime dt)
+        {
+            var planTime = TimeTables.Where(t => t.Date == dt).Select(t => t.PlanningTime).FirstOrDefault();
+            return planTime != null ? (double)planTime : 0;
+        }
+        public void Update(DateTime dt, double tm)
+        {
+            var timeTable = TimeTables.Where(t => t.Date == dt).FirstOrDefault();
+            if (timeTable == null)
+                throw new ArgumentNullException("timeTable");
+            timeTable.PlanningTime = tm;
+            TimeTables.AddOrUpdate(timeTable);
+            SaveChanges();
+        }
+
+        #endregion //ITimeTableWork
 
         #region ITaskWork
 
@@ -41,7 +59,7 @@ namespace Staff_time.Model
         }
         public void Create_TaskToFave(int taskID, int curUserID)
         {
-            var maxIndex = UserTasks.Select(ut =>  ut.IndexNumber).Max();
+            var maxIndex = UserTasks.Select(ut => ut.IndexNumber).Max();
             if (maxIndex == null)
                 maxIndex = 0;
             maxIndex++;
@@ -219,11 +237,21 @@ namespace Staff_time.Model
 
         public void Create_Work(Work work)
         {
-            Works.Add(work);
+            try
+            {
+                Work w = new Work(work);
+                Works.Add(w);
 
-            //Создание пустых полей для атрибутов в соотвествии с типом работы
-            Create_AttrValuesFields_ForWork(work.ID, (WorkTypeEnum)work.WorkTypeID);
-            SaveChanges();
+                //Создание пустых полей для атрибутов в соотвествии с типом работы
+                SaveChanges(); //Чтобы был актуальный ID у работы
+                Create_AttrValuesFields_ForWork(w, (WorkTypeEnum)work.WorkTypeID);
+                work.ID = w.ID;
+                work.AttrValues = w.AttrValues;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public List<Work> Read_AllWorks(int curUser)
@@ -265,7 +293,7 @@ namespace Staff_time.Model
 
             // todo была ошибка, проверить в истории
             if (oldTypeID != newTypeID) //При изменении типа! Удалить-перенести атрибуты типа
-                Update_AttrValuesFields_ForWork(work.ID, (WorkTypeEnum)oldTypeID, (WorkTypeEnum)newTypeID);
+                Update_AttrValuesFields_ForWork(work, (WorkTypeEnum)oldTypeID, (WorkTypeEnum)newTypeID);
 
             SaveChanges();
         }
@@ -282,14 +310,16 @@ namespace Staff_time.Model
         #endregion
 
         #region IAttrWork
-        public void Create_AttrValuesFields_ForWork(int WorkID, WorkTypeEnum type)
+        public void Create_AttrValuesFields_ForWork(Work _work, WorkTypeEnum type)
         {
             int typeID = (int)type;
+            var oldAttrIds = _work.AttrValues.Select(a => a.AttrID).ToList();
             List<int> attrIDs = (from a in WorkTypeAttrs where a.WorkTypeID == typeID select a.AttrID).ToList();
+            attrIDs.RemoveAll(a => oldAttrIds.Contains(a)); //Удаляем те атрибуты, что была, добавлять будем только новые
             foreach (var a in attrIDs)
             {
                 AttrValue value = new AttrValue();
-                value.WorkID = WorkID;
+                value.WorkID = _work.ID;
                 value.AttrID = a;           // todo почему здесь не заполняется поле DataType ? 
                 AttrValues.Add(value);
             }
@@ -297,9 +327,9 @@ namespace Staff_time.Model
             {
                 SaveChanges();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                int a = 0;
+                throw e;
             }
         }
 
@@ -308,10 +338,10 @@ namespace Staff_time.Model
             return AttrValues.Include(a => a.Attribute).Where(a => a.WorkID == work.ID).ToList(); // todo, не нашёл где используется этот метод
         }
 
-        public void Update_AttrValuesFields_ForWork(int WorkID, WorkTypeEnum oldType, WorkTypeEnum newType)
+        public void Update_AttrValuesFields_ForWork(Work _work, WorkTypeEnum oldType, WorkTypeEnum newType)
         {
             //Delete_AttrValuesFields_ForWork(WorkID);  // todo, надо дописать только недостающие атрибуты, т.к. в старых может содержаться важная информация
-            Create_AttrValuesFields_ForWork(WorkID, newType);
+            Create_AttrValuesFields_ForWork(_work, newType);
         }
 
         public void Delete_AttrValuesFields_ForWork(int WorkID)
@@ -344,5 +374,14 @@ namespace Staff_time.Model
             return TaskTypes.ToList();
         }
         #endregion
+
+        #region IProcedureWork
+        public void RepareUserFave(int taskID)
+        {
+            RepareUserTree(taskID);
+            SaveChanges();
+        }
+
+        #endregion //IProcedureWork
     }
 }

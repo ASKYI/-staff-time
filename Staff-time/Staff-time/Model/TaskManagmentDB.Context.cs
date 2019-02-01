@@ -12,6 +12,8 @@ namespace Staff_time.Model
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class TaskManagmentDBEntities : DbContext
     {
@@ -38,5 +40,15 @@ namespace Staff_time.Model
         public virtual DbSet<WorkType> WorkTypes { get; set; }
         public virtual DbSet<LEVEL> LEVELS { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
+        public virtual DbSet<TimeTable> TimeTables { get; set; }
+    
+        public virtual int RepareUserTree(Nullable<int> taskId)
+        {
+            var taskIdParameter = taskId.HasValue ?
+                new ObjectParameter("taskId", taskId) :
+                new ObjectParameter("taskId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RepareUserTree", taskIdParameter);
+        }
     }
 }

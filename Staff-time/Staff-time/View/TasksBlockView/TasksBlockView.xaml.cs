@@ -30,8 +30,9 @@ namespace Staff_time.View
 
         private void KeyDownMainWindow(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.W)
-                context.AddWorkCommand.Execute(sender);
+            if (MainWindow.IsEnable)
+                if (e.Key == Key.W)
+                    context.AddWorkCommand.Execute(sender);
         }
 
         private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)

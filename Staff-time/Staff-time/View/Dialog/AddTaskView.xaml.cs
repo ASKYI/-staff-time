@@ -28,7 +28,8 @@ namespace Staff_time.View
         {
             InitializeComponent();
             TaskNameTBox.Focus();
-            TaskNameTBox.SelectionStart = TaskNameTBox.Text.Length;
+            TaskNameTBox.Dispatcher.BeginInvoke(new Action(() => TaskNameTBox.SelectAll()));
+
             base.DataContext = context;
             Closing += ((ViewModel.TaskDialogViewModel)DataContext).OnWindowClosing;  // todo косяк зависимостей, здесь это не должно быть, это может быть в вызывающей функции
         }

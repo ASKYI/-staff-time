@@ -175,6 +175,7 @@ namespace Staff_time.ViewModel
                     MessageBox.Show("Нельзя назначить новым родителем потомка или самого себя");
                     return;
                 }
+              
             }
             // _task = new Task(_editingTask);
             else if (_command == TaskCommandEnum.Add)
@@ -207,7 +208,7 @@ namespace Staff_time.ViewModel
             }
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
    new KeyValuePair<TaskCommandEnum, Task>(_command, _editingTask));
-
+           
             if (dialog != null)
             {
                 dialog.Close();
@@ -223,6 +224,8 @@ namespace Staff_time.ViewModel
         {
             MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
                 new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
+            MessengerInstance.Send<KeyValuePair<FaveTaskCommandEnum, Task>>(
+                new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.None, _task));
             if (dialog != null)
             {
                 dialog.Close();

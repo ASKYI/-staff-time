@@ -56,10 +56,10 @@ namespace Staff_time.ViewModel
             MessengerInstance.Send<string>("Cancel");
         }
 
-        //public void ApplyChanges()
-        //{
-        //    MessengerInstance.Send<string>("Apply");
-        //}
+        public void ApplyChanges()
+        {
+            MessengerInstance.Send<string>("Apply");
+        }
 
         protected static View.IDialogView dialog; //Ага, ViewModel видит View...
 

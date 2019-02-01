@@ -66,6 +66,7 @@
           <Property Name="Descriptions" Type="varchar(max)" />
           <Property Name="IndexNumber" Type="int" />
           <Property Name="LevelID" Type="int" />
+          <Property Name="IsMain" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="TaskTypeProps">
           <Key>
@@ -81,6 +82,13 @@
           </Key>
           <Property Name="TypeName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TimeTable">
+          <Key>
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="PlanningTime" Type="float" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -363,6 +371,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="RepareUserTree" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="taskId" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="Хранилище TaskManagmentDBModelContainer">
           <EntitySet Name="Attributes" EntityType="Self.Attributes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AttrValues" EntityType="Self.AttrValues" Schema="dbo" store:Type="Tables" />
@@ -372,6 +383,7 @@
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskTypeProps" EntityType="Self.TaskTypeProps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskTypes" EntityType="Self.TaskTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimeTable" EntityType="Self.TimeTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserTasks" EntityType="Self.UserTasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Works" EntityType="Self.Works" Schema="dbo" store:Type="Tables" />
@@ -788,6 +800,10 @@
             <End Role="Task" EntitySet="Tasks" />
             <End Role="Work" EntitySet="Works" />
           </AssociationSet>
+          <EntitySet Name="TimeTables" EntityType="TaskManagmentDBModel.TimeTable" />
+          <FunctionImport Name="RepareUserTree">
+            <Parameter Name="taskId" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <Association Name="FK_Works_Users">
           <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="0..1" />
@@ -856,6 +872,7 @@
           <NavigationProperty Name="WorkType" Relationship="TaskManagmentDBModel.FK_Tasks_WorkTypes" FromRole="Task" ToRole="WorkType" />
           <NavigationProperty Name="UserTasks" Relationship="TaskManagmentDBModel.FK_UserTasks_Tasks" FromRole="Task" ToRole="UserTask" />
           <NavigationProperty Name="Works" Relationship="TaskManagmentDBModel.FK_Works_Tasks" FromRole="Task" ToRole="Work" />
+          <Property Name="IsMain" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Tasks_Levels">
           <End Type="TaskManagmentDBModel.LEVEL" Role="LEVEL" Multiplicity="0..1" />
@@ -945,6 +962,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TimeTable">
+          <Key>
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PlanningTime" Type="Double" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1079,6 +1103,7 @@
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="TaskManagmentDBModel.Task">
               <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="IsMain" ColumnName="IsMain" />
                 <ScalarProperty Name="LevelID" ColumnName="LevelID" />
                 <ScalarProperty Name="IndexNumber" ColumnName="IndexNumber" />
                 <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
@@ -1090,6 +1115,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TimeTables">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.TimeTable">
+              <MappingFragment StoreEntitySet="TimeTable">
+                <ScalarProperty Name="PlanningTime" ColumnName="PlanningTime" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="RepareUserTree" FunctionName="Хранилище TaskManagmentDBModel.RepareUserTree" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

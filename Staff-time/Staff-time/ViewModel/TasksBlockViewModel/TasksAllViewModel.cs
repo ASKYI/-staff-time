@@ -168,8 +168,6 @@ namespace Staff_time.ViewModel
         }
         private void AddNearTask(object obj)
         {
-            base.CancelEditing();
-
             Task newTask = new Task();
             if (SelectedTaskNode != null && SelectedTaskNode.Task.ID != SelectedTaskNode.Task.ParentTaskID)
                 newTask.ParentTaskID = SelectedTaskNode.Task.ParentTaskID;
@@ -193,8 +191,6 @@ namespace Staff_time.ViewModel
         }
         private void AddChildTask(object obj)
         {
-            base.CancelEditing();
-
             Task newTask = new Task();
             newTask.ParentTaskID = SelectedTaskNode.Task.ID;
             newTask.TaskName = "Новая подзадача";
@@ -221,8 +217,6 @@ namespace Staff_time.ViewModel
         }
         private void EditTask(object obj)
         {
-            base.CancelEditing();
-
             dialog = new View.EditDialogWindow(new TaskDialogViewModel(SelectedTaskNode.Task, AllTreeRoots, TaskCommandEnum.Edit));   
             dialog.Show();
         }
@@ -248,8 +242,6 @@ namespace Staff_time.ViewModel
         }
         private void DeleteTask(object obj)
         {
-            base.CancelEditing();
-
             //Roots
             int delTaskID = SelectedTaskNode.Task.ID;
             var curNodeToDelete = SelectedTaskNode;
@@ -267,6 +259,7 @@ namespace Staff_time.ViewModel
                 ChangeSelection(TasksVM.DictionaryFull[delTaskID + 1]);
             else
                 ChangeSelection(TasksVM.DictionaryFull.FirstOrDefault().Value);
+
         }
 
         #endregion
@@ -304,8 +297,6 @@ namespace Staff_time.ViewModel
         }
         private void MoveUp(object obj)
         {
-            base.CancelEditing();
-
             int curI = (int)SelectedTaskNode.Task.IndexNumber;
             TreeNode newSeleted = SelectedTaskNode;
 
@@ -367,8 +358,6 @@ namespace Staff_time.ViewModel
         }
         private void MoveDown(object obj)
         {
-            base.CancelEditing();
-            
             int curI = (int)SelectedTaskNode.Task.IndexNumber;
 
             if (SelectedTaskNode.ParentNode != null)
@@ -438,6 +427,14 @@ namespace Staff_time.ViewModel
                     else
                         DeleteRootNode(oldNode);
 
+                    if (oldNode.ParentNode != newNode.ParentNode)
+                    {
+                        Context.procedureWork.RepareUserFave(task.ID);
+                        TasksVM.Init_tracker = false;
+                        TasksVM.InitFave();
+                    }
+                    MessengerInstance.Send<KeyValuePair<FaveTaskCommandEnum, Task>>(
+                new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, task));
                     break;
             }
         }

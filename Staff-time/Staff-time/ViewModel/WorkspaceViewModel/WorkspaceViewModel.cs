@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace Staff_time.ViewModel
 {
-    public class WorkspaceViewModel : MainViewModel
+    public class WorkspaceViewModel : MainViewModel, INotifyPropertyChanged
     {
         public WorkspaceViewModel()
         {
@@ -22,9 +22,30 @@ namespace Staff_time.ViewModel
 
             _collapseAllWorksCommand = new RelayCommand(CollapseAllWorks, (_) => true);
             _expandAllWorksCommand = new RelayCommand(ExpandAllWorks, (_) => true);
+            MainWindow.GlobalPropertyChanged += HandleGlobalPropertyChanged;
         }
 
         #region Selected Date TabIndex
+        void HandleGlobalPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            NotifyPropertyChanged(e.PropertyName);
+            SetTabEnable(IsMainWindowEnabled);
+        }
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(String aPropertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(aPropertyName));
+        }
+        #endregion
+
+        private void SetTabEnable(bool _isEnabled)
+        {
+            foreach (var tab in WeekTabs)
+                tab.IsEnabled = _isEnabled;
+        }
 
         private DateTime _selectedDate_Picker; // todo picker - это графический элемент, вьюмодель о нём не должна знать
         public DateTime SelectedDate_Picker
@@ -32,12 +53,19 @@ namespace Staff_time.ViewModel
             get { return _selectedDate_Picker; }
             set
             {
-                //if (_selectedDate_Picker == value)
-                //    return;
+                if (_selectedDate_Picker == value)
+                    return;
                 SetField(ref _selectedDate_Picker, value);
 
                 Generate_Week(_selectedDate_Picker);
+                NotifyPropertyChanged("SelectedDate_Picker");
             }
+        }
+
+
+        public bool IsMainWindowEnabled
+        {
+            get { return MainWindow.IsEnable; }
         }
 
         private int _selectedTabIndex;
@@ -51,22 +79,11 @@ namespace Staff_time.ViewModel
                     SetField(ref _selectedTabIndex, value);
 
                     chosenDate = WeekTabs[SelectedTabIndex].Date;
+                    SelectedDate_Picker = chosenDate;
+                    PlanningTime = Context.timeTableWork.Read_TimeByDate(chosenDate);
                     WeekTabs[SelectedTabIndex].Generate_WorksForDate();
                     SumTime = WeekTabs[SelectedTabIndex].SumTime;
-
-                    //if (IsEditing())
-                    //{
-                    //    var dialogResult = System.Windows.MessageBox.Show("На текущий день есть несохраненные изменения в работе. Сохранить?", 
-                    //        "Подтверждение",MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-                    // if (dialogResult == MessageBoxResult.No)
-                    base.CancelEditing();
-                    //else
-                    //    base.ApplyChanges();
-
-                    //}
-
-                    //base.CancelEditing(); //поменяла на принятие изменения
+                    NotifyPropertyChanged("SelectedTabIndex");
                 }
             }
         }
@@ -87,9 +104,15 @@ namespace Staff_time.ViewModel
             }
         }
 
+
+
         public void Generate_Week(DateTime date)
         {
-            WeekTabs = new ObservableCollection<TabItem>();
+            bool isUpdate = false;
+            if (WeekTabs == null)
+                WeekTabs = new ObservableCollection<TabItem>();
+            else
+                isUpdate = true;
 
             int dayOfWeek = (int)date.DayOfWeek - 1; //День недели с понедельника
             if (dayOfWeek == -1)
@@ -99,12 +122,13 @@ namespace Staff_time.ViewModel
             for (int i = 0; i < 7; ++i)
             {
                 DateTime cur = startDay.AddDays(i);
-                WeekTabs.Add(new TabItem(DaysOfWeek[i], cur));
+                if (isUpdate)
+                    WeekTabs[i].Update(DaysOfWeek[i], cur);
+                else
+                    WeekTabs.Add(new TabItem(DaysOfWeek[i], cur));
 
                 if (cur.Date == date.Date)
-                {
                     SelectedTabIndex = i; 
-                }
             }
 
             SumTime = WeekTabs[SelectedTabIndex].SumTime; // после подсчёта всей недели нужно в сумму положить текущий день
@@ -114,6 +138,31 @@ namespace Staff_time.ViewModel
 
         #region Time
 
+        public int IsTimePlanEqual
+        {
+            get
+            {
+                if (SumTime < PlanningTime * 60)
+                    return -1;
+                else if (SumTime > PlanningTime * 60)
+                    return 1;
+                return 0;
+            }
+        }
+
+        private double _planningTime;
+
+        public double PlanningTime
+        {
+            get { return _planningTime; }
+            set
+            {
+                SetField(ref _planningTime, value);
+                Context.timeTableWork.Update(chosenDate, value);
+                NotifyPropertyChanged("PlanningTime");
+            }
+        }
+
         private long _sumTime;
         public long SumTime
         {
@@ -121,7 +170,6 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField(ref _sumTime, value);
-
                 SumHours = value / 60;
                 SumMinutes = value % 60;
             }
@@ -134,6 +182,7 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField(ref _sumHours, value);
+                NotifyPropertyChanged("SumHours");
             }
         }
 
@@ -144,6 +193,8 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField(ref _sumMinutes, value);
+                NotifyPropertyChanged("SumMinutes");
+                NotifyPropertyChanged("IsTimePlanEqual");
             }
         }
 
@@ -171,8 +222,6 @@ namespace Staff_time.ViewModel
 
         private void CollapseAllWorks(object obj)
         {
-            base.CancelEditing();
-
             WorksVM.CollapseAll();
         }
 
@@ -187,8 +236,6 @@ namespace Staff_time.ViewModel
 
         private void ExpandAllWorks(object obj)
         {
-            base.CancelEditing();
-
             WorksVM.ExpandAll();
         }
         #endregion //commands

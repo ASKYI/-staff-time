@@ -27,15 +27,16 @@ namespace Staff_time.ViewModel
             }
         }
 
-        //protected Work _originWork;
-        //public Work OriginWork
-        //{
-        //    get { return _originWork; }
-        //    set
-        //    {
-        //        SetField(ref _originWork, value);
-        //    }
-        //}
+        protected Work _originWork;
+        public Work OriginWork
+        {
+            get { return _originWork; }
+            set
+            {
+                SetField(ref _originWork, value);
+            }
+        }
+
 
         private Boolean _isExpanded;
         public Boolean IsExpanded
@@ -43,8 +44,8 @@ namespace Staff_time.ViewModel
             get { return _isExpanded; }
             set
             {
-                if (_isExpanded)
-                    CancelEditing();
+                //if (_isExpanded)
+                //    CancelEditing();
                 SetField(ref _isExpanded, value);
                 OnPropertyChanged("IsExpanded");
             }
@@ -59,25 +60,25 @@ namespace Staff_time.ViewModel
         }
         #endregion //OnNotify
 
-        protected Boolean _isEditing;
+        protected Boolean _IsEditing;
         public Boolean IsEdititig
         {
-            get { return _isEditing; }
+            get { return _IsEditing; }
             set
             {
-                SetField(ref _isEditing, value);
+                SetField(ref _IsEditing, value);
 
             }
         }
         
 
-        public Boolean IsEnabled // todo модный нынче способ "expression bodied properties", выгдядит так: public Boolean IsEnabled => !_isEditing;
+        public Boolean IsEnabled // todo модный нынче способ "expression bodied properties", выгдядит так: public Boolean IsEnabled => !_IsEditing;
         {
-            get { return !_isEditing; }
+            get { return !_IsEditing; }
         }
 
         abstract public void UpdateWork();
         abstract public void DeleteWork();
-        //abstract public void CancelWork();
+        abstract public void CancelWork();
     }
 }

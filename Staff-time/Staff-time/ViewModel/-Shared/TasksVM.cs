@@ -292,6 +292,7 @@ namespace Staff_time.ViewModel
             if (parentNode != null)         // todo можно так parentNode?.TreeNodes?.Remove(delNode);
                 parentNode.TreeNodes.Remove(delNode);
             DictionaryFull.Remove(taskID);
+            DeleteFaveWithChildren(taskID);
             return true;
         }
 

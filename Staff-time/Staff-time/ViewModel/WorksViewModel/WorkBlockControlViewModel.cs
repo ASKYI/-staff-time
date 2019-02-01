@@ -12,12 +12,13 @@ using GalaSoft.MvvmLight;
 using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
 using GalaSoft.MvvmLight.Messaging;
+using System.Windows;
 
 namespace Staff_time.ViewModel
 {
     public class WorkBlockControlViewModel : MainViewModel
     {
-        public WorkBlockControlViewModel(int workID)
+        public WorkBlockControlViewModel(int workID, bool IsEditingFlag = false)
         {
             WorkVM = WorksVM.Dictionary[workID];
             WorkInBlockID = new WorkIDDependency(workID);
@@ -25,23 +26,23 @@ namespace Staff_time.ViewModel
 
             SelectedWorkTypeIndex = WorkVM.Work.WorkTypeID;
             _generate_TaskTypesCb();
-            _generate_TimesRanges();
 
-            _editCommand = new RelayCommand(Edit, CanEdit);
+            _applyCommand = new RelayCommand(ApplyChanges, CanEdit);
+            _cancelCommand = new RelayCommand(CancelChanges, CanEdit);
             _deleteCommand = new RelayCommand(Delete, CanDelete);
             _changeTaskCommand = new RelayCommand(ChangeTask, CanChangeTask);
             _duplicateWorkCommand = new RelayCommand(DuplicateWork, (_) => true);
-            MessengerInstance.Register<string>(this, _cancelEditing);
-            //MessengerInstance.Register<string>(this, ApplyAction); //todo сделать так 
+            MessengerInstance.Register<string>(this, ApplyAction);
 
-            if (IsEdititig)
+            IsEditing = IsEditingFlag;
+            if (IsEditing)
                 IsExpanded = true;
             else
                 IsExpanded = false;
             MouseLeft = false;
 
-            _endHours = Work.StartTime.Hour + (Work.StartTime.Minute + Work.Minutes) / 60;
-            _endMinutes = (Work.StartTime.Minute + Work.Minutes) % 60;
+            _hours = Minutes / 60;
+            _minutesShort = Minutes % 60;
 
             _endTime = Work.StartTime.AddMinutes(Work.Minutes);
             WorkVM.PropertyChanged += new PropertyChangedEventHandler(SetExpended);
@@ -75,8 +76,8 @@ namespace Staff_time.ViewModel
             get { return _isExpanded; }
             set
             {
-                if (_isExpanded)
-                    CancelEditing();
+                if (IsEditing && value == false)
+                    return;
                 SetField(ref _isExpanded, value);
             }
         }
@@ -165,26 +166,6 @@ namespace Staff_time.ViewModel
 
         #region Time
 
-        private ObservableCollection<string> _timeStartRanges;
-        public ObservableCollection<string> TimeStartRanges
-        {
-            get { return _timeStartRanges; }
-            set
-            {
-                SetField(ref _timeStartRanges, value);
-            }
-        }
-
-        private ObservableCollection<string> _timeEndRanges;
-        public ObservableCollection<string> TimeEndRanges
-        {
-            get { return _timeEndRanges; }
-            set
-            {
-                SetField(ref _timeEndRanges, value);
-            }
-        }
-
         public void Minutes_Changed(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             //Оно не всегда хорошо работает
@@ -217,15 +198,15 @@ namespace Staff_time.ViewModel
             get { return Work.StartTime; }
             set
             {
-                DateTime DTvalue = new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, 0);
+                DateTime DTvalue = new DateTime(1899, 12, 30, value.Hour, value.Minute, 0);
                 Work.StartTime = DTvalue;
                 Work.Minutes = (EndTime - StartTime).Hours * 60 + (EndTime - StartTime).Minutes;
-
-                StartMinutes = StartTime.Minute;
-                StartHours = StartTime.Hour;
+                _hours = Work.Minutes / 60;
+                _minutesShort = Work.Minutes % 60;
 
                 RaisePropertyChanged("StartTime"); // todo посмотреть функцию nameof
-                RaisePropertyChanged("Minutes");
+                RaisePropertyChanged("MinutesShort");
+                RaisePropertyChanged("Hours");
             }
         }
         private DateTime _endTime;
@@ -237,85 +218,35 @@ namespace Staff_time.ViewModel
                 DateTime DTvalue = new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, 0);
                 _endTime = DTvalue;
                 Work.Minutes = (EndTime - StartTime).Hours * 60 + (EndTime - StartTime).Minutes;
-
-
-                EndMinutes = EndTime.Minute;
-                EndHours = EndTime.Hour;
-
+                _hours = Work.Minutes / 60;
+                _minutesShort = Work.Minutes % 60;
 
                 RaisePropertyChanged("EndTime");
-                RaisePropertyChanged("Minutes");
+                RaisePropertyChanged("MinutesShort");
+                RaisePropertyChanged("Hours");
             }
         }
 
-        public int StartHours
+        private int _hours;
+        public int Hours
         {
-            get { return Work.StartTime.Hour; }
+            get { return _hours; }
             set
             {
-                DateTime old = Work.StartTime;
-                Work.Minutes -= (value - old.Hour) * 60;
-                RaisePropertyChanged("Minutes");
-
-                Work.StartTime = new DateTime(old.Year, old.Month, old.Day,
-                    value, old.Minute, 0);
-
-                RaisePropertyChanged("StartHours");
-                //RaisePropertyChanged("StartMinutes");
-                //RaisePropertyChanged("EndHours");
-                //RaisePropertyChanged("EndMinutes");
-            }
-        }
-        public int StartMinutes
-        {
-            get { return Work.StartTime.Minute; }
-            set
-            {
-                DateTime old = Work.StartTime;
-                Work.Minutes += old.Minute - value;
-                RaisePropertyChanged("Minutes");
-
-                Work.StartTime = new DateTime(old.Year, old.Month, old.Day,
-                    old.Hour, value, 0);
-
-                //RaisePropertyChanged("StartHours");
-                RaisePropertyChanged("StartMinutes");
-                //RaisePropertyChanged("EndHours");
-                //RaisePropertyChanged("EndMinutes");
+                _hours = value;
+                Minutes = _hours * 60 + MinutesShort;
             }
         }
 
-        private int _endHours;
-        public int EndHours
+        private int _minutesShort;
+
+        public int MinutesShort
         {
-            get { return _endHours; }
+            get { return _minutesShort; }
             set
             {
-                _endHours = value;
-                Work.Minutes = (value * 60 + EndMinutes) - (StartHours * 60 + StartMinutes);
-
-                RaisePropertyChanged("Minutes");
-                //RaisePropertyChanged("StartHours");
-                //RaisePropertyChanged("StartMinutes");
-                RaisePropertyChanged("EndHours");
-                //RaisePropertyChanged("EndMinutes");
-            }
-        }
-
-        private int _endMinutes;
-        public int EndMinutes
-        {
-            get { return _endMinutes; }
-            set
-            {
-                _endMinutes = value;
-                Work.Minutes = (EndHours * 60 + value) - (StartHours * 60 + StartMinutes);
-
-                RaisePropertyChanged("Minutes");
-                //RaisePropertyChanged("StartHours");
-                //RaisePropertyChanged("StartMinutes");
-                //RaisePropertyChanged("EndHours");
-                RaisePropertyChanged("EndMinutes");
+                _minutesShort = value;
+                Minutes = Hours * 60 + _minutesShort;
             }
         }
 
@@ -324,23 +255,14 @@ namespace Staff_time.ViewModel
             get { return Work.Minutes; }
             set
             {
-               Work.Minutes = value;
+                Work.Minutes = value;
+                _endTime = Work.StartTime.AddMinutes(Work.Minutes);
 
-
-                _endMinutes = Work.StartTime.Minute + Work.Minutes % 60;
-                _endHours = Work.StartTime.Hour + Work.Minutes / 60 + _endMinutes / 60;
-                _endMinutes = _endMinutes % 60;
-
-                EndTime = Work.StartTime.AddMinutes(Work.Minutes);
-
-                RaisePropertyChanged("Minutes");
                 RaisePropertyChanged("StartTime");
                 RaisePropertyChanged("EndTime");
 
-                RaisePropertyChanged("StartHours");
-                RaisePropertyChanged("StartMinutes");
-                RaisePropertyChanged("EndHours");
-                RaisePropertyChanged("EndMinutes");
+                RaisePropertyChanged("MinutesShort");
+                RaisePropertyChanged("Hours");
             }
         }
 
@@ -355,28 +277,28 @@ namespace Staff_time.ViewModel
 
         private void DuplicateWork(object obj)
         {
-            //CancelEditing(); //todo разобраться
-            Edit(obj);
+            ApplyChanges(); //todo разобраться
             var workDuplicate = (Work)_workVM.Work.Clone();
-
+            workDuplicate.ID = 0;
+            workDuplicate.AttrValues.Clear();
             MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
                (WorkCommandEnum.Add, workDuplicate));
-
-            Edit(obj); //не было раньше
         }
 
         #endregion //time
 
         #region Edit
 
-        public Boolean IsEdititig
+        public Boolean IsEditing
         {
             get { return _workVM.IsEdititig; }
             set
             {
+                if (!MainWindow.IsEnable)
+                    return;
                 _workVM.IsEdititig = value; //Потому что нельзя передать свойство по ссылке в SetField
-                RaisePropertyChanged("IsEdititig");
-                RaisePropertyChanged("IsRed");
+                RaisePropertyChanged("IsEditing");
+                //RaisePropertyChanged("IsRed");
                 RaisePropertyChanged("IsReadOnly");
                 RaisePropertyChanged("IsEnabled");
 
@@ -384,13 +306,13 @@ namespace Staff_time.ViewModel
                 RaisePropertyChanged("Path");
             }
         }
-        public Boolean IsRed
-        {
-            get
-            {
-                return _workVM.IsEdititig;
-            }
-        }
+        //public Boolean IsRed
+        //{
+        //    get
+        //    {
+        //        return _workVM.IsEdititig;
+        //    }
+        //}
         public Boolean IsReadOnly
         {
             get
@@ -406,66 +328,59 @@ namespace Staff_time.ViewModel
             }
         }
 
-        private readonly ICommand _editCommand;
-        public ICommand EditCommand
-        {
-            get
-            {
-                return _editCommand;
-            }
-        }
-
         private bool CanEdit(object obj)
         {
             return dialog == null;
         }
-        private void Edit(object obj)
+
+        private void ApplyChanges(object obj)
         {
-            if (IsEdititig)
+            if (WorkVM.IsEdititig)
             {
+                Minutes = Hours * 60 + MinutesShort;
+                _hours = Minutes / 60;
+                _minutesShort = Minutes % 60;
                 Work.WorkTypeID = SelectedWorkTypeIndex;
                 WorkVM.UpdateWork();
-            
-                IsEdititig = false;
+                IsEditing = false;
+                MainWindow.IsEnable = true;
             }
-            else
-            {
-                base.CancelEditing();
-                IsEdititig = true;
-            }          
         }
 
-        public void _cancelEditing(string message)
+        private void CancelChanges(object obj)
         {
-            if (IsEdititig && MouseLeft)
-                Edit(this);
-            if (IsEdititig)
-                IsEdititig = false;
+            if (WorkVM.IsEdititig)
+            {
+                WorkVM.CancelWork();
+                IsEditing = false;
+                MainWindow.IsEnable = true;
+            }
         }
 
-        //public void ApplyAction(string message)
-        //{
-        //    if (message.ToLower() == "cancel")
-        //    {
-        //        if (IsEdititig && MouseLeft)
-        //            Edit(this);
-        //        //WorkVM.CancelWork();
-        //        IsEdititig = false;
-        //    }
-        //    else if (message.ToLower() == "apply")
-        //        ApplyChanges(message);
-        //}
+        private readonly ICommand _applyCommand;
+        public ICommand ApplyCommand
+        {
+            get
+            {
+                return _applyCommand;
+            }
+        }
+        private readonly ICommand _cancelCommand;
+        public ICommand CancelCommand
+        {
+            get
+            {
+                return _cancelCommand;
+            }
+        }
 
-        //public void ApplyChanges(string message)
-        //{
-        //    if (IsEdititig)
-        //    {
-        //        Work.WorkTypeID = SelectedWorkTypeIndex;
-        //        WorkVM.UpdateWork();
-        //        IsEdititig = false;
-        //    }
-        //}
-
+        public void ApplyAction(string message)
+        {
+            if (message.ToLower() == "cancel")
+                CancelChanges(null);
+            else if (message.ToLower() == "apply")
+                ApplyChanges(null);
+        }
         #endregion
 
         #region Delete
@@ -484,8 +399,8 @@ namespace Staff_time.ViewModel
         }
         private void Delete(object obj)
         {
-            Edit(obj);
             WorkVM.DeleteWork();
+            CancelChanges(obj);
         }
 
         #endregion
@@ -506,8 +421,7 @@ namespace Staff_time.ViewModel
         }
         private void ChangeTask(object obj)
         {
-            base.CancelEditing();
-
+            ApplyChanges();
             dialog = new View.WorkDialogView(new WorkDialogViewModel(_workVM));
             dialog.Show();
         }
@@ -546,30 +460,6 @@ namespace Staff_time.ViewModel
                 WorkTypesCb.Add(t);
             }
         }
-
-        private void _generate_TimesRanges()
-        {
-            TimeStartRanges = new ObservableCollection<string>();
-            TimeEndRanges = new ObservableCollection<string>();
-            string time = "";
-
-            for (int i = 7; i <= 21; ++i)
-            {
-                for (int j = 0; j <= 55; j += 5)
-                {
-                    string hours = i.ToString();
-                    string minutes = j.ToString();
-                    if (j >= 0 && j < 10)
-                        minutes = "0" + j.ToString();
-                    time = hours + ":" + minutes;
-
-                    //var dateTime = DateTime.ParseExact(time, "H:mm", null, System.Globalization.DateTimeStyles.None);
-                    TimeStartRanges.Add(time);
-                    TimeEndRanges.Add(time);
-                }
-            }
-        }
-
         #endregion
 
         private int _width = 500;
