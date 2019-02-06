@@ -10,5 +10,6 @@ namespace Staff_time.Model.Interfaces
     {
         //Возвращает список правильно созданных (верный тип) задач в правильном порядке
         List<User> Read_AllUsers();
+        string GetUserNameByID(int _userID);
     }
 }

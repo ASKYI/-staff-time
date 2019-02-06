@@ -13,11 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-//TimePicker
-//https://social.msdn.microsoft.com/Forums/vstudio/en-US/359125db-b4e9-4e52-82ea-6bc8cd736f30/wpf-timepicker-control?forum=wpf
-//https://marlongrech.wordpress.com/about/
-using AC.AvalonControlsLibrary.Controls;
-
 namespace Staff_time.View
 {
     /// <summary>

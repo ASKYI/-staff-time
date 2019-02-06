@@ -26,7 +26,7 @@ namespace Staff_time
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string version = "1.61";
+        static string version = "1.8";
         MainViewModel context;
         private static bool _isEnable;
         public static bool IsEnable
@@ -111,15 +111,6 @@ namespace Staff_time
                 this.ShowInTaskbar = false;
             else
                 this.ShowInTaskbar = true;
-        }
-
-        private void moveSplitter(object sender, EventArgs e)
-        {
-            Mouse.OverrideCursor = Cursors.Hand;
-        }
-        private void leaveSplitter(object sender, EventArgs e)
-        {
-            Mouse.OverrideCursor = Cursors.Arrow;
         }
 
         private void notifyIcon_DoubleClick(object sender, EventArgs e)

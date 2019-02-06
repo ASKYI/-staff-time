@@ -11,17 +11,25 @@ using System.Data.Entity.Migrations;
 using Staff_time.Model.Interfaces;
 using System.Windows;
 using Staff_time.Model.UserModel;
+using Staff_time.ViewModel;
 
 namespace Staff_time.Model
 {
     public partial class TaskManagmentDBEntities : DbContext,
-        ITaskWork, IWorkWork, IAttrWork, ITypesWork, IUserWork, ILevelWork, ITimeTableWork, IProcedureWork
+        ITaskWork, IWorkWork, IAttrWork, ITypesWork, IUserWork, ILevelWork, ITimeTableWork, IProcedureWork, IRequestWork
     {
         #region IUserWork
         public List<User> Read_AllUsers()
         {
             return Users.OrderBy(u => u.UserName).ToList();
         }
+
+        public string GetUserNameByID(int _userID)
+        {
+            var user = Users.FirstOrDefault(u => u.ID == _userID);
+            return user == null ? "" : user.UserName; 
+        }
+
         #endregion
 
         #region ILevelWork
@@ -30,6 +38,11 @@ namespace Staff_time.Model
             return LEVELS.Select(t => new { t.LevelName, t.LevelID })
                    .ToDictionary(t => t.LevelName, t => t.LevelID);
         }
+        public List<LEVEL> Read_AllLevelsLowerMe()
+        {
+            return LEVELS.Where(t => t.LevelID <= GlobalInfo.CurrentUser.LevelID).ToList();
+        }
+
         #endregion //ILevelWork
 
         #region ITimeTableWork
@@ -42,7 +55,11 @@ namespace Staff_time.Model
         {
             var timeTable = TimeTables.Where(t => t.Date == dt).FirstOrDefault();
             if (timeTable == null)
-                throw new ArgumentNullException("timeTable");
+            {
+                timeTable = new TimeTable();
+                timeTable.Date = dt;
+                //throw new ArgumentNullException("timeTable");
+            }
             timeTable.PlanningTime = tm;
             TimeTables.AddOrUpdate(timeTable);
             SaveChanges();
@@ -133,6 +150,18 @@ namespace Staff_time.Model
             var userFave = UserTasks.Where(ut => ut.TaskID == taskID && ut.UserID == GlobalInfo.CurrentUser.ID).ToList();
             return userFave.Count != 0;
         }
+
+        public void AddRequest(int fromUserID, int toUserID, int taskID)
+        {
+            Request _request = new Request();
+            _request.FromUserID = fromUserID;
+            _request.ToUserID = toUserID;
+            _request.TaskID = taskID;
+            _request.TransferDateTime = DateTime.Now;
+            Requests.AddOrUpdate(_request);
+            SaveChanges();
+        }
+
         public bool IsExist(string taskName, int? parentTaskID)
         {
             List<Task> tasks = new List<Task>();
@@ -153,7 +182,7 @@ namespace Staff_time.Model
             TaskFactory taskFactory = new TaskFactory();
 
             var userFaveTasksID = Read_FaveTasksID(userID);
-            var faveTasks = Tasks.Where(task => userFaveTasksID.Contains(task.ID)).ToList();
+            var faveTasks = Tasks.Where(task => userFaveTasksID.Contains(task.ID) && task.LevelID <= GlobalInfo.CurrentUser.LevelID).ToList();
             faveTasks = faveTasks.OrderBy(t => userFaveTasksID.IndexOf(t.ID)).ToList();
 
             return faveTasks.Select(task => taskFactory.CreateTask(task)).ToList();
@@ -383,5 +412,26 @@ namespace Staff_time.Model
         }
 
         #endregion //IProcedureWork
+
+
+        #region IRequestWork
+        public List<Request> Read_AllRequests()
+        {
+            return Requests.Where(r => r.ToUserID == GlobalInfo.CurrentUser.ID).OrderByDescending(r => r.TransferDateTime).ToList();
+        }
+        //public void RefreshRequests()
+        //{
+        //    Context.RefreshEntity(Request);
+        //}
+
+        public void DeleteRequests(List<int> requestsIds)
+        {
+            var requestsForDelete = Requests.Where(r => requestsIds.Contains(r.ID));
+            Requests.RemoveRange(requestsForDelete);
+            SaveChanges();
+        }
+
+        #endregion //IRequestWork
+
     }
 }

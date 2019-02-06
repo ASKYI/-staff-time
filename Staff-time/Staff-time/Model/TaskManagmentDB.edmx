@@ -54,6 +54,16 @@
           <Property Name="ValueDate" Type="date" />
           <Property Name="ValueTime" Type="time" Precision="7" />
         </EntityType>
+        <EntityType Name="Requests">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FromUserID" Type="int" Nullable="false" />
+          <Property Name="ToUserID" Type="int" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="TransferDateTime" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Tasks">
           <Key>
             <PropertyRef Name="ID" />
@@ -67,6 +77,7 @@
           <Property Name="IndexNumber" Type="int" />
           <Property Name="LevelID" Type="int" />
           <Property Name="IsMain" Type="bit" Nullable="false" />
+          <Property Name="ResponsibleID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TaskTypeProps">
           <Key>
@@ -199,6 +210,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Requests_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="ToUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tasks_Levels">
           <End Role="LEVELS" Type="Self.LEVELS" Multiplicity="0..1" />
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
@@ -232,6 +271,18 @@
             </Principal>
             <Dependent Role="Tasks">
               <PropertyRef Name="TaskTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="ResponsibleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -280,6 +331,18 @@
             </Principal>
             <Dependent Role="Users">
               <PropertyRef Name="LevelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Requests">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="FromUserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -380,6 +443,7 @@
           <EntitySet Name="LEVELS" EntityType="Self.LEVELS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Properties" EntityType="Self.Properties" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PropValues" EntityType="Self.PropValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Requests" EntityType="Self.Requests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskTypeProps" EntityType="Self.TaskTypeProps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskTypes" EntityType="Self.TaskTypes" Schema="dbo" store:Type="Tables" />
@@ -409,6 +473,14 @@
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="PropValues" EntitySet="PropValues" />
           </AssociationSet>
+          <AssociationSet Name="FK_Requests_Tasks" Association="Self.FK_Requests_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Users" Association="Self.FK_Requests_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
           <AssociationSet Name="FK_Tasks_Levels" Association="Self.FK_Tasks_Levels">
             <End Role="LEVELS" EntitySet="LEVELS" />
             <End Role="Tasks" EntitySet="Tasks" />
@@ -419,6 +491,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Tasks_TaskTypes" Association="Self.FK_Tasks_TaskTypes">
             <End Role="TaskTypes" EntitySet="TaskTypes" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Users" Association="Self.FK_Tasks_Users">
+            <End Role="Users" EntitySet="Users" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
           <AssociationSet Name="FK_Tasks_WorkTypes" Association="Self.FK_Tasks_WorkTypes">
@@ -436,6 +512,10 @@
           <AssociationSet Name="FK_Users_Levels" Association="Self.FK_Users_Levels">
             <End Role="LEVELS" EntitySet="LEVELS" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Requests" Association="Self.FK_Users_Requests">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Requests" EntitySet="Requests" />
           </AssociationSet>
           <AssociationSet Name="FK_UserTasks_Tasks" Association="Self.FK_UserTasks_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
@@ -551,7 +631,10 @@
           <NavigationProperty Name="Works" Relationship="TaskManagmentDBModel.FK_Works_Users" FromRole="User" ToRole="Work" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="LEVEL" Relationship="TaskManagmentDBModel.FK_Users_Levels" FromRole="User" ToRole="LEVEL" />
-        </EntityType>
+          <NavigationProperty Name="Requests" Relationship="TaskManagmentDBModel.FK_Requests_Users" FromRole="User" ToRole="Request" />
+          <NavigationProperty Name="Requests1" Relationship="TaskManagmentDBModel.FK_Users_Requests" FromRole="User" ToRole="Request" />
+          <NavigationProperty Name="Tasks" Relationship="TaskManagmentDBModel.FK_Tasks_Users" FromRole="User" ToRole="Task" />
+          </EntityType>
         <EntityType Name="UserTask">
           <Key>
             <PropertyRef Name="ID" />
@@ -802,9 +885,26 @@
           </AssociationSet>
           <EntitySet Name="TimeTables" EntityType="TaskManagmentDBModel.TimeTable" />
           <FunctionImport Name="RepareUserTree">
-            <Parameter Name="taskId" Mode="In" Type="Int32" />
+          <Parameter Name="taskId" Mode="In" Type="Int32" />
           </FunctionImport>
-        </EntityContainer>
+          <EntitySet Name="Requests" EntityType="TaskManagmentDBModel.Request" />
+          <AssociationSet Name="FK_Requests_Tasks" Association="TaskManagmentDBModel.FK_Requests_Tasks">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="Request" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Users" Association="TaskManagmentDBModel.FK_Requests_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Request" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Requests" Association="TaskManagmentDBModel.FK_Users_Requests">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Request" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Users" Association="TaskManagmentDBModel.FK_Tasks_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          </EntityContainer>
         <Association Name="FK_Works_Users">
           <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="0..1" />
           <End Type="TaskManagmentDBModel.Work" Role="Work" Multiplicity="*" />
@@ -873,6 +973,9 @@
           <NavigationProperty Name="UserTasks" Relationship="TaskManagmentDBModel.FK_UserTasks_Tasks" FromRole="Task" ToRole="UserTask" />
           <NavigationProperty Name="Works" Relationship="TaskManagmentDBModel.FK_Works_Tasks" FromRole="Task" ToRole="Work" />
           <Property Name="IsMain" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Requests" Relationship="TaskManagmentDBModel.FK_Requests_Tasks" FromRole="Task" ToRole="Request" />
+          <Property Name="ResponsibleID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="TaskManagmentDBModel.FK_Tasks_Users" FromRole="Task" ToRole="User" />
         </EntityType>
         <Association Name="FK_Tasks_Levels">
           <End Type="TaskManagmentDBModel.LEVEL" Role="LEVEL" Multiplicity="0..1" />
@@ -969,7 +1072,72 @@
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="PlanningTime" Type="Double" />
         </EntityType>
-      </Schema>
+        <EntityType Name="Request">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FromUserID" Type="Int32" Nullable="false" />
+          <Property Name="ToUserID" Type="Int32" Nullable="false" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="TransferDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Task" Relationship="TaskManagmentDBModel.FK_Requests_Tasks" FromRole="Request" ToRole="Task" />
+          <NavigationProperty Name="User" Relationship="TaskManagmentDBModel.FK_Requests_Users" FromRole="Request" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="TaskManagmentDBModel.FK_Users_Requests" FromRole="Request" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Requests_Tasks">
+          <End Type="TaskManagmentDBModel.Task" Role="Task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TaskManagmentDBModel.Request" Role="Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Users">
+          <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TaskManagmentDBModel.Request" Role="Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="ToUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Requests">
+          <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="TaskManagmentDBModel.Request" Role="Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="FromUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Users">
+          <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="TaskManagmentDBModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="ResponsibleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1103,6 +1271,7 @@
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="TaskManagmentDBModel.Task">
               <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="ResponsibleID" ColumnName="ResponsibleID" />
                 <ScalarProperty Name="IsMain" ColumnName="IsMain" />
                 <ScalarProperty Name="LevelID" ColumnName="LevelID" />
                 <ScalarProperty Name="IndexNumber" ColumnName="IndexNumber" />
@@ -1124,6 +1293,17 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="RepareUserTree" FunctionName="Хранилище TaskManagmentDBModel.RepareUserTree" />
+          <EntitySetMapping Name="Requests">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.Request">
+              <MappingFragment StoreEntitySet="Requests">
+                <ScalarProperty Name="TransferDateTime" ColumnName="TransferDateTime" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="ToUserID" ColumnName="ToUserID" />
+                <ScalarProperty Name="FromUserID" ColumnName="FromUserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

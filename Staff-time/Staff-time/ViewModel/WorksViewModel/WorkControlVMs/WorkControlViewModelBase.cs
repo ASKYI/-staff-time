@@ -52,11 +52,11 @@ namespace Staff_time.ViewModel
         }
 
         #region OnNotify (уведомить, кто хочет, что изменилось свойство)
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChangedWorkControlVMBase;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            if (PropertyChangedWorkControlVMBase != null)
+                PropertyChangedWorkControlVMBase(this, new PropertyChangedEventArgs(prop));
         }
         #endregion //OnNotify
 

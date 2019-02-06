@@ -10,5 +10,6 @@ namespace Staff_time.Model.Interfaces
     {
         //Возвращает список правильно созданных (верный тип) задач в правильном порядке
         Dictionary<string, int> Read_AllLevels();
+        List<LEVEL> Read_AllLevelsLowerMe();
     }
 }

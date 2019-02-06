@@ -19,10 +19,13 @@ namespace Staff_time.ViewModel
     {
         public TasksAllViewModel(ObservableCollection<TreeNode> faveRoots, TreeNode selectedTaskNode)
         {
-            Mouse.OverrideCursor = Cursors.Wait;
+            //Mouse.OverrideCursor = Cursors.Wait;
+            Mouse.SetCursor(Cursors.Wait);
             //TasksVM.InitFullTree();
             _generate_Full_Tree(selectedTaskNode);
-            Mouse.OverrideCursor = Cursors.Arrow;
+            //Mouse.OverrideCursor = Cursors.Arrow;
+            Mouse.SetCursor(Cursors.Arrow);
+
 
             //_collapseAllCommand = new RelayCommand(CollapseAll, CanCollapseAll);
             //_saveExpandCommand = new RelayCommand(SaveCollapse, (_) => true);
@@ -37,7 +40,8 @@ namespace Staff_time.ViewModel
 
             //Права на удаление и редактирование
             var levels = Context.levelWork.Read_AllLevels();
-            HaveRight = GlobalInfo.CurrentUser.LevelID >= levels["Editor"];
+
+            HaveRight = false;
 
             FaveTreeRoots = faveRoots;
 
@@ -60,8 +64,11 @@ namespace Staff_time.ViewModel
             {
                 _selectedTaskNode = value;
                 if (_selectedTaskNode != null)
+                {
                     FavouritingTask = _selectedTaskNode.Task;
-                //SetField<TreeNode>(ref _selectedTaskNode, value); // todo вроде c# по параметру сам должен распознать тип Generic
+                    HaveRight = (GlobalInfo.CurrentUser.ID == SelectedTaskNode.Task.ResponsibleID) || (GlobalInfo.CurrentUser.LEVEL.LevelName.ToLower() == "editor");
+                    //SetField<TreeNode>(ref _selectedTaskNode, value); // todo вроде c# по параметру сам должен распознать тип Generic
+                }
             }
         }
 
@@ -225,7 +232,19 @@ namespace Staff_time.ViewModel
 
         #region Delete Task
 
-        public bool HaveRight { get; set; }
+        private bool _haveRight;
+
+        public bool HaveRight
+        {
+            get
+            {
+                return _haveRight;
+            }
+            set
+            {
+                SetField(ref _haveRight, value);
+            }
+        }
 
         private readonly ICommand _deleteTaskCommand;
         public ICommand DeleteTaskCommand
@@ -459,7 +478,9 @@ namespace Staff_time.ViewModel
                 MessageBox.Show("Данная задача уже добавлена в избранное");
                 return;
             }
-            Mouse.OverrideCursor = Cursors.Wait;
+            //Mouse.OverrideCursor = Cursors.Wait;
+            Mouse.SetCursor(Cursors.Wait);
+
 
             // Добавим всех родителей, если их нет в избранном
             List<TreeNode> toAddInFave = new List<TreeNode>();
@@ -488,7 +509,8 @@ namespace Staff_time.ViewModel
                     nodeToFave.Enqueue(childNode);
                 }
             }
-            Mouse.OverrideCursor = Cursors.Arrow;
+            //Mouse.OverrideCursor = Cursors.Arrow;
+            Mouse.SetCursor(Cursors.Arrow);
             MessageBox.Show("Задача: " + _favouritingTask.TaskName + " добавлена в избранное", "Добавление в избранное", MessageBoxButton.OK, MessageBoxImage.Information);
             MessengerInstance.Unregister<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
 

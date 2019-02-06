@@ -156,6 +156,11 @@ namespace Staff_time.ViewModel
         }
 
 
+        public static void TransferTask(int fromUserID, int toUserID, int taskID)
+        {
+            Context.requestWork.AddRequest(fromUserID, toUserID, taskID);
+        }
+
         public static void AddFave(Task task)
         {
             //DB
@@ -241,8 +246,34 @@ namespace Staff_time.ViewModel
             newNode.FullPath = generate_PathForTask(task.ID);
         }
 
+        public static void SetResponsibleForTaskChildren(int _parentTaskID, int _responsibleID)
+        {
+            Mouse.SetCursor(Cursors.Wait);
+
+            var parentNode = DictionaryFull[_parentTaskID];
+
+            // Обновим своё поддерево
+            Queue<TreeNode> nodeToFave = new Queue<TreeNode>();
+            nodeToFave.Enqueue(parentNode);
+            while (nodeToFave.Count > 0)
+            {
+                var curNode = nodeToFave.Dequeue();
+                foreach (var childNode in curNode.TreeNodes)
+                {
+                    var task = childNode.Task;
+                    task.ResponsibleID = _responsibleID;
+                    Context.taskWork.Update_Task(task);
+
+                    nodeToFave.Enqueue(childNode);
+                }
+            }
+            Mouse.SetCursor(Cursors.Arrow);
+        }
+
         public static void DeleteFaveWithChildren(int taskID)
         {
+            if (!Dictionary.ContainsKey(taskID))
+                return;
             //DB
             Context.taskWork.Delete_TaskFromFave(taskID);
 
@@ -293,6 +324,7 @@ namespace Staff_time.ViewModel
                 parentNode.TreeNodes.Remove(delNode);
             DictionaryFull.Remove(taskID);
             DeleteFaveWithChildren(taskID);
+
             return true;
         }
 

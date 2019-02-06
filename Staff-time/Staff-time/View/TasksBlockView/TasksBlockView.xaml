@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Staff_time.View"
-             
              xmlns:vm="clr-namespace:Staff_time.ViewModel"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              
@@ -44,112 +43,130 @@
             </Border>
         </HierarchicalDataTemplate>
 
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="25" MinHeight="25"></RowDefinition>
+            <RowDefinition Height="200" MinHeight="100"></RowDefinition>
+            <RowDefinition Height="25" MinHeight="25"></RowDefinition>
         </Grid.RowDefinitions>
-        
+
         <!--Панелька-->
         <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right" >
-            <Button Margin ="2,0,0,0" Width="50" ToolTip="Добавить работу" Command="{Binding AddWorkCommand}" Background="White"  ToolTipService.ShowOnDisabled="True">
+            <Button Margin ="2,0,0,0" Width="50" ToolTip="Добавить работу" Command="{Binding AddWorkCommand}" Style="{StaticResource ButtonStyle}" Background="White"  ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/add.ico"></Image>
             </Button>
-            <Button Margin ="2,0,0,0" ToolTip="Открыть всё дерево" Command="{Binding ShowFullTreeCommand}" Background="White"  ToolTipService.ShowOnDisabled="True">
+            <Button Margin ="2,0,0,0" ToolTip="Открыть всё дерево" Command="{Binding ShowFullTreeCommand}" Background="White"  Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/tree.ico"></Image>
             </Button>
-            <Button  Margin ="2,0,0,0" Command="{Binding DeleteTaskCommand}" ToolTip="Удалить из избранного" Background="White" ToolTipService.ShowOnDisabled="True">
+            <Button  Margin ="2,0,0,0" Command="{Binding DeleteTaskCommand}" ToolTip="Удалить из избранного" Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/delete.ico"></Image>
             </Button>
-            <Button Margin ="2,0,0,0"  Command="{Binding MoveUpCommand}"  ToolTip="Переместить вверх" Background="White" ToolTipService.ShowOnDisabled="True">
+            <Button Margin ="2,0,0,0"  Command="{Binding MoveUpCommand}"  ToolTip="Переместить вверх" Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/up.ico"></Image>
             </Button>
-            <Button Margin ="2,0,0,0"  Command="{Binding MoveDownCommand}" ToolTip="Переместить вниз" Background="White" ToolTipService.ShowOnDisabled="True">
+            <Button Margin ="2,0,0,0"  Command="{Binding MoveDownCommand}" ToolTip="Переместить вниз" Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/down.ico"></Image>
             </Button>
-
-            <!--<Button Margin ="2,0,0,0" ToolTip="Добавить подзадачу" Command="{Binding AddChildTaskCommand}" Background="White" ToolTipService.ShowOnDisabled="True">
-                <Image Source="../../Resources/add_subitem.ico"></Image>
-            </Button>-->
-            <!--<Button Margin ="2,0,0,0" Command="{Binding EditTaskCommand}" ToolTip="Редактировать задачу" Background="White"  ToolTipService.ShowOnDisabled="True">
-                <Image Source="../../Resources/edit.ico"></Image>
-            </Button>
-            <Button  Margin ="2,0,0,0" Command="{Binding DeleteTaskCommand}" ToolTip="Удалить задачу" Background="White" ToolTipService.ShowOnDisabled="True">
-                <Image Source="../../Resources/delete.ico"></Image>
-            </Button>-->
-          
-            <!--<Button Margin ="2,0,0,0"  Command="{Binding MoveUpCommand}" ToolTip="Переместить вверх" Background="White" ToolTipService.ShowOnDisabled="True">
-                <Image Source="../../Resources/up.ico"></Image>
-            </Button>
-            <Button Margin ="2,0,0,0"  Command="{Binding MoveDownCommand}" ToolTip="Переместить вниз" Background="White" ToolTipService.ShowOnDisabled="True">
-                <Image Source="../../Resources/down.ico"></Image>
-            </Button>-->
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" >
-            <Button  Margin ="2,0,0,0" Command="{Binding SaveExpandCommand}" HorizontalAlignment="Right" ToolTip="Сохранить развертку дерева" Background="White" ToolTipService.ShowOnDisabled="True">
+            <Button  Margin ="2,0,0,0" Command="{Binding SaveExpandCommand}" HorizontalAlignment="Right" Style="{StaticResource ButtonStyle}" ToolTip="Сохранить развертку дерева" Background="White" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/save.ico"></Image>
             </Button>
-            <Button Margin ="2,0,0,0" Command="{Binding CollapseAllCommand}" ToolTip="Свернуть всё" Background="White" ToolTipService.ShowOnDisabled="True">
+            <Button Margin ="2,0,0,0" Command="{Binding CollapseAllCommand}" ToolTip="Свернуть всё" Style="{StaticResource ButtonStyle}" Background="White" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/collapse.ico"></Image>
             </Button>
-            <Button Margin ="2,0,0,0" Command="{Binding ExpandAllCommand}" ToolTip="Развернуть всё" Background="White" ToolTipService.ShowOnDisabled="True">
+            <Button Margin ="2,0,0,0" Command="{Binding ExpandAllCommand}" ToolTip="Развернуть всё" Style="{StaticResource ButtonStyle}" Background="White" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/expand.ico"></Image>
             </Button>
-                
-            <!--<Button Margin ="2,0,0,0"  Command="{Binding MoveUpCommand}" ToolTip="Переместить вверх" Background="White" ToolTipService.ShowOnDisabled="True">
-                <Image Source="../../Resources/up.ico"></Image>
-            </Button>
-            <Button Margin ="2,0,0,0"  Command="{Binding MoveDownCommand}" ToolTip="Переместить вниз" Background="White" ToolTipService.ShowOnDisabled="True">
-                <Image Source="../../Resources/down.ico"></Image>
-            </Button>-->
-
         </StackPanel>
 
         <!--Дерево-->
         <Border  Grid.Row="1" Margin="3" BorderBrush="Gray" BorderThickness="2">
-            <local:ExtendedTreeView x:Name="Tree" SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" Grid.Row="0" 
+            <local:ExtendedTreeView x:Name="Tree" SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}"  Grid.Row="0" 
                                     ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
                 <local:ExtendedTreeView.Resources>
-                    
+
                     <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"></Setter>
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"></Setter>
 
                         <EventSetter Event="PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
+                        <!--<EventSetter Event="MouseDoubleClick" Handler="TreeViewItem_doubleclick"/>-->
                     </Style>
-                    
+
                 </local:ExtendedTreeView.Resources>
             </local:ExtendedTreeView>
         </Border>
 
-        <!--Управление-->
-        <!--<Border Grid.Row="2" Margin="3"  BorderBrush="Gray" BorderThickness="2">
-            <StackPanel Grid.Row="2" Margin="3" Orientation="Horizontal" Height="25" VerticalAlignment="Top">
-               
+        <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" Background="Gray"/>
+        <!--Requests-->
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <TextBlock  Margin="3" Text="Мои заявки" FontStyle="Italic" FontWeight="Bold" FontSize="16" ></TextBlock>
+            <!--<Button  Height="25" Width="25" Margin="5,0" Command="{Binding RefreshRequestCommand}" ToolTip="Принять заявку" Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/refresh.ico"></Image>
+            </Button>-->
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="4">
+            <Grid Grid.Row="4" Margin="3"  HorizontalAlignment="Stretch">
+                <ListView SelectionChanged="ListView_SelectionChanged" Name="lvRequests" ItemsSource="{Binding RequestsList, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn
+                              DisplayMemberBinding="{Binding FromUser }">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="FromUser" Click="ColumnHeader_Click">От кого</GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn
+                              DisplayMemberBinding="{Binding TaskName}" >
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="TaskName" Click="ColumnHeader_Click">Наименование задачи</GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn
+                              DisplayMemberBinding="{Binding DateTransfer,StringFormat='dd/MM/yy HH:mm'}">
+                                <GridViewColumn.Header>
+                                    <GridViewColumnHeader Tag="DateTransfer" Click="ColumnHeader_Click">Дата</GridViewColumnHeader>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="ToolTip">
+                                <Setter.Value>
+                                    <UniformGrid Columns="1">
+                                        <TextBlock Text="{Binding FullPathTask}"/>
+                                    </UniformGrid>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </Grid>
 
-                --><!--<StackPanel Orientation="Horizontal">
-                    <Button FontSize="10" Content="Добавить задачу рядом" Command="{Binding AddNearTaskCommand}" Background="White"></Button>
-                    <Button FontSize="10" Content="Добавить подзадачу" Command="{Binding AddChildTaskCommand}" Background="White"></Button>
-                </StackPanel>-->
-
-                <!--<StackPanel Orientation="Horizontal">
-                    <Button FontSize="10" Command="{Binding EditTaskCommand}" Content="Редактировать задачу" Background="White"></Button>
-                    <Button FontSize="10" Command="{Binding DeleteTaskCommand}" Content="Удалить задачу" Background="White"></Button>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <Button FontSize="10" Command="{Binding CollapseAllCommand}" Content="Свернуть всё" Background="White"></Button>
-                    <Button FontSize="10" Command="{Binding ExpandAllCommand}" Content="Развернуть всё" Background="White"></Button>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <Button FontSize="10" Command="{Binding MoveUpCommand}" Content="Переместить вверх" Background="White"></Button>
-                    <Button FontSize="10" Command="{Binding MoveDownCommand}" Content="Переместить вниз" Background="White"></Button>
-                </StackPanel>--><!--
-            </StackPanel>
-        </Border>-->
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="5" HorizontalAlignment="Right">
+            <Button  Height="25" Width="25" VerticalAlignment="Bottom" Command="{Binding ApplyRequestCommand}" ToolTip="Принять заявку" Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/add.ico"></Image>
+            </Button>
+            <Button  Margin ="5,0,0,0" Height="25" Width="25"  VerticalAlignment="Bottom" Command="{Binding DeleteRequestCommand}" ToolTip="Отклонить заявку" Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/delete.ico"></Image>
+            </Button>
+        </StackPanel>
     </Grid>
 
 </UserControl>

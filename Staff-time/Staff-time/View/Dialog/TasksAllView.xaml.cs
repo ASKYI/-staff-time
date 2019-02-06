@@ -58,7 +58,8 @@ namespace Staff_time.View
 
         private void AllTreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            context.ChangeSelection(((TreeViewItem)sender).DataContext as ViewModel.TreeNode);
+            var curNode = ((TreeViewItem)sender).DataContext as ViewModel.TreeNode;
+            context.ChangeSelection(curNode);
 
             ContextMenu menu = new ContextMenu();
             MenuItem item = new MenuItem();
@@ -72,14 +73,16 @@ namespace Staff_time.View
             item.Command = context.AddChildTaskCommand;
             menu.Items.Add(item);
 
-            var levels = Context.levelWork.Read_AllLevels();
-            if (GlobalInfo.CurrentUser.LevelID >= levels["Editor"])
+            if ((GlobalInfo.CurrentUser.ID == curNode.Task.ResponsibleID) || GlobalInfo.CurrentUser.LEVEL.LevelName.ToLower() == "editor")
             {
                 item = new MenuItem();
                 item.Header = "Редактировать задачу";
                 item.Command = context.EditTaskCommand;
                 menu.Items.Add(item);
+            }
 
+            if (GlobalInfo.CurrentUser.LEVEL.LevelName.ToLower() == "editor")
+            {
                 item = new MenuItem();
                 item.Header = "Удалить задачу";
                 item.Command = context.DeleteTaskCommand;

@@ -25,6 +25,7 @@ namespace Staff_time.ViewModel
         public static ILevelWork levelWork;
         public static ITimeTableWork timeTableWork;
         public static IProcedureWork procedureWork;
+        public static IRequestWork requestWork;
 
 
         private static bool _init_tracker = false;
@@ -43,18 +44,12 @@ namespace Staff_time.ViewModel
             levelWork = _context;
             timeTableWork = _context;
             procedureWork = _context;
+            requestWork = _context;
         }
 
-        //public static User TestUser;
-        //private static bool _init_testUser_tracker = false;
-        //public static User GetTestUser()
-        //{
-        //    if (!_init_testUser_tracker)
-        //    {
-        //        TestUser = _context.Users.Where(u => u.ID == 1).FirstOrDefault();
-        //        _init_testUser_tracker = true;
-        //    }
-        //    return TestUser;
-        //}
+        public static void RefreshEntity(object obj)
+        {
+            _context.Entry(obj);
+        }
     }
 }

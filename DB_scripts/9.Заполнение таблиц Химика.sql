@@ -55,6 +55,7 @@ insert into InvFields(num_inv, [name], field, type) values ('1', 'ID родительско
 insert into InvFields(num_inv, [name], field, type) values ('1', 'ID типа работы', 'WorkTypeID', '0')
 insert into InvFields(num_inv, [name], field, type) values ('1', 'ID уровня задачи', 'LevelID', '0')
 insert into InvFields(num_inv, [name], field, type) values ('1', 'Главная задача', 'IsMain', '0')
+insert into InvFields(num_inv, [name], field, type) values ('1', 'ID ответственного', 'ResponsibleID', '0')
 
 insert into InvFields(num_inv, [name], field, type) values ('2', 'ID типа задачи', 'ID', '0')
 insert into InvFields(num_inv, [name], field, type) values ('2', 'Наименование типа задачи', 'TypeName', '1')
@@ -137,6 +138,7 @@ insert into DOPLINKS (tbl1, fld1, tbl2, fld2) values('WorkTypes', 'ID', 'Tasks',
 insert into DOPLINKS (tbl1, fld1, tbl2, fld2) values('TaskTypes', 'ID', 'TaskTypeProps', 'TaskTypeID')
 insert into DOPLINKS (tbl1, fld1, tbl2, fld2) values('Tasks', 'ID', 'UserTasks', 'TaskID')
 insert into DOPLINKS (tbl1, fld1, tbl2, fld2) values('Tasks', 'ID', 'Works', 'TaskID')
+insert into DOPLINKS (tbl1, fld1, tbl2, fld2) values('Users', 'ID', 'Tasks', 'ResponsibleID')
 insert into DOPLINKS (tbl1, fld1, tbl2, fld2) values('WorkTypes', 'ID', 'Works', 'WorkTypeID')
 
 insert into DOPLINKS (tbl1, fld1, tbl2, fld2) values('Attributes', 'ID', 'WorkTypeAttrs', 'AttrID')

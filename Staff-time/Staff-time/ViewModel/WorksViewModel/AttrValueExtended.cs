@@ -18,9 +18,9 @@ namespace Staff_time.ViewModel
 {
     public class AttrValueExtended : ViewModelBase, INotifyPropertyChanged
     {
-        public AttrValueExtended (Boolean IsEditing, AttrValue value)
+        public AttrValueExtended (Boolean _IsEditing, AttrValue value)
         {
-            IsEditing = IsEditing;
+            IsEditing = _IsEditing;
              AttrValue = value;
         }
 

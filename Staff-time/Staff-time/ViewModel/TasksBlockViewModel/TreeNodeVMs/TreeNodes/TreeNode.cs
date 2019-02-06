@@ -52,7 +52,21 @@ namespace Staff_time.ViewModel
         }
         
         public List<string> FullPath { get; set; }
+        public string FullPathAsString
+        {
+            get
+            {
+                StringBuilder stringPath = new StringBuilder();
 
+                for (int i = FullPath.Count - 1; i >= 0; --i) // todo есть замечательный оператор string.Join советую к нему присмотреться
+                {
+                    stringPath.Append(FullPath[i]);
+                    if (i != 0)
+                        stringPath.Append("<-");
+                }
+                return stringPath.ToString();
+            }
+        }
         #region Nodes
 
         public TreeNode ParentNode { get; set; }

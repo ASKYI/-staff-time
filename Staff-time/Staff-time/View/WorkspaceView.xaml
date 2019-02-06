@@ -47,7 +47,7 @@
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="0" Orientation="Horizontal" Background="WhiteSmoke">
             <!--<DatePicker IsDropDownOpen="False" SelectedDate="{Binding SelectedDate_Picker}"></DatePicker>-->
 
-            <DatePicker Name="MyDatePicker" IsEnabled="{Binding IsMainWindowEnabled, UpdateSourceTrigger=PropertyChanged}" IsDropDownOpen="False" SelectedDate="{Binding SelectedDate_Picker}">
+            <DatePicker Name="MyDatePicker" Cursor="Hand" IsEnabled="{Binding IsMainWindowEnabled, UpdateSourceTrigger=PropertyChanged}" IsDropDownOpen="False" SelectedDate="{Binding SelectedDate_Picker}">
                 <DatePicker.CommandBindings>
                     <CommandBinding Command="local:MyCommands.SelectToday" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed"/>
                 </DatePicker.CommandBindings>
@@ -80,14 +80,14 @@
                 <TextBox Name="PlanTimeTbox" KeyDown="PlanTimeKeyDown" MinWidth="22" TextAlignment="Center" IsEnabled="False"  GotFocus="PlanTimeGotFocus" Text="{Binding PlanningTime, Mode=TwoWay}"></TextBox>
                 <TextBlock IsEnabled="False" Text=" часов "></TextBlock>
             </StackPanel>
-            <Button Name="EditPlanTimeBtn" Margin="0,0,5,0" Click="EditPlanTime" HorizontalAlignment="Left" ToolTip="Редактировать планируемое время" Background="White"  ToolTipService.ShowOnDisabled="True">
+            <Button Name="EditPlanTimeBtn" Margin="0,0,5,0" Click="EditPlanTime" Cursor="Hand" HorizontalAlignment="Left" ToolTip="Редактировать планируемое время" Background="White"  ToolTipService.ShowOnDisabled="True">
                 <Image Source="../Resources/edit.ico"></Image>
             </Button>
 
-            <Button Width="30" Click="PrevWeek" HorizontalAlignment="Right" Background="White">
+            <Button Width="30" Click="PrevWeek" HorizontalAlignment="Right" Cursor="Hand" Background="White" ToolTip="Перейти на прошлую неделю" IsEnabled="{Binding IsMainWindowEnabled, UpdateSourceTrigger=PropertyChanged}">
                 <Image Source="../Resources/back.ico"></Image>
             </Button>
-            <Button Margin="5,0" Width="30" Click="NextWeek" HorizontalAlignment="Right" Background="White">
+            <Button Margin="5,0" Width="30" Click="NextWeek" HorizontalAlignment="Right" Cursor="Hand" Background="White" ToolTip="Перейти на следующую неделю" IsEnabled="{Binding IsMainWindowEnabled, UpdateSourceTrigger=PropertyChanged}">
                 <Image Source="../Resources/forward.ico"></Image>
             </Button>
         </StackPanel>
@@ -128,10 +128,10 @@
 
         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1">
             <Button Margin ="5"  Command="{Binding CollapseAllWorksCommand}" ToolTip="Свернуть всё" Background="White" ToolTipService.ShowOnDisabled="True">
-                <Image Source="../../Resources/collapse.ico"></Image>
+                <Image Source="../Resources/collapse.ico"></Image>
             </Button>
             <Button Margin ="5" Command="{Binding ExpandAllWorksCommand}" ToolTip="Развернуть всё" Background="White" ToolTipService.ShowOnDisabled="True">
-                <Image Source="../../Resources/expand.ico"></Image>
+                <Image Source="../Resources/expand.ico"></Image>
             </Button>
         </StackPanel>
     </Grid>

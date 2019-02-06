@@ -19,6 +19,9 @@ namespace Staff_time.Model
         {
             this.UserTasks = new HashSet<UserTask>();
             this.Works = new HashSet<Work>();
+            this.Requests = new HashSet<Request>();
+            this.Requests1 = new HashSet<Request>();
+            this.Tasks = new HashSet<Task>();
         }
     
         public int ID { get; set; }
@@ -32,5 +35,11 @@ namespace Staff_time.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Work> Works { get; set; }
         public virtual LEVEL LEVEL { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Request> Requests { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Request> Requests1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

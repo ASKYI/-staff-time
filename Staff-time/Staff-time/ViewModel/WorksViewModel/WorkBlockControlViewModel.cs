@@ -36,7 +36,10 @@ namespace Staff_time.ViewModel
 
             IsEditing = IsEditingFlag;
             if (IsEditing)
+            {
                 IsExpanded = true;
+                MainWindow.IsEnable = false;
+            }
             else
                 IsExpanded = false;
             MouseLeft = false;
@@ -99,13 +102,15 @@ namespace Staff_time.ViewModel
                 
                 StringBuilder stringPath = new StringBuilder();
                 stringPath.Append(Work.WorkName + "<-");
-                
-                for (int i = taskNode.FullPath.Count - 1; i >= 0; --i) // todo есть замечательный оператор string.Join советую к нему присмотреться
-                {
-                    stringPath.Append(taskNode.FullPath[i]);
-                    if (i != 0)
-                        stringPath.Append("<-");
-                }
+
+                stringPath.Append(taskNode.FullPathAsString);
+                    
+                //for (int i = taskNode.FullPath.Count - 1; i >= 0; --i) // todo есть замечательный оператор string.Join советую к нему присмотреться
+                //{
+                //    stringPath.Append(taskNode.FullPath[i]);
+                //    if (i != 0)
+                //        stringPath.Append("<-");
+                //}
                 
                 return stringPath.ToString();
             }

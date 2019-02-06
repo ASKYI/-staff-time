@@ -7,7 +7,41 @@
         mc:Ignorable="d"
         Title="Вход" Height="270" Width="300" MaxHeight="270" MaxWidth="300"
         WindowStartupLocation="CenterScreen">
-
+    <Window.Resources>
+        <Style x:Key="IconStyle" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Type}" Value="Программист">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="../../Resources/ProgrammerIcon.ico"/>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Type}" Value="Химик">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="../../Resources/ChemistIcon.ico"/>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Type}" Value="Директор">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="../../Resources/noname.ico"/>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Type}" Value="Эксперт">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="../../Resources/noname.ico"/>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="../../Resources/loginBackground.png"  Stretch="UniformToFill"/>
@@ -29,23 +63,36 @@
             </StackPanel>
 
             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Image Width="25" Height="25" Source="../../Resources/username.png"/>
+                <Image Width="25" Height="27" Source="../../Resources/username.png"/>
                 <ComboBox 
                               ItemsSource="{Binding Path=users}"
-                              DisplayMemberPath="UserName"
                               SelectedValue="{Binding SelectedUser}"
                               IsEnabled="{Binding IsEnabled}"
-                              Height="25"
+                              Height="27"
                               Background="White"
                               Width="175"
-                              KeyDown="OnKeyDownLogin" />
+                              KeyDown="OnKeyDownLogin" >
+                    <!--DisplayMemberPath="UserName"-->
+
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button HorizontalAlignment="Left" Style="{StaticResource IconStyle}" Width="23" Height="23">
+                                    <!--<Image Source="../../Resources/noname.ico"></Image>-->
+
+                                </Button>
+                                <TextBlock Margin="5,0" Text="{Binding UserName}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </StackPanel>
             <StackPanel Grid.Row="2">
                 <Label FontSize="12" Content="Введите пароль:"></Label>
             </StackPanel>
             <StackPanel Grid.Row="3" Orientation="Horizontal">
-                <Image Width="25" Height="25" Source="../../Resources/password.png"/>
-                <TextBox Name="PasswordTBox" Text="{Binding Password}" Height="25" Width="175" VerticalContentAlignment="Center" KeyDown="OnKeyDownPassword"  MaxLength="8" />
+                <Image Width="25" Height="27" Source="../../Resources/password.png"/>
+                <TextBox Name="PasswordTBox" Text="{Binding Password}" Height="27" Width="175" VerticalContentAlignment="Center" KeyDown="OnKeyDownPassword"  MaxLength="8" />
             </StackPanel>
 
         </Grid>

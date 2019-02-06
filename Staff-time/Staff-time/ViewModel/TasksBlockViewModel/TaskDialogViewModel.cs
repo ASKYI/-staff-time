@@ -13,6 +13,7 @@ using GalaSoft.MvvmLight;
 
 using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
+using Staff_time.Model.UserModel;
 
 namespace Staff_time.ViewModel
 {
@@ -23,17 +24,25 @@ namespace Staff_time.ViewModel
             _generate_TaskTypesCb();
 
             _task = task;
+            EditingTask = new Task(task);
+            SelectedTaskTypeIndex = task.TaskTypeID;
+
+            levels = Context.levelWork.Read_AllLevelsLowerMe();
+            SelLevel = levels[0];
+
+            users = Context.usersWork.Read_AllUsers();
+            ResponsibleUser = GlobalInfo.CurrentUser;
 
             if (command == TaskCommandEnum.Edit)
             {
                 _generate_Tree(roots);
                 Message = "Выбрать задачу-родителя";
+                SelLevel = levels.FirstOrDefault(l => l.LevelID == task.LevelID);
+                ResponsibleUser = users.FirstOrDefault(u => u.ID == task.ResponsibleID);
             }
             _command = command;
             Command = (int)_command;
 
-            EditingTask = new Task(task);
-            SelectedTaskTypeIndex = task.TaskTypeID;
             //if (EditingTask.ParentTaskID == null)
             //{
             //    ChangeSelection(_root);
@@ -59,7 +68,62 @@ namespace Staff_time.ViewModel
             get { return _editingTask; }
             set
             {
-                SetField(ref _editingTask, value);
+                SetFieldTaskDialogVM(ref _editingTask, value);
+            }
+        }
+
+        private List<User> _users;
+
+        public List<User> users
+        {
+            get
+            {
+                return _users;
+            }
+            set
+            {
+                SetField(ref _users, value);
+            }
+        }
+
+        private User _responsibleUser;
+        public User ResponsibleUser
+        {
+            get
+            {
+                return _responsibleUser;
+            }
+            set
+            {
+                _responsibleUser = value;
+                _editingTask.ResponsibleID = _responsibleUser.ID;
+            }
+        }
+
+        private List<LEVEL> _levels;
+
+        public List<LEVEL> levels {
+            get
+            {
+                return _levels;
+            }
+            set
+            {
+                SetField(ref _levels, value);
+            }
+        }
+
+        private LEVEL _selLevel;
+        public LEVEL SelLevel
+        {
+            get
+            {
+                return _selLevel;
+            }
+            set
+            {
+                _selLevel = value;
+                _editingTask.LevelID = _selLevel.LevelID;
             }
         }
 
@@ -69,7 +133,7 @@ namespace Staff_time.ViewModel
             get { return _message; }
             set
             {
-                SetField(ref _message, value);
+                SetFieldTaskDialogVM(ref _message, value);
             }
         }
 
@@ -81,7 +145,7 @@ namespace Staff_time.ViewModel
             get { return _treeRoots; }
             set
             {
-                SetField(ref _treeRoots, value);
+                SetFieldTaskDialogVM(ref _treeRoots, value);
             }
         }
 
@@ -101,7 +165,7 @@ namespace Staff_time.ViewModel
             get { return _selectedTaskNode; }
             set
             {
-                SetField<TreeNode>(ref _selectedTaskNode, value); // todo вроде c# по параметру сам должен распознать тип Generic
+                SetFieldTaskDialogVM<TreeNode>(ref _selectedTaskNode, value); // todo вроде c# по параметру сам должен распознать тип Generic
                 if (value.Task.ID == 0)
                     _editingTask.ParentTaskID = null;
                 else
@@ -130,7 +194,7 @@ namespace Staff_time.ViewModel
             get { return _selectedTaskTypeIndex; }
             set
             {
-                SetField<int>(ref _selectedTaskTypeIndex, value);
+                SetFieldTaskDialogVM<int>(ref _selectedTaskTypeIndex, value);
 
                 EditingTask.TaskTypeID = _selectedTaskTypeIndex;
             }
@@ -142,7 +206,7 @@ namespace Staff_time.ViewModel
             get { return _taskTypesCb; }
             set
             {
-                SetField<ObservableCollection<TaskType>>(ref _taskTypesCb, value);
+                SetFieldTaskDialogVM<ObservableCollection<TaskType>>(ref _taskTypesCb, value);
             }
         }
         private void _generate_TaskTypesCb()
@@ -175,7 +239,13 @@ namespace Staff_time.ViewModel
                     MessageBox.Show("Нельзя назначить новым родителем потомка или самого себя");
                     return;
                 }
-              
+                if (_task.ResponsibleID != _editingTask.ResponsibleID)
+                {
+                    var dialogResult = System.Windows.MessageBox.Show("Обновить ответственного у ВСЕХ дочерних задач на текущего?", "Подтверждение",
+               MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (dialogResult == MessageBoxResult.Yes)
+                        TasksVM.SetResponsibleForTaskChildren(_editingTask.ID, _editingTask.ResponsibleID);
+                }
             }
             // _task = new Task(_editingTask);
             else if (_command == TaskCommandEnum.Add)
@@ -245,7 +315,7 @@ namespace Staff_time.ViewModel
 
         #region INotifyPropertyChanged Members
 
-        public bool SetField<T>(ref T field, T value,
+        public bool SetFieldTaskDialogVM<T>(ref T field, T value,
             [CallerMemberName] string propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, value)) return false;

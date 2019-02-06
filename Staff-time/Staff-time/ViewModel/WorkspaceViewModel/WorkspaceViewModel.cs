@@ -62,7 +62,6 @@ namespace Staff_time.ViewModel
             }
         }
 
-
         public bool IsMainWindowEnabled
         {
             get { return MainWindow.IsEnable; }

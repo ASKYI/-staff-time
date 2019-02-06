@@ -10,41 +10,44 @@ using System.Windows.Input;
 using System.ComponentModel;
 using GalaSoft.MvvmLight.Messaging;
 using Staff_time.Model.UserModel;
+using Staff_time.View.Dialog;
 
 namespace Staff_time.ViewModel
 {
     public enum FaveTaskCommandEnum { Add, Edit, Delete, None }
 
 
-    public class TasksFaveViewModel : MainViewModel
+    public class TasksFaveViewModel : MainViewModel, INotifyPropertyChanged
     {
         //test
         public TasksFaveViewModel()
         {
             _generate_Tree();
             _showFullTreeCommand = new RelayCommand(ShowTree, CanShowTree);
-            
+
             _collapseAllCommand = new RelayCommand(CollapseAll, CanCollapseAll);
             _saveExpandCommand = new RelayCommand(SaveCollapse, (_) => true);
             _expandAllCommand = new RelayCommand(ExpandAll, CanExpandAll);
             _addWorkCommand = new RelayCommand(AddWork, CanAddWork);
-            //_addNearTaskCommand = new RelayCommand(AddNearTask, CanAddNearTask);
-            //_addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
+            _applyRequestCommand = new RelayCommand(ApplyRequest, CanApplyRequest);
+            _deleteRequestCommand = new RelayCommand(DeleteRequest, CanDeleteRequest);
+            _refreshRequestCommand = new RelayCommand(RefreshRequest, (_) => true);
             _deleteTaskCommand = new RelayCommand(DeleteFaveTask, CanDeleteTask);
-            //_editTaskCommand = new RelayCommand(EditTask, CanEditTask);
+            _transferTaskCommand = new RelayCommand(TransferTask, CanTransferTask);
             _moveUpCommand = new RelayCommand(MoveUp, CanMoveUp);
             _moveDownCommand = new RelayCommand(MoveDown, CanMoveDown);
 
+            FillRequests();
             MessengerInstance.Register<KeyValuePair<FaveTaskCommandEnum, Task>>(this, _doTaskCommand);
         }
-        
+
         #region Tree
         private ObservableCollection<TreeNode> _treeRoots;
         public ObservableCollection<TreeNode> TreeRoots
         {
             get { return _treeRoots; }
             set
-            { 
+            {
                 SetField(ref _treeRoots, value);
             }
         }
@@ -361,7 +364,9 @@ namespace Staff_time.ViewModel
             if (dialogResult == MessageBoxResult.No)
                 return;
 
-            Mouse.OverrideCursor = Cursors.Wait;
+            //Mouse.OverrideCursor = Cursors.Wait;
+            Mouse.SetCursor(Cursors.Wait);
+
             //Roots
             int delTaskID = SelectedTaskNode.Task.ID;
             if (TreeRoots.Contains(SelectedTaskNode))
@@ -376,8 +381,10 @@ namespace Staff_time.ViewModel
                 ChangeSelection(TasksVM.Dictionary[delTaskID + 1]);
             else
                 ChangeSelection(TasksVM.Dictionary.FirstOrDefault().Value);
-            Mouse.OverrideCursor = Cursors.Arrow;
+            //Mouse.OverrideCursor = Cursors.Arrow;
+            Mouse.SetCursor(Cursors.Arrow);
         }
+
 
         private void _doTaskCommand(KeyValuePair<FaveTaskCommandEnum, Task> pair)
         {
@@ -419,5 +426,195 @@ namespace Staff_time.ViewModel
 
         #endregion
 
+        #region RequestsRegion
+        private readonly ICommand _transferTaskCommand;
+        public ICommand TransferTaskCommand
+        {
+            get
+            {
+                return _transferTaskCommand;
+            }
+        }
+        private bool CanTransferTask(object obj)
+        {
+            return SelectedTaskNode != null && dialog == null && MainWindow.IsEnable;
+        }
+
+        private void TransferTask(object obj)
+        {
+            //Показываем диалог с пользователями
+            TransferTaskView dlg = new TransferTaskView(SelectedTaskNode.Task.ID);
+            dlg.Show();
+            //TasksVM.TransferTask(taskID, myuserID, touserID);
+            //Mouse.SetCursor(Cursors.Wait);
+
+            ////Roots
+            //int delTaskID = SelectedTaskNode.Task.ID;
+            //if (TreeRoots.Contains(SelectedTaskNode))
+            //    TreeRoots.Remove(SelectedTaskNode);
+            ////if (TasksVM.Dictionary.ContainsKey(SelectedTaskNode.Task.ID))
+            ////    TasksVM.Dictionary.Remove(SelectedTaskNode.Task.ID);
+
+
+            //TasksVM.DeleteFaveWithChildren(delTaskID);
+
+            //if (TasksVM.Dictionary.ContainsKey(delTaskID + 1))
+            //    ChangeSelection(TasksVM.Dictionary[delTaskID + 1]);
+            //else
+            //    ChangeSelection(TasksVM.Dictionary.FirstOrDefault().Value);
+            ////Mouse.OverrideCursor = Cursors.Arrow;
+            //Mouse.SetCursor(Cursors.Arrow);
+        }
+
+        private readonly ICommand _refreshRequestCommand;
+        public ICommand RefreshRequestCommand
+        {
+            get
+            {
+                return _refreshRequestCommand;
+            }
+        }
+        
+        void RefreshRequest(object obj)
+        {
+            //Context.requestWork.RefreshRequests();
+            FillRequests();
+        }
+
+        private readonly ICommand _deleteRequestCommand;
+        public ICommand DeleteRequestCommand
+        {
+            get
+            {
+                return _deleteRequestCommand;
+            }
+        }
+       
+       
+
+        bool CanDeleteRequest(object obj)
+        {
+            return SelectedRequests.Count > 0;
+        }
+
+        void DeleteRequest(object obj)
+        {
+            List<int> requestsIds = new List<int>();
+            foreach (var selItem in SelectedRequests)
+            {
+                requestsIds.Add(selItem.ID);
+                RequestsList.Remove(selItem);
+            }
+            if (requestsIds.Count > 0)
+                Context.requestWork.DeleteRequests(requestsIds);
+        }
+
+        private readonly ICommand _applyRequestCommand;
+        public ICommand ApplyRequestCommand
+        {
+            get
+            {
+                return _applyRequestCommand;
+            }
+        }
+
+        bool CanApplyRequest(object obj)
+        {
+            return SelectedRequests.Count > 0;
+        }
+
+        void ApplyRequest(object obj)
+        {
+            Mouse.SetCursor(Cursors.Wait);
+
+            List<int> requestsIds = new List<int>();
+
+            foreach (var selItem in SelectedRequests)
+            {
+                requestsIds.Add(selItem.ID);
+                RequestsList.Remove(selItem);
+                AddToFave(selItem.TaskID);
+                SelectedTaskNode = TasksVM.Dictionary[selItem.TaskID];
+            }
+            SelectedTaskNode.IsExpanded = true;
+            AddWork(null);
+
+            if (requestsIds.Count > 0)
+                Context.requestWork.DeleteRequests(requestsIds);
+            Mouse.SetCursor(Cursors.Arrow);
+        }
+
+        public void AddToFave(int taskID)
+        {
+            if (TasksVM.IsFave(taskID))
+                return;
+            var taskNode = TasksVM.DictionaryFull[taskID];
+            // Добавим всех родителей, если их нет в избранном
+            List<TreeNode> toAddInFave = new List<TreeNode>();
+            var parent = taskNode.ParentNode;
+            while (parent != null && !TreeRoots.Contains(parent))
+            {
+                toAddInFave.Add(parent);
+                parent = parent.ParentNode;
+            }
+            for (int i = toAddInFave.Count - 1; i >= 0; --i)
+                if (!TasksVM.IsFave(toAddInFave[i].Task.ID))
+                    TasksVM.AddFave(toAddInFave[i].Task);
+
+            // Добавим себя
+            TasksVM.AddFave(taskNode.Task);
+        }
+
+        private void FillRequests()
+        {
+            _requestsList = new ObservableCollection<RequestItem>();
+            var requests = Context.requestWork.Read_AllRequests();
+            foreach (var req in requests)
+                _requestsList.Add(new RequestItem(req.ID, req.FromUserID, req.TaskID, req.TransferDateTime));
+            SelectedRequests = new List<RequestItem>();
+        }
+
+        private ObservableCollection<RequestItem> _requestsList;
+        public ObservableCollection<RequestItem> RequestsList
+        {
+            get { return _requestsList; }
+            set
+            {
+                //_requestsList = value;
+                SetField(ref _requestsList, value);
+            }
+        }
+
+        private List<RequestItem> _selectedRequests;
+        public List<RequestItem> SelectedRequests {
+            get
+            {
+                return _selectedRequests;
+            }
+            set
+            {
+                SetField(ref _selectedRequests, value);
+            }
+        }
+        #endregion //RequestsRegion
+    }
+    public class RequestItem
+    {
+        public int ID { get; set; }
+        public string FromUser { get; set; }
+        public string TaskName { get; set; }
+        public string FullPathTask { get; set; }
+        public int TaskID { get; set; }
+        public DateTime DateTransfer { get; set; }
+
+        public RequestItem(int _id, int _fromUserID, int _taskID, DateTime dt)
+        {
+            ID = _id;
+            TaskID = _taskID;
+            FullPathTask = TasksVM.DictionaryFull[_taskID].FullPathAsString;
+            FromUser = Context.usersWork.GetUserNameByID(_fromUserID);
+            TaskName = TasksVM.DictionaryFull[_taskID].Task.TaskName;
+            DateTransfer = dt;
+        }
     }
 }
