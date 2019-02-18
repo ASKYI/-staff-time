@@ -34,7 +34,27 @@ namespace Staff_time.View
             columnsSortOrder.Add("FromUser", -1);
             columnsSortOrder.Add("TaskName", -1);
             columnsSortOrder.Add("DateTransfer", 1);
+            ((ViewModel.TasksFaveViewModel)DataContext).FilterTaskText = "Поиск...";//подсказка
+            FilterTBox.Foreground = Brushes.Gray;
         }
+        
+        private void Filter_GotFocus(object sender, EventArgs e)//происходит когда элемент стает активным
+        {
+            if (((ViewModel.TasksFaveViewModel)DataContext).FilterTaskText == "Поиск...")
+                ((ViewModel.TasksFaveViewModel)DataContext).FilterTaskText = "";
+            else
+                FilterTBox.Dispatcher.BeginInvoke(new Action(() => FilterTBox.SelectAll()));
+
+            FilterTBox.Foreground = Brushes.Black;
+        }
+        private void FilterClick(object sender, EventArgs e)//происходит когда элемент стает активным
+        {
+            if (((ViewModel.TasksFaveViewModel)DataContext).FilterTaskText != "" && ((ViewModel.TasksFaveViewModel)DataContext).FilterTaskText != null)
+                FilterTBox.Background = new SolidColorBrush(Color.FromRgb(222, 240, 243));
+            else
+                FilterTBox.Background = Brushes.White;
+        }
+
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

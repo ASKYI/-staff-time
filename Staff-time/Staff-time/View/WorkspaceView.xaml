@@ -19,19 +19,27 @@
             <local:WorkBlockControl DataContext="{Binding WorkBlockContext}" ></local:WorkBlockControl>
         </DataTemplate>
 
-        <Style x:Key="PlanTimeStyle" TargetType="StackPanel">
+        <Style x:Key="PlanTimeStyle" TargetType="Border">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsTimePlanEqual}" Value="-1">
-                    <Setter Property="Background" Value="Salmon"></Setter>
+                    <Setter Property="BorderBrush" Value="Salmon"></Setter>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding IsTimePlanEqual}" Value="0">
-                    <Setter Property="Background" Value="PaleGreen"></Setter>
+                    <Setter Property="BorderBrush" Value="#99D8DF"></Setter>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding IsTimePlanEqual}" Value="1">
-                    <Setter Property="Background" Value="LimeGreen"></Setter>
+                    <Setter Property="BorderBrush" Value="#A349A4"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Image x:Key="TimeAsc" Source="../Resources/timeSort_asc.ico" />
+        <Image x:Key="TimeDesc" Source="../Resources/timeSort_desc.ico"/>
+        <Image x:Key="TimeNone" Source="../Resources/timeSort_none.ico"/>
+
+        <Image x:Key="NameAsc" Source="../Resources/nameSort_asc.ico" />
+        <Image x:Key="NameDesc" Source="../Resources/nameSort_desc.ico"/>
+        <Image x:Key="NameNone" Source="../Resources/nameSort_none.ico"/>
     </UserControl.Resources>
 
     <Grid>
@@ -41,12 +49,13 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="35"></ColumnDefinition>
+            <ColumnDefinition Width="40"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="0" Orientation="Horizontal" Background="WhiteSmoke">
-            <!--<DatePicker IsDropDownOpen="False" SelectedDate="{Binding SelectedDate_Picker}"></DatePicker>-->
+        <!--<StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="0" Orientation="Horizontal" Background="WhiteSmoke">-->
+        <!--<DatePicker IsDropDownOpen="False" SelectedDate="{Binding SelectedDate_Picker}"></DatePicker>-->
 
+        <StackPanel Grid.Row="0" HorizontalAlignment="Left" Orientation="Horizontal">
             <DatePicker Name="MyDatePicker" Cursor="Hand" IsEnabled="{Binding IsMainWindowEnabled, UpdateSourceTrigger=PropertyChanged}" IsDropDownOpen="False" SelectedDate="{Binding SelectedDate_Picker}">
                 <DatePicker.CommandBindings>
                     <CommandBinding Command="local:MyCommands.SelectToday" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed"/>
@@ -66,32 +75,55 @@
                     </Style>
                 </DatePicker.CalendarStyle>
             </DatePicker>
+            <Button Margin="5,0,0,0" Width="30" Click="PrevWeek" Cursor="Hand" Background="White" ToolTip="Перейти на прошлую неделю" IsEnabled="{Binding IsMainWindowEnabled, UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="../Resources/back.ico"></Image>
+            </Button>
+            <TextBlock IsEnabled="False" Text=" Недели " FontWeight="Bold" FontFamily="Arial" VerticalAlignment="Center"></TextBlock>
+            <Button Width="30" Click="NextWeek" HorizontalAlignment="Right" Cursor="Hand" Background="White" ToolTip="Перейти на следующую неделю" IsEnabled="{Binding IsMainWindowEnabled, UpdateSourceTrigger=PropertyChanged}">
+                <Image Source="../Resources/forward.ico"></Image>
+            </Button>
+        </StackPanel>
 
-            <TextBlock Margin="5,0" IsEnabled="False" Text="  " Background="Gray"></TextBlock>
+        <!--<TextBlock Margin="5,0" IsEnabled="False" Text="  " Background="Gray"></TextBlock>
             <TextBlock IsEnabled="False" Text="Общее время дня: " ></TextBlock>
             <TextBlock IsEnabled="False" Text="{Binding SumHours}" FontWeight="DemiBold" TextAlignment="Center" MinWidth="14"></TextBlock>
             <TextBlock IsEnabled="False" Text=" часов "></TextBlock>
             <TextBlock IsEnabled="False" Text="{Binding SumMinutes}" FontWeight="DemiBold" TextAlignment="Center" MinWidth="20"></TextBlock>
             <TextBlock IsEnabled="False" Text=" минут "></TextBlock>
-            <TextBlock IsEnabled="False" Text="  " Background="Gray"></TextBlock>
+            <TextBlock IsEnabled="False" Text="  " Background="Gray"></TextBlock>-->
 
-            <StackPanel Margin="30,0" Style="{StaticResource PlanTimeStyle}" Orientation="Horizontal" Width="95">
-                <TextBlock IsEnabled="False" Text="План: " ></TextBlock>
-                <TextBox Name="PlanTimeTbox" KeyDown="PlanTimeKeyDown" MinWidth="22" TextAlignment="Center" IsEnabled="False"  GotFocus="PlanTimeGotFocus" Text="{Binding PlanningTime, Mode=TwoWay}"></TextBox>
-                <TextBlock IsEnabled="False" Text=" часов "></TextBlock>
-            </StackPanel>
+
+
+        <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
             <Button Name="EditPlanTimeBtn" Margin="0,0,5,0" Click="EditPlanTime" Cursor="Hand" HorizontalAlignment="Left" ToolTip="Редактировать планируемое время" Background="White"  ToolTipService.ShowOnDisabled="True">
                 <Image Source="../Resources/edit.ico"></Image>
             </Button>
 
-            <Button Width="30" Click="PrevWeek" HorizontalAlignment="Right" Cursor="Hand" Background="White" ToolTip="Перейти на прошлую неделю" IsEnabled="{Binding IsMainWindowEnabled, UpdateSourceTrigger=PropertyChanged}">
-                <Image Source="../Resources/back.ico"></Image>
-            </Button>
-            <Button Margin="5,0" Width="30" Click="NextWeek" HorizontalAlignment="Right" Cursor="Hand" Background="White" ToolTip="Перейти на следующую неделю" IsEnabled="{Binding IsMainWindowEnabled, UpdateSourceTrigger=PropertyChanged}">
-                <Image Source="../Resources/forward.ico"></Image>
-            </Button>
+            <TextBlock IsEnabled="False" Text="План: " FontWeight="Bold" FontFamily="Arial" VerticalAlignment="Center" ></TextBlock>
+            <TextBlock>
+                <Border BorderThickness="2" Style="{StaticResource PlanTimeStyle}">
+                    <StackPanel VerticalAlignment="bottom" Orientation="Horizontal" Height="22" Background="White" >
+                        <TextBlock Name="PlanTimeTbox" Width="Auto" KeyDown="PlanTimeKeyDown" VerticalAlignment="Center" FontWeight="Bold" IsEnabled="False"  GotFocus="PlanTimeGotFocus" Text="{Binding PlanningTime, Mode=TwoWay}"></TextBlock>
+                        <TextBlock IsEnabled="False" Text=" часов " VerticalAlignment="Center"  FontWeight="Bold"></TextBlock>
+                    </StackPanel>
+                </Border>
+            </TextBlock>
+
+            <TextBlock Margin="5,0" IsEnabled="False" Text="Отработано: " FontWeight="Bold" FontFamily="Arial" VerticalAlignment="Center"></TextBlock>
+            <TextBlock>
+                <Border BorderThickness="2" Style="{StaticResource PlanTimeStyle}">
+                    <StackPanel VerticalAlignment="bottom" Orientation="Horizontal" Height="22" Background="White">
+                        <TextBlock IsEnabled="False" Text="{Binding SumHours}"  Width="Auto" VerticalAlignment="Center" FontWeight="Bold" TextAlignment="Center" MinWidth="14"></TextBlock>
+                        <TextBlock IsEnabled="False" Text="ч." FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock IsEnabled="False" Text="{Binding SumMinutes}" Width="Auto" VerticalAlignment="Center" FontWeight="Bold" TextAlignment="Center" MinWidth="20"></TextBlock>
+                        <TextBlock IsEnabled="False" Text="мин." FontWeight="Bold" VerticalAlignment="Center"></TextBlock>    
+                    </StackPanel>
+                </Border>
+            </TextBlock>
         </StackPanel>
-        
+
+        <!--</StackPanel>-->
+
         <TabControl Margin="0,5,0,0" ItemsSource="{Binding WeekTabs}" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" Grid.Row="1" Grid.Column="0">
             <TabControl.Resources>
                 <vm:TabItemHeaderConverter x:Key="tabItemHeaderConverter"></vm:TabItemHeaderConverter>
@@ -126,12 +158,18 @@
             </TabControl.ContentTemplate>
         </TabControl>
 
-        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1">
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="0,25, 0, 0">
             <Button Margin ="5"  Command="{Binding CollapseAllWorksCommand}" ToolTip="Свернуть всё" Background="White" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../Resources/collapse.ico"></Image>
             </Button>
             <Button Margin ="5" Command="{Binding ExpandAllWorksCommand}" ToolTip="Развернуть всё" Background="White" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../Resources/expand.ico"></Image>
+            </Button>
+            <Button Margin ="5" Name="SortTimeButton" Command="{Binding SortWorksByStartTimeCommand}" Click="SortTime_Click" ToolTip="Сортировать работы по времени начала" Background="White"  ToolTipService.ShowOnDisabled="True">
+                <DynamicResource ResourceKey="TimeNone"/>
+            </Button>
+            <Button Margin ="5" Name="SortNameButton" Command="{Binding SortWorksByNameCommand}" Click="SortName_Click" ToolTip="Сортировать работы по имени задачи" Background="White" ToolTipService.ShowOnDisabled="True">
+                <DynamicResource ResourceKey="NameNone"/>
             </Button>
         </StackPanel>
     </Grid>

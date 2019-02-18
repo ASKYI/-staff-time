@@ -9,6 +9,7 @@
         xmlns:vm="clr-namespace:Staff_time.ViewModel"  
         xmlns:v="clr-namespace:Staff_time.View"  
         
+        Icon="../../Resources/edit.ico"
         mc:Ignorable="d"
         Title="Редактирование задачи" Height="500" Width="600" MinHeight="310" MinWidth="500"
         WindowStartupLocation="CenterScreen">

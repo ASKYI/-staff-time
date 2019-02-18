@@ -13,7 +13,7 @@ using GalaSoft.MvvmLight;
 namespace Staff_time.ViewModel
 {
     enum WorkCommandEnum { Add, Delete, Update, None } // todo, чтобы воспользоваться этим enum, надо вписать using Staff_time.ViewModel, здесь же можно сделать расширение для Work, чтобы легче было вызывать
-
+    enum SortType: int {ASC = 0, DESC}
     //static class WorkExtension
     //{
     //    public static void Add(this Work work, IMessenger messenger)  // теперь в любом месте можно легко вызывать
@@ -31,6 +31,11 @@ namespace Staff_time.ViewModel
             IsEnabled = true;
             Generate_WorksForDate();
             MessengerInstance.Register<KeyValuePair<WorkCommandEnum, Work>>(this, _doWorkCommand);
+        }
+
+        public void UnregisterEvents()
+        {
+            MessengerInstance.Unregister<KeyValuePair<WorkCommandEnum, Work>>(this, _doWorkCommand);
         }
 
         public void Update(string newTabName, DateTime dateTime)
@@ -94,6 +99,21 @@ namespace Staff_time.ViewModel
         }
 
         #region Works
+        public void SortByTime(int direction)
+        {
+            if (direction == (int)SortType.ASC)
+                WorksInTab = new ObservableCollection<WorkInTab>(WorksInTab.OrderBy(w => w.WorkBlockContext.Work.StartTime));
+            else
+                WorksInTab = new ObservableCollection<WorkInTab>(WorksInTab.OrderByDescending(w => w.WorkBlockContext.Work.StartTime));
+        }
+
+        public void SortByName(int direction)
+        {
+            if (direction == (int)SortType.ASC)
+                WorksInTab = new ObservableCollection<WorkInTab>(WorksInTab.OrderBy(w => w.WorkBlockContext.Work.Task.TaskName));
+            else
+                WorksInTab = new ObservableCollection<WorkInTab>(WorksInTab.OrderByDescending(w => w.WorkBlockContext.Work.Task.TaskName));
+        }
 
         private ObservableCollection<WorkInTab> _worksInTab;
         public ObservableCollection<WorkInTab> WorksInTab

@@ -43,6 +43,8 @@
         <AssociationConnector Association="TaskManagmentDBModel.FK_Requests_Users" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_Users_Requests" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_Tasks_Users" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.PropertiesList" Width="1.5" PointX="8.25" PointY="14" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_PropertiesList_Properties" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

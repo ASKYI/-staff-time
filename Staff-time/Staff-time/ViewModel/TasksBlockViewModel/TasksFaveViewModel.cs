@@ -25,6 +25,8 @@ namespace Staff_time.ViewModel
             _generate_Tree();
             _showFullTreeCommand = new RelayCommand(ShowTree, CanShowTree);
 
+            _filterTaskCommand = new RelayCommand(FilterTree, (_) => true);
+
             _collapseAllCommand = new RelayCommand(CollapseAll, CanCollapseAll);
             _saveExpandCommand = new RelayCommand(SaveCollapse, (_) => true);
             _expandAllCommand = new RelayCommand(ExpandAll, CanExpandAll);
@@ -37,9 +39,27 @@ namespace Staff_time.ViewModel
             _moveUpCommand = new RelayCommand(MoveUp, CanMoveUp);
             _moveDownCommand = new RelayCommand(MoveDown, CanMoveDown);
 
+            MainWindow.GlobalPropertyChanged += HandleGlobalPropertyChanged;
+
             FillRequests();
             MessengerInstance.Register<KeyValuePair<FaveTaskCommandEnum, Task>>(this, _doTaskCommand);
         }
+
+        #region INotifyPropertyChanged
+        //public event PropertyChangedEventHandler PropertyChanged;
+        //private void NotifyPropertyChanged(String aPropertyName)
+        //{
+        //    if (PropertyChanged != null)
+        //        PropertyChanged(this, new PropertyChangedEventArgs(aPropertyName));
+        //}
+        void HandleGlobalPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var massageName = e.PropertyName;
+            if (massageName == "MainWindowClosing")
+                MessengerInstance.Unregister<KeyValuePair<FaveTaskCommandEnum, Task>>(this, _doTaskCommand);
+        }
+        #endregion
+
 
         #region Tree
         private ObservableCollection<TreeNode> _treeRoots;
@@ -98,6 +118,36 @@ namespace Staff_time.ViewModel
             if (_selectedTaskNode != null)
                 _selectedTaskNode.IsSelected = true;
         }
+
+        private string _filterTaskText;
+        public string FilterTaskText
+        {
+            get
+            {
+                return _filterTaskText;
+            }
+            set
+            {
+                _filterTaskText = value;
+                RaisePropertyChanged("FilterTaskText");
+            }
+        }
+        
+        private readonly ICommand _filterTaskCommand;
+        public ICommand FilterTaskCommand
+        {
+            get
+            {
+                return _filterTaskCommand;
+            }
+        }
+
+        private void FilterTree(object obj)
+        {
+            TasksVM.FilterFaveTaskText = _filterTaskText;
+            _generate_Tree();
+        }
+
         #endregion //Tree
 
         #region show full Tree
@@ -477,7 +527,7 @@ namespace Staff_time.ViewModel
         
         void RefreshRequest(object obj)
         {
-            //Context.requestWork.RefreshRequests();
+            Context.ReloadContext();
             FillRequests();
         }
 
@@ -489,12 +539,10 @@ namespace Staff_time.ViewModel
                 return _deleteRequestCommand;
             }
         }
-       
-       
 
         bool CanDeleteRequest(object obj)
         {
-            return SelectedRequests.Count > 0;
+            return SelectedRequests.Count > 0 && MainWindow.IsEnable;
         }
 
         void DeleteRequest(object obj)
@@ -520,7 +568,7 @@ namespace Staff_time.ViewModel
 
         bool CanApplyRequest(object obj)
         {
-            return SelectedRequests.Count > 0;
+            return SelectedRequests.Count > 0 && MainWindow.IsEnable;
         }
 
         void ApplyRequest(object obj)
@@ -567,10 +615,10 @@ namespace Staff_time.ViewModel
 
         private void FillRequests()
         {
-            _requestsList = new ObservableCollection<RequestItem>();
+            RequestsList = new ObservableCollection<RequestItem>();
             var requests = Context.requestWork.Read_AllRequests();
             foreach (var req in requests)
-                _requestsList.Add(new RequestItem(req.ID, req.FromUserID, req.TaskID, req.TransferDateTime));
+                RequestsList.Add(new RequestItem(req.ID, req.FromUserID, req.TaskID, req.TransferDateTime));
             SelectedRequests = new List<RequestItem>();
         }
 
@@ -597,6 +645,14 @@ namespace Staff_time.ViewModel
             }
         }
         #endregion //RequestsRegion
+
+
+        #region helper methods
+        public void CleanUp()
+        {
+            MessengerInstance.Unregister<KeyValuePair<FaveTaskCommandEnum, Task>>(this, _doTaskCommand);
+        }
+        #endregion
     }
     public class RequestItem
     {

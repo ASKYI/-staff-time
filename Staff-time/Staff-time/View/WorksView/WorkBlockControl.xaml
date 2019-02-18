@@ -6,6 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Staff_time.View"
             
+             xmlns:converters="clr-namespace:WpfTestBench.Converters"
              xmlns:vm="clr-namespace:Staff_time.ViewModel"
              xmlns:m="clr-namespace:Staff_time.Model"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
@@ -51,7 +52,7 @@
                 </DataTrigger>
                 <DataTrigger Binding="{Binding IsEditing}" Value="True">
                     <Setter Property="Visibility" Value="Visible"></Setter>
-                    <Setter Property="Background" Value="PaleGreen"></Setter>
+                    <Setter Property="Background" Value="#99D8DF"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -69,21 +70,34 @@
 
     </UserControl.Resources>
 
-    <Expander Margin="3" Padding="5" BorderThickness="3"
+    <UserControl.InputBindings>
+        <KeyBinding Gesture="Ctrl+s" Command="{Binding ApplyCommand}"/>
+        <KeyBinding Gesture="Ctrl+d" Command="{Binding DeleteCommand}"/>
+    </UserControl.InputBindings>
+    
+
+    <Expander Name="WorkExpander" Margin="3" Padding="5" BorderThickness="3"
               IsExpanded="{Binding IsExpanded}" Style="{StaticResource ExpanderStyle}">
         <Expander.ToolTip>
             <ToolTip Content="{Binding FullPath}"></ToolTip>
         </Expander.ToolTip>
         <Expander.Header>
-            <Grid >
+            <Grid Width="{Binding ActualWidth, ElementName=WorkExpander, Converter={converters:GridWidthConverter}, ConverterParameter='50'}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-
-                <TextBlock Background="PaleGreen" Grid.Column="0" HorizontalAlignment="Left" Text="{Binding Path}"/>
-                <TextBlock Margin="10, 0, 0, 0" Grid.Column="2" Width ="250" HorizontalAlignment="Right" Text="{Binding TimeRange}"/>
+    
+                <Border Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="0">
+                    <TextBlock Height="20"  Text="{Binding Path}"/>
+                </Border>
+                <Border Margin="5, 0, 0, 0" Width="95" HorizontalAlignment="Right" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3"  Grid.Column="1">
+                    <TextBlock Height="20" HorizontalAlignment="Center" Text="{Binding TimeRange}"/>
+                </Border>
+                <Border Margin="5, 0, 0, 0" Width="95" HorizontalAlignment="Left" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="2">
+                    <TextBlock Height="20" HorizontalAlignment="Center" Text="{Binding TimeLast}"/>
+                </Border>
             </Grid>
         </Expander.Header>
         <StackPanel>

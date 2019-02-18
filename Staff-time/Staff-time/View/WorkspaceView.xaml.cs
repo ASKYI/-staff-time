@@ -46,6 +46,44 @@ namespace Staff_time.View
         //    }
         //}
 
+        private void SortTime_Click(object sender, RoutedEventArgs e)
+        {
+            SortNameButton.Background = Brushes.White;
+            if (SortTimeButton.Content == FindResource("TimeDesc"))
+            {
+                SortTimeButton.Content = FindResource("TimeNone");
+                SortTimeButton.Background = Brushes.White;
+            }
+            else
+            {
+                if (SortTimeButton.Content == FindResource("TimeNone"))
+                    SortTimeButton.Content = FindResource("TimeAsc");
+                else
+                    SortTimeButton.Content = FindResource("TimeDesc");
+                SortTimeButton.Background = new SolidColorBrush(Color.FromRgb(222, 240, 243));
+
+            }
+        }
+
+        private void SortName_Click(object sender, RoutedEventArgs e)
+        {
+            SortTimeButton.Background = Brushes.White;
+
+            if (SortNameButton.Content == FindResource("NameDesc"))
+            {
+                SortNameButton.Content = FindResource("NameNone");
+                SortNameButton.Background = Brushes.White;
+            }
+            else
+            {
+                if (SortNameButton.Content == FindResource("NameNone"))
+                    SortNameButton.Content = FindResource("NameAsc");
+                else
+                    SortNameButton.Content = FindResource("NameDesc");
+                SortNameButton.Background = new SolidColorBrush(Color.FromRgb(222,240,243));
+            }
+        }
+
         private void PrevWeek(object sender, EventArgs e)
         {
             var oldDate = ((ViewModel.WorkspaceViewModel)DataContext).SelectedDate_Picker;

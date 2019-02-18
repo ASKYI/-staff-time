@@ -32,8 +32,13 @@ namespace Staff_time.ViewModel
             _deleteCommand = new RelayCommand(Delete, CanDelete);
             _changeTaskCommand = new RelayCommand(ChangeTask, CanChangeTask);
             _duplicateWorkCommand = new RelayCommand(DuplicateWork, (_) => true);
-            MessengerInstance.Register<string>(this, ApplyAction);
 
+            //SaveHotCommand.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
+            //DeleteHotCommand.InputGestures.Add(new KeyGesture(Key.Delete, ModifierKeys.Control));
+
+            MainWindow.GlobalPropertyChanged += HandleGlobalPropertyChanged;
+
+            MessengerInstance.Register<string>(this, ApplyAction);
             IsEditing = IsEditingFlag;
             if (IsEditing)
             {
@@ -49,6 +54,12 @@ namespace Staff_time.ViewModel
 
             _endTime = Work.StartTime.AddMinutes(Work.Minutes);
             WorkVM.PropertyChanged += new PropertyChangedEventHandler(SetExpended);
+        }
+
+        void HandleGlobalPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "MainWindowClosing")
+                MessengerInstance.Unregister<string>(this, ApplyAction);
         }
 
         private void SetExpended(object sender, PropertyChangedEventArgs e)
@@ -164,7 +175,15 @@ namespace Staff_time.ViewModel
             {
                 var startTimeString = StartTime.ToString("HH:mm");
                 var endTimeString = EndTime.ToString("HH:mm");
-                return " (" + startTimeString + " - " + endTimeString + ") - " + (Minutes / 60).ToString() + " часов " + (Minutes % 60).ToString() + " минут";
+                return startTimeString + " - " + endTimeString;
+            }
+        }
+
+        public string TimeLast
+        {
+            get
+            {
+                return (Minutes / 60).ToString() + " ч. " + (Minutes % 60).ToString() + " мин.";
             }
         }
         #endregion
@@ -404,6 +423,10 @@ namespace Staff_time.ViewModel
         }
         private void Delete(object obj)
         {
+            var dialogResult = System.Windows.MessageBox.Show("Вы уверены, что хотите удалить работу?", "Подтверждение",
+               MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (dialogResult == MessageBoxResult.No)
+                return;
             WorkVM.DeleteWork();
             CancelChanges(obj);
         }
@@ -477,5 +500,10 @@ namespace Staff_time.ViewModel
                 RaisePropertyChanged("Path");
             }
         }
+
+        #region HotKeys Commands
+        public ICommand SaveHotCommand;
+        public ICommand DeleteHotCommand;
+        #endregion // HotKeys Commands
     }
 }

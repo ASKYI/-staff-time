@@ -103,6 +103,8 @@ namespace Staff_time.ViewModel
                 if (_isExpanded != value)
                 {
                     _isExpanded = value;
+                    if (_isExpanded == true)
+                        IsSelected = true;
                     NotifyPropertyChanged("IsExpanded");
                 }
             }

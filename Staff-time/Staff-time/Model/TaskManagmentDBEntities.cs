@@ -275,6 +275,7 @@ namespace Staff_time.Model
                 SaveChanges(); //Чтобы был актуальный ID у работы
                 Create_AttrValuesFields_ForWork(w, (WorkTypeEnum)work.WorkTypeID);
                 work.ID = w.ID;
+                work.Task = w.Task;
                 work.AttrValues = w.AttrValues;
             }
             catch (Exception e)

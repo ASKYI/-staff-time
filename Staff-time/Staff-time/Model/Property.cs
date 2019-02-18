@@ -19,6 +19,7 @@ namespace Staff_time.Model
         {
             this.PropValues = new HashSet<PropValue>();
             this.TaskTypeProps = new HashSet<TaskTypeProp>();
+            this.PropertiesLists = new HashSet<PropertiesList>();
         }
     
         public int DataType { get; set; }
@@ -29,5 +30,7 @@ namespace Staff_time.Model
         public virtual ICollection<PropValue> PropValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TaskTypeProp> TaskTypeProps { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PropertiesList> PropertiesLists { get; set; }
     }
 }

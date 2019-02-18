@@ -22,15 +22,11 @@ namespace Staff_time.ViewModel
 
             _collapseAllWorksCommand = new RelayCommand(CollapseAllWorks, (_) => true);
             _expandAllWorksCommand = new RelayCommand(ExpandAllWorks, (_) => true);
+            _sortWorksByStartTimeCommand = new RelayCommand(SortWorksByStartTime, (_) => true);
+            _sortWorksByNameCommand = new RelayCommand(SortWorksByName, (_) => true);
             MainWindow.GlobalPropertyChanged += HandleGlobalPropertyChanged;
         }
 
-        #region Selected Date TabIndex
-        void HandleGlobalPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            NotifyPropertyChanged(e.PropertyName);
-            SetTabEnable(IsMainWindowEnabled);
-        }
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -39,7 +35,20 @@ namespace Staff_time.ViewModel
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(aPropertyName));
         }
+        void HandleGlobalPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            NotifyPropertyChanged(e.PropertyName);
+            SetTabEnable(IsMainWindowEnabled);
+            if (e.PropertyName == "MainWindowClosing")
+            {
+                foreach (var tab in WeekTabs)
+                    tab.UnregisterEvents();
+                MessengerInstance.Unregister<long>(this, SumTimeChange);
+            }
+        }
         #endregion
+
+        #region Selected Date TabIndex
 
         private void SetTabEnable(bool _isEnabled)
         {
@@ -87,6 +96,8 @@ namespace Staff_time.ViewModel
             }
         }
 
+        public int timeSortDirection { get; set; } = -1;
+        public int nameSortDirection { get; set; } = -1;
         #endregion
 
         #region Week
@@ -102,7 +113,6 @@ namespace Staff_time.ViewModel
                 SetField(ref _weekTabs, value);
             }
         }
-
 
 
         public void Generate_Week(DateTime date)
@@ -236,6 +246,37 @@ namespace Staff_time.ViewModel
         private void ExpandAllWorks(object obj)
         {
             WorksVM.ExpandAll();
+        }
+
+        private readonly ICommand _sortWorksByStartTimeCommand;
+        public ICommand SortWorksByStartTimeCommand
+        {
+            get
+            {
+                return _sortWorksByStartTimeCommand;
+            }
+        }
+
+        private void SortWorksByStartTime(object obj)
+        {
+            timeSortDirection = (timeSortDirection + 1) % 2;
+            WeekTabs[SelectedTabIndex].SortByTime(timeSortDirection);
+        }
+
+        private readonly ICommand _sortWorksByNameCommand;
+
+        public ICommand SortWorksByNameCommand
+        {
+            get
+            {
+                return _sortWorksByNameCommand;
+            }
+        }
+
+        private void SortWorksByName(object obj)
+        {
+            nameSortDirection = (nameSortDirection + 1) % 2;
+            WeekTabs[SelectedTabIndex].SortByName(nameSortDirection);
         }
         #endregion //commands
     }

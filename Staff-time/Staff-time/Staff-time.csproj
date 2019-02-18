@@ -147,6 +147,9 @@
     <Compile Include="Model\LEVEL.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\PropertiesList.cs">
+      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Property.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
@@ -234,6 +237,9 @@
     <Compile Include="View\Dialog\AddTaskView.xaml.cs">
       <DependentUpon>AddTaskView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Dialog\TaskPropView.xaml.cs">
+      <DependentUpon>TaskPropView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Dialog\TasksAllView.xaml.cs">
       <DependentUpon>TasksAllView.xaml</DependentUpon>
     </Compile>
@@ -278,6 +284,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\Dialog\AddTaskView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialog\TaskPropView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -383,32 +393,42 @@
       <DependentUpon>TaskManagmentDB.edmx</DependentUpon>
       <LastGenOutput>TaskManagmentDB.cs</LastGenOutput>
     </Content>
-    <Resource Include="Resources\refresh.ico" />
-    <Resource Include="Resources\noname.ico" />
-    <Resource Include="Resources\ChemistIcon.ico" />
-    <Resource Include="Resources\ProgrammerIcon.ico" />
-    <Resource Include="Resources\back.ico" />
-    <Resource Include="Resources\forward.ico" />
-    <Resource Include="Resources\tree.ico" />
-    <Resource Include="Resources\add_work.ico" />
-    <Resource Include="Resources\save.ico" />
-    <Resource Include="Resources\loginBackground.png" />
-    <Resource Include="Resources\login.png" />
-    <Resource Include="Resources\password.png" />
-    <Resource Include="Resources\username.png" />
-    <Resource Include="Resources\appImage.ico" />
-    <Resource Include="Resources\add_subitem.ico" />
-    <Resource Include="Resources\collapse.ico" />
-    <Resource Include="Resources\down.ico" />
-    <Resource Include="Resources\expand.ico" />
-    <Resource Include="Resources\up.ico" />
-    <Resource Include="Resources\delete.ico" />
-    <Resource Include="Resources\edit.ico" />
     <Resource Include="Resources\add.ico" />
-    <Resource Include="Resources\pilot.ico" />
+    <Resource Include="Resources\add_subitem.ico" />
+    <Resource Include="Resources\add_work.ico" />
+    <Resource Include="Resources\appImage.ico" />
+    <Resource Include="Resources\back.ico" />
+    <Resource Include="Resources\ChemistIcon.ico" />
+    <Resource Include="Resources\collapse.ico" />
+    <Resource Include="Resources\delete.ico" />
+    <Resource Include="Resources\delete1.ico" />
+    <Resource Include="Resources\down.ico" />
+    <Resource Include="Resources\edit.ico" />
+    <Resource Include="Resources\edit1.ico" />
+    <Resource Include="Resources\expand.ico" />
+    <Resource Include="Resources\filter.ico" />
+    <Resource Include="Resources\filter1.ico" />
+    <Resource Include="Resources\forward.ico" />
+    <Resource Include="Resources\login.png" />
+    <Resource Include="Resources\loginBackground.png" />
+    <Resource Include="Resources\nameSort_asc.ico" />
+    <Resource Include="Resources\nameSort_desc.ico" />
+    <Resource Include="Resources\nameSort_none.ico" />
+    <Resource Include="Resources\noname.ico" />
+    <Resource Include="Resources\password.png" />
+    <Resource Include="Resources\ProgrammerIcon.ico" />
+    <Resource Include="Resources\refresh.ico" />
+    <Resource Include="Resources\save.ico" />
+    <Resource Include="Resources\timeSort_asc.ico" />
+    <Resource Include="Resources\timeSort_desc.ico" />
+    <Resource Include="Resources\timeSort_none.ico" />
+    <Resource Include="Resources\tree.ico" />
+    <Resource Include="Resources\up.ico" />
+    <Resource Include="Resources\username.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Staff_time\View\Dialog\" />
+    <Folder Include="ViewModel\TasksBlockViewModel\TaskPropVMs\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

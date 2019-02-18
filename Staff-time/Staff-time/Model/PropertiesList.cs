@@ -12,9 +12,11 @@ namespace Staff_time.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class TimeTable
+    public partial class PropertiesList
     {
-        public System.DateTime Date { get; set; }
-        public double PlanningTime { get; set; }
+        public int PropID { get; set; }
+        public string Value { get; set; }
+    
+        public virtual Property Property { get; set; }
     }
 }

@@ -16,13 +16,19 @@
         Title="" Height="450" Width="800" MinWidth="790" MinHeight="370"
         Icon="Resources/appImage.ico" WindowStartupLocation="CenterScreen" WindowState="Maximized"
         Loaded="Window_Loaded" StateChanged="Window_State_Changed"
+        Background="#99D8DF"
         
 >
+    <Window.Resources>
+        <Style TargetType="{x:Type Window}">
+            <Setter Property="FontFamily" Value="Arial" />
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250*" MinWidth="250"></ColumnDefinition>
+            <ColumnDefinition Width="250*" MinWidth="350"></ColumnDefinition>
             <ColumnDefinition Width="5" />
-            <ColumnDefinition Width="494*" MinWidth="250"></ColumnDefinition>
+            <ColumnDefinition Width="515*" MinWidth="515"></ColumnDefinition>
             <!--<ColumnDefinition Width="43*"/>-->
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -31,10 +37,10 @@
         </Grid.RowDefinitions>
 
         <StackPanel Margin="0, 0, 0, 5" Orientation="Horizontal" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
-            <Button HorizontalAlignment="Left" Background="White">
+            <Button HorizontalAlignment="Left" Background="#DEF0F3">
                 <Image Source="Resources/login.png"></Image>
             </Button>
-            <TextBlock Margin="2" Text="{Binding chosenUser.UserName}" Background="PowderBlue" FontSize="14" FontFamily="Arial" HorizontalAlignment="Left"></TextBlock>
+            <TextBlock Margin="2" Text="{Binding chosenUser.UserName}" Background="#DEF0F3" FontSize="14" FontFamily="Arial" HorizontalAlignment="Left"></TextBlock>
         </StackPanel>
 
         <StackPanel Margin="0, 0, 0, 5" Orientation="Horizontal" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Right">
@@ -53,10 +59,10 @@
         <GridSplitter Grid.Column="1" Grid.Row="1" Width="5" HorizontalAlignment="Stretch" Background="Gray">
         </GridSplitter>
 
-        <Border Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Margin="3" BorderBrush="Gray" BorderThickness="2">
+        <Border Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Margin="3" Background="#DEF0F3" BorderBrush="Gray" BorderThickness="2">
             <view:WorkspaceView></view:WorkspaceView>
         </Border>
 
     </Grid>
-
 </Window>
+    

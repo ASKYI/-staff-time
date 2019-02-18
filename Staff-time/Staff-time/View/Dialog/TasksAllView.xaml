@@ -9,6 +9,7 @@
         xmlns:vm="clr-namespace:Staff_time.ViewModel"  
         xmlns:v="clr-namespace:Staff_time.View"  
         mc:Ignorable="d"
+        Icon="../../Resources/tree.ico"
         Title="Полное дерево задач" Height="520" Width="500" MinHeight="310" MinWidth="500"
         WindowStartupLocation="CenterScreen">
 

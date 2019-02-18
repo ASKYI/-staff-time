@@ -42,6 +42,7 @@ namespace Staff_time.Model
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<TimeTable> TimeTables { get; set; }
         public virtual DbSet<Request> Requests { get; set; }
+        public virtual DbSet<PropertiesList> PropertiesLists { get; set; }
     
         public virtual int RepareUserTree(Nullable<int> taskId)
         {

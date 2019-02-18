@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -172,6 +173,33 @@ namespace Staff_time.View
             var curTime = new DateTime(1899, 12, 30, DateTime.Now.Hour, DateTime.Now.Minute, 0);
             var tmControl = (MaskedTextBox)sender;
             tmControl.Text = curTime.ToString("HH:mm");
+        }
+    }
+}
+
+namespace WpfTestBench.Converters
+{
+    public class GridWidthConverter : MarkupExtension, IValueConverter
+    {
+        private static GridWidthConverter _instance;
+
+        #region IValueConverter Members
+
+        public object Convert(object value, Type targetType, object borderWidth, CultureInfo culture)
+        {
+            return System.Convert.ToDouble(value) - System.Convert.ToDouble(borderWidth);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return _instance ?? (_instance = new GridWidthConverter());
         }
     }
 }

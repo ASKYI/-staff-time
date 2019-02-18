@@ -26,7 +26,7 @@ namespace Staff_time
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string version = "1.8";
+        static string version = "2.0";
         MainViewModel context;
         private static bool _isEnable;
         public static bool IsEnable
@@ -60,28 +60,22 @@ namespace Staff_time
                 this.Show();
             }
             Closing += this.Window_Closing;
-            //GlobalPropertyChanged += this.HandleGlobalPropertyChanged;
-            //qq1 = QQ;
-            ////qq.Width = this.Width;
-            ////qq.Height = this.Height;
-            ////qq.Visibility = Visibility.Hidden;
-            //Color c = Colors.Black;
-            //c.A = 100;
-            //qq1.Background = new SolidColorBrush(c);
-            //Grid.SetZIndex(qq1, 999);
         }
-
-        //void HandleGlobalPropertyChanged(object sender, PropertyChangedEventArgs e)
-        //{
-        //    NotifyPropertyChanged("DatePickerEnabled");
-        //}
 
         public void LogoutEvent(object sender, EventArgs e)
         {
+            OnGlobalPropertyChanged("MainWindowClosing");
+
             if (!MainWindow.IsEnable)
             {
-                MessageBox.Show("Сохраните или отмените изменения в работе. Выход не будет осуществлен.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                var result = MessageBox.Show("Есть несохраненные изменения в работе. Сохранить?", "Сообщение", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                    context.ApplyChanges();
+                else
+                    if (result == MessageBoxResult.No)
+                    context.CancelEditing();
+                else
+                    return;
             }
             var oldMainWindow = this;
             this.Hide();

@@ -29,6 +29,12 @@ namespace Staff_time.ViewModel
 
 
         private static bool _init_tracker = false;
+
+        public static void ReloadContext()
+        {
+            _init_tracker = false;
+            Init();
+        }
         public static void Init()
         {
             if (_init_tracker)
@@ -45,11 +51,6 @@ namespace Staff_time.ViewModel
             timeTableWork = _context;
             procedureWork = _context;
             requestWork = _context;
-        }
-
-        public static void RefreshEntity(object obj)
-        {
-            _context.Entry(obj);
         }
     }
 }

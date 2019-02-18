@@ -20,12 +20,66 @@ namespace Staff_time.ViewModel
     {
         //Так как с задачами удобнее работать как с узлами дерева (имея доступ ко всем наследникам и предку), 
         //они хранятся в виде узлов
-        public static Dictionary<int, TreeNode> Dictionary { get; set; }
+        private static Dictionary<int, TreeNode> _dictionary;
+
+        public static Dictionary<int, TreeNode> Dictionary
+        {
+            get
+            {
+                if (FilterFaveTaskText == "" || FilterFaveTaskText == null)
+                    return _dictionary;
+                Mouse.SetCursor(Cursors.Wait);
+                var listTreeNodeFound = _dictionary.Where(t => (t.Value.Task.TaskName.ToLower().Contains(FilterFaveTaskText.ToLower()))).Select(t => t.Value).ToList();
+                Dictionary<int, TreeNode> filteredDictionary = new Dictionary<int, TreeNode>();
+
+                Queue<TreeNode> nodeToStay = new Queue<TreeNode>();
+                foreach (var node in listTreeNodeFound)
+                {
+                    var newNode = new TreeNode(node);
+                    newNode.TreeNodes = new ObservableCollection<TreeNode>();
+                    newNode.IsExpanded = true;
+                    nodeToStay.Enqueue(newNode);
+                    filteredDictionary.Add(newNode.Task.ID, newNode);
+                }
+
+                while (nodeToStay.Count > 0)
+                {
+                    var curTreeNode = nodeToStay.Dequeue();
+
+                    var parentNode = curTreeNode.ParentNode;
+                    if (parentNode != null)
+                    {
+                        var newParentNode = new TreeNode(parentNode);
+                        newParentNode.IsExpanded = true;
+
+
+                        if (!filteredDictionary.ContainsKey(newParentNode.Task.ID))
+                        {
+                            newParentNode.TreeNodes = new ObservableCollection<TreeNode>();
+                            newParentNode.TreeNodes.Add(curTreeNode);
+                            filteredDictionary.Add(newParentNode.Task.ID, newParentNode);
+                            nodeToStay.Enqueue(newParentNode);
+                        }
+                        else
+                            filteredDictionary[newParentNode.Task.ID].TreeNodes.Add(curTreeNode);
+                    }
+                }
+
+                Mouse.SetCursor(Cursors.Arrow);
+                return filteredDictionary;
+            }
+            set
+            {
+                _dictionary = value;
+            }
+        }
         public static Dictionary<int, TreeNode> DictionaryFull { get; set; }
 
+        public static bool Init_Context_tracker = true;
         public static bool Init_tracker = true;
         public static bool Init_Full_tracker = false;
 
+        public static string FilterFaveTaskText { get; set; }
 
         private static void FillTreeDictionaryByTasks(Dictionary<int, TreeNode> curDictionary, List<Task> tasksBD, bool isFullTree)
         {

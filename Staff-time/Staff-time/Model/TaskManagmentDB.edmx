@@ -31,7 +31,7 @@
             <PropertyRef Name="LevelID" />
           </Key>
           <Property Name="LevelID" Type="int" Nullable="false" />
-          <Property Name="LevelName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LevelName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Properties">
           <Key>
@@ -40,6 +40,14 @@
           <Property Name="DataType" Type="int" Nullable="false" />
           <Property Name="PropName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PropertiesList">
+          <Key>
+            <PropertyRef Name="PropID" />
+            <PropertyRef Name="Value" />
+          </Key>
+          <Property Name="PropID" Type="int" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="PropValues">
           <Key>
@@ -68,7 +76,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TaskName" Type="varchar" MaxLength="255" />
+          <Property Name="TaskName" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="TaskTypeID" Type="int" Nullable="false" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ParentTaskID" Type="int" />
@@ -99,7 +107,7 @@
             <PropertyRef Name="Date" />
           </Key>
           <Property Name="Date" Type="date" Nullable="false" />
-          <Property Name="PlanningTime" Type="float" />
+          <Property Name="PlanningTime" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -174,15 +182,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_LEVELS_LEVELS">
-          <End Role="LEVELS" Type="Self.LEVELS" Multiplicity="1" />
-          <End Role="LEVELS1" Type="Self.LEVELS" Multiplicity="0..1" />
+        <Association Name="FK_PropertiesList_Properties">
+          <End Role="Properties" Type="Self.Properties" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PropertiesList" Type="Self.PropertiesList" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="LEVELS">
-              <PropertyRef Name="LevelID" />
+            <Principal Role="Properties">
+              <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="LEVELS1">
-              <PropertyRef Name="LevelID" />
+            <Dependent Role="PropertiesList">
+              <PropertyRef Name="PropID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -442,6 +452,7 @@
           <EntitySet Name="AttrValues" EntityType="Self.AttrValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LEVELS" EntityType="Self.LEVELS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Properties" EntityType="Self.Properties" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PropertiesList" EntityType="Self.PropertiesList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PropValues" EntityType="Self.PropValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Requests" EntityType="Self.Requests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
@@ -461,9 +472,9 @@
             <End Role="Works" EntitySet="Works" />
             <End Role="AttrValues" EntitySet="AttrValues" />
           </AssociationSet>
-          <AssociationSet Name="FK_LEVELS_LEVELS" Association="Self.FK_LEVELS_LEVELS">
-            <End Role="LEVELS" EntitySet="LEVELS" />
-            <End Role="LEVELS1" EntitySet="LEVELS" />
+          <AssociationSet Name="FK_PropertiesList_Properties" Association="Self.FK_PropertiesList_Properties">
+            <End Role="Properties" EntitySet="Properties" />
+            <End Role="PropertiesList" EntitySet="PropertiesList" />
           </AssociationSet>
           <AssociationSet Name="FK_PropValues_Properties" Association="Self.FK_PropValues_Properties">
             <End Role="Properties" EntitySet="Properties" />
@@ -584,6 +595,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="PropValues" Relationship="Self.FK_PropValues_Properties" FromRole="Properties" ToRole="PropValues" />
           <NavigationProperty Name="TaskTypeProps" Relationship="Self.FK_TaskTypeProps_Properties" FromRole="Properties" ToRole="TaskTypeProps" />
+          <NavigationProperty Name="PropertiesLists" Relationship="TaskManagmentDBModel.FK_PropertiesList_Properties" FromRole="Property" ToRole="PropertiesList" />
         </EntityType>
         <EntityType Name="PropValue">
           <Key>
@@ -904,6 +916,11 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Task" EntitySet="Tasks" />
           </AssociationSet>
+          <EntitySet Name="PropertiesLists" EntityType="TaskManagmentDBModel.PropertiesList" />
+          <AssociationSet Name="FK_PropertiesList_Properties" Association="TaskManagmentDBModel.FK_PropertiesList_Properties">
+            <End Role="Property" EntitySet="Properties" />
+            <End Role="PropertiesList" EntitySet="PropertiesLists" />
+          </AssociationSet>
           </EntityContainer>
         <Association Name="FK_Works_Users">
           <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="0..1" />
@@ -922,7 +939,7 @@
             <PropertyRef Name="LevelID" />
           </Key>
           <Property Name="LevelID" Type="Int32" Nullable="false" />
-          <Property Name="LevelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LevelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="LEVELS1" Relationship="TaskManagmentDBModel.FK_LEVELS_LEVELS" FromRole="LEVEL" ToRole="LEVEL1" />
           <NavigationProperty Name="LEVEL1" Relationship="TaskManagmentDBModel.FK_LEVELS_LEVELS" FromRole="LEVEL1" ToRole="LEVEL" />
           <NavigationProperty Name="Users" Relationship="TaskManagmentDBModel.FK_Users_Levels" FromRole="LEVEL" ToRole="User" />
@@ -956,7 +973,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="TaskName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TaskName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="TaskTypeID" Type="Int32" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ParentTaskID" Type="Int32" />
@@ -1070,7 +1087,7 @@
             <PropertyRef Name="Date" />
           </Key>
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="PlanningTime" Type="Double" />
+          <Property Name="PlanningTime" Type="Double" Nullable="false" />
         </EntityType>
         <EntityType Name="Request">
           <Key>
@@ -1134,6 +1151,29 @@
             </Principal>
             <Dependent Role="Task">
               <PropertyRef Name="ResponsibleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PropertiesList">
+          <Key>
+            <PropertyRef Name="PropID" />
+            <PropertyRef Name="Value" />
+          </Key>
+          <Property Name="PropID" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Property" Relationship="TaskManagmentDBModel.FK_PropertiesList_Properties" FromRole="PropertiesList" ToRole="Property" />
+        </EntityType>
+        <Association Name="FK_PropertiesList_Properties">
+          <End Type="TaskManagmentDBModel.Property" Role="Property" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TaskManagmentDBModel.PropertiesList" Role="PropertiesList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PropertiesList">
+              <PropertyRef Name="PropID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1301,6 +1341,14 @@
                 <ScalarProperty Name="ToUserID" ColumnName="ToUserID" />
                 <ScalarProperty Name="FromUserID" ColumnName="FromUserID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PropertiesLists">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.PropertiesList">
+              <MappingFragment StoreEntitySet="PropertiesList">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="PropID" ColumnName="PropID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
