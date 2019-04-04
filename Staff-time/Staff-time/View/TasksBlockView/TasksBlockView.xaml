@@ -19,17 +19,17 @@
             </Border>
         </HierarchicalDataTemplate>
 
-        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
+        <!--<HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="Azure" BorderThickness="2">
                 <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
             </Border>
-        </HierarchicalDataTemplate>
+        </HierarchicalDataTemplate>-->
 
-        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}" ItemsSource="{Binding TreeNodes}">
+        <!--<HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="LightGoldenrodYellow" BorderThickness="2">
                 <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
             </Border>
-        </HierarchicalDataTemplate>
+        </HierarchicalDataTemplate>-->
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="LightYellow" BorderThickness="2">
@@ -94,9 +94,13 @@
             </Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" >
-            <TextBox Margin ="2,0,0,0" Name="FilterTBox" FontStyle="Italic" FontSize="16" Width="200" Text="{Binding FilterTaskText}" GotFocus="Filter_GotFocus"></TextBox>
+            <TextBox Margin ="2,0,0,0" Name="FilterTBox" FontStyle="Italic" KeyDown="OnKeyDownFilter" FontSize="16" Width="200" Text="{Binding FilterTaskText, UpdateSourceTrigger=PropertyChanged}" GotFocus="Filter_GotFocus"></TextBox>
             <Button  Margin ="2,0,0,0" Command="{Binding FilterTaskCommand}" Click="FilterClick" ToolTip="Фильтровать дерево" Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/filter.ico"></Image>
+            </Button>
+            <Button Name="ClearFilterBtn" Margin ="2,0,0,0" Click="ClearFilterClick" ToolTip="Сбросить фильтр" Background="White" Style="{StaticResource ButtonStyle}"
+                    IsEnabled="{Binding ElementName=FilterTBox, Path=Text.Length, Mode=OneWay}" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/delete.ico"></Image>
             </Button>
         </StackPanel>
 
@@ -109,6 +113,7 @@
                     <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"></Setter>
                         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"></Setter>
+                        <Setter Property="ToolTip" Value="{Binding FullPathAsString}"></Setter>
 
                         <EventSetter Event="PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
                         <!--<EventSetter Event="MouseDoubleClick" Handler="TreeViewItem_doubleclick"/>-->
@@ -128,10 +133,10 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                     <TextBlock  Margin="3" Text="Мои заявки" FontStyle="Italic" FontWeight="Bold" FontSize="16" ></TextBlock>
-                   
+
                 </StackPanel>
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Row="0">
-                    <Button  Height="25" Width="25" Command="{Binding RefreshRequestCommand}" ToolTip="Принять заявку" Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
+                    <Button  Height="25" Width="25" Command="{Binding RefreshRequestCommand}" ToolTip="Обновить заявки" Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
                         <Image Source="../../Resources/refresh.ico"></Image>
                     </Button>
                     <Button  Margin ="3,0,0,0" Height="25" Width="25"  VerticalAlignment="Bottom" Command="{Binding DeleteRequestCommand}" ToolTip="Отклонить заявку" Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
@@ -144,10 +149,14 @@
                         </StackPanel>
                     </Button>
                 </StackPanel>
-                <StackPanel Orientation="Vertical" Grid.Row="1">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical" Grid.Row="1" Name="RequestPanel">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="{Binding Path=ActualHeight, ElementName=RequestPanel}">
                         <Grid Margin="3"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <ListView SelectionChanged="ListView_SelectionChanged" Name="lvRequests" ItemsSource="{Binding RequestsList, UpdateSourceTrigger=PropertyChanged}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1488*"/>
+                                <ColumnDefinition Width="137*"/>
+                            </Grid.ColumnDefinitions>
+                            <ListView SelectionChanged="ListView_SelectionChanged" Name="lvRequests" ItemsSource="{Binding RequestsList, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2">
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn

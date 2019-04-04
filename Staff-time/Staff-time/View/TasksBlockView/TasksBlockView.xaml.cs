@@ -54,7 +54,21 @@ namespace Staff_time.View
             else
                 FilterTBox.Background = Brushes.White;
         }
+        private void ClearFilterClick(object sender, EventArgs e)//происходит когда элемент стает активным
+        {
+            FilterTBox.Text = "";
+            FilterTBox.Background = Brushes.White;
+            context.FilterTaskCommand.Execute(sender);
+        }
 
+        private void OnKeyDownFilter(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                context.FilterTaskCommand.Execute(sender);
+                return;
+            }
+        }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -80,9 +94,9 @@ namespace Staff_time.View
 
         private void KeyDownMainWindow(object sender, KeyEventArgs e)
         {
-            if (MainWindow.IsEnable)
-                if (e.Key == Key.W)
-                    context.AddWorkCommand.Execute(sender);
+            //if (MainWindow.IsEnable)
+                //if (e.Key == Key.W)
+                //    context.AddWorkCommand.Execute(sender);
         }
 
         private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -112,6 +126,11 @@ namespace Staff_time.View
             //item.Header = "Удалить задачу";
             //item.Command = context.DeleteTaskCommand;
             //menu.Items.Add(item);
+            item = new MenuItem();
+            item.Header = "Просмотр информации о задаче";
+            item.Command = context.ShowTaskCommand;
+            menu.Items.Add(item);
+
             item = new MenuItem();
             item.Header = "Передать задачу";
             item.Command = context.TransferTaskCommand;

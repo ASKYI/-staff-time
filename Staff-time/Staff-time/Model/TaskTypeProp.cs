@@ -18,7 +18,7 @@ namespace Staff_time.Model
         public int TaskTypeID { get; set; }
         public int PropID { get; set; }
     
-        public virtual Property Property { get; set; }
         public virtual TaskType TaskType { get; set; }
+        public virtual Property Property { get; set; }
     }
 }

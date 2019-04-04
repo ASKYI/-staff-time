@@ -22,17 +22,17 @@
             </Border>
         </HierarchicalDataTemplate>
 
-        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
+        <!--<HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="Azure" BorderThickness="2">
                 <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
             </Border>
-        </HierarchicalDataTemplate>
+        </HierarchicalDataTemplate>-->
 
-        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}" ItemsSource="{Binding TreeNodes}">
+        <!--<HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="LightGoldenrodYellow" BorderThickness="2">
                 <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
             </Border>
-        </HierarchicalDataTemplate>
+        </HierarchicalDataTemplate>-->
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="LightYellow" BorderThickness="2">
@@ -77,6 +77,9 @@
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
+                </Button>
+                <Button  Margin ="2,0,0,0" Command="{Binding ShowTaskCommand}" ToolTip="Просмотр информации о задаче" Background="White" ToolTipService.ShowOnDisabled="True">
+                    <Image Source="../../Resources/filter.ico"></Image>
                 </Button>
                 <Button  Margin ="2,0,0,0" Command="{Binding DeleteTaskCommand}" ToolTip="Удалить задачу" Cursor="Hand" Background="White" ToolTipService.ShowOnDisabled="True">
                     <Image Source="../../Resources/delete.ico"></Image>

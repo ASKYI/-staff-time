@@ -33,7 +33,6 @@ namespace Staff_time.View
         public void Window_loaded(object sender, RoutedEventArgs e)
         {
             WorkNameTextBox.Focus();
-            //WorkNameTextBox.Dispatcher.BeginInvoke(new Action(() => WorkNameTextBox.SelectAll()));
         }
 
         public void Description_KeyDown(object sender, KeyEventArgs e)

@@ -12,16 +12,14 @@ namespace Staff_time.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Request
+    public partial class ListsValue
     {
         public int ID { get; set; }
-        public int FromUserID { get; set; }
-        public int ToUserID { get; set; }
         public int TaskID { get; set; }
-        public System.DateTime TransferDateTime { get; set; }
+        public int ListID { get; set; }
+        public string Val { get; set; }
     
-        public virtual User User { get; set; }
-        public virtual User User1 { get; set; }
+        public virtual List List { get; set; }
         public virtual Task Task { get; set; }
     }
 }

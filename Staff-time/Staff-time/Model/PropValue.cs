@@ -9,6 +9,7 @@
 
 namespace Staff_time.Model
 {
+    using Staff_time.ViewModel;
     using System;
     using System.Collections.Generic;
     
@@ -22,8 +23,8 @@ namespace Staff_time.Model
         public Nullable<int> ValueInt { get; set; }
         public Nullable<System.DateTime> ValueDate { get; set; }
         public Nullable<System.TimeSpan> ValueTime { get; set; }
-    
-        public virtual Property Property { get; set; }
+
         public virtual Task Task { get; set; }
+        public virtual Property Property { get; set; }
     }
 }

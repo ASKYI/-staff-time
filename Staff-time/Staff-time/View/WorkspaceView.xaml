@@ -103,7 +103,7 @@
             <TextBlock>
                 <Border BorderThickness="2" Style="{StaticResource PlanTimeStyle}">
                     <StackPanel VerticalAlignment="bottom" Orientation="Horizontal" Height="22" Background="White" >
-                        <TextBlock Name="PlanTimeTbox" Width="Auto" KeyDown="PlanTimeKeyDown" VerticalAlignment="Center" FontWeight="Bold" IsEnabled="False"  GotFocus="PlanTimeGotFocus" Text="{Binding PlanningTime, Mode=TwoWay}"></TextBlock>
+                        <TextBox Name="PlanTimeTbox" Width="auto" BorderThickness="0" KeyDown="PlanTimeKeyDown" VerticalAlignment="Center" FontWeight="Bold" IsEnabled="False"  GotFocus="PlanTimeGotFocus" Text="{Binding PlanningTime, Mode=TwoWay}"></TextBox>
                         <TextBlock IsEnabled="False" Text=" часов " VerticalAlignment="Center"  FontWeight="Bold"></TextBlock>
                     </StackPanel>
                 </Border>

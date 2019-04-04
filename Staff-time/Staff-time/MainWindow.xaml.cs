@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Staff_time.Model;
 using Staff_time.Model.UserModel;
+using Staff_time.View.Dialog;
 using Staff_time.ViewModel;         // todo после окончания работы над файлом желательно убрать лишние using
 using Staff_time.ViewModel.LoginViewModel;
 
@@ -26,7 +27,7 @@ namespace Staff_time
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string version = "2.0";
+        static string version = "2.1";
         MainViewModel context;
         private static bool _isEnable;
         public static bool IsEnable
@@ -49,15 +50,29 @@ namespace Staff_time
             bool? isOK = Authorization.Login();
 
             if (isOK == false)
+            {
+                Window_Closing(null, null);
+                Close();
                 Environment.Exit(0);
+            }
             else
             {
-                context = new MainViewModel();
-                InitializeComponent();
-                Title = "Учёт трудозатрат, v" + version;
-                DataContext = context;
+                try
+                {
+                    SplashScreen splashScreen = new SplashScreen("Resources/appImage.png");
+                    splashScreen.Show(true);
 
-                this.Show();
+                    context = new MainViewModel();
+                    InitializeComponent();
+                    Title = "Учёт трудозатрат, v" + version;
+                    DataContext = context;
+                    this.Show();
+
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                }
             }
             Closing += this.Window_Closing;
         }
@@ -78,6 +93,7 @@ namespace Staff_time
                     return;
             }
             var oldMainWindow = this;
+            oldMainWindow.Window_Closing(null, null);
             this.Hide();
             TasksVM.Init_tracker = false;
             WorksVM.init_tracker = false;
@@ -125,6 +141,8 @@ namespace Staff_time
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (notifyIcon == null)
+                return;
             if (notifyIcon.Icon != null)
             {
                 notifyIcon.Icon.Dispose();

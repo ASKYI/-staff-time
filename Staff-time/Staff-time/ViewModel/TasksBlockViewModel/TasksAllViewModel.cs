@@ -35,6 +35,7 @@ namespace Staff_time.ViewModel
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
             _editTaskCommand = new RelayCommand(EditTask, CanEditTask);
+            _showTaskCommand = new RelayCommand(ShowTask, CanShowTask);
             _moveUpCommand = new RelayCommand(MoveUp, CanMoveUp);
             _moveDownCommand = new RelayCommand(MoveDown, CanMoveDown);
 
@@ -87,7 +88,7 @@ namespace Staff_time.ViewModel
         {
             get { return _faveTreeRoots; }
             set
-            { 
+            {
                 SetField(ref _faveTreeRoots, value);
             }
         }
@@ -134,7 +135,33 @@ namespace Staff_time.ViewModel
                     }
                 }
             }
+
+           //fillInd();
+
         }
+        //int ind = 1;
+
+        //private void fillInd()
+        //{
+        //    for (int j = 0; j < AllTreeRoots.Count; ++j)
+        //    {
+        //        var node = AllTreeRoots[j];
+        //        FillChildTree(node);
+        //        ind++;
+        //    }
+        //}
+        //private void FillChildTree(TreeNode node)
+        //{
+        //    node.Task.IndexNumber = ind;
+        //    Context.taskWork.Update_Task(node.Task);
+
+        //    for (int i = 0; i < node.TreeNodes.Count; ++i)
+        //    {
+        //        ind++;
+        //        var nd = node.TreeNodes[i];
+        //        FillChildTree(nd);
+        //    }
+        //}
 
         private bool IsEqualTreeNodes(TreeNode a, TreeNode b)
         {
@@ -179,6 +206,16 @@ namespace Staff_time.ViewModel
             if (SelectedTaskNode != null && SelectedTaskNode.Task.ID != SelectedTaskNode.Task.ParentTaskID)
                 newTask.ParentTaskID = SelectedTaskNode.Task.ParentTaskID;
             newTask.TaskName = "Новая задача";
+            newTask.CreateDate = DateTime.Now;
+
+            int newIndexNumber = TasksVM.DictionaryFull.Max(t => (int)t.Value.Task.IndexNumber) + 1;
+            if (newTask.ParentTaskID != null)
+            {
+                var parentNode = TasksVM.DictionaryFull.FirstOrDefault(n => n.Value.Task.ID == newTask.ParentTaskID).Value;
+                if (parentNode != null)
+                    newIndexNumber = parentNode.TreeNodes.Max(n => (int)n.Task.IndexNumber) + 1;
+            }
+            newTask.IndexNumber = newIndexNumber;
 
             dialog = new View.AddDialogWindow(new TaskDialogViewModel(newTask, AllTreeRoots, TaskCommandEnum.Add));
             dialog.Show();
@@ -201,10 +238,43 @@ namespace Staff_time.ViewModel
             Task newTask = new Task();
             newTask.ParentTaskID = SelectedTaskNode.Task.ID;
             newTask.TaskName = "Новая подзадача";
-            
+            newTask.CreateDate = DateTime.Now;
+
+            int newIndexNumber = TasksVM.DictionaryFull.Max(t => (int)t.Value.Task.IndexNumber) + 1;
+            if (SelectedTaskNode.TreeNodes.Count > 0)
+                newIndexNumber = SelectedTaskNode.TreeNodes.Max(n => (int)n.Task.IndexNumber) + 1;
+            else
+                newIndexNumber = (int)SelectedTaskNode.Task.IndexNumber + 1;
+            newTask.IndexNumber = newIndexNumber;
+
             dialog = new View.AddDialogWindow(new TaskDialogViewModel(newTask, AllTreeRoots, TaskCommandEnum.Add));
             dialog.Show();
         }
+        #endregion
+
+        
+        #region Show Task
+
+        private readonly ICommand _showTaskCommand;
+        public ICommand ShowTaskCommand
+        {
+            get
+            {
+                return _showTaskCommand;
+            }
+        }
+
+        private bool CanShowTask(object obj)
+        {
+            return SelectedTaskNode != null && dialog == null;
+        }
+        private void ShowTask(object obj)
+        {
+            var isEnabled = false;
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(SelectedTaskNode.Task, AllTreeRoots, TaskCommandEnum.Edit, isEnabled));
+            dialog.Show();
+        }
+
         #endregion
 
         #region Edit Task
@@ -224,7 +294,7 @@ namespace Staff_time.ViewModel
         }
         private void EditTask(object obj)
         {
-            dialog = new View.EditDialogWindow(new TaskDialogViewModel(SelectedTaskNode.Task, AllTreeRoots, TaskCommandEnum.Edit));   
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(SelectedTaskNode.Task, AllTreeRoots, TaskCommandEnum.Edit));
             dialog.Show();
         }
 
@@ -282,7 +352,7 @@ namespace Staff_time.ViewModel
         }
 
         #endregion
-     
+
         #region Navigation
 
         private readonly ICommand _moveUpCommand;
@@ -409,9 +479,9 @@ namespace Staff_time.ViewModel
         #endregion
 
         #region Do Task: Add, Edit
-        
+
         private void _doTaskCommand(KeyValuePair<TaskCommandEnum, Task> pair)
-        {       
+        {
             TaskCommandEnum command = pair.Key;
             Task task = pair.Value;
 
@@ -453,7 +523,7 @@ namespace Staff_time.ViewModel
                         TasksVM.InitFave();
                     }
                     MessengerInstance.Send<KeyValuePair<FaveTaskCommandEnum, Task>>(
-                new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, task));
+                new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, task)); //todo Настя сделать ссылки на task из общего словаря, чтобы не пришлось пробрасывать изменения в избранное
                     break;
             }
         }

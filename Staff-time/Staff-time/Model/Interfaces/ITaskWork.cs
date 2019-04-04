@@ -25,6 +25,12 @@ namespace Staff_time.Model.Interfaces
         //Проверяет, есть ли в избранном задача
         bool IsFave(int taskID);
 
+        //Возвращает все доп. поля задачи
+        List<Property> GetAllProperties(int tasktTypeID);
+
+        //Удаляем все значения доп. полей задачи из списка
+        void DeleteProperties(List<PropValue> deleteList);
+
         //Проверяет, есть ли уже такая задача
         bool IsExist(string taskName, int? parentTaskID);
 

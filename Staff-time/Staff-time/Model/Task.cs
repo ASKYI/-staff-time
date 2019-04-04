@@ -18,10 +18,11 @@ namespace Staff_time.Model
         public Task()
         {
             this.PropValues = new HashSet<PropValue>();
+            this.Requests = new HashSet<Request>();
             this.Tasks1 = new HashSet<Task>();
             this.UserTasks = new HashSet<UserTask>();
             this.Works = new HashSet<Work>();
-            this.Requests = new HashSet<Request>();
+            this.ListsValues = new HashSet<ListsValue>();
         }
     
         public string TaskName { get; set; }
@@ -34,21 +35,24 @@ namespace Staff_time.Model
         public Nullable<int> LevelID { get; set; }
         public bool IsMain { get; set; }
         public int ResponsibleID { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
     
         public virtual LEVEL LEVEL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PropValue> PropValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Request> Requests { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Task> Tasks1 { get; set; }
         public virtual Task Task1 { get; set; }
         public virtual TaskType TaskType { get; set; }
+        public virtual User User { get; set; }
         public virtual WorkType WorkType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserTask> UserTasks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Work> Works { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Request> Requests { get; set; }
-        public virtual User User { get; set; }
+        public virtual ICollection<ListsValue> ListsValues { get; set; }
     }
 }

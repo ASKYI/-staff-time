@@ -26,20 +26,33 @@ namespace Staff_time.View
 
         public EditDialogWindow(object context)
         {
-            InitializeComponent();
             base.DataContext = context;
-        Closing += ((ViewModel.TaskDialogViewModel)DataContext).OnWindowClosing; // todo аналогичное уже было
+            InitializeComponent();
+            Closing += ((ViewModel.TaskDialogViewModel)DataContext).OnWindowClosing; // todo аналогичное уже было
         }
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)
         {
-       //     if (((ViewModel.TaskDialogViewModel)DataContext).ToClose)
-          //      this.Close();
+            //     if (((ViewModel.TaskDialogViewModel)DataContext).ToClose)
+            //      this.Close();
         }
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
+
+        //void SelTaskTypeChanged(object sender, SelectionChangedEventArgs args)
+        //{
+        //    ComboBox combo = (ComboBox)sender;
+        //    //if (combo.SelectedIndex != 0 &&  MessageBox.Show("При изменении типа задач данные в дополнительных полях будут удалены. Продолжить?", "Смена типа задачи",
+        //    //    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+        //    //{
+        //    var ind = ((ViewModel.TaskDialogViewModel)DataContext).SelectedTaskTypeIndex;
+        //    if (ind >= 0 && combo.SelectedIndex != ind)
+        //        combo.SelectedIndex = ind;
+        //    //}
+        //}
     }
 }

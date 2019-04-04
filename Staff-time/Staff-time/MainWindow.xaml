@@ -13,7 +13,7 @@
         
         MouseDown="TasksBlockView_MouseDown"  
         
-        Title="" Height="450" Width="800" MinWidth="790" MinHeight="370"
+        Title="" Height="450" Width="800" MinWidth="900" MinHeight="370"
         Icon="Resources/appImage.ico" WindowStartupLocation="CenterScreen" WindowState="Maximized"
         Loaded="Window_Loaded" StateChanged="Window_State_Changed"
         Background="#99D8DF"

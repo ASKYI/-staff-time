@@ -33,11 +33,14 @@ namespace Staff_time.ViewModel
                 Dictionary<int, TreeNode> filteredDictionary = new Dictionary<int, TreeNode>();
 
                 Queue<TreeNode> nodeToStay = new Queue<TreeNode>();
-                foreach (var node in listTreeNodeFound)
+                for (int i = 0; i < listTreeNodeFound.Count; ++i)
                 {
+                    var node = listTreeNodeFound[i];
                     var newNode = new TreeNode(node);
                     newNode.TreeNodes = new ObservableCollection<TreeNode>();
                     newNode.IsExpanded = true;
+                    if (i == 0)
+                        newNode.IsSelected = true;
                     nodeToStay.Enqueue(newNode);
                     filteredDictionary.Add(newNode.Task.ID, newNode);
                 }
@@ -86,7 +89,6 @@ namespace Staff_time.ViewModel
             //tasksBD = tasksBD.OrderBy(t => t.ID).ToList();
             TreeNodeFactory treeNodeFactory = new TreeNodeFactory();
             int indexNumber = 1;
-
             foreach (Task taskTmp in tasksBD)
             {
                 Task task;
@@ -188,7 +190,7 @@ namespace Staff_time.ViewModel
             //DB
             Context.taskWork.Create_Task(task);
             //Context.taskWork.Create_TaskToFave(task.ID, GlobalInfo.CurrentUser.ID);
-            task.IndexNumber = task.ID;
+            //task.IndexNumber = task.ID; //todo indexNumber уже должен быть заполнен
             Context.taskWork.Update_Task(task);
 
             //Добавим в избранное
@@ -241,10 +243,23 @@ namespace Staff_time.ViewModel
         {
             var curDictionary = IsFullTree ? DictionaryFull : Dictionary;
             //DB
-            Context.taskWork.Update_Task(task);
+            if (IsFullTree)
+            {
+                try
+                {
+                    Mouse.SetCursor(Cursors.Wait);
+                    Context.taskWork.Update_Task(task);
+                    Mouse.SetCursor(Cursors.Arrow);
 
-            //VM
-            TreeNode oldNode = curDictionary[task.ID];
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                    Mouse.SetCursor(Cursors.Arrow);
+                }
+            }
+                //VM
+                TreeNode oldNode = curDictionary[task.ID];
 
             TreeNodeFactory factory = new TreeNodeFactory();
             TreeNode newNode = factory.CreateTreeNode(task);
@@ -471,21 +486,27 @@ namespace Staff_time.ViewModel
 
         public static void SaveCollapse(ObservableCollection<TreeNode> treeRoots)
         {
-            Queue<TreeNode> nodeToExpended = new Queue<TreeNode>();
-
-            foreach (var rootNode in treeRoots)
-                nodeToExpended.Enqueue(rootNode);
-
-            while (nodeToExpended.Count > 0)
+            foreach(var elem in TasksVM.Dictionary)
             {
-                var curNode = nodeToExpended.Dequeue();
-                Context.taskWork.Update_UserTaskExpended(curNode.Task.ID, GlobalInfo.CurrentUser.ID, curNode.IsExpanded);
-                foreach (var childNode in curNode.TreeNodes)
-                {
-                    Context.taskWork.Update_UserTaskExpended(childNode.Task.ID, GlobalInfo.CurrentUser.ID, childNode.IsExpanded);
-                    nodeToExpended.Enqueue(childNode);
-                }
+                var node = elem.Value;
+                Context.taskWork.Update_UserTaskExpended(node.Task.ID, GlobalInfo.CurrentUser.ID, node.IsExpanded);
             }
+
+            //Queue<TreeNode> nodeToExpended = new Queue<TreeNode>();
+
+            //foreach (var rootNode in treeRoots)
+            //    nodeToExpended.Enqueue(rootNode);
+
+            //while (nodeToExpended.Count > 0)
+            //{
+            //    var curNode = nodeToExpended.Dequeue();
+            //    Context.taskWork.Update_UserTaskExpended(curNode.Task.ID, GlobalInfo.CurrentUser.ID, curNode.IsExpanded);
+            //    foreach (var childNode in curNode.TreeNodes)
+            //    {
+            //        Context.taskWork.Update_UserTaskExpended(childNode.Task.ID, GlobalInfo.CurrentUser.ID, childNode.IsExpanded);
+            //        nodeToExpended.Enqueue(childNode);
+            //    }
+            //}
         }
 
         public static void ExpandAll()

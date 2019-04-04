@@ -6,6 +6,7 @@ using System.Text;
 using Staff_time.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace Staff_time.ViewModel
 {
@@ -31,6 +32,42 @@ namespace Staff_time.ViewModel
             FullPath = treeNode.FullPath; // todo здесь будет 1 массив на двоих, если кто-то один почистит его, другой  удивится
         }
 
+        //public void InitTaskControl(int taskID, int taskTypeID)
+        //{
+        //    if (TasksVM.DictionaryFull.ContainsKey(taskID))
+        //    {
+        //        Task = (Task)TasksVM.DictionaryFull[taskID].Task;
+
+        //        if (taskTypeID > 0)
+        //        {
+        //            if (Task.PropValues != null)
+        //            {
+        //                Context.taskWork.DeleteProperties(Task.PropValues.ToList());
+        //                Task.PropValues.Where(t => Task.PropValues.Remove(t));
+        //                Task.PropValues = null;
+        //            }
+        //        }
+        //        var taskType = taskTypeID >= 0 ? taskTypeID : Task.TaskTypeID;
+        //        var props = Context.taskWork.GetAllProperties(taskType);
+        //        foreach (var prop in props)
+        //        {
+        //            if (Task.PropValues == null)
+        //                Task.PropValues = new HashSet<PropValue>();
+        //            var propWithValue = Task.PropValues.FirstOrDefault(pv => pv.Property == prop);
+        //            if (propWithValue == null)
+        //            {
+        //                PropValue pv = new PropValue();
+        //                pv.Property = prop;
+        //                pv.PropID = prop.ID;
+        //                pv.TaskID = taskID;
+        //                pv.DataType = prop.DataType;
+        //                Task.PropValues.Add(pv);
+        //            }
+        //        }
+        //    }
+        //}
+
+
         private Task _task;
         public Task Task {
             get { return _task; }
@@ -40,6 +77,19 @@ namespace Staff_time.ViewModel
                 FullPath = TasksVM.generate_PathForTask(_task.ID); //todo Настя
             }
         }
+
+        //private Task _taskForPropValues;
+        //public Task TaskForPropValues
+        //{
+        //    get { return _taskForPropValues; }
+        //    set
+        //    {
+        //        SetField(ref _taskForPropValues, value); // todo Должно быть ошибкой, т.к. наши подписчики подписаны на наш ivent, а не на ivent базового класса, поэтому здесь не отработает оповещение
+        //        FullPath = TasksVM.generate_PathForTask(_taskForPropValues.ID); //todo Настя
+        //        RaisePropertyChanged("TaskForPropValues");
+        //    }
+        //}
+        
 
         private Nullable<int> _indexNumber;
         public Nullable<int> IndexNumber

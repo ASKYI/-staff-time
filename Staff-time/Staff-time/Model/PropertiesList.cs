@@ -16,6 +16,7 @@ namespace Staff_time.Model
     {
         public int PropID { get; set; }
         public string Value { get; set; }
+        public int ID { get; set; }
     
         public virtual Property Property { get; set; }
     }

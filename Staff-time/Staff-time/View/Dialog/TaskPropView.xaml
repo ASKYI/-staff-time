@@ -4,9 +4,202 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Staff_time.View.Dialog"
+             xmlns:local2="clr-namespace:Staff_time.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             xmlns:converters="clr-namespace:WpfTestBench.Converters"
+             
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:m="clr-namespace:Staff_time.Model"
+            xmlns:vm="clr-namespace:Staff_time.ViewModel"
+    Width="auto"
+    Name="TaskTypeFieldsControl">
+
+    <UserControl.Resources>
+        <local:DateTimeToDateConverter x:Key="myDateConverter" />
+
+        <DataTemplate x:Key="textBoxTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox Margin="1,1" Grid.Column="0" AcceptsReturn="True" Background="LightYellow" TextWrapping="Wrap" FontSize="14" FontFamily="Arial" HorizontalAlignment="Stretch" Text="{Binding Path=ValueText,UpdateSourceTrigger=PropertyChanged,
+                    ValidatesOnExceptions=True,NotifyOnValidationError=True,ValidatesOnDataErrors=True}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="dateTemplate">
+            <StackPanel HorizontalAlignment="Stretch">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <xctk:MaskedTextBox Margin="1,1" Mask="00/00/0000" Grid.Column="0" Background="LightYellow" FontSize="14" FontFamily="Arial" ToolTip="Дата должна быть в формате dd.MM.yyyy"
+                                        MouseDoubleClick="DateBox_DoubleClick" Text="{Binding ValueDate, Converter={StaticResource myDateConverter}}" />
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="timeTemplate">
+            <StackPanel HorizontalAlignment="Stretch">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <xctk:MaskedTextBox Margin="1,1" Mask="00:00" Grid.Column="0" FontSize="14" FontFamily="Arial" Background="LightYellow" MouseDoubleClick="TimeBox_DoubleClick" Text="{Binding ValueTime, StringFormat=HH:mm}" />
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="docTemplate">
+            <StackPanel HorizontalAlignment="Stretch">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="25"></ColumnDefinition>
+                        <ColumnDefinition Width="25"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBox TextWrapping="Wrap" x:Name="TextBoxDocName"  Grid.Column="0" FontSize="14" FontFamily="Arial" Background="LightYellow" Margin="1,1"
+                             Text="{Binding ValueText, Mode=TwoWay}" IsReadOnly="True"></TextBox>
+
+                    <Button Grid.Column="1" Margin="1" Height="23" Width="23" VerticalContentAlignment="Stretch" BorderThickness="1"  Click="OpenDoc"
+                            HorizontalContentAlignment="Stretch" ToolTip="Выбрать файл">
+                        <Image Source="../../Resources/file.ico" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+                    </Button>
+                    <Button Grid.Column="2" Margin="1" Height="23" Width="23"  VerticalContentAlignment="Stretch" BorderThickness="1" Click="ShowDoc"
+                            HorizontalContentAlignment="Stretch" ToolTip="Показать файл">
+                        <Image Source="../../Resources/file-show.ico" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+                    </Button>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="listConstTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="25"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ComboBox HorizontalAlignment="Stretch" Margin="1,1" Grid.Column="0" FontSize="14" FontFamily="Arial" Background="LightYellow" ItemsSource="{Binding Path=Property.PropertiesLists}" 
+                              DisplayMemberPath="Value" Text="{Binding ValueText,Mode=TwoWay}" IsReadOnly="False" IsEditable="True">
+                    <ComboBox.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="LightYellow" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightYellow" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="LightYellow" />
+                    </ComboBox.Resources>
+                </ComboBox>
+                <Button Grid.Column="1" Height="23" Width="23"  VerticalContentAlignment="Stretch" BorderThickness="1" Click="ShowConstListValues"
+                            HorizontalContentAlignment="Stretch" ToolTip="Редактировать список наименований">
+                    <Image Source="../../Resources/plus.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+                </Button>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="listCustomTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="25"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ComboBox HorizontalAlignment="Stretch" Margin="1,1" Grid.Column="0" FontSize="14" FontFamily="Arial" Background="LightYellow" ItemsSource="{Binding Path=Property.List.ListsValue}" 
+                              DisplayMemberPath="Val" IsReadOnly="False" IsEditable="True"
+                      Text="{Binding ValueText,Mode=TwoWay}">
+                    <ComboBox.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="LightYellow" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightYellow" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="LightYellow" />
+                    </ComboBox.Resources>
+                </ComboBox>
+                <Button Grid.Column="1" Height="23" Width="23"  VerticalContentAlignment="Stretch" BorderThickness="1" Click="ShowListValues"
+                            HorizontalContentAlignment="Stretch" ToolTip="Редактировать список наименований">
+                    <Image Source="../../Resources/plus.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+                </Button>
+            </Grid>
+        </DataTemplate>
+
+        <!--<DataTemplate x:Key="checkBoxTemplate">
+            <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center"  
+                      IsChecked="{Binding Path=ValueData,Mode=TwoWay}"/>
+        </DataTemplate>-->
+
+        <!--<DataTemplate x:Key="buttonTemplate">
+        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}, Path=DataContext.AddCommand}" 
+                    CommandParameter="{Binding}" Width="30" Height="25">
+            <TextBlock Text="HelloButton" FontFamily="Segoe UI Symbol" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray" />
+        </Button>
+    </DataTemplate>-->
+
+        <DataTemplate x:Key="dynamicTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding Property.PropName}" TextWrapping="Wrap" AcceptsReturn="True" FontSize="14" FontFamily="Arial" FontWeight="DemiBold" Margin="1,1" IsReadOnly="True" Grid.Column="0" Background="#99D8DF"/>
+                <ContentControl Content="{Binding}" Grid.Column="1">
+                    <ContentControl.Style>
+                        <Style TargetType="{x:Type ContentControl}">
+                            <Style.Triggers>
+                                <!--Text-->
+                                <DataTrigger Binding="{Binding Path=Property.DataType}" Value="0">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource textBoxTemplate}"/>
+                                </DataTrigger>
+                                <!--Int-->
+                                <DataTrigger Binding="{Binding Path=Property.DataType}" Value="1">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource textBoxTemplate}"/>
+                                </DataTrigger>
+                                <!--Date-->
+                                <DataTrigger Binding="{Binding Path=Property.DataType}" Value="2">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource dateTemplate}"/>
+                                </DataTrigger>
+                                <!--Time-->
+                                <DataTrigger Binding="{Binding Path=Property.DataType}" Value="3">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource timeTemplate}"/>
+                                </DataTrigger>
+                                <!--TextDoc-->
+                                <DataTrigger Binding="{Binding Path=Property.DataType}" Value="4">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource docTemplate}"/>
+                                </DataTrigger>
+                                <!--ListConst-->
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Path=Property.DataType}" Value="5" />
+                                        <Condition Binding="{Binding Path=Property.ListType}" Value="False" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="ContentTemplate" Value="{StaticResource listConstTemplate}"/>
+                                </MultiDataTrigger>
+
+                                <!--ListCustom-->
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Path=Property.DataType}" Value="5" />
+                                        <Condition Binding="{Binding Path=Property.ListType}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="ContentTemplate" Value="{StaticResource listCustomTemplate}"/>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
+                </ContentControl>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Margin="5" Grid.Row="0" FontFamily="Arial" FontWeight="DemiBold" FontSize="14">Дополнительные поля</TextBlock>
+            <ScrollViewer Grid.Row="1" VerticalAlignment="Top" MaxHeight="{Binding Path=ActualHeight, ElementName=TaskTypeFieldsControl, Converter={converters:GridWidthConverter}, ConverterParameter='50'}">
+                <ItemsControl Name="PropertisValuesList" Grid.Column="0" ItemsSource="{Binding Path=PropValues,Mode=TwoWay}" 
+                       ItemTemplate="{StaticResource dynamicTemplate}"
+                       KeyboardNavigation.IsTabStop="False">
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </StackPanel>
 </UserControl>

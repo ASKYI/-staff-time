@@ -80,7 +80,7 @@ namespace Staff_time.View
                     SortNameButton.Content = FindResource("NameAsc");
                 else
                     SortNameButton.Content = FindResource("NameDesc");
-                SortNameButton.Background = new SolidColorBrush(Color.FromRgb(222,240,243));
+                SortNameButton.Background = new SolidColorBrush(Color.FromRgb(222, 240, 243));
             }
         }
 

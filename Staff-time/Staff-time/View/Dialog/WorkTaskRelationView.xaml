@@ -20,17 +20,17 @@
             </Border>
         </HierarchicalDataTemplate>
 
-        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
+        <!--<HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="Azure" BorderThickness="2">
                 <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
             </Border>
-        </HierarchicalDataTemplate>
+        </HierarchicalDataTemplate>-->
 
-        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}" ItemsSource="{Binding TreeNodes}">
+        <!--<HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="LightGoldenrodYellow" BorderThickness="2">
                 <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
             </Border>
-        </HierarchicalDataTemplate>
+        </HierarchicalDataTemplate>-->
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="LightYellow" BorderThickness="2">

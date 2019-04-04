@@ -53,7 +53,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\appImage.ico</ApplicationIcon>
+    <ApplicationIcon>appImage.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -138,6 +138,7 @@
     <Compile Include="Model\Interfaces\IAttrWork.cs" />
     <Compile Include="Model\Interfaces\ILevelWork.cs" />
     <Compile Include="Model\Interfaces\IProcedureWork.cs" />
+    <Compile Include="Model\Interfaces\IPropertyWork.cs" />
     <Compile Include="Model\Interfaces\IRequestWork.cs" />
     <Compile Include="Model\Interfaces\ITaskWork.cs" />
     <Compile Include="Model\Interfaces\ITimeTableWork.cs" />
@@ -145,6 +146,12 @@
     <Compile Include="Model\Interfaces\IUserWork.cs" />
     <Compile Include="Model\Interfaces\IWorkWork.cs" />
     <Compile Include="Model\LEVEL.cs">
+      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\List.cs">
+      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ListsValue.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\PropertiesList.cs">
@@ -178,6 +185,10 @@
       <DependentUpon>TaskManagmentDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Model\TaskManagmentDBEntities.cs" />
+    <Compile Include="Model\TaskModel\Tasks\TaskAppeal.cs" />
+    <Compile Include="Model\TaskModel\Tasks\TaskDirection.cs" />
+    <Compile Include="Model\TaskModel\Tasks\TaskPlan.cs" />
+    <Compile Include="Model\TaskModel\Tasks\TaskRevision.cs" />
     <Compile Include="Model\TaskType.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
@@ -209,7 +220,14 @@
     <Compile Include="ViewModel\LoginViewModel\Authorization.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\AllTreeDialogViewModel.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TaskPropVMs\TaskIDDependency.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TaskPropVMs\TaskPropViewModel.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TaskPropVMs\TaskPropViewModelBase.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TasksAllViewModel.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeAppeal.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeDirection.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodePlan.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeRevision.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel\TabVMs\TabItem.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel\TabVMs\TabItemHeaderConverter.cs" />
     <Compile Include="ViewModel\-Shared\WorksVM.cs" />
@@ -219,8 +237,6 @@
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodeFactory.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNode.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeCustomer.cs" />
-    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeSpecialty.cs" />
-    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeСompany.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeСontract.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TaskDialogViewModel.cs" />
     <Compile Include="ViewModel\FaveViewModel.cs" />
@@ -237,6 +253,9 @@
     <Compile Include="View\Dialog\AddTaskView.xaml.cs">
       <DependentUpon>AddTaskView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Dialog\EditListView.xaml.cs">
+      <DependentUpon>EditListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Dialog\TaskPropView.xaml.cs">
       <DependentUpon>TaskPropView.xaml</DependentUpon>
     </Compile>
@@ -252,6 +271,9 @@
     </Compile>
     <Compile Include="View\Dialog\TransferTaskView.xaml.cs">
       <DependentUpon>TransferTaskView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TaskFieldListView.xaml.cs">
+      <DependentUpon>TaskFieldListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TasksBlockView\ExtendedTreeView.xaml.cs">
       <DependentUpon>ExtendedTreeView.xaml</DependentUpon>
@@ -287,6 +309,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Dialog\EditListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Dialog\TaskPropView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -304,6 +330,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Dialog\TransferTaskView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TaskFieldListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -337,8 +367,6 @@
     <Compile Include="Model\TaskModel\Tasks\Task.cs" />
     <Compile Include="Model\TaskModel\TaskFactory.cs" />
     <Compile Include="Model\TaskModel\Tasks\TaskCustomer.cs" />
-    <Compile Include="Model\TaskModel\Tasks\TaskSpecialty.cs" />
-    <Compile Include="Model\TaskModel\Tasks\TaskСompany.cs" />
     <Compile Include="Model\TaskModel\Tasks\TaskСontract.cs" />
     <Compile Include="Model\WorkModel\Works\WorkConsultationsByPhone.cs" />
     <Compile Include="Model\WorkModel\Works\WorkError.cs" />
@@ -383,6 +411,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="appImage.ico" />
     <Content Include="Model\TaskManagmentDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TaskManagmentDB.edmx</DependentUpon>
@@ -393,6 +422,11 @@
       <DependentUpon>TaskManagmentDB.edmx</DependentUpon>
       <LastGenOutput>TaskManagmentDB.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\appImage.png" />
+    <Resource Include="Resources\plus.png" />
+    <Resource Include="Resources\file-show.ico" />
+    <Resource Include="Resources\file.ico" />
+    <Resource Include="Resources\list-add.ico" />
     <Resource Include="Resources\add.ico" />
     <Resource Include="Resources\add_subitem.ico" />
     <Resource Include="Resources\add_work.ico" />
@@ -428,7 +462,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Staff_time\View\Dialog\" />
-    <Folder Include="ViewModel\TasksBlockViewModel\TaskPropVMs\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

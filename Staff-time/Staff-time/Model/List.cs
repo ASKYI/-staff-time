@@ -12,30 +12,21 @@ namespace Staff_time.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Property
+    public partial class List
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Property()
+        public List()
         {
-            this.PropertiesLists = new HashSet<PropertiesList>();
-            this.PropValues = new HashSet<PropValue>();
-            this.TaskTypeProps = new HashSet<TaskTypeProp>();
+            this.ListsValues = new HashSet<ListsValue>();
+            this.Properties = new HashSet<Property>();
         }
     
         public int ID { get; set; }
-        public int DataType { get; set; }
-        public string PropName { get; set; }
-        public Nullable<bool> ListType { get; set; }
-        public Nullable<int> ListID { get; set; }
-        public Nullable<int> TaskTypeID { get; set; }
-
-
-        public virtual List List { get; set; }
+        public string Nam { get; set; }
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PropertiesList> PropertiesLists { get; set; }
+        public virtual ICollection<ListsValue> ListsValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PropValue> PropValues { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TaskTypeProp> TaskTypeProps { get; set; }
+        public virtual ICollection<Property> Properties { get; set; }
     }
 }

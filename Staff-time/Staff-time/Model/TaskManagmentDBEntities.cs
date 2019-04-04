@@ -16,7 +16,7 @@ using Staff_time.ViewModel;
 namespace Staff_time.Model
 {
     public partial class TaskManagmentDBEntities : DbContext,
-        ITaskWork, IWorkWork, IAttrWork, ITypesWork, IUserWork, ILevelWork, ITimeTableWork, IProcedureWork, IRequestWork
+        ITaskWork, IWorkWork, IAttrWork, ITypesWork, IUserWork, ILevelWork, ITimeTableWork, IProcedureWork, IRequestWork, IPropertyWork
     {
         #region IUserWork
         public List<User> Read_AllUsers()
@@ -44,6 +44,14 @@ namespace Staff_time.Model
         }
 
         #endregion //ILevelWork
+
+        #region IPropertyWork
+        public List<string> GetListOfPropValues(int propID)
+        {
+            return PropertiesLists.Where(pl => pl.PropID == propID).Select(pl => pl.Value).ToList();
+        }
+
+        #endregion //IPropertyWork
 
         #region ITimeTableWork
         public double Read_TimeByDate(DateTime dt)
@@ -150,6 +158,20 @@ namespace Staff_time.Model
             var userFave = UserTasks.Where(ut => ut.TaskID == taskID && ut.UserID == GlobalInfo.CurrentUser.ID).ToList();
             return userFave.Count != 0;
         }
+        public List<Property> GetAllProperties(int tasktTypeID)
+        {
+            return TaskTypeProps.Where(tp => tp.TaskTypeID == tasktTypeID).Select(tp => tp.Property).ToList();
+        }
+
+        public void DeleteProperties(List<PropValue> deleteList)
+        {
+            foreach(var pv in deleteList)
+            {
+                var delPV = PropValues.FirstOrDefault(p => p.PropID == pv.PropID && p.TaskID == pv.TaskID);
+                if (delPV != null)
+                    PropValues.Remove(delPV);
+            }
+        }
 
         public void AddRequest(int fromUserID, int toUserID, int taskID)
         {
@@ -207,6 +229,19 @@ namespace Staff_time.Model
 
         public void Update_Task(Task task)
         {
+
+            foreach (var pv in task.PropValues)
+            {
+                var delPV = PropValues.FirstOrDefault(p => p.PropID == pv.PropID && p.TaskID == pv.TaskID);
+                delPV = delPV == null ? pv : delPV;
+                if (delPV.Property != null)
+                {
+                    var curIDs = delPV.Property.PropertiesLists.Select(p => p.ID).ToList();
+                    PropertiesLists.RemoveRange(PropertiesLists.Where(pl => pl.PropID == delPV.PropID && !curIDs.Contains(pl.ID))); // удалить те, которых сейчас нет
+                }
+                PropValues.AddOrUpdate(delPV);
+            }
+
             Tasks.AddOrUpdate(task);
             SaveChanges();
         }
@@ -409,6 +444,11 @@ namespace Staff_time.Model
         public void RepareUserFave(int taskID)
         {
             RepareUserTree(taskID);
+            SaveChanges();
+        }
+        public void UpdateTasksIndexNumbers(int indexStart)
+        {
+            UpdateTaskIndexNumbersAfterAppend(indexStart);
             SaveChanges();
         }
 

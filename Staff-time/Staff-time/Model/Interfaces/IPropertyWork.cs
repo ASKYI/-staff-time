@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Staff_time.Model.Interfaces
 {
-    public interface IProcedureWork
+    public interface IPropertyWork
     {
-        void RepareUserFave(int taskID);
-        void UpdateTasksIndexNumbers(int indexStart);
+        List<string> GetListOfPropValues(int propID);
+        //List<string> GetListOfPropListValues(int propID);
     }
 }

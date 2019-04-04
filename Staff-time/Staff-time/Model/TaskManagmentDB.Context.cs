@@ -29,8 +29,6 @@ namespace Staff_time.Model
     
         public virtual DbSet<Attribute> Attributes { get; set; }
         public virtual DbSet<AttrValue> AttrValues { get; set; }
-        public virtual DbSet<Property> Properties { get; set; }
-        public virtual DbSet<PropValue> PropValues { get; set; }
         public virtual DbSet<TaskTypeProp> TaskTypeProps { get; set; }
         public virtual DbSet<TaskType> TaskTypes { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -39,10 +37,14 @@ namespace Staff_time.Model
         public virtual DbSet<WorkTypeAttr> WorkTypeAttrs { get; set; }
         public virtual DbSet<WorkType> WorkTypes { get; set; }
         public virtual DbSet<LEVEL> LEVELS { get; set; }
-        public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<TimeTable> TimeTables { get; set; }
         public virtual DbSet<Request> Requests { get; set; }
+        public virtual DbSet<PropValue> PropValues { get; set; }
+        public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<PropertiesList> PropertiesLists { get; set; }
+        public virtual DbSet<List> Lists { get; set; }
+        public virtual DbSet<ListsValue> ListsValues { get; set; }
+        public virtual DbSet<Property> Properties { get; set; }
     
         public virtual int RepareUserTree(Nullable<int> taskId)
         {
@@ -51,6 +53,15 @@ namespace Staff_time.Model
                 new ObjectParameter("taskId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RepareUserTree", taskIdParameter);
+        }
+    
+        public virtual int UpdateTaskIndexNumbersAfterAppend(Nullable<int> nextIndexNumber)
+        {
+            var nextIndexNumberParameter = nextIndexNumber.HasValue ?
+                new ObjectParameter("NextIndexNumber", nextIndexNumber) :
+                new ObjectParameter("NextIndexNumber", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateTaskIndexNumbersAfterAppend", nextIndexNumberParameter);
         }
     }
 }

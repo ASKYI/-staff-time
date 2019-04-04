@@ -36,6 +36,7 @@ namespace Staff_time.ViewModel
             _refreshRequestCommand = new RelayCommand(RefreshRequest, (_) => true);
             _deleteTaskCommand = new RelayCommand(DeleteFaveTask, CanDeleteTask);
             _transferTaskCommand = new RelayCommand(TransferTask, CanTransferTask);
+            _showTaskCommand = new RelayCommand(ShowTask, CanShowTask);
             _moveUpCommand = new RelayCommand(MoveUp, CanMoveUp);
             _moveDownCommand = new RelayCommand(MoveDown, CanMoveDown);
 
@@ -132,7 +133,7 @@ namespace Staff_time.ViewModel
                 RaisePropertyChanged("FilterTaskText");
             }
         }
-        
+
         private readonly ICommand _filterTaskCommand;
         public ICommand FilterTaskCommand
         {
@@ -144,8 +145,27 @@ namespace Staff_time.ViewModel
 
         private void FilterTree(object obj)
         {
+            var oldSelectedNode = SelectedTaskNode;
             TasksVM.FilterFaveTaskText = _filterTaskText;
             _generate_Tree();
+
+            //Восстановить развертку
+            if (oldSelectedNode == null)
+                return;
+
+            int oldSelectedNodeTaskID = oldSelectedNode.Task.ID;
+            var parent = oldSelectedNode.ParentNode;
+            while (parent != null)
+            {
+                parent.IsExpanded = true;
+                parent = parent.ParentNode;
+            }
+            var dictItem = TasksVM.Dictionary.FirstOrDefault(nd => nd.Key == oldSelectedNodeTaskID);
+            if (dictItem.Value != null)
+            {
+                SelectedTaskNode = dictItem.Value;
+                SelectedTaskNode.IsExpanded = true;
+            }
         }
 
         #endregion //Tree
@@ -214,7 +234,9 @@ namespace Staff_time.ViewModel
         }
         private void SaveCollapse(object obj)
         {
+            Mouse.SetCursor(Cursors.Wait);
             TasksVM.SaveCollapse(TreeRoots);
+            Mouse.SetCursor(Cursors.Arrow);
             MessageBox.Show("Развертка сохранена", "Сохранение", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
@@ -516,6 +538,28 @@ namespace Staff_time.ViewModel
             //Mouse.SetCursor(Cursors.Arrow);
         }
 
+        private readonly ICommand _showTaskCommand;
+
+        public ICommand ShowTaskCommand
+        {
+            get
+            {
+                return _showTaskCommand;
+            }
+        }
+        private bool CanShowTask(object obj)
+        {
+            return SelectedTaskNode != null && dialog == null && MainWindow.IsEnable;
+        }
+
+        private void ShowTask(object obj)
+        {
+            bool isEnabled = false;
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit, isEnabled));
+            dialog.Show();
+        }
+        
+
         private readonly ICommand _refreshRequestCommand;
         public ICommand RefreshRequestCommand
         {
@@ -524,7 +568,7 @@ namespace Staff_time.ViewModel
                 return _refreshRequestCommand;
             }
         }
-        
+
         void RefreshRequest(object obj)
         {
             Context.ReloadContext();
@@ -634,7 +678,8 @@ namespace Staff_time.ViewModel
         }
 
         private List<RequestItem> _selectedRequests;
-        public List<RequestItem> SelectedRequests {
+        public List<RequestItem> SelectedRequests
+        {
             get
             {
                 return _selectedRequests;
