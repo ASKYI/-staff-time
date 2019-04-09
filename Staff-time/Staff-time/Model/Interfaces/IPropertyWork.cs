@@ -9,6 +9,6 @@ namespace Staff_time.Model.Interfaces
     public interface IPropertyWork
     {
         List<string> GetListOfPropValues(int propID);
-        //List<string> GetListOfPropListValues(int propID);
+        List<List> GetListIDWithTaskType(int taskTypeID);
     }
 }

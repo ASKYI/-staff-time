@@ -22,15 +22,17 @@ namespace Staff_time.ViewModel
 {
     public class TaskDialogViewModel : MainViewModel
     {
-        public TaskDialogViewModel(Task task, ObservableCollection<TreeNode> roots, TaskCommandEnum command, bool _isEnabled = true)
+        private TasksAllViewModel ALLVM { get; set; }
+        public TaskDialogViewModel(TasksAllViewModel allVM, Task task, ObservableCollection<TreeNode> roots, TaskCommandEnum command, TreeNode editNodeParent = null, bool _isEnabled = true)
         {
+            ALLVM = allVM;
             _generate_TaskTypesCb();
 
             IsEditEnabled = _isEnabled;
             _task = task;
+            EditingTreeNodeParent = editNodeParent;
             EditingTask = new Task(task);
 
-            SelectedTaskTypeIndex = -1;
             SelectedTaskTypeIndex = task.TaskTypeID;
 
             levels = Context.levelWork.Read_AllLevelsLowerMe();
@@ -58,8 +60,8 @@ namespace Staff_time.ViewModel
         private TaskCommandEnum _command;
         public int Command; // todo для чего эта переменная?
 
-        private List<PropValue> _propValuesCollection;
-        public List<PropValue> PropValuesCollection
+        private List<PropValueInfo> _propValuesCollection;
+        public List<PropValueInfo> PropValuesCollection
         {
             get
             {
@@ -67,23 +69,57 @@ namespace Staff_time.ViewModel
             }
             set
             {
-                SetFieldTaskDialogVM<List<PropValue>>(ref _propValuesCollection, value);
+                SetFieldTaskDialogVM<List<PropValueInfo>>(ref _propValuesCollection, value);
             }
         }
+
+        private List<ListInfo> _taskLists;
+        public List<ListInfo> TaskLists
+        {
+            get
+            {
+                return _taskLists;
+            }
+            set
+            {
+                SetFieldTaskDialogVM<List<ListInfo> >(ref _taskLists, value);
+            }
+        }
+        
 
         public bool IsEditEnabled { get; set; }
 
         private void UpdatePropCollection()
         {
-            var tmpList = new List<PropValue>();
+            var tmpList = new List<PropValueInfo>();
             if (EditingTask.TaskTypeID > 0)
             {
                 var props = Context.taskWork.GetAllProperties(EditingTask.TaskTypeID);
                 foreach (var prop in props)
                 {
+                    int parentListTaskID = 0;
+                    List<ListsValue> listValues = new List<ListsValue>();
+                    //если тип список, который тянется от родителя, нужно найти этого родителя и значения
+                    if (prop.DataType == 5 && prop.ListType == true)
+                    {
+                        if (EditingTreeNodeParent == null)
+                            continue;
+                        var parentNode = EditingTreeNodeParent;
+                        while (parentNode != null && parentNode.Task.TaskTypeID != prop.TaskTypeID)
+                            parentNode = parentNode.ParentNode;
+                        if (parentNode == null)
+                        {
+                            MessageBox.Show($"Ошибка! У свойства {prop.PropName} не найден родитель с типом задачи {prop.TaskTypeID} (Заказчик), из которого подгружается список. Данные свойства не будут отображены", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            continue;
+                        }
+                        parentListTaskID = parentNode.Task.ID;
+                        listValues = Context.listWork.GetListValues(parentListTaskID, (int)prop.ListID);
+                    }
+
                     var propWithValue = EditingTask.PropValues.FirstOrDefault(pval => pval.Property == prop);
+                    var propValInfo = new PropValueInfo(propWithValue, parentListTaskID, listValues);
                     if (propWithValue != null)
-                        tmpList.Add(propWithValue);
+                        tmpList.Add(propValInfo);
                     else
                     {
                         PropValue pv = new PropValue();
@@ -91,11 +127,25 @@ namespace Staff_time.ViewModel
                         pv.PropID = prop.ID;
                         pv.TaskID = EditingTask.ID;
                         pv.DataType = prop.DataType;
-                        tmpList.Add(pv);
+                        propValInfo = new PropValueInfo(pv, parentListTaskID, listValues);
+                        tmpList.Add(propValInfo);
                     }
                 }
             }
             PropValuesCollection = tmpList;
+        }
+
+        private void UpdateListsCollection()
+        {
+            var tmpList = new List<ListInfo>();
+
+            var listOfTaskfList = Context.propertyWork.GetListIDWithTaskType(EditingTask.TaskTypeID);
+            foreach (var lst in listOfTaskfList)
+            {
+                var listValues = Context.listWork.GetListValues(EditingTask.ID, lst.ID);
+                tmpList.Add(new ListInfo(lst, listValues, EditingTask.ID));
+            }
+            TaskLists = tmpList;
         }
 
 
@@ -136,6 +186,7 @@ namespace Staff_time.ViewModel
                 SetFieldTaskDialogVM(ref _editingTask, value);
             }
         }
+        public TreeNode EditingTreeNodeParent { get; set; }
 
         private List<User> _users;
 
@@ -260,16 +311,10 @@ namespace Staff_time.ViewModel
             get { return _selectedTaskTypeIndex; }
             set
             {
-                if (value == -1 || _selectedTaskTypeIndex == -1 || MessageBox.Show("При изменении типа задач данные в дополнительных полях будут удалены. Продолжить?", "Смена типа задачи",
-                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                {
-                    SetFieldTaskDialogVM<int>(ref _selectedTaskTypeIndex, value);
-                    if (value >= 0)
-                    {
-                        EditingTask.TaskTypeID = TaskTypesCb[_selectedTaskTypeIndex].ID;
-                        UpdatePropCollection();
-                    }
-                }
+                SetFieldTaskDialogVM<int>(ref _selectedTaskTypeIndex, value);
+                EditingTask.TaskTypeID = TaskTypesCb[_selectedTaskTypeIndex].ID;
+                UpdatePropCollection();
+                UpdateListsCollection();
             }
         }
 
@@ -300,15 +345,15 @@ namespace Staff_time.ViewModel
             if (EditingTask.TaskTypeID != _task.TaskTypeID)
             {
                 //удалить все свойства старые, которых сейчас нет
-                var curPVIds = PropValuesCollection.Select(pv => pv.ID);
+                var curPVIds = PropValuesCollection.Select(pvi => pvi.propVal.ID);
                 var propValuesToDelete = EditingTask.PropValues.Where(pv => !curPVIds.Contains(pv.ID));
                 Context.taskWork.DeleteProperties(propValuesToDelete.ToList());
             }
-            var NullPropValues = PropValuesCollection.Where(pv => pv.ValueDate == null && (pv.ValueText == null || pv.ValueText == "") && pv.ValueTime == null && pv.ValueInt == null).ToList();
-            foreach (var pv in NullPropValues)
-                PropValuesCollection.Remove(pv);
-            Context.taskWork.DeleteProperties(NullPropValues);
-            EditingTask.PropValues = (ICollection<PropValue>)PropValuesCollection;
+            var NullPropValues = PropValuesCollection.Where(pvi => pvi.propVal.ValueDate == null && (pvi.propVal.ValueText == null || pvi.propVal.ValueText == "") && pvi.propVal.ValueTime == null && pvi.propVal.ValueInt == null).ToList();
+            foreach (var pvi in NullPropValues)
+                PropValuesCollection.Remove(pvi);
+            Context.taskWork.DeleteProperties(NullPropValues.Select(pvi => pvi.propVal).ToList());
+            EditingTask.PropValues = (ICollection<PropValue>)(PropValuesCollection.Select(pvi => pvi.propVal).ToList());
         }
 
         #endregion
@@ -322,10 +367,32 @@ namespace Staff_time.ViewModel
         {
             return true;
         }
+
         public void Accept(object obj)
         {
-            //Значения доп. полей почистить
-            FilterPropValues();
+            ////Обновить в БД значения родительских списков
+            //var pvLists = PropValuesCollection.Where(pvi => pvi.propVal.Property.DataType == 5 && pvi.propVal.Property.ListType == true).ToList();
+            //foreach (var pvi in pvLists)
+            //{
+            //    var list = pvi.listsValues;
+            //    var listID = pvi.propVal.Property.ListID;
+            //    var parentTaskID = pvi.parentListTaskID;
+            //    Context.listWork.UpdateListValues(list, parentTaskID, (int)listID);
+            //}
+            ////Обновить в БД значения своих списков
+            //var taskLists = TaskLists.Select(tl => tl.list).ToList();
+            //Context.listWork.UpdateLists(taskLists);
+            
+            //foreach (var listInfo in TaskLists)
+            //{
+            //    var list = listInfo.listsValues;
+            //    var listID = listInfo.list.ID;
+            //    var parentTaskID = listInfo.TaskID;
+            //    Context.listWork.UpdateListValues(list, parentTaskID, (int)listID);
+            //}
+
+            ////Значения доп. полей почистить
+            //FilterPropValues();
 
             if (_command == TaskCommandEnum.Edit)
             {
@@ -368,12 +435,46 @@ namespace Staff_time.ViewModel
                     MessageBox.Show("Задача с таким именем уже существует!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
-
                 Context.procedureWork.UpdateTasksIndexNumbers((int)_editingTask.IndexNumber); // обновим индексы с текущего
                 //}
             }
-            MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
-   new KeyValuePair<TaskCommandEnum, Task>(_command, _editingTask));
+            ALLVM.DoTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(_command, _editingTask));
+
+
+            //Обновить в БД значения родительских списков
+            var pvLists = PropValuesCollection.Where(pvi => pvi.propVal.Property.DataType == 5 && pvi.propVal.Property.ListType == true).ToList();
+            foreach (var pvi in pvLists)
+            {
+                var list = pvi.listsValues;
+                var listID = pvi.propVal.Property.ListID;
+                var parentTaskID = pvi.parentListTaskID;
+                Context.listWork.UpdateListValues(list, parentTaskID, (int)listID);
+            }
+            //Обновить в БД значения своих списков
+            TaskLists.Select(tl => tl.TaskID = _editingTask.ID);
+            TaskLists.ForEach(delegate (ListInfo lInfo)
+            {
+                lInfo.listsValues.ForEach(delegate (ListsValue listVal)
+                {
+                    listVal.TaskID = _editingTask.ID;
+                });
+            });
+            var taskLists = TaskLists.Select(tl => tl.list).ToList();
+            Context.listWork.UpdateLists(taskLists);
+
+            foreach (var listInfo in TaskLists)
+            {
+                var list = listInfo.listsValues;
+                var listID = listInfo.list.ID;
+                var taskID = listInfo.TaskID > 0 ? listInfo.TaskID : _editingTask.ID;
+                Context.listWork.UpdateListValues(list, taskID, (int)listID);
+            }
+
+            //Значения доп. полей почистить
+            FilterPropValues();
+
+            //         MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
+            //new KeyValuePair<TaskCommandEnum, Task>(_command, _editingTask));
 
             if (dialog != null)
             {
@@ -388,10 +489,13 @@ namespace Staff_time.ViewModel
         }
         public void Cancel(object obj)
         {
-            MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
-                new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
-            MessengerInstance.Send<KeyValuePair<FaveTaskCommandEnum, Task>>(
-                new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.None, _task));
+            //ALLVM.DoTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
+            //ALLVM.DoTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.None, _task));
+
+            //MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
+            //    new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));
+            //MessengerInstance.Send<KeyValuePair<FaveTaskCommandEnum, Task>>(
+            //    new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.None, _task));
             if (dialog != null)
             {
                 dialog.Close();
@@ -422,6 +526,34 @@ namespace Staff_time.ViewModel
 
         #endregion
 
+
     }
+    public class PropValueInfo
+    {
+        public PropValueInfo(PropValue pv, int _parentTaskID, List<ListsValue> _listsValues)
+        {
+            propVal = pv;
+            parentListTaskID = _parentTaskID;
+            listsValues = _listsValues;
+        }
+        public PropValue propVal { get; set; }
+        public int parentListTaskID { get; set; }
+        public List<ListsValue> listsValues { get; set; }
+    }
+
+    public class ListInfo
+    {
+        public ListInfo(List lst, List<ListsValue> _listsValues, int _taskID)
+        {
+            TaskID = _taskID;
+            list = lst;
+            listsValues = _listsValues;
+        }
+        public int TaskID { get; set; }
+        public List list { get; set; }
+        public List<ListsValue> listsValues { get; set; }
+    }
+
+    
 }
 

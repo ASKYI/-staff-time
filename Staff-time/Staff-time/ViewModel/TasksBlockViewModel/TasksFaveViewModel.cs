@@ -43,7 +43,7 @@ namespace Staff_time.ViewModel
             MainWindow.GlobalPropertyChanged += HandleGlobalPropertyChanged;
 
             FillRequests();
-            MessengerInstance.Register<KeyValuePair<FaveTaskCommandEnum, Task>>(this, _doTaskCommand);
+            //MessengerInstance.Register<KeyValuePair<FaveTaskCommandEnum, Task>>(this, _doTaskCommand);
         }
 
         #region INotifyPropertyChanged
@@ -56,8 +56,8 @@ namespace Staff_time.ViewModel
         void HandleGlobalPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var massageName = e.PropertyName;
-            if (massageName == "MainWindowClosing")
-                MessengerInstance.Unregister<KeyValuePair<FaveTaskCommandEnum, Task>>(this, _doTaskCommand);
+            //if (massageName == "MainWindowClosing")
+            //    MessengerInstance.Unregister<KeyValuePair<FaveTaskCommandEnum, Task>>(this, _doTaskCommand);
         }
         #endregion
 
@@ -203,7 +203,7 @@ namespace Staff_time.ViewModel
 
         private void ShowTree(object obj)
         {
-            var dialog = new View.AllTreeDialog(new ViewModel.TasksAllViewModel(TreeRoots, SelectedTaskNode));
+            var dialog = new View.AllTreeDialog(new ViewModel.TasksAllViewModel(this, TreeRoots, SelectedTaskNode));
             dialog.ShowDialog();
             _generate_Tree();
         }
@@ -323,8 +323,8 @@ namespace Staff_time.ViewModel
                 task2 = parentNode.TreeNodes[index - 1].Task;
 
 
-                _doTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, parentNode.TreeNodes[index].Task));
-                _doTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, parentNode.TreeNodes[index - 1].Task));
+                DoTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, parentNode.TreeNodes[index].Task));
+                DoTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, parentNode.TreeNodes[index - 1].Task));
 
                 parentNode.TreeNodes.Move(index, index - 1);
                 ChangeSelection(parentNode.TreeNodes[index - 1]);
@@ -337,8 +337,8 @@ namespace Staff_time.ViewModel
                 TreeRoots[index - 1].IndexNumber = curI;
                 task2 = TreeRoots[index - 1].Task;
 
-                _doTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, TreeRoots[index].Task));
-                _doTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, TreeRoots[index - 1].Task));
+                DoTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, TreeRoots[index].Task));
+                DoTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, TreeRoots[index - 1].Task));
 
                 TreeRoots.Move(index, index - 1);
                 ChangeSelection(TreeRoots[index - 1]);
@@ -389,8 +389,8 @@ namespace Staff_time.ViewModel
                 parentNode.TreeNodes[index + 1].IndexNumber = curI;
                 task2 = parentNode.TreeNodes[index + 1].Task;
 
-                _doTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, parentNode.TreeNodes[index].Task));        // todo было бы прикольно вызывать так: parentNode.TreeNodes[index].Task.EditCommand()
-                _doTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, parentNode.TreeNodes[index + 1].Task));
+                DoTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, parentNode.TreeNodes[index].Task));        // todo было бы прикольно вызывать так: parentNode.TreeNodes[index].Task.EditCommand()
+                DoTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, parentNode.TreeNodes[index + 1].Task));
 
                 parentNode.TreeNodes.Move(index, index + 1);
                 ChangeSelection(parentNode.TreeNodes[index + 1]);
@@ -403,8 +403,8 @@ namespace Staff_time.ViewModel
                 task2 = TreeRoots[index + 1].Task;
 
 
-                _doTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, TreeRoots[index].Task));
-                _doTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, TreeRoots[index + 1].Task));
+                DoTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, TreeRoots[index].Task));
+                DoTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, TreeRoots[index + 1].Task));
 
                 TreeRoots.Move(index, index + 1);
                 ChangeSelection(TreeRoots[index + 1]);
@@ -458,7 +458,7 @@ namespace Staff_time.ViewModel
         }
 
 
-        private void _doTaskCommand(KeyValuePair<FaveTaskCommandEnum, Task> pair)
+        public void DoTaskCommand(KeyValuePair<FaveTaskCommandEnum, Task> pair)
         {
             FaveTaskCommandEnum command = pair.Key;
             Task task = pair.Value;
@@ -555,7 +555,7 @@ namespace Staff_time.ViewModel
         private void ShowTask(object obj)
         {
             bool isEnabled = false;
-            dialog = new View.EditDialogWindow(new TaskDialogViewModel(SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit, isEnabled));
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(null, SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit, SelectedTaskNode, isEnabled));
             dialog.Show();
         }
         
@@ -695,7 +695,7 @@ namespace Staff_time.ViewModel
         #region helper methods
         public void CleanUp()
         {
-            MessengerInstance.Unregister<KeyValuePair<FaveTaskCommandEnum, Task>>(this, _doTaskCommand);
+            MessengerInstance.Unregister<KeyValuePair<FaveTaskCommandEnum, Task>>(this, DoTaskCommand);
         }
         #endregion
     }

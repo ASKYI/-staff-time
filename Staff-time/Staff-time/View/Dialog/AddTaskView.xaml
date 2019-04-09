@@ -6,11 +6,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Staff_time.View.Dialog"
         mc:Ignorable="d"
+        xmlns:converters="clr-namespace:WpfTestBench.Converters"
         xmlns:m="clr-namespace:Staff_time.Model"
         xmlns:vm="clr-namespace:Staff_time.ViewModel"  
         xmlns:v="clr-namespace:Staff_time.View"  
         
-        Title="Новая задача" Width="700" MinWidth="500" MinHeight="450" Height="540"
+        Title="Новая задача" Width="700" MinWidth="500" MinHeight="450" Height="590"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid>
@@ -18,6 +19,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="250"></RowDefinition>
                 <RowDefinition Height="190*"></RowDefinition>
+                <RowDefinition Height="100"></RowDefinition>
                 <RowDefinition Height="25"></RowDefinition>
             </Grid.RowDefinitions>
 
@@ -86,11 +88,17 @@
                 </Grid>
                 <Separator></Separator>
             </StackPanel>
-                <local:TaskPropView x:Name="PropWinName" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" PropValues="{Binding DataContext.PropValuesCollection, ElementName=addTaskBlock, Mode=TwoWay}" >
-                <!--ID="{Binding Path=DataContext.EditingTask.ID, ElementName=EditTaskBlock}">-->
+                <local:TaskPropView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" PropValues="{Binding DataContext.PropValuesCollection, ElementName=addTaskBlock, Mode=TwoWay}" 
+                Height="{Binding Path=ActualHeight, ElementName=EditTaskBlock, Converter={converters:GridWidthConverter}, ConverterParameter='400'}">
+                    <!--ID="{Binding Path=DataContext.EditingTask.ID, ElementName=EditTaskBlock}">-->
             </local:TaskPropView>
 
-            <StackPanel Margin="2" HorizontalAlignment="Left" Grid.Row="2" Orientation="Horizontal">
+            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                <local:TaskListsView Lists="{Binding DataContext.TaskLists, ElementName=addTaskBlock, Mode=TwoWay}" Height="auto">
+                </local:TaskListsView>
+            </StackPanel>
+
+            <StackPanel Margin="2" HorizontalAlignment="Left" Grid.Row="3" Orientation="Horizontal">
                 <Button Content="Ок" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="120" HorizontalAlignment="Left"></Button>
                 <!--todo для чего? Click="OK_Button_Click"-->
                 <Button Content="Отмена" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="120" HorizontalAlignment="Left"></Button>

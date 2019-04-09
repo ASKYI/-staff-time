@@ -17,8 +17,10 @@ namespace Staff_time.ViewModel
 
     public class TasksAllViewModel : MainViewModel
     {
-        public TasksAllViewModel(ObservableCollection<TreeNode> faveRoots, TreeNode selectedTaskNode)
+        private TasksFaveViewModel TaskFaveVM { get; set; }
+        public TasksAllViewModel(TasksFaveViewModel TFVM, ObservableCollection<TreeNode> faveRoots, TreeNode selectedTaskNode)
         {
+            TaskFaveVM = TFVM;
             //Mouse.OverrideCursor = Cursors.Wait;
             Mouse.SetCursor(Cursors.Wait);
             //TasksVM.InitFullTree();
@@ -49,7 +51,7 @@ namespace Staff_time.ViewModel
             AcceptCommand = new RelayCommand(Accept, (_) => true); // todo чем чётче мы показываем намерения, тем легче программа 
             CancelCommand = new RelayCommand(Cancel, (_) => true); // в данном случае у нас return true всегда, наглядней было бы CancelCommand = new RelayCommand(Cancel, (_) => true);
 
-            MessengerInstance.Register<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
+            //MessengerInstance.Register<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
         }
 
 
@@ -217,7 +219,7 @@ namespace Staff_time.ViewModel
             }
             newTask.IndexNumber = newIndexNumber;
 
-            dialog = new View.AddDialogWindow(new TaskDialogViewModel(newTask, AllTreeRoots, TaskCommandEnum.Add));
+            dialog = new View.AddDialogWindow(new TaskDialogViewModel(this, newTask, AllTreeRoots, TaskCommandEnum.Add, SelectedTaskNode.ParentNode));
             dialog.Show();
         }
         private readonly ICommand _addChildTaskCommand;
@@ -247,7 +249,7 @@ namespace Staff_time.ViewModel
                 newIndexNumber = (int)SelectedTaskNode.Task.IndexNumber + 1;
             newTask.IndexNumber = newIndexNumber;
 
-            dialog = new View.AddDialogWindow(new TaskDialogViewModel(newTask, AllTreeRoots, TaskCommandEnum.Add));
+            dialog = new View.AddDialogWindow(new TaskDialogViewModel(this, newTask, AllTreeRoots, TaskCommandEnum.Add, SelectedTaskNode));
             dialog.Show();
         }
         #endregion
@@ -271,7 +273,7 @@ namespace Staff_time.ViewModel
         private void ShowTask(object obj)
         {
             var isEnabled = false;
-            dialog = new View.EditDialogWindow(new TaskDialogViewModel(SelectedTaskNode.Task, AllTreeRoots, TaskCommandEnum.Edit, isEnabled));
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(this, SelectedTaskNode.Task, AllTreeRoots, TaskCommandEnum.Edit, SelectedTaskNode, isEnabled));
             dialog.Show();
         }
 
@@ -294,7 +296,7 @@ namespace Staff_time.ViewModel
         }
         private void EditTask(object obj)
         {
-            dialog = new View.EditDialogWindow(new TaskDialogViewModel(SelectedTaskNode.Task, AllTreeRoots, TaskCommandEnum.Edit));
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(this, SelectedTaskNode.Task, AllTreeRoots, TaskCommandEnum.Edit, SelectedTaskNode));
             dialog.Show();
         }
 
@@ -396,8 +398,8 @@ namespace Staff_time.ViewModel
                 parentNode.TreeNodes[index].Task.IndexNumber = parentNode.TreeNodes[index - 1].Task.IndexNumber;
                 parentNode.TreeNodes[index - 1].Task.IndexNumber = curI;
 
-                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index].Task));
-                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index - 1].Task));
+                DoTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index].Task));
+                DoTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index - 1].Task));
 
                 parentNode.TreeNodes.Move(index, index - 1);
                 ChangeSelection(parentNode.TreeNodes[index - 1]);
@@ -408,8 +410,8 @@ namespace Staff_time.ViewModel
                 AllTreeRoots[index].Task.IndexNumber = AllTreeRoots[index - 1].Task.IndexNumber;
                 AllTreeRoots[index - 1].Task.IndexNumber = curI;
 
-                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, AllTreeRoots[index].Task));
-                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, AllTreeRoots[index - 1].Task));
+                DoTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, AllTreeRoots[index].Task));
+                DoTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, AllTreeRoots[index - 1].Task));
 
                 AllTreeRoots.Move(index, index - 1);
                 ChangeSelection(AllTreeRoots[index - 1]);
@@ -456,8 +458,8 @@ namespace Staff_time.ViewModel
                 parentNode.TreeNodes[index].Task.IndexNumber = parentNode.TreeNodes[index + 1].Task.IndexNumber;
                 parentNode.TreeNodes[index + 1].Task.IndexNumber = curI;
 
-                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index].Task));        // todo было бы прикольно вызывать так: parentNode.TreeNodes[index].Task.EditCommand()
-                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index + 1].Task));
+                DoTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index].Task));        // todo было бы прикольно вызывать так: parentNode.TreeNodes[index].Task.EditCommand()
+                DoTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, parentNode.TreeNodes[index + 1].Task));
 
                 parentNode.TreeNodes.Move(index, index + 1);
                 ChangeSelection(parentNode.TreeNodes[index + 1]);
@@ -468,8 +470,8 @@ namespace Staff_time.ViewModel
                 AllTreeRoots[index].Task.IndexNumber = AllTreeRoots[index + 1].Task.IndexNumber;
                 AllTreeRoots[index + 1].Task.IndexNumber = curI;
 
-                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, AllTreeRoots[index].Task));
-                _doTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, AllTreeRoots[index + 1].Task));
+                DoTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, AllTreeRoots[index].Task));
+                DoTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.Edit, AllTreeRoots[index + 1].Task));
 
                 AllTreeRoots.Move(index, index + 1);
                 ChangeSelection(AllTreeRoots[index + 1]);
@@ -480,7 +482,8 @@ namespace Staff_time.ViewModel
 
         #region Do Task: Add, Edit
 
-        private void _doTaskCommand(KeyValuePair<TaskCommandEnum, Task> pair)
+        //private void _doTaskCommand(KeyValuePair<TaskCommandEnum, Task> pair)
+        public void DoTaskCommand(KeyValuePair<TaskCommandEnum, Task> pair)
         {
             TaskCommandEnum command = pair.Key;
             Task task = pair.Value;
@@ -522,8 +525,9 @@ namespace Staff_time.ViewModel
                         TasksVM.Init_tracker = false;
                         TasksVM.InitFave();
                     }
-                    MessengerInstance.Send<KeyValuePair<FaveTaskCommandEnum, Task>>(
-                new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, task)); //todo Настя сделать ссылки на task из общего словаря, чтобы не пришлось пробрасывать изменения в избранное
+                    TaskFaveVM.DoTaskCommand(new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, task));
+                //    MessengerInstance.Send<KeyValuePair<FaveTaskCommandEnum, Task>>(
+                //new KeyValuePair<FaveTaskCommandEnum, Task>(FaveTaskCommandEnum.Edit, task)); //todo Настя сделать ссылки на task из общего словаря, чтобы не пришлось пробрасывать изменения в избранное
                     break;
             }
         }
@@ -582,7 +586,7 @@ namespace Staff_time.ViewModel
             //Mouse.OverrideCursor = Cursors.Arrow;
             Mouse.SetCursor(Cursors.Arrow);
             MessageBox.Show("Задача: " + _favouritingTask.TaskName + " добавлена в избранное", "Добавление в избранное", MessageBoxButton.OK, MessageBoxImage.Information);
-            MessengerInstance.Unregister<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
+            //MessengerInstance.Unregister<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
 
         }
 
@@ -592,7 +596,7 @@ namespace Staff_time.ViewModel
         }
         public void Cancel(object obj)
         {
-            MessengerInstance.Unregister<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
+            //MessengerInstance.Unregister<KeyValuePair<TaskCommandEnum, Task>>(this, _doTaskCommand);
 
             if (dialog != null)
             {

@@ -22,7 +22,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBox Margin="1,1" Grid.Column="0" AcceptsReturn="True" Background="LightYellow" TextWrapping="Wrap" FontSize="14" FontFamily="Arial" HorizontalAlignment="Stretch" Text="{Binding Path=ValueText,UpdateSourceTrigger=PropertyChanged,
+                <TextBox Margin="1,1" Grid.Column="0" AcceptsReturn="True" Background="LightYellow" TextWrapping="Wrap" FontSize="14" FontFamily="Arial" HorizontalAlignment="Stretch" Text="{Binding Path=propVal.ValueText,UpdateSourceTrigger=PropertyChanged,
                     ValidatesOnExceptions=True,NotifyOnValidationError=True,ValidatesOnDataErrors=True}"/>
             </Grid>
         </DataTemplate>
@@ -34,7 +34,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <xctk:MaskedTextBox Margin="1,1" Mask="00/00/0000" Grid.Column="0" Background="LightYellow" FontSize="14" FontFamily="Arial" ToolTip="Дата должна быть в формате dd.MM.yyyy"
-                                        MouseDoubleClick="DateBox_DoubleClick" Text="{Binding ValueDate, Converter={StaticResource myDateConverter}}" />
+                                        MouseDoubleClick="DateBox_DoubleClick" Text="{Binding propVal.ValueDate, Converter={StaticResource myDateConverter}}" />
                 </Grid>
             </StackPanel>
         </DataTemplate>
@@ -45,7 +45,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <xctk:MaskedTextBox Margin="1,1" Mask="00:00" Grid.Column="0" FontSize="14" FontFamily="Arial" Background="LightYellow" MouseDoubleClick="TimeBox_DoubleClick" Text="{Binding ValueTime, StringFormat=HH:mm}" />
+                    <xctk:MaskedTextBox Margin="1,1" Mask="00:00" Grid.Column="0" FontSize="14" FontFamily="Arial" Background="LightYellow" MouseDoubleClick="TimeBox_DoubleClick" Text="{Binding propVal.ValueTime, StringFormat=HH:mm}" />
                 </Grid>
             </StackPanel>
         </DataTemplate>
@@ -59,7 +59,7 @@
                         <ColumnDefinition Width="25"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBox TextWrapping="Wrap" x:Name="TextBoxDocName"  Grid.Column="0" FontSize="14" FontFamily="Arial" Background="LightYellow" Margin="1,1"
-                             Text="{Binding ValueText, Mode=TwoWay}" IsReadOnly="True"></TextBox>
+                             Text="{Binding propVal.ValueText, Mode=TwoWay}" IsReadOnly="True"></TextBox>
 
                     <Button Grid.Column="1" Margin="1" Height="23" Width="23" VerticalContentAlignment="Stretch" BorderThickness="1"  Click="OpenDoc"
                             HorizontalContentAlignment="Stretch" ToolTip="Выбрать файл">
@@ -79,8 +79,8 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="25"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <ComboBox HorizontalAlignment="Stretch" Margin="1,1" Grid.Column="0" FontSize="14" FontFamily="Arial" Background="LightYellow" ItemsSource="{Binding Path=Property.PropertiesLists}" 
-                              DisplayMemberPath="Value" Text="{Binding ValueText,Mode=TwoWay}" IsReadOnly="False" IsEditable="True">
+                <ComboBox HorizontalAlignment="Stretch" Margin="1,1" Grid.Column="0" FontSize="14" FontFamily="Arial" Background="LightYellow" ItemsSource="{Binding Path=propVal.Property.PropertiesLists}" 
+                              DisplayMemberPath="Value" Text="{Binding propVal.ValueText,Mode=TwoWay}" IsReadOnly="False" IsEditable="True">
                     <ComboBox.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="LightYellow" />
                         <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightYellow" />
@@ -100,16 +100,16 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="25"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <ComboBox HorizontalAlignment="Stretch" Margin="1,1" Grid.Column="0" FontSize="14" FontFamily="Arial" Background="LightYellow" ItemsSource="{Binding Path=Property.List.ListsValue}" 
+                <ComboBox HorizontalAlignment="Stretch" Margin="1,1" Grid.Column="0" FontSize="14" FontFamily="Arial" Background="LightYellow" ItemsSource="{Binding Path=listsValues}" 
                               DisplayMemberPath="Val" IsReadOnly="False" IsEditable="True"
-                      Text="{Binding ValueText,Mode=TwoWay}">
+                      Text="{Binding propVal.ValueText,Mode=TwoWay}">
                     <ComboBox.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="LightYellow" />
                         <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightYellow" />
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="LightYellow" />
                     </ComboBox.Resources>
                 </ComboBox>
-                <Button Grid.Column="1" Height="23" Width="23"  VerticalContentAlignment="Stretch" BorderThickness="1" Click="ShowListValues"
+                <Button Grid.Column="1" Height="23" Width="23"  VerticalContentAlignment="Stretch" BorderThickness="1" Click="ShowParentListValues"
                             HorizontalContentAlignment="Stretch" ToolTip="Редактировать список наименований">
                     <Image Source="../../Resources/plus.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
                 </Button>
@@ -134,36 +134,36 @@
                     <ColumnDefinition Width="250"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBox Text="{Binding Property.PropName}" TextWrapping="Wrap" AcceptsReturn="True" FontSize="14" FontFamily="Arial" FontWeight="DemiBold" Margin="1,1" IsReadOnly="True" Grid.Column="0" Background="#99D8DF"/>
+                <TextBox Text="{Binding propVal.Property.PropName}" TextWrapping="Wrap" AcceptsReturn="True" FontSize="14" FontFamily="Arial" FontWeight="DemiBold" Margin="1,1" IsReadOnly="True" Grid.Column="0" Background="#99D8DF"/>
                 <ContentControl Content="{Binding}" Grid.Column="1">
                     <ContentControl.Style>
                         <Style TargetType="{x:Type ContentControl}">
                             <Style.Triggers>
                                 <!--Text-->
-                                <DataTrigger Binding="{Binding Path=Property.DataType}" Value="0">
+                                <DataTrigger Binding="{Binding Path=propVal.Property.DataType}" Value="0">
                                     <Setter Property="ContentTemplate" Value="{StaticResource textBoxTemplate}"/>
                                 </DataTrigger>
                                 <!--Int-->
-                                <DataTrigger Binding="{Binding Path=Property.DataType}" Value="1">
+                                <DataTrigger Binding="{Binding Path=propVal.Property.DataType}" Value="1">
                                     <Setter Property="ContentTemplate" Value="{StaticResource textBoxTemplate}"/>
                                 </DataTrigger>
                                 <!--Date-->
-                                <DataTrigger Binding="{Binding Path=Property.DataType}" Value="2">
+                                <DataTrigger Binding="{Binding Path=propVal.Property.DataType}" Value="2">
                                     <Setter Property="ContentTemplate" Value="{StaticResource dateTemplate}"/>
                                 </DataTrigger>
                                 <!--Time-->
-                                <DataTrigger Binding="{Binding Path=Property.DataType}" Value="3">
+                                <DataTrigger Binding="{Binding Path=propVal.Property.DataType}" Value="3">
                                     <Setter Property="ContentTemplate" Value="{StaticResource timeTemplate}"/>
                                 </DataTrigger>
                                 <!--TextDoc-->
-                                <DataTrigger Binding="{Binding Path=Property.DataType}" Value="4">
+                                <DataTrigger Binding="{Binding Path=propVal.Property.DataType}" Value="4">
                                     <Setter Property="ContentTemplate" Value="{StaticResource docTemplate}"/>
                                 </DataTrigger>
                                 <!--ListConst-->
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding Path=Property.DataType}" Value="5" />
-                                        <Condition Binding="{Binding Path=Property.ListType}" Value="False" />
+                                        <Condition Binding="{Binding Path=propVal.Property.DataType}" Value="5" />
+                                        <Condition Binding="{Binding Path=propVal.Property.ListType}" Value="False" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="ContentTemplate" Value="{StaticResource listConstTemplate}"/>
                                 </MultiDataTrigger>
@@ -171,8 +171,8 @@
                                 <!--ListCustom-->
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding Path=Property.DataType}" Value="5" />
-                                        <Condition Binding="{Binding Path=Property.ListType}" Value="True" />
+                                        <Condition Binding="{Binding Path=propVal.Property.DataType}" Value="5" />
+                                        <Condition Binding="{Binding Path=propVal.Property.ListType}" Value="True" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="ContentTemplate" Value="{StaticResource listCustomTemplate}"/>
                                 </MultiDataTrigger>
@@ -195,7 +195,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5" Grid.Row="0" FontFamily="Arial" FontWeight="DemiBold" FontSize="14">Дополнительные поля</TextBlock>
             <ScrollViewer Grid.Row="1" VerticalAlignment="Top" MaxHeight="{Binding Path=ActualHeight, ElementName=TaskTypeFieldsControl, Converter={converters:GridWidthConverter}, ConverterParameter='50'}">
-                <ItemsControl Name="PropertisValuesList" Grid.Column="0" ItemsSource="{Binding Path=PropValues,Mode=TwoWay}" 
+                <ItemsControl Grid.Column="0" ItemsSource="{Binding Path=PropValues,Mode=TwoWay}" 
                        ItemTemplate="{StaticResource dynamicTemplate}"
                        KeyboardNavigation.IsTabStop="False">
                 </ItemsControl>

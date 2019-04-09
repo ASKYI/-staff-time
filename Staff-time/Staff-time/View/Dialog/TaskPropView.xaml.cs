@@ -35,17 +35,17 @@ namespace Staff_time.View.Dialog
             DataContext = this;
         }
 
-        public List<PropValue> PropValues
+        public List<PropValueInfo> PropValues
         {
             get
             {
-                return (List<PropValue>)GetValue(PropProperty);
+                return (List<PropValueInfo>)GetValue(PropProperty);
             }
             set { SetValue(PropProperty, value); }
         }
 
         public static readonly DependencyProperty PropProperty =
-                DependencyProperty.Register("PropValues", typeof(List<PropValue>), typeof(TaskPropView), new PropertyMetadata(default(List<PropValue>), OnItemsPropertyChanged));
+                DependencyProperty.Register("PropValues", typeof(List<PropValueInfo>), typeof(TaskPropView), new PropertyMetadata(default(List<PropValueInfo>), OnItemsPropertyChanged));
 
         private static void OnItemsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -93,7 +93,7 @@ namespace Staff_time.View.Dialog
 
             if (openFileDialog.ShowDialog() == true)
             {
-                ((PropValue)obj.DataContext).ValueText = openFileDialog.FileName;
+                ((PropValueInfo)obj.DataContext).propVal.ValueText = openFileDialog.FileName;
                 var docTextBox = FindVisualChild<TextBox>(obj.Parent); //ищем TextBox с выводом пути к файлу
                 BindingExpression bindingExpr = BindingOperations.GetBindingExpression(docTextBox, TextBox.TextProperty);
                 bindingExpr.UpdateTarget();
@@ -104,7 +104,7 @@ namespace Staff_time.View.Dialog
             try
             {
                 var obj = (Button)sender;
-                var path = ((PropValue)obj.DataContext).ValueText;
+                var path = ((PropValueInfo)obj.DataContext).propVal.ValueText;
                 if (path == null || path.Length == 0)
                     return;
                 Process.Start(path);
@@ -120,7 +120,8 @@ namespace Staff_time.View.Dialog
             try
             {
                 var obj = (Button)sender;
-                EditListView listEditDlg = new EditListView(((PropValue)obj.DataContext).Property);
+                var prop = ((PropValueInfo)obj.DataContext).propVal.Property;
+                EditListView listEditDlg = new EditListView(prop);
                 listEditDlg.ShowDialog();
 
                 var listComboBox = FindVisualChild<ComboBox>(obj.Parent); //ищем ComboBox со списков в текущей панельке
@@ -132,6 +133,27 @@ namespace Staff_time.View.Dialog
                 MessageBox.Show(ex.Message, "Ошибка");
             }
         }
+
+        public void ShowParentListValues(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var obj = (Button)sender;
+                var pvi = (PropValueInfo)obj.DataContext;
+                EditParentListView listEditDlg = new EditParentListView(pvi.listsValues.ToList(), pvi.parentListTaskID, (int)pvi.propVal.Property.ListID);
+                listEditDlg.ShowDialog();
+
+                pvi.listsValues = listEditDlg.NameList;
+                var listComboBox = FindVisualChild<ComboBox>(obj.Parent); //ищем ComboBox со списков в текущей панельке
+                BindingExpression bindingExpr = BindingOperations.GetBindingExpression(listComboBox, ComboBox.ItemsSourceProperty);
+                bindingExpr.UpdateTarget();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка");
+            }
+        }
+        
 
         public void ShowConstListValues(object sender, RoutedEventArgs e)
         {

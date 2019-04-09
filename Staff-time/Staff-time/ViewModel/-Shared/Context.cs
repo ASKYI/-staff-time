@@ -27,6 +27,8 @@ namespace Staff_time.ViewModel
         public static IProcedureWork procedureWork;
         public static IRequestWork requestWork;
         public static IPropertyWork propertyWork;
+        public static IListWork listWork;
+        
 
 
         private static bool _init_tracker = false;
@@ -53,6 +55,7 @@ namespace Staff_time.ViewModel
             procedureWork = _context;
             requestWork = _context;
             propertyWork = _context;
+            listWork = _context;
         }
     }
 }

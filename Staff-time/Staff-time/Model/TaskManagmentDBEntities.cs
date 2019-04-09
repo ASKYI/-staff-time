@@ -16,7 +16,7 @@ using Staff_time.ViewModel;
 namespace Staff_time.Model
 {
     public partial class TaskManagmentDBEntities : DbContext,
-        ITaskWork, IWorkWork, IAttrWork, ITypesWork, IUserWork, ILevelWork, ITimeTableWork, IProcedureWork, IRequestWork, IPropertyWork
+        ITaskWork, IWorkWork, IAttrWork, ITypesWork, IUserWork, ILevelWork, ITimeTableWork, IProcedureWork, IRequestWork, IPropertyWork, IListWork
     {
         #region IUserWork
         public List<User> Read_AllUsers()
@@ -50,6 +50,13 @@ namespace Staff_time.Model
         {
             return PropertiesLists.Where(pl => pl.PropID == propID).Select(pl => pl.Value).ToList();
         }
+
+        public List<List> GetListIDWithTaskType(int taskTypeID)
+        {
+            //выгружаем все списки для типа задачи и типа свойства 5 (списки), где ListType = true (список от родителя)
+            return Properties.Where(p => p.DataType == 5 && p.ListType == true && p.TaskTypeID == taskTypeID).Select(p => p.List).ToList();
+        }
+
 
         #endregion //IPropertyWork
 
@@ -373,6 +380,33 @@ namespace Staff_time.Model
             SaveChanges();
         }
         #endregion
+
+
+        #region IListWork
+        public List<ListsValue> GetListValues(int taskID, int listID)
+        {
+            return ListsValues.Where(lv => lv.TaskID == taskID && lv.ListID == listID).ToList();
+        }
+
+        public void UpdateListValues(List<ListsValue> list, int taskID, int listID)
+        {
+            var oldVal = ListsValues.Where(lv => lv.ListID == listID && lv.TaskID == taskID).ToList();
+            oldVal = oldVal.Except(list).ToList();
+            if (oldVal.Count > 0)
+                ListsValues.RemoveRange(oldVal);
+            ListsValues.AddOrUpdate(list.ToArray());
+            SaveChanges();
+        }
+
+        public void UpdateLists(List<List> lst)
+        {
+            Lists.AddOrUpdate(lst.ToArray());
+            SaveChanges();
+        }
+
+
+        #endregion IListWork
+
 
         #region IAttrWork
         public void Create_AttrValuesFields_ForWork(Work _work, WorkTypeEnum type)

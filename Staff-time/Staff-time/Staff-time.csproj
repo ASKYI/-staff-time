@@ -137,6 +137,7 @@
     <Compile Include="Model\Enums.cs" />
     <Compile Include="Model\Interfaces\IAttrWork.cs" />
     <Compile Include="Model\Interfaces\ILevelWork.cs" />
+    <Compile Include="Model\Interfaces\IListWork.cs" />
     <Compile Include="Model\Interfaces\IProcedureWork.cs" />
     <Compile Include="Model\Interfaces\IPropertyWork.cs" />
     <Compile Include="Model\Interfaces\IRequestWork.cs" />
@@ -253,8 +254,14 @@
     <Compile Include="View\Dialog\AddTaskView.xaml.cs">
       <DependentUpon>AddTaskView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Dialog\EditParentListView.xaml.cs">
+      <DependentUpon>EditParentListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Dialog\EditListView.xaml.cs">
       <DependentUpon>EditListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialog\TaskListsView.xaml.cs">
+      <DependentUpon>TaskListsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Dialog\TaskPropView.xaml.cs">
       <DependentUpon>TaskPropView.xaml</DependentUpon>
@@ -309,9 +316,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Dialog\EditParentListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Dialog\EditListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialog\TaskListsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Dialog\TaskPropView.xaml">
       <SubType>Designer</SubType>
