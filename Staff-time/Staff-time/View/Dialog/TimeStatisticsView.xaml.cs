@@ -44,7 +44,6 @@ namespace Staff_time.View
 
             var monthPlanTime = Context.timeTableWork.GetTimeForAMonth(periodBegin.Year, periodBegin.Month);
 
-            //WorksList = Context.workWork.GetWorksForAMonth(periodBegin.Year, periodBegin.Month);
             var wrk = WorksVM.Dictionary.Select(p => p.Value.Work).Where(w => w.StartDate >= periodBegin && w.StartDate <= periodEnd &&
            w.UserID == GlobalInfo.CurrentUser.ID);
 

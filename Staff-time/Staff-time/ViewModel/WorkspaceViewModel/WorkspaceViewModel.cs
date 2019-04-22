@@ -237,6 +237,8 @@ namespace Staff_time.ViewModel
             {
                 _timeSortDirection = value;
                 TimeSortSource = TimeSortSources[_timeSortDirection + 1];
+                NameSortSource = NameSortSources[0];
+
             }
         }
         private int _nameSortDirection;
@@ -250,6 +252,7 @@ namespace Staff_time.ViewModel
             {
                 _nameSortDirection = value;
                 NameSortSource = NameSortSources[_nameSortDirection + 1];
+                TimeSortSource = TimeSortSources[0];
             }
         }
 

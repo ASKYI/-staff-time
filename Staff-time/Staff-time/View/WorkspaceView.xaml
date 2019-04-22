@@ -32,14 +32,6 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-
-        <Image x:Key="TimeAsc" Source="../Resources/timeSort_asc.ico" />
-        <Image x:Key="TimeDesc" Source="../Resources/timeSort_desc.ico"/>
-        <Image x:Key="TimeNone" Source="../Resources/timeSort_none.ico"/>
-
-        <Image x:Key="NameAsc" Source="../Resources/nameSort_asc.ico" />
-        <Image x:Key="NameDesc" Source="../Resources/nameSort_desc.ico"/>
-        <Image x:Key="NameNone" Source="../Resources/nameSort_none.ico"/>
     </UserControl.Resources>
 
     <Grid>
@@ -165,11 +157,11 @@
             <Button Margin ="5" Command="{Binding ExpandAllWorksCommand}" ToolTip="Развернуть всё" Background="White" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../Resources/expand.ico"></Image>
             </Button>
-            <Button Margin ="5" Name="SortTimeButton" Command="{Binding SortWorksByStartTimeCommand}" Click="SortTime_Click" ToolTip="Сортировать работы по времени начала" Background="White"  ToolTipService.ShowOnDisabled="True">
-                <DynamicResource ResourceKey="TimeNone"/>
+            <Button Margin ="5" Name="SortTimeButton" Command="{Binding SortWorksByStartTimeCommand}" ToolTip="Сортировать работы по времени начала" Background="White"  ToolTipService.ShowOnDisabled="True">
+                <Image Source="{Binding TimeSortSource}"/>
             </Button>
-            <Button Margin ="5" Name="SortNameButton" Command="{Binding SortWorksByNameCommand}" Click="SortName_Click" ToolTip="Сортировать работы по имени задачи" Background="White" ToolTipService.ShowOnDisabled="True">
-                <DynamicResource ResourceKey="NameNone"/>
+            <Button Margin ="5" Name="SortNameButton" Command="{Binding SortWorksByNameCommand}" ToolTip="Сортировать работы по имени задачи" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="{Binding NameSortSource}"/>
             </Button>
         </StackPanel>
     </Grid>
