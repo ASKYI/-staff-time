@@ -21,18 +21,12 @@ namespace Staff_time.ViewModel
         public TasksAllViewModel(TasksFaveViewModel TFVM, ObservableCollection<TreeNode> faveRoots, TreeNode selectedTaskNode)
         {
             TaskFaveVM = TFVM;
-            //Mouse.OverrideCursor = Cursors.Wait;
             Mouse.SetCursor(Cursors.Wait);
             //TasksVM.InitFullTree();
             _generate_Full_Tree(selectedTaskNode);
-            //Mouse.OverrideCursor = Cursors.Arrow;
             Mouse.SetCursor(Cursors.Arrow);
 
 
-            //_collapseAllCommand = new RelayCommand(CollapseAll, CanCollapseAll);
-            //_saveExpandCommand = new RelayCommand(SaveCollapse, (_) => true);
-            //_expandAllCommand = new RelayCommand(ExpandAll, CanExpandAll);
-            //_addWorkCommand = new RelayCommand(AddWork, CanAddWork);
             _addNearTaskCommand = new RelayCommand(AddNearTask, CanAddNearTask);
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
@@ -40,6 +34,7 @@ namespace Staff_time.ViewModel
             _showTaskCommand = new RelayCommand(ShowTask, CanShowTask);
             _moveUpCommand = new RelayCommand(MoveUp, CanMoveUp);
             _moveDownCommand = new RelayCommand(MoveDown, CanMoveDown);
+            _filterTaskCommand = new RelayCommand(FilterTree, (_) => true);
 
             //Права на удаление и редактирование
             var levels = Context.levelWork.Read_AllLevels();
@@ -184,6 +179,54 @@ namespace Staff_time.ViewModel
 
             if (_selectedTaskNode != null)
                 _selectedTaskNode.IsSelected = true;
+        }
+
+        private string _filterTaskText;
+        public string FilterTaskText
+        {
+            get
+            {
+                return _filterTaskText;
+            }
+            set
+            {
+                _filterTaskText = value;
+                RaisePropertyChanged("FilterTaskText");
+            }
+        }
+
+        private readonly ICommand _filterTaskCommand;
+        public ICommand FilterTaskCommand
+        {
+            get
+            {
+                return _filterTaskCommand;
+            }
+        }
+
+        private void FilterTree(object obj)
+        {
+            var oldSelectedNode = SelectedTaskNode;
+            TasksVM.FilterFullTaskText = _filterTaskText;
+            _generate_Full_Tree(SelectedTaskNode);
+
+            //Восстановить развертку
+            if (oldSelectedNode == null)
+                return;
+
+            int oldSelectedNodeTaskID = oldSelectedNode.Task.ID;
+            var parent = oldSelectedNode.ParentNode;
+            while (parent != null)
+            {
+                parent.IsExpanded = true;
+                parent = parent.ParentNode;
+            }
+            var dictItem = TasksVM.DictionaryFull.FirstOrDefault(nd => nd.Key == oldSelectedNodeTaskID);
+            if (dictItem.Value != null)
+            {
+                SelectedTaskNode = dictItem.Value;
+                SelectedTaskNode.IsExpanded = true;
+            }
         }
 
         #endregion
@@ -607,6 +650,8 @@ namespace Staff_time.ViewModel
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
+            FilterTaskText = "";
+            FilterTree(sender);
             //ChangeSelection(null);
             //MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
             //    new KeyValuePair<TaskCommandEnum, Task>(TaskCommandEnum.None, _task));

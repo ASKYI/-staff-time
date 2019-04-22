@@ -203,8 +203,21 @@ namespace Staff_time.ViewModel
 
         private void ShowTree(object obj)
         {
-            var dialog = new View.AllTreeDialog(new ViewModel.TasksAllViewModel(this, TreeRoots, SelectedTaskNode));
+            var allVM = new ViewModel.TasksAllViewModel(this, TreeRoots, SelectedTaskNode);
+            var dialog = new View.AllTreeDialog(allVM);
             dialog.ShowDialog();
+            //выделение узла, что и в основном дереве:
+
+            //int selTaskID = allVM.SelectedTaskNode == null ? 0 : allVM.SelectedTaskNode.Task.ID;
+            //SelectedTaskNode = TasksVM.Dictionary.ContainsKey(selTaskID) ? TasksVM.Dictionary[selTaskID] : SelectedTaskNode;
+            //SelectedTaskNode.IsSelected = true;
+
+            //var par = SelectedTaskNode.ParentNode;
+            //while (par != null)
+            //{
+            //    par.IsExpanded = true;
+            //    par = par.ParentNode;
+            //}
             _generate_Tree();
         }
 

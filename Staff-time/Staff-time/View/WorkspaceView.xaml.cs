@@ -46,44 +46,6 @@ namespace Staff_time.View
         //    }
         //}
 
-        private void SortTime_Click(object sender, RoutedEventArgs e)
-        {
-            SortNameButton.Background = Brushes.White;
-            if (SortTimeButton.Content == FindResource("TimeDesc"))
-            {
-                SortTimeButton.Content = FindResource("TimeNone");
-                SortTimeButton.Background = Brushes.White;
-            }
-            else
-            {
-                if (SortTimeButton.Content == FindResource("TimeNone"))
-                    SortTimeButton.Content = FindResource("TimeAsc");
-                else
-                    SortTimeButton.Content = FindResource("TimeDesc");
-                SortTimeButton.Background = new SolidColorBrush(Color.FromRgb(222, 240, 243));
-
-            }
-        }
-
-        private void SortName_Click(object sender, RoutedEventArgs e)
-        {
-            SortTimeButton.Background = Brushes.White;
-
-            if (SortNameButton.Content == FindResource("NameDesc"))
-            {
-                SortNameButton.Content = FindResource("NameNone");
-                SortNameButton.Background = Brushes.White;
-            }
-            else
-            {
-                if (SortNameButton.Content == FindResource("NameNone"))
-                    SortNameButton.Content = FindResource("NameAsc");
-                else
-                    SortNameButton.Content = FindResource("NameDesc");
-                SortNameButton.Background = new SolidColorBrush(Color.FromRgb(222, 240, 243));
-            }
-        }
-
         private void PrevWeek(object sender, EventArgs e)
         {
             var oldDate = ((ViewModel.WorkspaceViewModel)DataContext).SelectedDate_Picker;
@@ -142,8 +104,36 @@ namespace Staff_time.View
         public static RoutedCommand SelectToday = new RoutedCommand("Today", typeof(MyCommands));
     }
 
-    public class TabControlMy: TabControl
+    public class TabControlMy : TabControl
     {
-        
+
+    }
+
+    public class ScrollViewerBehavior
+    {
+        public static bool GetAutoScrollToTop(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(AutoScrollToBottomProperty);
+        }
+
+        public static void SetAutoScrollToBottom(DependencyObject obj, bool value)
+        {
+            obj.SetValue(AutoScrollToBottomProperty, value);
+        }
+
+        public static readonly DependencyProperty AutoScrollToBottomProperty =
+            DependencyProperty.RegisterAttached("AutoScrollToBottom", typeof(bool), typeof(ScrollViewerBehavior), new PropertyMetadata(false, (o, e) =>
+            {
+                var scrollViewer = o as ScrollViewer;
+                if (scrollViewer == null)
+                {
+                    return;
+                }
+                if ((bool)e.NewValue)
+                {
+                    scrollViewer.ScrollToBottom();
+                    SetAutoScrollToBottom(o, false);
+                }
+            }));
     }
 }

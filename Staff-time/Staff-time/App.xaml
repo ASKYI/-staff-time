@@ -7,7 +7,7 @@
              xmlns:vm="clr-namespace:Staff_time.ViewModel"
              
              StartupUri="MainWindow.xaml"
-             >
+             DispatcherUnhandledException="App_DispatcherUnhandledException">
     <Application.Resources>
         
         <!--Отображение диалога-->

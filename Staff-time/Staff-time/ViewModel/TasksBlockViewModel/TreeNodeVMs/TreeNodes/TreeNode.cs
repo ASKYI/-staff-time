@@ -24,12 +24,12 @@ namespace Staff_time.ViewModel
         }
         public TreeNode(TreeNode treeNode) : this()
         {
+            FullPath = treeNode.FullPath.ToList();
             Task = treeNode.Task;
             ParentNode = treeNode.ParentNode;
             TreeNodes = treeNode.TreeNodes;
             IndexNumber = IndexNumber;
             IsExpanded = IsExpanded;
-            FullPath = treeNode.FullPath; // todo здесь будет 1 массив на двоих, если кто-то один почистит его, другой  удивится
         }
 
         //public void InitTaskControl(int taskID, int taskTypeID)
@@ -74,7 +74,8 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField(ref _task, value); // todo Должно быть ошибкой, т.к. наши подписчики подписаны на наш ivent, а не на ivent базового класса, поэтому здесь не отработает оповещение
-                FullPath = TasksVM.generate_PathForTask(_task.ID); //todo Настя
+                if (FullPath == null || FullPath.Count == 0)
+                    FullPath = TasksVM.generate_PathForTask(_task.ID); //todo Настя
             }
         }
 

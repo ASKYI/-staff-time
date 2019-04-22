@@ -251,6 +251,9 @@
     <Compile Include="ViewModel\WorksViewModel\WorkControlVMs\WorkControlViewModelBase.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkDialogViewModel.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkIDDependency.cs" />
+    <Compile Include="View\Dialog\TimeStatisticsView.xaml.cs">
+      <DependentUpon>TimeStatisticsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Dialog\AddTaskView.xaml.cs">
       <DependentUpon>AddTaskView.xaml</DependentUpon>
     </Compile>
@@ -312,6 +315,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Dialog\TimeStatisticsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Dialog\AddTaskView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -426,6 +433,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\share.ico" />
     <Resource Include="appImage.ico" />
     <Content Include="Model\TaskManagmentDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

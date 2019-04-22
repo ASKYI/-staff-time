@@ -10,6 +10,7 @@ namespace Staff_time.Model.Interfaces
     {
         //Возвращает планируемое время за дату
         double Read_TimeByDate(DateTime dt);
+        List<TimeTable> GetTimeForAMonth(int year, int month);
         void Update(DateTime dt, double tm);
     }
 }

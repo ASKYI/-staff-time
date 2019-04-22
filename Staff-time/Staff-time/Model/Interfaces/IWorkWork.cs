@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Staff_time.View.TimeStatisticsWindow;
 
 namespace Staff_time.Model.Interfaces
 {
@@ -19,6 +20,9 @@ namespace Staff_time.Model.Interfaces
 
         //Возвращает список правильно созданных (верный тип) работ для определенной задачи (с загрузкой задач)
         List<int> Read_WorksForTask(int taskID);
+
+        //Получает список работ за месяц (с учетом план. времени)
+        List<LaborCostsDay> GetWorksForAMonth(int year, int month);
 
         //Возвращает работу по ID
         Work Read_WorkByID(int workID);

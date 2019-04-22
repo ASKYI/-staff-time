@@ -13,6 +13,7 @@ using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
 using GalaSoft.MvvmLight.Messaging;
 using System.Windows;
+using Staff_time.View.Dialog;
 
 namespace Staff_time.ViewModel
 {
@@ -32,7 +33,7 @@ namespace Staff_time.ViewModel
             _deleteCommand = new RelayCommand(Delete, CanDelete);
             _changeTaskCommand = new RelayCommand(ChangeTask, CanChangeTask);
             _duplicateWorkCommand = new RelayCommand(DuplicateWork, (_) => true);
-
+            _shareWorkTaskCommand = new RelayCommand(ShareWork, (_) => true);
             //SaveHotCommand.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
             //DeleteHotCommand.InputGestures.Add(new KeyGesture(Key.Delete, ModifierKeys.Control));
 
@@ -301,13 +302,34 @@ namespace Staff_time.ViewModel
 
         private void DuplicateWork(object obj)
         {
-            ApplyChanges(); //todo разобраться
+            ApplyChanges();
             var workDuplicate = (Work)_workVM.Work.Clone();
             workDuplicate.ID = 0;
             workDuplicate.AttrValues.Clear();
             MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
                (WorkCommandEnum.Add, workDuplicate));
         }
+        private readonly ICommand _shareWorkTaskCommand;
+        public ICommand ShareWorkTaskCommand
+        {
+            get
+            {
+                return _shareWorkTaskCommand;
+            }
+        }
+
+        private void ShareWork(object obj)
+        {
+            //Показываем диалог с пользователями
+            if (Work.TaskID <= 0)
+            {
+                MessageBox.Show("У работы отсутствует родительская задача! Данная работа не может быть передана", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            TransferTaskView dlg = new TransferTaskView(Work.TaskID);
+            dlg.Show();
+        }
+        
 
         #endregion //time
 

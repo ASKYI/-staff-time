@@ -12,6 +12,8 @@ using Staff_time.Model.Interfaces;
 using System.Windows;
 using Staff_time.Model.UserModel;
 using Staff_time.ViewModel;
+using static Staff_time.View.TimeStatisticsWindow;
+using System.Globalization;
 
 namespace Staff_time.Model
 {
@@ -66,6 +68,12 @@ namespace Staff_time.Model
             var planTime = TimeTables.Where(t => t.Date == dt).Select(t => t.PlanningTime).FirstOrDefault();
             return planTime != null ? (double)planTime : 0;
         }
+
+        public List<TimeTable> GetTimeForAMonth(int year, int month)
+        {
+            return TimeTables.Where(t => t.Date.Year == year && t.Date.Month == month).ToList();
+        }
+
         public void Update(DateTime dt, double tm)
         {
             var timeTable = TimeTables.Where(t => t.Date == dt).FirstOrDefault();

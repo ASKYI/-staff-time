@@ -37,18 +37,47 @@ namespace Staff_time.View
             InitializeComponent();
             base.DataContext = _context;
             context = (TasksAllViewModel)_context;
-            
-            Closing += ((ViewModel.TasksAllViewModel)DataContext).OnWindowClosing; // todo аналогичное уже было
+            ((ViewModel.TasksAllViewModel)DataContext).FilterTaskText = "Поиск...";//подсказка
+            FilterTBox.Foreground = Brushes.Gray;
+
+            Closing += ((ViewModel.TasksAllViewModel)DataContext).OnWindowClosing;
 
             this.SourceInitialized += (x, y) =>
             {
                 this.HideMinimizeAndMaximizeButtons();
             };
         }
-        private void OK_Button_Click(object sender, RoutedEventArgs e)
+
+        private void Filter_GotFocus(object sender, EventArgs e)
         {
-            //     if (((ViewModel.TaskDialogViewModel)DataContext).ToClose)
-            //      this.Close();
+            if (((ViewModel.TasksAllViewModel)DataContext).FilterTaskText == "Поиск...")
+                ((ViewModel.TasksAllViewModel)DataContext).FilterTaskText = "";
+            else
+                FilterTBox.Dispatcher.BeginInvoke(new Action(() => FilterTBox.SelectAll()));
+
+            FilterTBox.Foreground = Brushes.Black;
+        }
+        private void FilterClick(object sender, EventArgs e)
+        {
+            if (((ViewModel.TasksAllViewModel)DataContext).FilterTaskText != "" && ((ViewModel.TasksAllViewModel)DataContext).FilterTaskText != null)
+                FilterTBox.Background = new SolidColorBrush(Color.FromRgb(222, 240, 243));
+            else
+                FilterTBox.Background = Brushes.White;
+        }
+        private void ClearFilterClick(object sender, EventArgs e)
+        {
+            FilterTBox.Text = "";
+            FilterTBox.Background = Brushes.White;
+            context.FilterTaskCommand.Execute(sender);
+        }
+
+        private void OnKeyDownFilter(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                context.FilterTaskCommand.Execute(sender);
+                return;
+            }
         }
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)

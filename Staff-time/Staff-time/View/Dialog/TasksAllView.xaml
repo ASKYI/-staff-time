@@ -51,6 +51,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
                 <RowDefinition Height="10*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
@@ -106,9 +107,20 @@
                 </Button>
             </StackPanel>
 
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"  PreviewMouseWheel="TreeViewScrollViewer_PreviewMouseWheel" >
+            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" >
+                <TextBox Margin ="2,0,0,0" Name="FilterTBox" FontStyle="Italic" KeyDown="OnKeyDownFilter" FontSize="16" Width="200" Text="{Binding FilterTaskText, UpdateSourceTrigger=PropertyChanged}" GotFocus="Filter_GotFocus"></TextBox>
+                <Button  Margin ="2,0,0,0" Command="{Binding FilterTaskCommand}" Click="FilterClick" ToolTip="Фильтровать дерево" Background="White" ToolTipService.ShowOnDisabled="True">
+                    <Image Source="../../Resources/filter.ico"></Image>
+                </Button>
+                <Button Name="ClearFilterBtn" Margin ="2,0,0,0" Click="ClearFilterClick" ToolTip="Сбросить фильтр" Background="White"
+                    IsEnabled="{Binding ElementName=FilterTBox, Path=Text.Length, Mode=OneWay}" ToolTipService.ShowOnDisabled="True">
+                    <Image Source="../../Resources/delete.ico"></Image>
+                </Button>
+            </StackPanel>
+
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"  PreviewMouseWheel="TreeViewScrollViewer_PreviewMouseWheel" >
                 <!--<StackPanel>-->
-                <v:ExtendedTreeView Grid.Row ="0" Grid.Column="1" Margin="3"
+                <v:ExtendedTreeView Grid.Row ="2" Grid.Column="1" Margin="3"
                                     SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" 
                                     ItemsSource="{Binding AllTreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch"
                                        
@@ -126,8 +138,8 @@
                 <!--</StackPanel>-->
             </ScrollViewer>
 
-            <StackPanel Margin="2" HorizontalAlignment="Center"  Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom">
-                <Button Margin="5" Content="Добавить" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="110" HorizontalAlignment="Right" ToolTip="Добавить в избранное" ></Button>
+            <StackPanel Margin="2" HorizontalAlignment="Center"  Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Bottom">
+                <Button Margin="5" Content="Добавить" Command="{Binding AcceptCommand}" Width="110" HorizontalAlignment="Right" ToolTip="Добавить в избранное" ></Button>
                 <Button Margin="5" Content="Закрыть" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="110" HorizontalAlignment="Right"></Button>
             </StackPanel>
         </Grid>

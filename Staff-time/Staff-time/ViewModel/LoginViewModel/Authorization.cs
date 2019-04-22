@@ -31,7 +31,8 @@ namespace Staff_time.ViewModel.LoginViewModel
 
         public static void Logout()
         {
-            stuffTimeSettingsKey.SetValue("lastUserID", GlobalInfo.CurrentUser.ID);
+            if (GlobalInfo.CurrentUser != null)
+                stuffTimeSettingsKey.SetValue("lastUserID", GlobalInfo.CurrentUser.ID);
         }
     }
 }

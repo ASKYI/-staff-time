@@ -6,7 +6,44 @@
              xmlns:local="clr-namespace:Staff_time.View.Dialog"
              mc:Ignorable="d" 
              Title="Передать задачу" Height="500" Width="300"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style x:Key="IconStyle" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding user.Type}" Value="Программист">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="../../Resources/ProgrammerIcon.ico"/>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding user.Type}" Value="Химик">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="../../Resources/ChemistIcon.ico"/>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding user.Type}" Value="Директор">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="../../Resources/noname.ico"/>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding user.Type}" Value="Эксперт">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <ImageBrush ImageSource="../../Resources/noname.ico"/>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"></RowDefinition>
@@ -15,7 +52,10 @@
         <ListBox x:Name="lst" Grid.Row="0" ItemsSource="{Binding users}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <CheckBox Content="{Binding user.UserName}" IsChecked="{Binding IsChecked}" />
+                    <StackPanel Orientation="Horizontal">
+                        <Button HorizontalAlignment="Left" Style="{StaticResource IconStyle}" Width="20" Height="20"/>
+                        <CheckBox Height="20" VerticalContentAlignment="Center" Content="{Binding user.UserName}" IsChecked="{Binding IsChecked}" />
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

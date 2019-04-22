@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Staff_time.Model;
 using Staff_time.Model.UserModel;
+using Staff_time.View;
 using Staff_time.View.Dialog;
 using Staff_time.ViewModel;         // todo после окончания работы над файлом желательно убрать лишние using
 using Staff_time.ViewModel.LoginViewModel;
@@ -27,7 +28,7 @@ namespace Staff_time
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string version = "2.21";
+        static string version = "2.23";
         MainViewModel context;
         private static bool _isEnable;
         public static bool IsEnable
@@ -42,7 +43,7 @@ namespace Staff_time
                 OnGlobalPropertyChanged("IsMainWindowEnabled");
             }
         }
-        private System.Windows.Forms.NotifyIcon notifyIcon = null;
+        //private System.Windows.Forms.NotifyIcon notifyIcon = null;
         public MainWindow()
         {
             Context.Init();
@@ -103,24 +104,29 @@ namespace Staff_time
             oldMainWindow.Close();
         }
 
+        public void ShowTimeStatistics(object sender, EventArgs e)
+        {
+            TimeStatisticsWindow dlg = new TimeStatisticsWindow();
+            dlg.ShowDialog();
+        }
 
         private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            notifyIcon = new System.Windows.Forms.NotifyIcon();
-            notifyIcon.Click += new EventHandler(notifyIcon_Click);
-            notifyIcon.DoubleClick += new EventHandler(notifyIcon_DoubleClick);
-            notifyIcon.Icon = Properties.Resources.appImage;
+            //notifyIcon = new System.Windows.Forms.NotifyIcon();
+            //notifyIcon.Click += new EventHandler(notifyIcon_Click);
+            //notifyIcon.DoubleClick += new EventHandler(notifyIcon_DoubleClick);
+            //notifyIcon.Icon = Properties.Resources.appImage;
 
-            notifyIcon.Visible = true;
-            this.ShowInTaskbar = true;
+            //notifyIcon.Visible = true;
+            //this.ShowInTaskbar = true;
         }
         private void Window_State_Changed(object sender, EventArgs e)
         {
-            var window = (MainWindow)sender;
-            if (window.WindowState == WindowState.Minimized)
-                this.ShowInTaskbar = false;
-            else
-                this.ShowInTaskbar = true;
+            //var window = (MainWindow)sender;
+            //if (window.WindowState == WindowState.Minimized)
+            //    this.ShowInTaskbar = false;
+            //else
+            //    this.ShowInTaskbar = true;
         }
 
         private void notifyIcon_DoubleClick(object sender, EventArgs e)
@@ -141,18 +147,18 @@ namespace Staff_time
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (notifyIcon == null)
-                return;
-            if (notifyIcon.Icon != null)
-            {
-                notifyIcon.Icon.Dispose();
-                notifyIcon.Icon = null;
-            }
-            //if (notifyIcon != null)
+            //if (notifyIcon == null)
+            //    return;
+            //if (notifyIcon.Icon != null)
             //{
-                notifyIcon.Visible = false;
-                notifyIcon.Dispose();
+            //    notifyIcon.Icon.Dispose();
+            //    notifyIcon.Icon = null;
             //}
+            ////if (notifyIcon != null)
+            ////{
+            //    notifyIcon.Visible = false;
+            //    notifyIcon.Dispose();
+            ////}
             Authorization.Logout();
         }
 

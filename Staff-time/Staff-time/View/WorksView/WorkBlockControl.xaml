@@ -142,7 +142,8 @@
                             <ColumnDefinition Width="50"></ColumnDefinition>
                             <ColumnDefinition Width="10"></ColumnDefinition>
                             <ColumnDefinition Width="50"></ColumnDefinition>
-                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="30"></ColumnDefinition>
+                            <ColumnDefinition Width="30"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <xctk:MaskedTextBox Name="MaskTBoxStart" Mask="00:00" Grid.Column="0" Background="LightYellow" KeyDown="KeyDownStart" MouseDoubleClick="DoubleClickTime" Text="{Binding StartTime, StringFormat=HH:mm}" HorizontalAlignment="Right" IsEnabled="{Binding IsEnabled}" LostFocus="TimeStartLostFocus" GotFocus="TimeGotFocus" />
                         <TextBlock Text="-" Margin="2, 0, 2, 0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
@@ -150,6 +151,9 @@
 
                         <Button Grid.Column="3" Margin ="0,0,0,0"  Height="20" Width="20" IsEnabled="{Binding IsEnabled}" ToolTip="Дублировать работу" Command="{Binding DuplicateWorkCommand}" Background="White">
                             <Image Source="../../Resources/add.ico"></Image>
+                        </Button>
+                        <Button Grid.Column="4" Margin ="0,0,0,0"  Height="20" Width="20" IsEnabled="{Binding IsEnabled}" ToolTip="Поделиться задачей" Command="{Binding ShareWorkTaskCommand}" Background="White">
+                            <Image Source="../../Resources/share.ico"></Image>
                         </Button>
                     </Grid>
                 </StackPanel>

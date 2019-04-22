@@ -16,6 +16,10 @@ namespace Staff_time.ViewModel
     {
         public WorkspaceViewModel()
         {
+            TimeSortSources = new List<string> { "../Resources/timeSort_none.ico", "../Resources/timeSort_asc.ico", "../Resources/timeSort_desc.ico" };
+            NameSortSources = new List<string> { "../Resources/nameSort_none.ico", "../Resources/nameSort_asc.ico", "../Resources/nameSort_desc.ico" };
+            TimeSortDirection = -1;
+            NameSortDirection = -1;
             SelectedDate_Picker = chosenDate;
 
             MessengerInstance.Register<long>(this, SumTimeChange);
@@ -25,6 +29,7 @@ namespace Staff_time.ViewModel
             _sortWorksByStartTimeCommand = new RelayCommand(SortWorksByStartTime, (_) => true);
             _sortWorksByNameCommand = new RelayCommand(SortWorksByName, (_) => true);
             MainWindow.GlobalPropertyChanged += HandleGlobalPropertyChanged;
+   
         }
 
         #region INotifyPropertyChanged
@@ -91,13 +96,14 @@ namespace Staff_time.ViewModel
                     PlanningTime = Context.timeTableWork.Read_TimeByDate(chosenDate);
                     WeekTabs[SelectedTabIndex].Generate_WorksForDate();
                     SumTime = WeekTabs[SelectedTabIndex].SumTime;
+                    TimeSortDirection = -1;
+                    NameSortDirection = -1;
                     NotifyPropertyChanged("SelectedTabIndex");
                 }
             }
         }
 
-        public int timeSortDirection { get; set; } = -1;
-        public int nameSortDirection { get; set; } = -1;
+      
         #endregion
 
         #region Week
@@ -137,7 +143,7 @@ namespace Staff_time.ViewModel
                     WeekTabs.Add(new TabItem(DaysOfWeek[i], cur));
 
                 if (cur.Date == date.Date)
-                    SelectedTabIndex = i; 
+                    SelectedTabIndex = i;
             }
 
             SumTime = WeekTabs[SelectedTabIndex].SumTime; // после подсчёта всей недели нужно в сумму положить текущий день
@@ -219,6 +225,65 @@ namespace Staff_time.ViewModel
 
         #endregion
 
+        #region Sort
+        private int _timeSortDirection;
+        public int TimeSortDirection
+        {
+            get
+            {
+                return _timeSortDirection;
+            }
+            set
+            {
+                _timeSortDirection = value;
+                TimeSortSource = TimeSortSources[_timeSortDirection + 1];
+            }
+        }
+        private int _nameSortDirection;
+        public int NameSortDirection
+        {
+            get
+            {
+                return _nameSortDirection;
+            }
+            set
+            {
+                _nameSortDirection = value;
+                NameSortSource = NameSortSources[_nameSortDirection + 1];
+            }
+        }
+
+        private List<string> TimeSortSources { get; set; }
+        private string _timeSortSource;
+        public String TimeSortSource
+        {
+            get
+            {
+                return _timeSortSource;
+            }
+            set
+            {
+                _timeSortSource = value;
+                NotifyPropertyChanged("TimeSortSource");
+            }
+        }
+
+        private List<string> NameSortSources { get; set; }
+        private string _nameSortSource;
+        public String NameSortSource
+        {
+            get
+            {
+                return _nameSortSource;
+            }
+            set
+            {
+                _nameSortSource = value;
+                NotifyPropertyChanged("NameSortSource");
+            }
+        }
+        #endregion
+
         #region commands
         private readonly ICommand _collapseAllWorksCommand;
         public ICommand CollapseAllWorksCommand
@@ -259,8 +324,8 @@ namespace Staff_time.ViewModel
 
         private void SortWorksByStartTime(object obj)
         {
-            timeSortDirection = (timeSortDirection + 1) % 2;
-            WeekTabs[SelectedTabIndex].SortByTime(timeSortDirection);
+            TimeSortDirection = (TimeSortDirection + 1) % 2;
+            WeekTabs[SelectedTabIndex].SortByTime(TimeSortDirection);
         }
 
         private readonly ICommand _sortWorksByNameCommand;
@@ -275,8 +340,8 @@ namespace Staff_time.ViewModel
 
         private void SortWorksByName(object obj)
         {
-            nameSortDirection = (nameSortDirection + 1) % 2;
-            WeekTabs[SelectedTabIndex].SortByName(nameSortDirection);
+            NameSortDirection = (NameSortDirection + 1) % 2;
+            WeekTabs[SelectedTabIndex].SortByName(NameSortDirection);
         }
         #endregion //commands
     }

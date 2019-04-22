@@ -118,7 +118,7 @@
                         <EventSetter Event="PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
                         <!--<EventSetter Event="MouseDoubleClick" Handler="TreeViewItem_doubleclick"/>-->
                     </Style>
-
+                    
                 </local:ExtendedTreeView.Resources>
             </local:ExtendedTreeView>
         </Border>

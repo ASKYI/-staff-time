@@ -76,13 +76,79 @@ namespace Staff_time.ViewModel
                 _dictionary = value;
             }
         }
-        public static Dictionary<int, TreeNode> DictionaryFull { get; set; }
 
+        private static Dictionary<int, TreeNode> _dictionaryFull;
+        public static Dictionary<int, TreeNode> DictionaryFull
+        {
+            get
+            {
+                if (FilterFullTaskText == "" || FilterFullTaskText == null)
+                    return _dictionaryFull;
+                try
+                {
+                    Mouse.SetCursor(Cursors.Wait);
+                    var listTreeNodeFound = _dictionaryFull.Where(t => (t.Value.Task.TaskName.ToLower().Contains(FilterFullTaskText.ToLower()))).Select(t => t.Value).ToList();
+                    Dictionary<int, TreeNode> filteredDictionary = new Dictionary<int, TreeNode>();
+
+                    Queue<TreeNode> nodeToStay = new Queue<TreeNode>();
+                    for (int i = 0; i < listTreeNodeFound.Count; ++i)
+                    {
+                        var node = listTreeNodeFound[i];
+                        var newNode = new TreeNode(node);
+                        newNode.TreeNodes = new ObservableCollection<TreeNode>();
+                        newNode.IsExpanded = true;
+                        if (i == 0)
+                            newNode.IsSelected = true;
+                        nodeToStay.Enqueue(newNode);
+
+                        filteredDictionary.Add(newNode.Task.ID, newNode);
+
+                    }
+
+                    while (nodeToStay.Count > 0)
+                    {
+                        var curTreeNode = nodeToStay.Dequeue();
+
+                        var parentNode = curTreeNode.ParentNode;
+                        if (parentNode != null)
+                        {
+                            var newParentNode = new TreeNode(parentNode);
+                            newParentNode.IsExpanded = true;
+
+
+                            if (!filteredDictionary.ContainsKey(newParentNode.Task.ID))
+                            {
+                                newParentNode.TreeNodes = new ObservableCollection<TreeNode>();
+                                newParentNode.TreeNodes.Add(curTreeNode);
+                                filteredDictionary.Add(newParentNode.Task.ID, newParentNode);
+                                nodeToStay.Enqueue(newParentNode);
+                            }
+                            else
+                                filteredDictionary[newParentNode.Task.ID].TreeNodes.Add(curTreeNode);
+                        }
+                    }
+
+                    Mouse.SetCursor(Cursors.Arrow);
+                    return filteredDictionary;
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show(e.Message, "Ошибка");
+                    Mouse.SetCursor(Cursors.Arrow);
+                    return null;
+                }
+            }
+            set
+            {
+                _dictionaryFull = value;
+            }
+        }
         public static bool Init_Context_tracker = true;
         public static bool Init_tracker = true;
         public static bool Init_Full_tracker = false;
 
         public static string FilterFaveTaskText { get; set; }
+        public static string FilterFullTaskText { get; set; }
 
         private static void FillTreeDictionaryByTasks(Dictionary<int, TreeNode> curDictionary, List<Task> tasksBD, bool isFullTree)
         {
@@ -171,7 +237,7 @@ namespace Staff_time.ViewModel
             //которая еще не встречалась в таблице при последовательном чтении.
             //В таком случае создается узел с пустым значением задачи, которая заполнится, когда задача встретится.
             //В бд невозможно добавить ссылку на несуществующую задачу 
-         
+
 
             List<Task> tasksBD = Context.taskWork.Read_AllTasks();
             DictionaryFull = new Dictionary<int, TreeNode>();
@@ -258,8 +324,8 @@ namespace Staff_time.ViewModel
                     Mouse.SetCursor(Cursors.Arrow);
                 }
             }
-                //VM
-                TreeNode oldNode = curDictionary[task.ID];
+            //VM
+            TreeNode oldNode = curDictionary[task.ID];
 
             TreeNodeFactory factory = new TreeNodeFactory();
             TreeNode newNode = factory.CreateTreeNode(task);
@@ -486,7 +552,7 @@ namespace Staff_time.ViewModel
 
         public static void SaveCollapse(ObservableCollection<TreeNode> treeRoots)
         {
-            foreach(var elem in TasksVM.Dictionary)
+            foreach (var elem in TasksVM.Dictionary)
             {
                 var node = elem.Value;
                 Context.taskWork.Update_UserTaskExpended(node.Task.ID, GlobalInfo.CurrentUser.ID, node.IsExpanded);
