@@ -92,7 +92,8 @@
             </StackPanel>
             <StackPanel Grid.Row="3" Orientation="Horizontal">
                 <Image Width="25" Height="27" Source="../../Resources/password.png"/>
-                <TextBox Name="PasswordTBox" Text="{Binding Password}" Height="27" Width="175" VerticalContentAlignment="Center" KeyDown="OnKeyDownPassword"  MaxLength="8" />
+                <PasswordBox Name="PasswordUserBox" IsHitTestVisible="True" Height="27" Width="175" VerticalContentAlignment="Center" KeyDown="OnKeyDownPassword"  MaxLength="8" />
+                <!--<TextBox Name="PasswordTBox" Text="{Binding Password}" Height="27" Width="175" VerticalContentAlignment="Center" KeyDown="OnKeyDownPassword"  MaxLength="8" />-->
             </StackPanel>
 
         </Grid>

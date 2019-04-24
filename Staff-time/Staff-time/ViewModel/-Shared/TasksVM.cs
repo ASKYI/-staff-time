@@ -37,7 +37,6 @@ namespace Staff_time.ViewModel
                 {
                     var node = listTreeNodeFound[i];
                     var newNode = new TreeNode(node);
-                    newNode.TreeNodes = new ObservableCollection<TreeNode>();
                     newNode.IsExpanded = true;
                     if (i == 0)
                         newNode.IsSelected = true;
@@ -95,14 +94,12 @@ namespace Staff_time.ViewModel
                     {
                         var node = listTreeNodeFound[i];
                         var newNode = new TreeNode(node);
-                        newNode.TreeNodes = new ObservableCollection<TreeNode>();
                         newNode.IsExpanded = true;
                         if (i == 0)
                             newNode.IsSelected = true;
                         nodeToStay.Enqueue(newNode);
 
                         filteredDictionary.Add(newNode.Task.ID, newNode);
-
                     }
 
                     while (nodeToStay.Count > 0)
@@ -238,7 +235,7 @@ namespace Staff_time.ViewModel
             //В таком случае создается узел с пустым значением задачи, которая заполнится, когда задача встретится.
             //В бд невозможно добавить ссылку на несуществующую задачу 
 
-
+          
             List<Task> tasksBD = Context.taskWork.Read_AllTasks();
             DictionaryFull = new Dictionary<int, TreeNode>();
             FillTreeDictionaryByTasks(DictionaryFull, tasksBD, true);

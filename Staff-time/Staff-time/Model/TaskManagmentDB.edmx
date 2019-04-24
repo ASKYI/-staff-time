@@ -138,6 +138,7 @@
           <Property Name="Password" Type="nvarchar" MaxLength="8" />
           <Property Name="LevelID" Type="int" Nullable="false" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="Settings" Type="xml" />
         </EntityType>
         <EntityType Name="UserTasks">
           <Key>
@@ -705,6 +706,7 @@
           <NavigationProperty Name="Requests" Relationship="TaskManagmentDBModel.FK_Requests_Users" FromRole="User" ToRole="Request" />
           <NavigationProperty Name="Requests1" Relationship="TaskManagmentDBModel.FK_Users_Requests" FromRole="User" ToRole="Request" />
           <NavigationProperty Name="Tasks" Relationship="TaskManagmentDBModel.FK_Tasks_Users" FromRole="User" ToRole="Task" />
+          <Property Name="Settings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           </EntityType>
         <EntityType Name="UserTask">
           <Key>
@@ -1402,6 +1404,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="TaskManagmentDBModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Settings" ColumnName="Settings" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="LevelID" ColumnName="LevelID" />
                 <ScalarProperty Name="Password" ColumnName="Password" />

@@ -28,7 +28,7 @@ namespace Staff_time
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string version = "2.23";
+        static string version = "2.24";
         MainViewModel context;
         private static bool _isEnable;
         public static bool IsEnable
@@ -43,7 +43,6 @@ namespace Staff_time
                 OnGlobalPropertyChanged("IsMainWindowEnabled");
             }
         }
-        //private System.Windows.Forms.NotifyIcon notifyIcon = null;
         public MainWindow()
         {
             Context.Init();
@@ -63,7 +62,7 @@ namespace Staff_time
                     SplashScreen splashScreen = new SplashScreen("Resources/appImage.png");
                     splashScreen.Show(true);
 
-                    context = new MainViewModel();
+                    context = new MainViewModel(true);
                     InitializeComponent();
                     Title = "Учёт трудозатрат, v" + version;
                     DataContext = context;
@@ -109,24 +108,37 @@ namespace Staff_time
             TimeStatisticsWindow dlg = new TimeStatisticsWindow();
             dlg.ShowDialog();
         }
+        public void ShowUserSettings(object sender, EventArgs e)
+        {
+            UserSettingsWindow dlg = new UserSettingsWindow();
+            dlg.ShowDialog();
+        }
+
+        private System.Windows.Forms.NotifyIcon notifyIcon = null;
 
         private void Window_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            //notifyIcon = new System.Windows.Forms.NotifyIcon();
-            //notifyIcon.Click += new EventHandler(notifyIcon_Click);
-            //notifyIcon.DoubleClick += new EventHandler(notifyIcon_DoubleClick);
-            //notifyIcon.Icon = Properties.Resources.appImage;
+            if (GlobalInfo.UserOptions.IsCollapseTray)
+            {
+                notifyIcon = new System.Windows.Forms.NotifyIcon();
+                notifyIcon.Click += new EventHandler(notifyIcon_Click);
+                notifyIcon.DoubleClick += new EventHandler(notifyIcon_DoubleClick);
+                notifyIcon.Icon = Properties.Resources.appImage;
 
-            //notifyIcon.Visible = true;
-            //this.ShowInTaskbar = true;
+                notifyIcon.Visible = true;
+                this.ShowInTaskbar = true;
+            }
         }
         private void Window_State_Changed(object sender, EventArgs e)
         {
-            //var window = (MainWindow)sender;
-            //if (window.WindowState == WindowState.Minimized)
-            //    this.ShowInTaskbar = false;
-            //else
-            //    this.ShowInTaskbar = true;
+            if (GlobalInfo.UserOptions.IsCollapseTray)
+            {
+                var window = (MainWindow)sender;
+                if (window.WindowState == WindowState.Minimized)
+                    this.ShowInTaskbar = false;
+                else
+                    this.ShowInTaskbar = true;
+            }
         }
 
         private void notifyIcon_DoubleClick(object sender, EventArgs e)
@@ -147,18 +159,18 @@ namespace Staff_time
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //if (notifyIcon == null)
-            //    return;
-            //if (notifyIcon.Icon != null)
-            //{
-            //    notifyIcon.Icon.Dispose();
-            //    notifyIcon.Icon = null;
-            //}
-            ////if (notifyIcon != null)
-            ////{
-            //    notifyIcon.Visible = false;
-            //    notifyIcon.Dispose();
-            ////}
+            if (notifyIcon == null)
+                return;
+            if (notifyIcon.Icon != null)
+            {
+                notifyIcon.Icon.Dispose();
+                notifyIcon.Icon = null;
+            }
+            if (notifyIcon != null)
+            {
+                notifyIcon.Visible = false;
+                notifyIcon.Dispose();
+            }
             Authorization.Logout();
         }
 

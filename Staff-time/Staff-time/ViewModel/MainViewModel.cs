@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Staff_time.Model;
-using Staff_time.Model.Interfaces;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using GalaSoft.MvvmLight;
 
-using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
 using Staff_time.Model.UserModel;
-using System.Windows.Input;
 
 namespace Staff_time.ViewModel
 {
@@ -26,10 +20,13 @@ namespace Staff_time.ViewModel
             WorksVM.Init();
         }
 
-        public MainViewModel()
+        public MainViewModel(bool IsLoad)
         {
             _initSharedStatics();
             _initChosen();
+        }
+        public MainViewModel()
+        {
         }
 
         #region Chosen statics (User, Date)
@@ -44,7 +41,6 @@ namespace Staff_time.ViewModel
                 return;
             init_tracker = true;
 
-            //chosenUser = Context.GetTestUser();
             chosenUser = GlobalInfo.CurrentUser;
             chosenDate = DateTime.Now.Date;
         }

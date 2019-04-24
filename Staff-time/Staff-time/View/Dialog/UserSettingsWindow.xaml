@@ -1,0 +1,41 @@
+﻿<Window x:Class="Staff_time.View.UserSettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Staff_time.View.Dialog"
+        mc:Ignorable="d"
+        xmlns:converters="clr-namespace:WpfTestBench.Converters"
+        xmlns:m="clr-namespace:Staff_time.Model"
+        xmlns:vm="clr-namespace:Staff_time.ViewModel"  
+        xmlns:v="clr-namespace:Staff_time.View"  
+        
+        Title="Настройки" Width="400" MinWidth="330" MinHeight="170" Height="170"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <TextBlock  Text="Сворачивать в трей: " Margin="5,0" Grid.Column="0" Grid.Row="0" ToolTip="При сворачивании утилиты иконка будет видеть в трее"></TextBlock>
+        <CheckBox Grid.Column="1" Grid.Row="0" IsChecked="{Binding UserOptions.IsCollapseTray, UpdateSourceTrigger=PropertyChanged}" ToolTip="При сворачивании утилиты иконка будет видеть в трее" Margin="0,2"/>
+        <TextBlock  Text="Текущий пароль: " Margin="5,0" Grid.Column="0" Grid.Row="1" ToolTip="Текущий пароль"></TextBlock>
+        <PasswordBox Name="CurPasswordBox" Grid.Column="1" Grid.Row="1" Width="150" HorizontalAlignment="Left"/>
+        <TextBlock  Text="Новый пароль: " Margin="5,0" Grid.Column="0" Grid.Row="2" ToolTip="Новый пароль"></TextBlock>
+        <PasswordBox Name="NewPasswordBox" Grid.Column="1" Grid.Row="2" Width="150" HorizontalAlignment="Left"/>
+        <TextBlock  Text="Подтверждение пароля: " Margin="5,0" Grid.Column="0" Grid.Row="3" ToolTip="Подтверждение пароля"></TextBlock>
+        <PasswordBox Name="ConfurmPasswordBox"  Grid.Column="1" Grid.Row="3" Width="150" HorizontalAlignment="Left"/>
+        <StackPanel HorizontalAlignment="Center" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Button Margin="3" Content="Ок" Width="60" Click="ApplyClick"></Button>
+            <Button Margin="3" Content="Отмена" Width="60" IsCancel="True"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

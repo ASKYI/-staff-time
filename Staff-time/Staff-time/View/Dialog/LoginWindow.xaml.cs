@@ -2,6 +2,7 @@
 using Staff_time.Model.UserModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,15 +29,15 @@ namespace Staff_time.View.Dialog
             InitializeComponent();
             if (lastUserID > 0)
                 SelectedUser = users.Find(u => u.ID == lastUserID);
-            PasswordTBox.Focus();
+            PasswordUserBox.Focus();
             DataContext = this;
         }
 
         public User SelectedUser { get; set; }
-        public string Password { get; set; }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            var Password = PasswordUserBox.Password;
             if (Password != null && Password.Equals(SelectedUser.Password, StringComparison.OrdinalIgnoreCase))
             {
                 GlobalInfo.CurrentUser = SelectedUser;
@@ -49,6 +50,8 @@ namespace Staff_time.View.Dialog
 
         private void OnKeyDownPassword(object sender, KeyEventArgs e)
         {
+            var Password = PasswordUserBox.Password;
+
             if (e.Key == Key.Enter)
             {
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
@@ -73,7 +76,7 @@ namespace Staff_time.View.Dialog
         private void OnKeyDownLogin(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Tab)
-                PasswordTBox.Focus();
+                PasswordUserBox.Focus();
         }
     }
 }

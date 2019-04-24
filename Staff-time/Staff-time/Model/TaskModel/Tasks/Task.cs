@@ -25,7 +25,6 @@ namespace Staff_time.Model
 
 
             this.TaskType = task.TaskType;
-            this.Works = task.Works;
             this.PropValues = task.PropValues;
         }
 

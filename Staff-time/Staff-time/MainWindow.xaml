@@ -37,7 +37,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Margin="0, 0, 0, 5" Orientation="Horizontal" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
-            <Button HorizontalAlignment="Left" Background="#DEF0F3">
+            <Button HorizontalAlignment="Left" Background="#DEF0F3" Click="ShowUserSettings">
                 <Image Source="Resources/login.png"></Image>
             </Button>
             <TextBlock Margin="2" Text="{Binding chosenUser.UserName}" Background="#DEF0F3" FontSize="14" FontFamily="Arial" HorizontalAlignment="Left"></TextBlock>

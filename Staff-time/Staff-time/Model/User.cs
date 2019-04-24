@@ -29,6 +29,7 @@ namespace Staff_time.Model
         public string Password { get; set; }
         public int LevelID { get; set; }
         public string Type { get; set; }
+        public string Settings { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserTask> UserTasks { get; set; }

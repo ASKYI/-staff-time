@@ -32,6 +32,12 @@ namespace Staff_time.Model
             return user == null ? "" : user.UserName; 
         }
 
+        public void SaveCurrentUser()
+        {
+            SaveChanges();
+        }
+
+
         #endregion
 
         #region ILevelWork
@@ -123,12 +129,13 @@ namespace Staff_time.Model
         {
             TaskFactory taskFactory = new TaskFactory();
 
-            List<Task> tasks = new List<Task>();
             var allPossibleTasksToFave = Tasks.Where(t => (t.LevelID <= GlobalInfo.CurrentUser.LevelID));
             List<Task> tasksDB = new List<Task>(allPossibleTasksToFave.OrderBy(t => t.IndexNumber));
+            List<Task> tasks = new List<Task>();
 
             foreach (Task t in tasksDB)
                 tasks.Add(taskFactory.CreateTask(t));
+
             return tasks;
         }
 

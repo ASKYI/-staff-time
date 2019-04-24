@@ -203,6 +203,7 @@
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\UserModel\GlobalInfo.cs" />
+    <Compile Include="Model\UserModel\UserSettings.cs" />
     <Compile Include="Model\UserTask.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
@@ -240,7 +241,6 @@
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeCustomer.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeСontract.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TaskDialogViewModel.cs" />
-    <Compile Include="ViewModel\FaveViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TasksFaveViewModel.cs" />
     <Compile Include="ViewModel\WorkspaceViewModel\TabVMs\WorkInTab.cs" />
@@ -251,6 +251,9 @@
     <Compile Include="ViewModel\WorksViewModel\WorkControlVMs\WorkControlViewModelBase.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkDialogViewModel.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkIDDependency.cs" />
+    <Compile Include="View\Dialog\UserSettingsWindow.xaml.cs">
+      <DependentUpon>UserSettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Dialog\TimeStatisticsView.xaml.cs">
       <DependentUpon>TimeStatisticsView.xaml</DependentUpon>
     </Compile>
@@ -315,6 +318,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Dialog\UserSettingsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Dialog\TimeStatisticsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -410,6 +417,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EntityDeploy Include="Model\TaskManagmentDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -433,6 +441,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\ShowPassword.ico" />
     <Resource Include="Resources\share.ico" />
     <Resource Include="appImage.ico" />
     <Content Include="Model\TaskManagmentDB.Context.tt">
