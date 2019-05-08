@@ -88,13 +88,17 @@
                 </Grid>
                 <Separator></Separator>
             </StackPanel>
-                <local:TaskPropView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" PropValues="{Binding DataContext.PropValuesCollection, ElementName=addTaskBlock, Mode=TwoWay}" 
+                <local:TaskPropView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+                                    PropValues="{Binding DataContext.PropValuesCollection, ElementName=addTaskBlock, Mode=TwoWay}" 
+                                    CanEdit="{Binding DataContext.IsEditEnabled, ElementName=addTaskBlock}"
                 Height="{Binding Path=ActualHeight, ElementName=EditTaskBlock, Converter={converters:GridWidthConverter}, ConverterParameter='400'}">
                     <!--ID="{Binding Path=DataContext.EditingTask.ID, ElementName=EditTaskBlock}">-->
             </local:TaskPropView>
 
             <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-                <local:TaskListsView Lists="{Binding DataContext.TaskLists, ElementName=addTaskBlock, Mode=TwoWay}" Height="auto">
+                <local:TaskListsView Lists="{Binding DataContext.TaskLists, ElementName=addTaskBlock, Mode=TwoWay}" 
+                                     IsEnabled="{Binding DataContext.IsEditEnabled, ElementName=addTaskBlock}"
+                                     Height="auto">
                 </local:TaskListsView>
             </StackPanel>
 

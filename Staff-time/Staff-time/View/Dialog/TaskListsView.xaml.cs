@@ -41,7 +41,7 @@ namespace Staff_time.View.Dialog
             {
                 return (List<ListInfo>)GetValue(PropProperty);
             }
-            set { SetValue(PropProperty, value); }
+            set { SetValue(PropProperty, value);}
         }
 
         public static readonly DependencyProperty PropProperty =

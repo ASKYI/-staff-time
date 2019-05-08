@@ -197,7 +197,8 @@
             <ScrollViewer Grid.Row="1" VerticalAlignment="Top" MaxHeight="{Binding Path=ActualHeight, ElementName=TaskTypeFieldsControl, Converter={converters:GridWidthConverter}, ConverterParameter='50'}">
                 <ItemsControl Grid.Column="0" ItemsSource="{Binding Path=PropValues,Mode=TwoWay}" 
                        ItemTemplate="{StaticResource dynamicTemplate}"
-                       KeyboardNavigation.IsTabStop="False">
+                       KeyboardNavigation.IsTabStop="False"
+                              IsEnabled="{Binding CanEdit}">
                 </ItemsControl>
             </ScrollViewer>
         </Grid>

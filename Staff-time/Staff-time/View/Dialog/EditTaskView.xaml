@@ -16,7 +16,6 @@
         mc:Ignorable="d"
         Title="Редактирование задачи" Width="700" MinWidth="500" MinHeight="450" Height="590"
         WindowStartupLocation="CenterScreen"
-        IsEnabled="{Binding IsEditEnabled}"
        >
 
     <Window.Resources>
@@ -74,7 +73,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock TextWrapping="Wrap" Text="Имя задачи: " Grid.Column="0"></TextBlock>
-                    <TextBox IsReadOnly="{Binding IsReadOnly}" TextWrapping="Wrap" Text="{Binding EditingTask.TaskName}" Grid.Column="1"></TextBox>
+                    <TextBox IsReadOnly="{Binding IsReadOnly}" TextWrapping="Wrap" Text="{Binding EditingTask.TaskName}" IsEnabled="{Binding IsEditEnabled}" Grid.Column="1"></TextBox>
                 </Grid>
 
                 <Grid Margin="2">
@@ -86,7 +85,7 @@
                     <TextBlock TextWrapping="Wrap" Text="Описание: " Grid.Column="0"></TextBlock>
 
                     <ScrollViewer  Grid.Column="1" >
-                        <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditingTask.Descriptions}"
+                        <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditingTask.Descriptions}" IsEnabled="{Binding IsEditEnabled}"
                                  TextWrapping="Wrap" MinLines="5" MinHeight="100"></TextBox>
                     </ScrollViewer>
                 </Grid>
@@ -102,7 +101,7 @@
                               ItemsSource="{Binding Path=TaskTypesCb}"
                               DisplayMemberPath="TypeName"
                               SelectedIndex="{Binding SelectedTaskTypeIndex}"
-                              IsEnabled="{Binding IsEnabled}"
+                              IsEnabled="{Binding IsEditEnabled}"
                               >
                     </ComboBox>
                 </Grid>
@@ -112,7 +111,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock  Text="Главная задача: " Grid.Column="0" ToolTip="Используется для настройки отчетов"></TextBlock>
-                    <CheckBox Grid.Column="1" IsChecked="{Binding EditingTask.IsMain, UpdateSourceTrigger=PropertyChanged}" ToolTip="Используется для настройки отчетов" Margin="0,2"/>
+                    <CheckBox Grid.Column="1" IsChecked="{Binding EditingTask.IsMain, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditEnabled}" ToolTip="Используется для настройки отчетов" Margin="0,2"/>
                 </Grid>
                 <Grid Margin="2">
                     <Grid.ColumnDefinitions>
@@ -120,7 +119,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock  Text="Уровень доступа: " Grid.Column="0" ToolTip="Используется для настройки отчетов"></TextBlock>
-                    <ComboBox Grid.Column="1" ItemsSource="{Binding levels, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelLevel}" DisplayMemberPath="LevelName" ToolTip="Уровень доступа к задаче, видимость у пользователей" Margin="0,2"/>
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding levels, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditEnabled}" SelectedItem="{Binding SelLevel}" DisplayMemberPath="LevelName" ToolTip="Уровень доступа к задаче, видимость у пользователей" Margin="0,2"/>
                 </Grid>
                 <Grid Margin="2">
                     <Grid.ColumnDefinitions>
@@ -128,11 +127,11 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock  Text="Ответственный: " Grid.Column="0" ToolTip="Ответственный по данной задаче"></TextBlock>
-                    <ComboBox Grid.Column="1" ItemsSource="{Binding users, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ResponsibleUser}" DisplayMemberPath="UserName" ToolTip="Уровень доступа к задаче, видимость у пользователей" Margin="0,2"/>
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding users, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEditEnabled}" SelectedItem="{Binding ResponsibleUser}" DisplayMemberPath="UserName" ToolTip="Уровень доступа к задаче, видимость у пользователей" Margin="0,2"/>
                 </Grid>
             </StackPanel>
 
-            <Expander Margin="3" Padding="5" BorderThickness="3" Grid.Column="1" Grid.Row="0" Header="Выбрать задачу-родителя">
+            <Expander Margin="3" Padding="5" BorderThickness="3" Grid.Column="1" Grid.Row="0" IsEnabled="{Binding IsEditEnabled}" Header="Выбрать задачу-родителя">
                 <Expander.ToolTip>
                     <ToolTip Content="Выбрать задачу-родителя"></ToolTip>
                 </Expander.ToolTip>
@@ -153,13 +152,15 @@
 
             <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
                 <local2:TaskPropView PropValues="{Binding DataContext.PropValuesCollection, ElementName=EditTaskBlock, Mode=TwoWay}"
+                                     CanEdit="{Binding DataContext.IsEditEnabled, ElementName=EditTaskBlock}"
                                      Height="{Binding Path=ActualHeight, ElementName=EditTaskBlock, Converter={converters:GridWidthConverter}, ConverterParameter='400'}">
                     <!--ID="{Binding Path=DataContext.EditingTask.ID, ElementName=EditTaskBlock}">-->
                 </local2:TaskPropView>
             </StackPanel>
 
-            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-                <local2:TaskListsView Lists="{Binding DataContext.TaskLists, ElementName=EditTaskBlock, Mode=TwoWay}" Height="auto">
+            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"  IsEnabled="{Binding DataContext.IsEditEnabled, ElementName=EditTaskBlock}">
+                <local2:TaskListsView Lists="{Binding DataContext.TaskLists, ElementName=EditTaskBlock, Mode=TwoWay}"  
+                                      Height="auto">
                 </local2:TaskListsView>
             </StackPanel>
 

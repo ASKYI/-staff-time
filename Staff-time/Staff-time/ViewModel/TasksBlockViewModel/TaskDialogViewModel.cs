@@ -438,6 +438,9 @@ namespace Staff_time.ViewModel
                 Context.procedureWork.UpdateTasksIndexNumbers((int)_editingTask.IndexNumber); // обновим индексы с текущего
                 //}
             }
+
+            //Значения доп. полей почистить
+            FilterPropValues();
             ALLVM.DoTaskCommand(new KeyValuePair<TaskCommandEnum, Task>(_command, _editingTask));
 
 
@@ -470,8 +473,7 @@ namespace Staff_time.ViewModel
                 Context.listWork.UpdateListValues(list, taskID, (int)listID);
             }
 
-            //Значения доп. полей почистить
-            FilterPropValues();
+
 
             //         MessengerInstance.Send<KeyValuePair<TaskCommandEnum, Task>>(
             //new KeyValuePair<TaskCommandEnum, Task>(_command, _editingTask));

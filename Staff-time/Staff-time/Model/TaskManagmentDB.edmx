@@ -513,6 +513,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GenerateTaskResults2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="d" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="GenerateTaskResults2All" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GenerateTaskResults2Changed" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="RepareUserTree" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="taskId" Type="int" Mode="In" />
         </Function>
@@ -975,6 +980,11 @@
             <End Role="Property" EntitySet="Properties" />
             <End Role="TaskTypeProp" EntitySet="TaskTypeProps" />
           </AssociationSet>
+          <FunctionImport Name="GenerateTaskResults2">
+            <Parameter Name="d" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GenerateTaskResults2All" />
+          <FunctionImport Name="GenerateTaskResults2Changed" />
           </EntityContainer>
         <Association Name="FK_Works_Users">
           <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="0..1" />
@@ -1555,6 +1565,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GenerateTaskResults2" FunctionName="Хранилище TaskManagmentDBModel.GenerateTaskResults2" />
+          <FunctionImportMapping FunctionImportName="GenerateTaskResults2All" FunctionName="Хранилище TaskManagmentDBModel.GenerateTaskResults2All" />
+          <FunctionImportMapping FunctionImportName="GenerateTaskResults2Changed" FunctionName="Хранилище TaskManagmentDBModel.GenerateTaskResults2Changed" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

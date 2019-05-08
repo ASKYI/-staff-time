@@ -31,12 +31,20 @@ namespace Staff_time.View
         {
             InitializeComponent();
             UserOptions = new UserSettings(GlobalInfo.UserOptions);
-          
+
             base.DataContext = this;
         }
 
-        public UserSettings UserOptions{ get; set; }
+        public UserSettings UserOptions { get; set; }
+        public bool IsEditor
+        {
+            get
+            {
+                return GlobalInfo.CurrentUser.LEVEL.LevelName.ToLower() == "editor";
+            }
+        }
 
+        #region Click events
         public void ApplyClick(object sender, EventArgs e)
         {
             var curPassWord = CurPasswordBox.Password;
@@ -63,6 +71,33 @@ namespace Staff_time.View
             Context.usersWork.SaveCurrentUser();
             Close();
         }
+        public void RepairClick(object sender, EventArgs e)
+        {
+            Mouse.SetCursor(Cursors.Wait);
+            Context.procedureWork.RepairInconsistances();
+            Mouse.SetCursor(Cursors.Arrow);
+        }
+
+        public void ReloadLastDayClick(object sender, EventArgs e)
+        {
+            Mouse.SetCursor(Cursors.Wait);
+            Context.procedureWork.ReloadLastDay();
+            Mouse.SetCursor(Cursors.Arrow);
+        }
+
+        public void ReloadAllDaysClick(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Процесс может занимать длительное время, продолжить?", "Вопрос на продолжение операции", 
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+                return;
+
+            Mouse.SetCursor(Cursors.Wait);
+            Context.procedureWork.ReloadAllDays();
+            Mouse.SetCursor(Cursors.Arrow);
+        }
+
+
+        #endregion //clickEvents
 
         #region INotifyPropertyChanged
 

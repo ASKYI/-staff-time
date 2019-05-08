@@ -28,6 +28,7 @@ namespace Staff_time
     /// </summary>
     public partial class MainWindow : Window
     {
+
         static string version = "2.24";
         MainViewModel context;
         private static bool _isEnable;
@@ -45,6 +46,8 @@ namespace Staff_time
         }
         public MainWindow()
         {
+            SplashScreen splashScreen = new SplashScreen("Resources/appImage.png");
+            splashScreen.Show(true);
             Context.Init();
             IsEnable = true;
             bool? isOK = Authorization.Login();
@@ -59,7 +62,6 @@ namespace Staff_time
             {
                 try
                 {
-                    SplashScreen splashScreen = new SplashScreen("Resources/appImage.png");
                     splashScreen.Show(true);
 
                     context = new MainViewModel(true);
@@ -159,6 +161,8 @@ namespace Staff_time
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            Authorization.Logout();
+
             if (notifyIcon == null)
                 return;
             if (notifyIcon.Icon != null)
@@ -171,7 +175,6 @@ namespace Staff_time
                 notifyIcon.Visible = false;
                 notifyIcon.Dispose();
             }
-            Authorization.Logout();
         }
 
         #region INotifyPropertyChanged

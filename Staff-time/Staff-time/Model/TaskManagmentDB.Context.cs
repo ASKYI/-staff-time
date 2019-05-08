@@ -63,5 +63,24 @@ namespace Staff_time.Model
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateTaskIndexNumbersAfterAppend", nextIndexNumberParameter);
         }
+    
+        public virtual int GenerateTaskResults2(Nullable<System.DateTime> d)
+        {
+            var dParameter = d.HasValue ?
+                new ObjectParameter("d", d) :
+                new ObjectParameter("d", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GenerateTaskResults2", dParameter);
+        }
+    
+        public virtual int GenerateTaskResults2All()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GenerateTaskResults2All");
+        }
+    
+        public virtual int GenerateTaskResults2Changed()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GenerateTaskResults2Changed");
+        }
     }
 }

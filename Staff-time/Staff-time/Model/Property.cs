@@ -28,8 +28,7 @@ namespace Staff_time.Model
         public Nullable<bool> ListType { get; set; }
         public Nullable<int> ListID { get; set; }
         public Nullable<int> TaskTypeID { get; set; }
-
-
+    
         public virtual List List { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PropertiesList> PropertiesLists { get; set; }

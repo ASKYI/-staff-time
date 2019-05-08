@@ -441,6 +441,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\AllDays.ico" />
+    <Resource Include="Resources\OneDay.ico" />
+    <Resource Include="Resources\Repair.ico" />
     <Resource Include="Resources\ShowPassword.ico" />
     <Resource Include="Resources\share.ico" />
     <Resource Include="appImage.ico" />

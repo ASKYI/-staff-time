@@ -10,8 +10,19 @@
         xmlns:vm="clr-namespace:Staff_time.ViewModel"  
         xmlns:v="clr-namespace:Staff_time.View"  
         
-        Title="Настройки" Width="400" MinWidth="330" MinHeight="170" Height="170"
+        Title="Настройки" Width="400" MinWidth="330" MinHeight="170"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
@@ -22,8 +33,8 @@
             <RowDefinition Height="25"/>
             <RowDefinition Height="25"/>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <TextBlock  Text="Сворачивать в трей: " Margin="5,0" Grid.Column="0" Grid.Row="0" ToolTip="При сворачивании утилиты иконка будет видеть в трее"></TextBlock>
         <CheckBox Grid.Column="1" Grid.Row="0" IsChecked="{Binding UserOptions.IsCollapseTray, UpdateSourceTrigger=PropertyChanged}" ToolTip="При сворачивании утилиты иконка будет видеть в трее" Margin="0,2"/>
@@ -33,9 +44,38 @@
         <PasswordBox Name="NewPasswordBox" Grid.Column="1" Grid.Row="2" Width="150" HorizontalAlignment="Left"/>
         <TextBlock  Text="Подтверждение пароля: " Margin="5,0" Grid.Column="0" Grid.Row="3" ToolTip="Подтверждение пароля"></TextBlock>
         <PasswordBox Name="ConfurmPasswordBox"  Grid.Column="1" Grid.Row="3" Width="150" HorizontalAlignment="Left"/>
-        <StackPanel HorizontalAlignment="Center" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+
+        <StackPanel Margin="0,10,0,0" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="4" Orientation="Horizontal">
+            <TextBlock  Text="Работа со статистикой: " Margin="5,5"  ToolTip="Подтверждение пароля"></TextBlock>
+            <Button  Margin ="11,0,0,0" Click="RepairClick" ToolTip="Убрать несоответствия (вносили вперед, или удалили работы с прошлых дат)" 
+                 Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/repair.ico"></Image>
+            </Button>
+            <Button  Margin ="5,0,0,0" Click="ReloadLastDayClick" ToolTip="Обновить за последний день" Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/oneday.ico"></Image>
+            </Button>
+            <Button  Margin ="5,0,0,0" Click="ReloadAllDaysClick" ToolTip="Обновить за всё время" Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/alldays.ico"></Image>
+            </Button>
+
+            <StackPanel.Style>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger
+                    Binding="{Binding IsEditor}" 
+                    Value="false">
+                            <Setter Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Center" Grid.Row="5" Margin="0,5,0,0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
             <Button Margin="3" Content="Ок" Width="60" Click="ApplyClick"></Button>
             <Button Margin="3" Content="Отмена" Width="60" IsCancel="True"></Button>
         </StackPanel>
+
     </Grid>
 </Window>

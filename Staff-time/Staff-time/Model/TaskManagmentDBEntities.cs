@@ -251,7 +251,6 @@ namespace Staff_time.Model
 
         public void Update_Task(Task task)
         {
-
             foreach (var pv in task.PropValues)
             {
                 var delPV = PropValues.FirstOrDefault(p => p.PropID == pv.PropID && p.TaskID == pv.TaskID);
@@ -499,6 +498,22 @@ namespace Staff_time.Model
         {
             UpdateTaskIndexNumbersAfterAppend(indexStart);
             SaveChanges();
+        }
+
+        public void ReloadLastDay()
+        {
+            var curDate = DateTime.Now;
+            var prevDate = curDate.AddDays(-1);
+            GenerateTaskResults2(prevDate);
+            SaveChanges();
+        }
+        public void ReloadAllDays()
+        {
+            GenerateTaskResults2All();
+        }
+        public void RepairInconsistances()
+        {
+            GenerateTaskResults2Changed();
         }
 
         #endregion //IProcedureWork

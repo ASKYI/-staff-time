@@ -35,6 +35,15 @@ namespace Staff_time.View.Dialog
             DataContext = this;
         }
 
+        public bool CanEdit
+        {
+            get
+            {
+                return (bool)GetValue(EditableProperty);
+            }
+            set { SetValue(EditableProperty, value); }
+        }
+
         public List<PropValueInfo> PropValues
         {
             get
@@ -47,9 +56,11 @@ namespace Staff_time.View.Dialog
         public static readonly DependencyProperty PropProperty =
                 DependencyProperty.Register("PropValues", typeof(List<PropValueInfo>), typeof(TaskPropView), new PropertyMetadata(default(List<PropValueInfo>), OnItemsPropertyChanged));
 
+        public static readonly DependencyProperty EditableProperty =
+              DependencyProperty.Register("CanEdit", typeof(bool), typeof(TaskPropView), new PropertyMetadata(default(bool), OnItemsPropertyChanged));
+
         private static void OnItemsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-
         }
 
         private void DateBox_DoubleClick(object sender, EventArgs e)
@@ -194,7 +205,7 @@ namespace Staff_time.View.Dialog
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null)
+            if (value == null || (DateTime)value == DateTime.MinValue)
                 return null;
             return ((DateTime)value).ToString("dd.MM.yyyy");
         }
