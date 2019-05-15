@@ -302,12 +302,15 @@ namespace Staff_time.ViewModel
 
         private void DuplicateWork(object obj)
         {
-            ApplyChanges();
-            var workDuplicate = (Work)_workVM.Work.Clone();
-            workDuplicate.ID = 0;
-            workDuplicate.AttrValues.Clear();
-            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
-               (WorkCommandEnum.Add, workDuplicate));
+            //if (IsEditing)
+            //{
+                ApplyChanges();
+                var workDuplicate = (Work)_workVM.Work.Clone();
+                workDuplicate.ID = 0;
+                workDuplicate.AttrValues.Clear();
+                MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
+                   (WorkCommandEnum.Add, workDuplicate));
+           // }
         }
         private readonly ICommand _shareWorkTaskCommand;
         public ICommand ShareWorkTaskCommand

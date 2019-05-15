@@ -27,6 +27,18 @@
             </Grid>
         </DataTemplate>
 
+        <DataTemplate x:Key="numericBoxTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox Margin="1,1" Grid.Column="0" AcceptsReturn="True" Background="LightYellow" TextWrapping="Wrap" FontSize="14" FontFamily="Arial" HorizontalAlignment="Stretch" 
+                         Text="{Binding Path=propVal.ValueInt,UpdateSourceTrigger=PropertyChanged, 
+                    ValidatesOnExceptions=True,NotifyOnValidationError=True,ValidatesOnDataErrors=True, TargetNullValue=0}"
+                         PreviewTextInput="PreviewNumberInput"/>
+            </Grid>
+        </DataTemplate>
+
         <DataTemplate x:Key="dateTemplate">
             <StackPanel HorizontalAlignment="Stretch">
                 <Grid>
@@ -145,7 +157,7 @@
                                 </DataTrigger>
                                 <!--Int-->
                                 <DataTrigger Binding="{Binding Path=propVal.Property.DataType}" Value="1">
-                                    <Setter Property="ContentTemplate" Value="{StaticResource textBoxTemplate}"/>
+                                    <Setter Property="ContentTemplate" Value="{StaticResource numericBoxTemplate}"/>
                                 </DataTrigger>
                                 <!--Date-->
                                 <DataTrigger Binding="{Binding Path=propVal.Property.DataType}" Value="2">

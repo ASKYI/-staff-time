@@ -20,6 +20,7 @@ namespace Staff_time.ViewModel
             NameSortSources = new List<string> { "../Resources/nameSort_none.ico", "../Resources/nameSort_asc.ico", "../Resources/nameSort_desc.ico" };
             TimeSortDirection = -1;
             NameSortDirection = -1;
+            TimeByPlanDate = new Dictionary<DateTime, double>();
             SelectedDate_Picker = chosenDate;
 
             MessengerInstance.Register<long>(this, SumTimeChange);
@@ -29,7 +30,7 @@ namespace Staff_time.ViewModel
             _sortWorksByStartTimeCommand = new RelayCommand(SortWorksByStartTime, (_) => true);
             _sortWorksByNameCommand = new RelayCommand(SortWorksByName, (_) => true);
             MainWindow.GlobalPropertyChanged += HandleGlobalPropertyChanged;
-   
+
         }
 
         #region INotifyPropertyChanged
@@ -69,17 +70,35 @@ namespace Staff_time.ViewModel
             {
                 if (_selectedDate_Picker == value)
                     return;
+
+                //bool isTheSameWeek = false;
+                //if (_selectedDate_Picker != DateTime.MinValue)
+                //    isTheSameWeek = DatesAreInTheSameWeek(_selectedDate_Picker, value);
                 SetField(ref _selectedDate_Picker, value);
 
+                //if (!isTheSameWeek)
                 Generate_Week(_selectedDate_Picker);
+                //else
+                //    SelectedTabIndex = (int)(_selectedDate_Picker.DayOfWeek) - 1;
+
                 NotifyPropertyChanged("SelectedDate_Picker");
             }
         }
+
+        //private bool DatesAreInTheSameWeek(DateTime date1, DateTime date2)
+        //{
+        //    var cal = System.Globalization.DateTimeFormatInfo.CurrentInfo.Calendar;
+        //    var d1 = date1.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date1));
+        //    var d2 = date2.Date.AddDays(-1 * (int)cal.GetDayOfWeek(date2));
+
+        //    return d1 == d2;
+        //}
 
         public bool IsMainWindowEnabled
         {
             get { return MainWindow.IsEnable; }
         }
+
 
         private int _selectedTabIndex;
         public int SelectedTabIndex
@@ -87,14 +106,17 @@ namespace Staff_time.ViewModel
             get { return _selectedTabIndex; }
             set
             {
-                if (value >= 0 && value < WeekTabs.Count) //Иногда он сюда попадает
+                if (value >= 0 && value < WeekTabs.Count)
                 {
                     SetField(ref _selectedTabIndex, value);
 
                     chosenDate = WeekTabs[SelectedTabIndex].Date;
                     SelectedDate_Picker = chosenDate;
-                    PlanningTime = Context.timeTableWork.Read_TimeByDate(chosenDate);
-                    WeekTabs[SelectedTabIndex].Generate_WorksForDate();
+                    if (!TimeByPlanDate.ContainsKey(chosenDate))
+                        TimeByPlanDate.Add(chosenDate, Context.timeTableWork.Read_TimeByDate(chosenDate));
+                    PlanningTime = TimeByPlanDate[chosenDate];
+
+                    //WeekTabs[SelectedTabIndex].Generate_WorksForDate();
                     SumTime = WeekTabs[SelectedTabIndex].SumTime;
                     TimeSortDirection = -1;
                     NameSortDirection = -1;
@@ -103,7 +125,7 @@ namespace Staff_time.ViewModel
             }
         }
 
-      
+
         #endregion
 
         #region Week
@@ -142,7 +164,7 @@ namespace Staff_time.ViewModel
                 else
                     WeekTabs.Add(new TabItem(DaysOfWeek[i], cur));
 
-                if (cur.Date == date.Date)
+                if (cur.Date == date.Date && SelectedTabIndex != i)
                     SelectedTabIndex = i;
             }
 
@@ -152,6 +174,8 @@ namespace Staff_time.ViewModel
         #endregion
 
         #region Time
+
+        public Dictionary<DateTime, double> TimeByPlanDate { get; set; }
 
         public int IsTimePlanEqual
         {
@@ -173,7 +197,8 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField(ref _planningTime, value);
-                Context.timeTableWork.Update(chosenDate, value);
+                if (TimeByPlanDate[chosenDate] != value)
+                    Context.timeTableWork.Update(chosenDate, value);
                 NotifyPropertyChanged("PlanningTime");
             }
         }

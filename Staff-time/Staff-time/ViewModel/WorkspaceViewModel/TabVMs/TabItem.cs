@@ -146,6 +146,7 @@ namespace Staff_time.ViewModel
 
         public void Generate_WorksForDate()
         {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             SumTime = 0;
             WorksInTab = new ObservableCollection<WorkInTab>();
             List<int> works = Context.workWork.Read_WorksForDate(Date);
@@ -158,6 +159,9 @@ namespace Staff_time.ViewModel
             }
 
             MessengerInstance.Send<long>(SumTime);
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("Date : " + Date.ToShortDateString() + "___" + elapsedMs.ToString() + Environment.NewLine);
         }
 
         private void _doWorkCommand(KeyValuePair<WorkCommandEnum, Work> pair)
@@ -166,6 +170,7 @@ namespace Staff_time.ViewModel
 
             WorkCommandEnum command = pair.Key;
             Work work = pair.Value;
+            Console.WriteLine("_doWorkCommand _ " + command.ToString() + work.ID + Environment.NewLine);
 
             if (command == WorkCommandEnum.None)
                 return;

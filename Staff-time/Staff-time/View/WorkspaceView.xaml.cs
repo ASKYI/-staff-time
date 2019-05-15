@@ -26,8 +26,7 @@ namespace Staff_time.View
         {
             InitializeComponent();
             DataContext = new ViewModel.WorkspaceViewModel();
-            var levels = Context.levelWork.Read_AllLevels();
-            if (GlobalInfo.CurrentUser.LevelID == levels["Editor"])
+            if (GlobalInfo.CurrentUser.LEVEL.LevelName.ToLower() == "editor")
                 EditPlanTimeBtn.Visibility = Visibility.Visible;
             else
                 EditPlanTimeBtn.Visibility = Visibility.Hidden;

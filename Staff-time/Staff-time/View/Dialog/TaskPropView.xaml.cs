@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -164,7 +165,17 @@ namespace Staff_time.View.Dialog
                 MessageBox.Show(ex.Message, "Ошибка");
             }
         }
-        
+
+        public void PreviewNumberInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextAllowed(e.Text);
+        }
+
+        private static readonly Regex _regex = new Regex("[^0-9.-]+");
+        private static bool IsTextAllowed(string text)
+        {
+            return !_regex.IsMatch(text);
+        }
 
         public void ShowConstListValues(object sender, RoutedEventArgs e)
         {
