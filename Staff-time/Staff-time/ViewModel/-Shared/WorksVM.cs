@@ -57,17 +57,19 @@ namespace Staff_time.ViewModel
             //Vm
             Dictionary.Remove(workID);
         }
-        public static void Update(Work work)
+        public static Work Update(Work work)
         {
             //DB
             Context.workWork.Update_Work(work);
 
             //VM
-            Dictionary.Remove(work.ID);
+            //Dictionary.Remove(work.ID);
 
             WorkFactory factory = new WorkFactory();
             Work newWork = factory.CreateWork(work);
-            Dictionary.Add(newWork.ID, new WorkControlViewModel(newWork)); //Аналогично, другое создание при разных типах
+            //Dictionary.Add(newWork.ID, new WorkControlViewModel(newWork)); //Аналогично, другое создание при разных типах
+            Dictionary[work.ID] = new WorkControlViewModel(newWork);
+            return Dictionary[newWork.ID].Work;
         }
 
         public static bool IsEditing()
@@ -93,6 +95,21 @@ namespace Staff_time.ViewModel
                 t.Value.IsExpanded = true;
             }
         }
+        public static List<WorkTimeRange> GetTimeRanges(int workID)
+        {
+            return Context.workWork.GetTimeRanges(workID);
+        }
+        public static void UpdateTimeRanges(List<WorkTimeRange> list, int workID)
+        {
+            Context.workWork.UpdateTimeRanges(list, workID);
+        }
+
+
+
+        //public static int GetTimeRangeID(DateTime startTime, DateTime endTime)
+        //{
+        //    return Context.workWork.GetTimeRangeID(startTime, endTime);
+        //}
         #endregion //other methods
     }
 }

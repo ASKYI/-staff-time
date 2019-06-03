@@ -45,6 +45,49 @@
             </Style.Triggers>
         </Style>
 
+        <DataTemplate x:Key="dynamicRangeTemplate">
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="45"></ColumnDefinition>
+                    <ColumnDefinition Width="25"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <xctk:MaskedTextBox Name="MaskTBoxStart" Mask="00:00" Grid.Column="0" Background="LightYellow" KeyDown="KeyDownStart" MouseDoubleClick="DoubleClickTime" Text="{Binding StartTime, StringFormat=HH:mm, UpdateSourceTrigger=LostFocus}" HorizontalAlignment="Right" IsEnabled="{Binding IsEnabled}" GotFocus="TimeGotFocus" />
+                <TextBlock Text="-" Margin="2, 0, 2, 0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                <xctk:MaskedTextBox Name="MaskTBoxEnd" Mask="00:00" Grid.Column="2" Background="LightYellow" KeyDown="KeyDownStart" MouseDoubleClick="DoubleClickTime" Text="{Binding EndTime, StringFormat=HH:mm, UpdateSourceTrigger=LostFocus}" HorizontalAlignment="Left" IsEnabled="{Binding IsEnabled}" GotFocus="TimeGotFocus"/>
+
+                <Button Grid.Column="3" Height="20" Width="20" ToolTip="Удалить диапазон" Command="{Binding Tag,
+                    RelativeSource={RelativeSource FindAncestor, AncestorType=ItemsControl}}" CommandParameter="{Binding}" Background="White">
+                    <Image Source="../../Resources/delete.ico"></Image>
+                </Button>
+            </Grid>
+
+            <!--<Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding propVal.Property.PropName}" TextWrapping="Wrap" AcceptsReturn="True" FontSize="14" FontFamily="Arial" FontWeight="DemiBold" Margin="1,1" IsReadOnly="True" Grid.Column="0" Background="#99D8DF"/>
+                <ContentControl Content="{Binding}" Grid.Column="1">
+                    <ContentControl.Style>
+                        <Style TargetType="{x:Type ContentControl}">
+                            <Style.Triggers>
+                                -->
+            <!--Text-->
+            <!--
+                                <DataTrigger Binding="{Binding Path=propVal.Property.DataType}" Value="0">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource textBoxTemplate}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
+                </ContentControl>
+            </Grid>-->
+        </DataTemplate>
+
+
         <Style x:Key="ApplyButtonStyle" TargetType="Button">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsEditing}" Value="False">
@@ -74,7 +117,7 @@
         <KeyBinding Gesture="Ctrl+s" Command="{Binding ApplyCommand}"/>
         <KeyBinding Gesture="Ctrl+d" Command="{Binding DeleteCommand}"/>
     </UserControl.InputBindings>
-    
+
 
     <Expander Name="WorkExpander" Margin="3" Padding="5" BorderThickness="3"
               IsExpanded="{Binding IsExpanded}" Style="{StaticResource ExpanderStyle}">
@@ -85,16 +128,16 @@
             <Grid Width="{Binding ActualWidth, ElementName=WorkExpander, Converter={converters:GridWidthConverter}, ConverterParameter='50'}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <!--<ColumnDefinition Width="100"></ColumnDefinition>-->
                     <ColumnDefinition Width="100"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-    
+
                 <Border Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="0">
                     <TextBlock Height="20"  Text="{Binding Path}"/>
                 </Border>
-                <Border Margin="5, 0, 0, 0" Width="95" HorizontalAlignment="Right" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3"  Grid.Column="1">
+                <!--<Border Margin="5, 0, 0, 0" Width="95" HorizontalAlignment="Right" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3"  Grid.Column="1">
                     <TextBlock Height="20" HorizontalAlignment="Center" Text="{Binding TimeRange}"/>
-                </Border>
+                </Border>-->
                 <Border Margin="5, 0, 0, 0" Width="95" HorizontalAlignment="Left" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="2">
                     <TextBlock Height="20" HorizontalAlignment="Center" Text="{Binding TimeLast}"/>
                 </Border>
@@ -112,53 +155,63 @@
                           MaxLength="50" Text="{Binding Work.WorkName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }" GotFocus="TimeGotFocus" Grid.Column="1"></TextBox>
             </Grid>
 
-            <Grid Margin="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="11*"/>
-                    <RowDefinition Height="13*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100"></ColumnDefinition>
-                    <ColumnDefinition Width="50"></ColumnDefinition>
-                    <ColumnDefinition Width="50"></ColumnDefinition>
-                    <ColumnDefinition Width="50"></ColumnDefinition>
-                    <ColumnDefinition Width="50"></ColumnDefinition>
-                    <ColumnDefinition Width="123*"/>
-                    <ColumnDefinition Width="371*"/>
-                </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Grid Margin="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Время работы: " Grid.Column="0" Grid.RowSpan="2"></TextBlock>
-                <TextBox MaxLength="6" IsReadOnly="{Binding IsReadOnly}" GotFocus="TimeGotFocus" MouseDoubleClick="TimeGotFocus" TextChanged="TextBox_TextChanged" PreviewTextInput="NumberValidationTextBox"
+                    <TextBlock Text="Время работы: " Grid.Column="0" Grid.RowSpan="2"></TextBlock>
+                    <TextBox MaxLength="6" IsReadOnly="{Binding IsReadOnly}" IsEnabled="{Binding IsWorkTimeEnabled}" GotFocus="TimeGotFocus" MouseDoubleClick="TimeGotFocus" TextChanged="TextBox_TextChanged" PreviewTextInput="NumberValidationTextBox"
                          Text="{Binding Hours, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }" Grid.Column="1" Grid.RowSpan="2"></TextBox>
-                <TextBlock Text=" час(ов)" Grid.Column="2" Grid.RowSpan="2"></TextBlock>
+                    <TextBlock Text=" час(ов)" Grid.Column="2" Grid.RowSpan="2"></TextBlock>
 
-                <TextBox  MaxLength="6" IsReadOnly="{Binding IsReadOnly}" GotFocus="TimeGotFocus" MouseDoubleClick="TimeGotFocus" TextChanged="TextBox_TextChanged" PreviewTextInput="NumberValidationTextBox"
+                    <TextBox  MaxLength="6" IsReadOnly="{Binding IsReadOnly}" IsEnabled="{Binding IsWorkTimeEnabled}" GotFocus="TimeGotFocus" MouseDoubleClick="TimeGotFocus" TextChanged="TextBox_TextChanged" PreviewTextInput="NumberValidationTextBox"
                          Text="{Binding MinutesShort, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }" Grid.Column="3" Grid.RowSpan="2"></TextBox>
-                <TextBlock Text=" минут" Grid.Column="4" Grid.RowSpan="2"></TextBlock>
+                    <TextBlock Text=" минут" Grid.Column="4" Grid.RowSpan="2"></TextBlock>
+                </Grid>
 
-                <StackPanel Grid.Column="5" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                <StackPanel>
                     <Grid Margin="2">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"></ColumnDefinition>
-                            <ColumnDefinition Width="10"></ColumnDefinition>
-                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="135"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <ItemsControl Grid.Column="0" ItemsSource="{Binding Path=WorkTimeRanges,Mode=TwoWay}" 
+                                    ItemTemplate="{StaticResource dynamicRangeTemplate}"
+                                    Tag="{Binding DeleteWorkRangeCommand}" 
+                                    KeyboardNavigation.IsTabStop="False" IsEnabled="{Binding IsEnabled}">
+                        </ItemsControl>
+                    </Grid>
+                </StackPanel>
+                <StackPanel>
+                    <Grid Margin="2" Height="25">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"></ColumnDefinition>
                             <ColumnDefinition Width="30"></ColumnDefinition>
                             <ColumnDefinition Width="30"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <xctk:MaskedTextBox Name="MaskTBoxStart" Mask="00:00" Grid.Column="0" Background="LightYellow" KeyDown="KeyDownStart" MouseDoubleClick="DoubleClickTime" Text="{Binding StartTime, StringFormat=HH:mm}" HorizontalAlignment="Right" IsEnabled="{Binding IsEnabled}" LostFocus="TimeStartLostFocus" GotFocus="TimeGotFocus" />
-                        <TextBlock Text="-" Margin="2, 0, 2, 0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                        <xctk:MaskedTextBox Name="MaskTBoxEnd" Mask="00:00" Grid.Column="2" Background="LightYellow" KeyDown="KeyDownStart" MouseDoubleClick="DoubleClickTime" Text="{Binding EndTime, StringFormat=HH:mm}" HorizontalAlignment="Left" IsEnabled="{Binding IsEnabled}" LostFocus="TimeEndLostFocus" GotFocus="TimeGotFocus"/>
 
-                        <Button Grid.Column="3" Margin ="0,0,0,0"  Height="20" Width="20" IsEnabled="{Binding IsEnabled}" ToolTip="Дублировать работу" Command="{Binding DuplicateWorkCommand}" Background="White">
+                        <Button Grid.Column="0" Height="20" Width="20" IsEnabled="{Binding IsEnabled}"
+                                ToolTip="Добавить диапазон времени" Command="{Binding AddWorkRangeCommand}" Background="White">
                             <Image Source="../../Resources/add.ico"></Image>
                         </Button>
-                        <Button Grid.Column="4" Margin ="0,0,0,0"  Height="20" Width="20" IsEnabled="{Binding IsEnabled}" ToolTip="Поделиться задачей" Command="{Binding ShareWorkTaskCommand}" Background="White">
+                        <Button Grid.Column="1" Height="20" Width="20" IsEnabled="{Binding IsEnabled}" ToolTip="Дублировать работу" Command="{Binding DuplicateWorkCommand}" Background="White">
+                            <Image Source="../../Resources/duplicate.ico"></Image>
+                        </Button>
+                        <Button Grid.Column="2" Height="20" Width="20" IsEnabled="{Binding IsEnabled}" ToolTip="Поделиться задачей" Command="{Binding ShareWorkTaskCommand}" Background="White">
                             <Image Source="../../Resources/share.ico"></Image>
                         </Button>
                     </Grid>
-                </StackPanel>
-            </Grid>
 
+                </StackPanel>
+            </StackPanel>
             <Separator></Separator>
 
             <Grid Margin="2">

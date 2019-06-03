@@ -35,6 +35,8 @@ namespace Staff_time.ViewModel
 
         public static void ReloadContext()
         {
+            TasksVM.Init_Full_tracker = false;
+            TasksVM.InitFullTree();
             _init_tracker = false;
             Init();
         }

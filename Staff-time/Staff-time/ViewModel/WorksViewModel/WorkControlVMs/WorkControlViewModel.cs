@@ -12,6 +12,7 @@ using GalaSoft.MvvmLight;
 
 using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
+using Staff_time.Helpers;
 
 namespace Staff_time.ViewModel
 { 
@@ -36,19 +37,19 @@ namespace Staff_time.ViewModel
 
         public override void DeleteWork()
         {
-            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work> // todo очень грузно
-                (WorkCommandEnum.Delete, Work));
+            MessengerInstance.Send<MessageWorkObject>(new MessageWorkObject // todo очень грузно
+                (WorkCommandEnum.Delete, Work, Work.StartDate));
         }
         public override void UpdateWork()
         {
-            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
-                (WorkCommandEnum.Update, Work));
+            MessengerInstance.Send<MessageWorkObject>(new MessageWorkObject
+                (WorkCommandEnum.Update, Work, Work.StartDate));
         }
 
         public override void CancelWork()
         {
-            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
-                (WorkCommandEnum.Update, (Work)OriginWork.Clone()));
+            MessengerInstance.Send<MessageWorkObject>(new MessageWorkObject
+                (WorkCommandEnum.Update, (Work)OriginWork.Clone(), Work.StartDate));
         }
     }
 }

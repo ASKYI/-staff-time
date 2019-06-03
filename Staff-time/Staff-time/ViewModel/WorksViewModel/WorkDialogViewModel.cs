@@ -12,6 +12,7 @@ using System.Windows.Input;
 
 using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
+using Staff_time.Helpers;
 
 namespace Staff_time.ViewModel
 {
@@ -111,8 +112,8 @@ namespace Staff_time.ViewModel
             if (SelectedTaskNode == null)
                 return;
             WorkVM.Work.TaskID = SelectedTaskNode.Task.ID;
-            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
-                (WorkCommandEnum.Update, WorkVM.Work));
+            MessengerInstance.Send<MessageWorkObject>(new MessageWorkObject
+                (WorkCommandEnum.Update, WorkVM.Work, chosenDate));
         }
 
         private bool CanCancel(object obj)
@@ -121,14 +122,14 @@ namespace Staff_time.ViewModel
         }
         public void Cancel(object obj)
         {
-            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
-               (WorkCommandEnum.None, WorkVM.Work));
+            MessengerInstance.Send<MessageWorkObject>(new MessageWorkObject
+               (WorkCommandEnum.None, WorkVM.Work, chosenDate));
         }
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
-            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(new KeyValuePair<WorkCommandEnum, Work>
-               (WorkCommandEnum.None, WorkVM.Work));
+            MessengerInstance.Send<MessageWorkObject > (new MessageWorkObject
+               (WorkCommandEnum.None, WorkVM.Work, chosenDate));
             dialog = null;
         }
 

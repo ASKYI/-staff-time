@@ -9,10 +9,11 @@ using System.Windows.Input;
 using System.ComponentModel;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight;
+using Staff_time.Helpers;
 
 namespace Staff_time.ViewModel
 {
-    enum WorkCommandEnum { Add, Delete, Update, None } // todo, чтобы воспользоваться этим enum, надо вписать using Staff_time.ViewModel, здесь же можно сделать расширение для Work, чтобы легче было вызывать
+    public enum WorkCommandEnum { Add, Delete, Update, None } // todo, чтобы воспользоваться этим enum, надо вписать using Staff_time.ViewModel, здесь же можно сделать расширение для Work, чтобы легче было вызывать
     enum SortType: int {ASC = 0, DESC}
     //static class WorkExtension
     //{
@@ -30,12 +31,12 @@ namespace Staff_time.ViewModel
             Date = dateTime;
             IsEnabled = true;
             Generate_WorksForDate();
-            MessengerInstance.Register<KeyValuePair<WorkCommandEnum, Work>>(this, _doWorkCommand);
+            MessengerInstance.Register<MessageWorkObject>(this, _doWorkCommand);
         }
 
         public void UnregisterEvents()
         {
-            MessengerInstance.Unregister<KeyValuePair<WorkCommandEnum, Work>>(this, _doWorkCommand);
+            MessengerInstance.Unregister<MessageWorkObject>(this, _doWorkCommand);
         }
 
         public void Update(string newTabName, DateTime dateTime)
@@ -146,7 +147,6 @@ namespace Staff_time.ViewModel
 
         public void Generate_WorksForDate()
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
             SumTime = 0;
             WorksInTab = new ObservableCollection<WorkInTab>();
             List<int> works = Context.workWork.Read_WorksForDate(Date);
@@ -159,18 +159,16 @@ namespace Staff_time.ViewModel
             }
 
             MessengerInstance.Send<long>(SumTime);
-            watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            Console.WriteLine("Date : " + Date.ToShortDateString() + "___" + elapsedMs.ToString() + Environment.NewLine);
         }
 
-        private void _doWorkCommand(KeyValuePair<WorkCommandEnum, Work> pair)
+        private void _doWorkCommand(MessageWorkObject obj)
         {
+            if (obj.dt != Date)
+                return;
             dialog = null;
 
-            WorkCommandEnum command = pair.Key;
-            Work work = pair.Value;
-            Console.WriteLine("_doWorkCommand _ " + command.ToString() + work.ID + Environment.NewLine);
+            WorkCommandEnum command = obj._commandType;
+            Work work = obj._work;
 
             if (command == WorkCommandEnum.None)
                 return;
@@ -214,14 +212,18 @@ namespace Staff_time.ViewModel
 
                     int oldWorkMinutes = Context.workWork.Read_WorkByID(work.ID).Minutes;
 
-                    WorksVM.Update(work);
-                    Work newWork = WorksVM.Dictionary[work.ID].Work;
+                    Work newWork = WorksVM.Update(work);
+                    //Work newWork = WorksVM.Dictionary[work.ID].Work;
 
                     SumTime -= oldWorkMinutes;
 
                     if (newWork.StartDate.Date == Date.Date)
                     {
-                        WorksInTab[index].WorkBlockContext = new WorkBlockControlViewModel(newWork.ID, false);
+                        //WorksInTab[index].WorkBlockContext = new WorkBlockControlViewModel(newWork.ID, false);
+                        MainWindow.IsEnable = true;
+                        WorksInTab[index].WorkBlockContext.IsEditing = false;
+                        MainWindow.IsEnable = false;
+
                         SumTime += newWork.Minutes;
                     }
                     else

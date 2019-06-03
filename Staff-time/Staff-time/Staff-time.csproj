@@ -128,6 +128,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\Helpers.cs" />
     <Compile Include="Model\Attribute.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
@@ -213,6 +214,9 @@
     <Compile Include="Model\WorkModel\IWorkFactory.cs" />
     <Compile Include="Model\WorkModel\WorkFactory.cs" />
     <Compile Include="Model\WorkModel\Works\Work.cs" />
+    <Compile Include="Model\WorkTimeRange.cs">
+      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\WorkType.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
@@ -251,6 +255,9 @@
     <Compile Include="ViewModel\WorksViewModel\WorkControlVMs\WorkControlViewModelBase.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkDialogViewModel.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkIDDependency.cs" />
+    <Compile Include="View\Dialog\WorkTimeRangesView.xaml.cs">
+      <DependentUpon>WorkTimeRangesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Dialog\UserSettingsWindow.xaml.cs">
       <DependentUpon>UserSettingsWindow.xaml</DependentUpon>
     </Compile>
@@ -318,6 +325,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Dialog\WorkTimeRangesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Dialog\UserSettingsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -441,6 +452,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\validationOK.ico" />
+    <Resource Include="Resources\TimeCheck.ico" />
+    <Resource Include="Resources\duplicate.ico" />
     <Resource Include="Resources\AllDays.ico" />
     <Resource Include="Resources\OneDay.ico" />
     <Resource Include="Resources\Repair.ico" />

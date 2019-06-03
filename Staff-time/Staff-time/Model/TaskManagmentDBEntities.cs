@@ -29,7 +29,7 @@ namespace Staff_time.Model
         public string GetUserNameByID(int _userID)
         {
             var user = Users.FirstOrDefault(u => u.ID == _userID);
-            return user == null ? "" : user.UserName; 
+            return user == null ? "" : user.UserName;
         }
 
         public void SaveCurrentUser()
@@ -72,7 +72,7 @@ namespace Staff_time.Model
         public double Read_TimeByDate(DateTime dt)
         {
             var planTime = TimeTables.Where(t => t.Date == dt).Select(t => t.PlanningTime).FirstOrDefault();
-            return planTime != null ? (double)planTime : 0;
+            return planTime;
         }
 
         public List<TimeTable> GetTimeForAMonth(int year, int month)
@@ -187,7 +187,7 @@ namespace Staff_time.Model
 
         public void DeleteProperties(List<PropValue> deleteList)
         {
-            foreach(var pv in deleteList)
+            foreach (var pv in deleteList)
             {
                 var delPV = PropValues.FirstOrDefault(p => p.PropID == pv.PropID && p.TaskID == pv.TaskID);
                 if (delPV != null)
@@ -275,10 +275,11 @@ namespace Staff_time.Model
             var userDeleteTask = UserTasks.Where(ut => ut.TaskID == taskBD.ID).ToList();
             if (userDeleteTask.Count > 0)
             {
-                var dialogResult = System.Windows.MessageBox.Show("Данная задача содержится в избранном у других пользователей. Удалить у всех?", "Подтверждение",
-            MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (dialogResult == MessageBoxResult.No)
-                    return false;
+                var users = userDeleteTask.Select(u => u.User.UserName);
+                var usersNames = String.Join("\n", users);
+                var dialogResult = System.Windows.MessageBox.Show($"Данная задача содержится в избранном у следующих пользователей:\n{usersNames}", "Предупреждение",
+            MessageBoxButton.OK, MessageBoxImage.Information);
+                return false;
             }
             List<Task> childTasksBD = (from t in Tasks where t.ParentTaskID == taskID select t).ToList();
             foreach (var t in childTasksBD)
@@ -372,8 +373,13 @@ namespace Staff_time.Model
 
         public void Update_Work(Work work)
         {
-            var workDB = Works.Where(x => x.ID == work.ID).FirstOrDefault();
-            int oldTypeID = workDB.WorkTypeID, newTypeID = work.WorkTypeID;
+            int oldTypeID = 0, newTypeID = 0;
+            var workDB = Works.FirstOrDefault(x => x.ID == work.ID);
+            if (workDB != null)
+            {
+                oldTypeID = workDB.WorkTypeID;
+                newTypeID = work.WorkTypeID;
+            }
 
             Works.AddOrUpdate(work);
 
@@ -393,6 +399,42 @@ namespace Staff_time.Model
 
             SaveChanges();
         }
+
+        public List<WorkTimeRange> GetTimeRanges(int workID)
+        {
+            return WorkTimeRanges.Where(wt => wt.WorkID == workID).ToList();
+        }
+        public void UpdateTimeRanges(List<WorkTimeRange> list, int workID)
+        {
+            //Обновим диапазоны
+            if (workID == 0) //обновить все, их просто редактировали за день
+                WorkTimeRanges.AddOrUpdate(list.ToArray());
+            else
+            {
+                var oldWorkRanges = WorkTimeRanges.Where(wr => wr.WorkID == workID).ToList();
+                var extraWorkRng = oldWorkRanges.Where(old => list.FirstOrDefault(l => l.ID == old.ID) == null).ToList();
+                if (extraWorkRng.Count > 0)
+                    WorkTimeRanges.RemoveRange(extraWorkRng);
+                WorkTimeRanges.AddOrUpdate(list.ToArray());
+            }
+            SaveChanges();
+        }
+
+
+        //public int GetTimeRangeID(DateTime startTime, DateTime endTime)
+        //{
+        //    var rng = WorkTimeRanges.FirstOrDefault(r => r.StartTime == startTime && r.EndTime == endTime);
+        //    if (rng == null)
+        //    {
+        //        rng = new WorkTimeRange();
+        //        rng.StartTime = startTime;
+        //        rng.EndTime = endTime;
+        //        WorkTimeRanges.Add(rng);
+        //        SaveChanges();
+        //    }
+        //    return rng.ID;
+        //}
+
         #endregion
 
 

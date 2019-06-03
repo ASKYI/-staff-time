@@ -11,6 +11,7 @@ using System.ComponentModel;
 using GalaSoft.MvvmLight.Messaging;
 using Staff_time.Model.UserModel;
 using Staff_time.View.Dialog;
+using Staff_time.Helpers;
 
 namespace Staff_time.ViewModel
 {
@@ -227,11 +228,12 @@ namespace Staff_time.ViewModel
             work.WorkName = "";
             work.TaskID = SelectedTaskNode.Task.ID;
             work.StartDate = chosenDate.Date;
-            work.StartTime = new DateTime(1899, 12, 30, DateTime.Now.Hour, DateTime.Now.Minute, 0);
+            //work.StartTime = new DateTime(1899, 12, 30, DateTime.Now.Hour, DateTime.Now.Minute, 0);
             work.UserID = GlobalInfo.CurrentUser.ID;
 
-            MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>(
-                new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Add, work));
+            
+            MessengerInstance.Send<MessageWorkObject>(
+                new MessageWorkObject(WorkCommandEnum.Add, work, work.StartDate));
         }
         #endregion //Add Work
 

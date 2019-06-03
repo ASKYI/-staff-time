@@ -29,7 +29,7 @@ namespace Staff_time.ViewModel
 
             _addNearTaskCommand = new RelayCommand(AddNearTask, CanAddNearTask);
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
-            _deleteTaskCommand = new RelayCommand(DeleteTask, CanDelteTask);
+            _deleteTaskCommand = new RelayCommand(DeleteTask, CanDeleteTask);
             _editTaskCommand = new RelayCommand(EditTask, CanEditTask);
             _showTaskCommand = new RelayCommand(ShowTask, CanShowTask);
             _moveUpCommand = new RelayCommand(MoveUp, CanMoveUp);
@@ -247,6 +247,8 @@ namespace Staff_time.ViewModel
         }
         private void AddNearTask(object obj)
         {
+            FilterTaskText = "";
+            FilterTree(obj);
             Task newTask = new Task();
             if (SelectedTaskNode != null && SelectedTaskNode.Task.ID != SelectedTaskNode.Task.ParentTaskID)
                 newTask.ParentTaskID = SelectedTaskNode.Task.ParentTaskID;
@@ -280,6 +282,8 @@ namespace Staff_time.ViewModel
         }
         private void AddChildTask(object obj)
         {
+            FilterTaskText = "";
+            FilterTree(obj);
             Task newTask = new Task();
             newTask.ParentTaskID = SelectedTaskNode.Task.ID;
             newTask.TaskName = "Новая подзадача";
@@ -339,6 +343,8 @@ namespace Staff_time.ViewModel
         }
         private void EditTask(object obj)
         {
+            FilterTaskText = "";
+            FilterTree(obj);
             dialog = new View.EditDialogWindow(new TaskDialogViewModel(this, SelectedTaskNode.Task, AllTreeRoots, TaskCommandEnum.Edit, SelectedTaskNode));
             dialog.Show();
         }
@@ -370,12 +376,14 @@ namespace Staff_time.ViewModel
             }
         }
 
-        private bool CanDelteTask(object obj)
+        private bool CanDeleteTask(object obj)
         {
             return SelectedTaskNode != null && dialog == null;
         }
         private void DeleteTask(object obj)
         {
+            FilterTaskText = "";
+            FilterTree(obj);
             //Roots
             int delTaskID = SelectedTaskNode.Task.ID;
             var curNodeToDelete = SelectedTaskNode;

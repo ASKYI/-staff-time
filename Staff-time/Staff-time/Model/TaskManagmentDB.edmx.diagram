@@ -11,17 +11,13 @@
         <EntityTypeShape EntityType="TaskManagmentDBModel.TaskType" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.User" Width="1.5" PointX="3" PointY="3" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.UserTask" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TaskManagmentDBModel.Work" Width="1.5" PointX="5.25" PointY="10.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.WorkTypeAttr" Width="1.5" PointX="6" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.WorkType" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_AttrValues_Attributes1" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_WorkTypeAttrs_Attributes" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskManagmentDBModel.FK_AttrValues_Works" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_TaskTypeProps_TaskTypes" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_UserTasks_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskManagmentDBModel.FK_Works_WorkTypes" ManuallyRouted="false" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_WorkTypeAttrs_WorkTypes" ManuallyRouted="false" />
-        <AssociationConnector Association="TaskManagmentDBModel.FK_Works_Users" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.LEVEL" Width="1.5" PointX="11.375" PointY="4.75" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_LEVELS_LEVELS" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_Users_Levels" />
@@ -39,7 +35,6 @@
         <AssociationConnector Association="TaskManagmentDBModel.FK_Tasks_Users" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_Tasks_WorkTypes" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_UserTasks_Tasks" />
-        <AssociationConnector Association="TaskManagmentDBModel.FK_Works_Tasks" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.PropertiesList" Width="1.5" PointX="8.25" PointY="5" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.List" Width="1.5" PointX="3.75" PointY="0.75" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.ListsValue" Width="1.5" PointX="18.875" PointY="4.125" />
@@ -50,6 +45,13 @@
         <AssociationConnector Association="TaskManagmentDBModel.FK_PropertiesList_Properties" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_PropValues_Properties" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_TaskTypeProps_Properties" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.WorkTimeRange" Width="1.5" PointX="21.125" PointY="8.5" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.Work" Width="1.5" PointX="18.875" PointY="7.375" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_AttrValues_Works" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_Works_Tasks" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_Works_Users" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_Works_WorkTypes" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_WorkTimeRange_Works" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

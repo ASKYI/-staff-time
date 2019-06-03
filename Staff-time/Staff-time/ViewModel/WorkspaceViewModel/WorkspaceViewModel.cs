@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.ComponentModel;
 using GalaSoft.MvvmLight.Messaging;
 using System.Windows;
+using Staff_time.View.Dialog;
 
 namespace Staff_time.ViewModel
 {
@@ -27,7 +28,8 @@ namespace Staff_time.ViewModel
 
             _collapseAllWorksCommand = new RelayCommand(CollapseAllWorks, (_) => true);
             _expandAllWorksCommand = new RelayCommand(ExpandAllWorks, (_) => true);
-            _sortWorksByStartTimeCommand = new RelayCommand(SortWorksByStartTime, (_) => true);
+            _checkDayTimeCommand = new RelayCommand(ShowWorksRanges, (_) => true);
+            //_sortWorksByStartTimeCommand = new RelayCommand(SortWorksByStartTime, (_) => true);
             _sortWorksByNameCommand = new RelayCommand(SortWorksByName, (_) => true);
             MainWindow.GlobalPropertyChanged += HandleGlobalPropertyChanged;
 
@@ -112,9 +114,9 @@ namespace Staff_time.ViewModel
 
                     chosenDate = WeekTabs[SelectedTabIndex].Date;
                     SelectedDate_Picker = chosenDate;
-                    if (!TimeByPlanDate.ContainsKey(chosenDate))
-                        TimeByPlanDate.Add(chosenDate, Context.timeTableWork.Read_TimeByDate(chosenDate));
-                    PlanningTime = TimeByPlanDate[chosenDate];
+                    //if (!TimeByPlanDate.ContainsKey(chosenDate))
+                    //    TimeByPlanDate.Add(chosenDate, Context.timeTableWork.Read_TimeByDate(chosenDate));
+                    //PlanningTime = TimeByPlanDate[chosenDate];
 
                     //WeekTabs[SelectedTabIndex].Generate_WorksForDate();
                     SumTime = WeekTabs[SelectedTabIndex].SumTime;
@@ -164,8 +166,15 @@ namespace Staff_time.ViewModel
                 else
                     WeekTabs.Add(new TabItem(DaysOfWeek[i], cur));
 
-                if (cur.Date == date.Date && SelectedTabIndex != i)
-                    SelectedTabIndex = i;
+                if (cur.Date == date.Date)
+                {
+                    if (!TimeByPlanDate.ContainsKey(chosenDate))
+                        TimeByPlanDate.Add(chosenDate, Context.timeTableWork.Read_TimeByDate(chosenDate));
+                    PlanningTime = TimeByPlanDate[chosenDate];
+
+                    if (SelectedTabIndex != i)
+                        SelectedTabIndex = i;
+                }
             }
 
             SumTime = WeekTabs[SelectedTabIndex].SumTime; // после подсчёта всей недели нужно в сумму положить текущий день
@@ -339,6 +348,46 @@ namespace Staff_time.ViewModel
         private void ExpandAllWorks(object obj)
         {
             WorksVM.ExpandAll();
+        }
+
+        
+        private readonly ICommand _checkDayTimeCommand;
+        public ICommand CheckDayTimeCommand
+        {
+            get
+            {
+                return _checkDayTimeCommand;
+            }
+        }
+
+        private void ShowWorksRanges(object obj)
+        {
+            //показать окно с диапазонами
+            var timeRanges = new List<WorkTimeRange>();
+            foreach (var workTab in WeekTabs[SelectedTabIndex].WorksInTab)
+            {
+                int curWorkID = workTab.WorkBlockContext.Work.ID;
+                var workRanges = WorksVM.GetTimeRanges(curWorkID);
+                timeRanges.AddRange(workRanges);
+            }
+
+            var WorksRangesWnd = new WorkTimeRangesView(timeRanges, PlanningTime);
+            WorksRangesWnd.ShowDialog();
+            if (WorksRangesWnd.WasEdited)
+            {
+                Mouse.SetCursor(Cursors.Wait);
+                //Сдать измненения
+                WorksVM.UpdateTimeRanges(timeRanges, 0);
+
+                int newSumTime = 0;
+                foreach (var workTab in WeekTabs[SelectedTabIndex].WorksInTab)
+                {
+                    workTab.WorkBlockContext.FillTimeRanges();
+                    newSumTime += workTab.WorkBlockContext.Minutes;
+                }
+                SumTime = newSumTime;
+                Mouse.SetCursor(Cursors.Arrow);
+            }
         }
 
         private readonly ICommand _sortWorksByStartTimeCommand;

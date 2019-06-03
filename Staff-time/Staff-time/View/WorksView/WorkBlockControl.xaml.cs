@@ -48,11 +48,11 @@ namespace Staff_time.View
             var textBoxTime = (MaskedTextBox)sender;
             if (e.Key == Key.Tab)
             {
-                DateTime res;
-                if (DateTime.TryParse(MaskTBoxStart.Text, out res))
-                    ((ViewModel.WorkBlockControlViewModel)DataContext).StartTime = res;
-                if (DateTime.TryParse(MaskTBoxEnd.Text, out res))
-                    ((ViewModel.WorkBlockControlViewModel)DataContext).EndTime = res;
+                //DateTime res;
+                //if (DateTime.TryParse(textBoxTime.Text, out res))
+                //    ((ViewModel.WorkBlockControlViewModel)DataContext).StartTime = res;
+                //if (DateTime.TryParse(textBoxTime.Text, out res))
+                //    ((ViewModel.WorkBlockControlViewModel)DataContext).EndTime = res;
                 return;
             }
             var text = textBoxTime.Text;
@@ -74,14 +74,14 @@ namespace Staff_time.View
                         return;
                     }
                     break;
-                case 3:
+                case 2:
                     if (!(e.Key >= Key.D0 && e.Key <= Key.D5) && !(e.Key >= Key.NumPad0 && e.Key <= Key.NumPad5))
                     {
                         e.Handled = true;
                         return;
                     }
                     break;
-                case 4:
+                case 3:
                     if (!(e.Key >= Key.D0 && e.Key <= Key.D9) && !(e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9))
                     {
                         e.Handled = true;
@@ -99,21 +99,21 @@ namespace Staff_time.View
             text.Dispatcher.BeginInvoke(new Action(() => text.SelectAll()));
         }
 
-        private void TimeStartLostFocus(object sender, RoutedEventArgs e)
-        {
-            MaskedTextBox textBox = sender as MaskedTextBox;
-            DateTime res;
-            if (DateTime.TryParse(textBox.Text, out res))
-                ((ViewModel.WorkBlockControlViewModel)DataContext).StartTime = res;
-        }
+        //private void TimeStartLostFocus(object sender, RoutedEventArgs e)
+        //{
+        //    MaskedTextBox textBox = sender as MaskedTextBox;
+        //    DateTime res;
+        //    if (DateTime.TryParse(textBox.Text, out res))
+        //        ((ViewModel.WorkBlockControlViewModel)DataContext).WorkTimeRanges[0].StartTime = res;
+        //}
 
-        private void TimeEndLostFocus(object sender, RoutedEventArgs e)
-        {
-            MaskedTextBox textBox = sender as MaskedTextBox;
-            DateTime res;
-            if (DateTime.TryParse(textBox.Text, out res))
-                ((ViewModel.WorkBlockControlViewModel)DataContext).EndTime = res;
-        }
+        //private void TimeEndLostFocus(object sender, RoutedEventArgs e)
+        //{
+        //    MaskedTextBox textBox = sender as MaskedTextBox;
+        //    DateTime res;
+        //    if (DateTime.TryParse(textBox.Text, out res))
+        //        ((ViewModel.WorkBlockControlViewModel)DataContext).WorkTimeRanges[0].EndTime = res;
+        //}
 
 
         //Пробрасываение методов
@@ -164,7 +164,7 @@ namespace Staff_time.View
 
         private void workBlock_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            ((ViewModel.WorkBlockControlViewModel)DataContext).Block_Width = (int)e.NewSize.Width;
+            ((ViewModel.WorkBlockControlViewModel)DataContext).BlockWidth = (int)e.NewSize.Width;
         }
 
         private void DoubleClickTime(object sender, MouseButtonEventArgs e)

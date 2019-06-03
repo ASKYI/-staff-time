@@ -18,6 +18,7 @@ namespace Staff_time.Model
         public Work()
         {
             this.AttrValues = new HashSet<AttrValue>();
+            this.WorkTimeRanges = new HashSet<WorkTimeRange>();
         }
     
         public string WorkName { get; set; }
@@ -26,14 +27,16 @@ namespace Staff_time.Model
         public int WorkTypeID { get; set; }
         public System.DateTime StartDate { get; set; }
         public int Minutes { get; set; }
-        public System.DateTime StartTime { get; set; }
+        public Nullable<System.DateTime> StartTime { get; set; }
         public Nullable<int> UserID { get; set; }
         public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AttrValue> AttrValues { get; set; }
-        public virtual WorkType WorkType { get; set; }
-        public virtual User User { get; set; }
         public virtual Task Task { get; set; }
+        public virtual User User { get; set; }
+        public virtual WorkType WorkType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkTimeRange> WorkTimeRanges { get; set; }
     }
 }

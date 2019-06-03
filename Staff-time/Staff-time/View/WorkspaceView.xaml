@@ -157,8 +157,8 @@
             <Button Margin ="5" Command="{Binding ExpandAllWorksCommand}" ToolTip="Развернуть всё" Background="White" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../Resources/expand.ico"></Image>
             </Button>
-            <Button Margin ="5" Name="SortTimeButton" Command="{Binding SortWorksByStartTimeCommand}" ToolTip="Сортировать работы по времени начала" Background="White"  ToolTipService.ShowOnDisabled="True">
-                <Image Source="{Binding TimeSortSource}"/>
+            <Button Margin ="5" Name="SortTimeButton" Command="{Binding CheckDayTimeCommand}" ToolTip="Проверить диапазоны времени работ за текущий день" Background="White"  ToolTipService.ShowOnDisabled="True">
+                <Image Source="../Resources/TimeCheck.ico"/>
             </Button>
             <Button Margin ="5" Name="SortNameButton" Command="{Binding SortWorksByNameCommand}" ToolTip="Сортировать работы по имени задачи" Background="White" ToolTipService.ShowOnDisabled="True">
                 <Image Source="{Binding NameSortSource}"/>

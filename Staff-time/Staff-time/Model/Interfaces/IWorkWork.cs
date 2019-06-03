@@ -29,5 +29,10 @@ namespace Staff_time.Model.Interfaces
 
         //Удаление работы
         void Delete_Work(int workID);
+
+        //получение диапазонов времени
+        List<WorkTimeRange> GetTimeRanges(int workID);
+        //Обновление
+        void UpdateTimeRanges(List<WorkTimeRange> list, int workID);
     }
 }

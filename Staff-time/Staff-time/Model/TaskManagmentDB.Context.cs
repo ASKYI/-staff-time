@@ -33,7 +33,6 @@ namespace Staff_time.Model
         public virtual DbSet<TaskType> TaskTypes { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserTask> UserTasks { get; set; }
-        public virtual DbSet<Work> Works { get; set; }
         public virtual DbSet<WorkTypeAttr> WorkTypeAttrs { get; set; }
         public virtual DbSet<WorkType> WorkTypes { get; set; }
         public virtual DbSet<LEVEL> LEVELS { get; set; }
@@ -45,6 +44,8 @@ namespace Staff_time.Model
         public virtual DbSet<List> Lists { get; set; }
         public virtual DbSet<ListsValue> ListsValues { get; set; }
         public virtual DbSet<Property> Properties { get; set; }
+        public virtual DbSet<WorkTimeRange> WorkTimeRanges { get; set; }
+        public virtual DbSet<Work> Works { get; set; }
     
         public virtual int RepareUserTree(Nullable<int> taskId)
         {
