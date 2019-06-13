@@ -63,7 +63,10 @@ namespace Staff_time.ViewModel
                             nodeToStay.Enqueue(newParentNode);
                         }
                         else
-                            filteredDictionary[newParentNode.Task.ID].TreeNodes.Add(curTreeNode);
+                        {
+                            if (filteredDictionary[newParentNode.Task.ID].TreeNodes.FirstOrDefault(n => n.Task.ID == curTreeNode.Task.ID) == null)
+                                filteredDictionary[newParentNode.Task.ID].TreeNodes.Add(curTreeNode);
+                        }
                     }
                 }
 
@@ -121,7 +124,10 @@ namespace Staff_time.ViewModel
                                 nodeToStay.Enqueue(newParentNode);
                             }
                             else
-                                filteredDictionary[newParentNode.Task.ID].TreeNodes.Add(curTreeNode);
+                            {
+                                if (filteredDictionary[newParentNode.Task.ID].TreeNodes.FirstOrDefault(n => n.Task.ID == curTreeNode.Task.ID) == null)
+                                    filteredDictionary[newParentNode.Task.ID].TreeNodes.Add(curTreeNode);
+                            }
                         }
                     }
 

@@ -26,8 +26,12 @@ namespace Staff_time.ViewModel
         {
             FullPath = treeNode.FullPath.ToList();
             Task = treeNode.Task;
-            ParentNode = treeNode.ParentNode;
-            TreeNodes = treeNode.TreeNodes;
+            if (treeNode.ParentNode != null)
+                ParentNode = (TreeNode)treeNode.ParentNode.MemberwiseClone();
+
+            TreeNodes = new ObservableCollection<TreeNode>();
+            foreach (var node in treeNode.TreeNodes)
+                TreeNodes.Add((TreeNode)node.MemberwiseClone());
             IndexNumber = IndexNumber;
             IsExpanded = IsExpanded;
         }

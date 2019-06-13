@@ -114,7 +114,7 @@ namespace Staff_time.ViewModel
             AllTreeRoots[oldNodeIndex] = newNode; // todo а если oldNodeIndex элемента нет в коллекции
         }
 
-        private void _generate_Full_Tree(TreeNode selectedTaskNode)
+        public void _generate_Full_Tree(TreeNode selectedTaskNode)
         {
             AllTreeRoots = new ObservableCollection<TreeNode>();
             foreach (var taskNode in TasksVM.DictionaryFull)
@@ -125,6 +125,7 @@ namespace Staff_time.ViewModel
                 {
                     var curNode = taskNode.Value;
                     curNode.IsExpanded = true;
+                    curNode.IsSelected = true;
                     while (curNode.ParentNode != null)
                     {
                         curNode = curNode.ParentNode;
@@ -181,6 +182,20 @@ namespace Staff_time.ViewModel
                 _selectedTaskNode.IsSelected = true;
         }
 
+        private bool _isFilterEmpty;
+        public bool IsFilterEmpty
+        {
+            get
+            {
+                return _isFilterEmpty;
+            }
+            set
+            {
+                _isFilterEmpty = value;
+                RaisePropertyChanged("IsFilterEmpty");
+            }
+        }
+
         private string _filterTaskText;
         public string FilterTaskText
         {
@@ -191,6 +206,10 @@ namespace Staff_time.ViewModel
             set
             {
                 _filterTaskText = value;
+                if (_filterTaskText == "" || _filterTaskText == null || _filterTaskText == "Поиск...")
+                    IsFilterEmpty = true;
+                else
+                    IsFilterEmpty = false;
                 RaisePropertyChanged("FilterTaskText");
             }
         }
@@ -354,7 +373,6 @@ namespace Staff_time.ViewModel
         #region Delete Task
 
         private bool _haveRight;
-
         public bool HaveRight
         {
             get

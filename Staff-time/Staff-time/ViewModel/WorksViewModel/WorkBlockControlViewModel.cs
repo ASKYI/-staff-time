@@ -93,7 +93,7 @@ namespace Staff_time.ViewModel
             RaisePropertyChanged("MinutesShort");
             RaisePropertyChanged("Hours");
             RaisePropertyChanged("TimeLast");
-            
+
         }
 
         public void FillTimeRanges()
@@ -111,6 +111,10 @@ namespace Staff_time.ViewModel
                 WorkTimeRanges.Add(curWorkRng);
             }
             UpdateWorkTime();
+            var sortWorkRanges = WorkTimeRanges.OrderBy(r => r.EndTime).ToList();
+            int lastRngIndex = sortWorkRanges.Count - 1;
+            if (lastRngIndex >= 0)
+                LastRangeTime = sortWorkRanges[lastRngIndex].EndTime;
         }
 
         private void UpdateWorkTimeRanges()
@@ -127,7 +131,12 @@ namespace Staff_time.ViewModel
         void HandleGlobalPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "MainWindowClosing")
-                MessengerInstance.Unregister<string>(this, ApplyAction);
+                UnRegister();
+        }
+
+        public void UnRegister()
+        {
+            MessengerInstance.Unregister<string>(this, ApplyAction);
         }
 
         private void SetExpended(object sender, PropertyChangedEventArgs e)
@@ -178,19 +187,19 @@ namespace Staff_time.ViewModel
                 }
                 TreeNode taskNode = TasksVM.Dictionary[Work.TaskID];
 
-                
+
                 StringBuilder stringPath = new StringBuilder();
                 stringPath.Append(Work.WorkName + "<-");
 
                 stringPath.Append(taskNode.FullPathAsString);
-                    
+
                 //for (int i = taskNode.FullPath.Count - 1; i >= 0; --i) // todo есть замечательный оператор string.Join советую к нему присмотреться
                 //{
                 //    stringPath.Append(taskNode.FullPath[i]);
                 //    if (i != 0)
                 //        stringPath.Append("<-");
                 //}
-                
+
                 return stringPath.ToString();
             }
         }
@@ -261,10 +270,24 @@ namespace Staff_time.ViewModel
 
         #region Time
 
+        private DateTime _lastRangeTime;
+        public DateTime LastRangeTime
+        {
+            get
+            {
+                return _lastRangeTime;
+            }
+            set
+            {
+                _lastRangeTime = value;
+                RaisePropertyChanged("LastRangeTime");
+            }
+        }
+
         public void Minutes_Changed(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             //Оно не всегда хорошо работает
-            
+
             /*int minutes = 0;
             try
             {
@@ -379,13 +402,13 @@ namespace Staff_time.ViewModel
         {
             //if (IsEditing)
             //{
-                ApplyChanges();
-                var workDuplicate = (Work)_workVM.Work.Clone();
-                workDuplicate.ID = 0;
-                workDuplicate.AttrValues.Clear();
-                MessengerInstance.Send<MessageWorkObject>(new MessageWorkObject
-                   (WorkCommandEnum.Add, workDuplicate, workDuplicate.StartDate));
-           // }
+            ApplyChanges();
+            var workDuplicate = (Work)_workVM.Work.Clone();
+            workDuplicate.ID = 0;
+            workDuplicate.AttrValues.Clear();
+            MessengerInstance.Send<MessageWorkObject>(new MessageWorkObject
+               (WorkCommandEnum.Add, workDuplicate, workDuplicate.StartDate));
+            // }
         }
         private readonly ICommand _shareWorkTaskCommand;
         public ICommand ShareWorkTaskCommand
@@ -407,7 +430,7 @@ namespace Staff_time.ViewModel
             TransferTaskView dlg = new TransferTaskView(Work.TaskID);
             dlg.Show();
         }
-        
+
         public bool IsWorkTimeEnabled
         {
             get
@@ -476,9 +499,16 @@ namespace Staff_time.ViewModel
                 WorkVM.UpdateWork();
                 IsEditing = false;
                 MainWindow.IsEnable = true;
+
+                var sortWorkRanges = WorkTimeRanges.OrderBy(r => r.EndTime).ToList();
+                int lastRngIndex = sortWorkRanges.Count - 1;
+                if (lastRngIndex >= 0)
+                    LastRangeTime = sortWorkRanges[lastRngIndex].EndTime;
+
                 RaisePropertyChanged("MinutesShort");
                 RaisePropertyChanged("Hours");
                 RaisePropertyChanged("TimeLast");
+                RaisePropertyChanged("LastRangeTime");
             }
         }
 
@@ -539,7 +569,7 @@ namespace Staff_time.ViewModel
             if (dialogResult == MessageBoxResult.No)
                 return;
             WorkVM.DeleteWork();
-            MessengerInstance.Unregister<string>(this, ApplyAction);
+            UnRegister();
             IsEditing = false;
             CancelChanges(obj);
         }

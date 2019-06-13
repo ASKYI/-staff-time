@@ -27,6 +27,7 @@ namespace Staff_time.View
         public EditDialogWindow(object context)
         {
             base.DataContext = context;
+            Topmost = true;
             InitializeComponent();
             Closing += ((ViewModel.TaskDialogViewModel)DataContext).OnWindowClosing; // todo аналогичное уже было
         }

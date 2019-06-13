@@ -1,4 +1,5 @@
-﻿using Staff_time.ViewModel;
+﻿using Staff_time.Model.UserModel;
+using Staff_time.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -118,11 +119,6 @@ namespace Staff_time.View
             //menu.Items.Add(item);
 
             //item = new MenuItem();
-            //item.Header = "Редактировать задачу";
-            //item.Command = context.EditTaskCommand;
-            //menu.Items.Add(item);
-
-            //item = new MenuItem();
             //item.Header = "Удалить задачу";
             //item.Command = context.DeleteTaskCommand;
             //menu.Items.Add(item);
@@ -130,6 +126,15 @@ namespace Staff_time.View
             item.Header = "Просмотр информации о задаче";
             item.Command = context.ShowTaskCommand;
             menu.Items.Add(item);
+
+            var curNode = ((TreeViewItem)sender).DataContext as ViewModel.TreeNode;
+            if (curNode != null && ((GlobalInfo.CurrentUser.ID == curNode.Task.ResponsibleID) || GlobalInfo.CurrentUser.LEVEL.LevelName.ToLower() == "editor"))
+            {
+                item = new MenuItem();
+                item.Header = "Редактировать задачу";
+                item.Command = context.EditTaskCommand;
+                menu.Items.Add(item);
+            }
 
             item = new MenuItem();
             item.Header = "Передать задачу";

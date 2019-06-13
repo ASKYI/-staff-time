@@ -158,12 +158,29 @@ namespace Staff_time.ViewModel
                 SumTime += w.Minutes;
             }
 
+
+            //List<int> works = Context.workWork.Read_WorksForDate(Date);
+            //if (WorksInTab == null)
+            //    WorksInTab = new ObservableCollection<WorkInTab>();
+
+            //var curWorks = WorksInTab.Select(wt => wt.WorkBlockContext.Work.ID);
+            //var workdToAdd = works.Where(w => !curWorks.Contains(w));
+            //foreach (int id in workdToAdd)
+            //{
+            //    Work w = WorksVM.Dictionary[id].Work;
+
+            //    WorksInTab.Add(new WorkInTab(w.ID));
+
+            //}
+            //foreach (var wt in WorksInTab)
+            //    SumTime += wt.WorkBlockContext.Work.Minutes;
+
             MessengerInstance.Send<long>(SumTime);
         }
 
         private void _doWorkCommand(MessageWorkObject obj)
         {
-            if (obj.dt != Date)
+            if (obj.dt != Date && obj._commandType != WorkCommandEnum.Update)
                 return;
             dialog = null;
 
@@ -178,7 +195,7 @@ namespace Staff_time.ViewModel
                 var newWorkID = WorksVM.Add(work);
                 Work newWork = WorksVM.Dictionary[newWorkID].Work;
 
-                AddWork(new WorkInTab(newWork.ID, true));
+                AddWork(new WorkInTab(newWorkID, true));
 
                 SumTime += newWork.Minutes;
                 MessengerInstance.Send<long>(SumTime);
@@ -204,6 +221,7 @@ namespace Staff_time.ViewModel
                     SumTime -= WorksInTab[index].WorkBlockContext.Work.Minutes;
 
                     WorksVM.Delete(work.ID);
+                    WorksInTab[index].WorkBlockContext.UnRegister();
                     WorksInTab.Remove(WorksInTab[index]);
 
                     MessengerInstance.Send<long>(SumTime); // todo а это нельзя сделать в сэттере свойства SumTime ?
@@ -222,12 +240,14 @@ namespace Staff_time.ViewModel
                         //WorksInTab[index].WorkBlockContext = new WorkBlockControlViewModel(newWork.ID, false);
                         MainWindow.IsEnable = true;
                         WorksInTab[index].WorkBlockContext.IsEditing = false;
-                        MainWindow.IsEnable = false;
 
                         SumTime += newWork.Minutes;
                     }
                     else
+                    {
+                        WorksInTab[index].WorkBlockContext.UnRegister();
                         WorksInTab.Remove(WorksInTab[index]);
+                    }
 
 
                     //if (work.StartDate.Date == Date.Date)

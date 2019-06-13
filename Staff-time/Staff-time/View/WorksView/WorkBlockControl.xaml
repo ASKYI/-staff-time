@@ -128,16 +128,16 @@
             <Grid Width="{Binding ActualWidth, ElementName=WorkExpander, Converter={converters:GridWidthConverter}, ConverterParameter='50'}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
-                    <!--<ColumnDefinition Width="100"></ColumnDefinition>-->
+                    <ColumnDefinition Width="70"></ColumnDefinition>
                     <ColumnDefinition Width="100"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
                 <Border Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="0">
                     <TextBlock Height="20"  Text="{Binding Path}"/>
                 </Border>
-                <!--<Border Margin="5, 0, 0, 0" Width="95" HorizontalAlignment="Right" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3"  Grid.Column="1">
-                    <TextBlock Height="20" HorizontalAlignment="Center" Text="{Binding TimeRange}"/>
-                </Border>-->
+                <Border Margin="5, 0, 0, 0" Width="65" HorizontalAlignment="Right" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3"  Grid.Column="1">
+                    <TextBlock Height="20" HorizontalAlignment="Center" Text="{Binding LastRangeTime, StringFormat=HH:mm}"/>
+                </Border>
                 <Border Margin="5, 0, 0, 0" Width="95" HorizontalAlignment="Left" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="2">
                     <TextBlock Height="20" HorizontalAlignment="Center" Text="{Binding TimeLast}"/>
                 </Border>

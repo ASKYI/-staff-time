@@ -210,6 +210,18 @@ namespace Staff_time.View.Dialog
             int cnt = 0;
             foreach (var brakeRange in brakes)
             {
+                if (cnt >= IdealBrakeRanges.Count)
+                {
+                    var badRange = WorksTimeRanges.LastOrDefault();
+                    if (badRange != null)
+                    {
+                        ReasonText = "Перерывы не совпадают";
+                        badRange.Selected = true;
+                        LastSelected = badRange;
+                        IsCorrect = false;
+                    }
+                    return;
+                }
                 if (brakeRange.Key.Hour != IdealBrakeRanges[cnt].StartHours || brakeRange.Key.Minute != IdealBrakeRanges[cnt].StartMinutes ||
                     brakeRange.Value.Hour != IdealBrakeRanges[cnt].EndHours || brakeRange.Value.Minute != IdealBrakeRanges[cnt].EndMinutes)
                 {

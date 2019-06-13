@@ -35,6 +35,7 @@ namespace Staff_time.ViewModel
             _applyRequestCommand = new RelayCommand(ApplyRequest, CanApplyRequest);
             _deleteRequestCommand = new RelayCommand(DeleteRequest, CanDeleteRequest);
             _refreshRequestCommand = new RelayCommand(RefreshRequest, (_) => true);
+            _editTaskCommand = new RelayCommand(EditTask, CanEditTask);
             _deleteTaskCommand = new RelayCommand(DeleteFaveTask, CanDeleteTask);
             _transferTaskCommand = new RelayCommand(TransferTask, CanTransferTask);
             _showTaskCommand = new RelayCommand(ShowTask, CanShowTask);
@@ -44,6 +45,8 @@ namespace Staff_time.ViewModel
             MainWindow.GlobalPropertyChanged += HandleGlobalPropertyChanged;
 
             FillRequests();
+            HaveRight = false;
+            AllVM = new ViewModel.TasksAllViewModel(this, TreeRoots, SelectedTaskNode);
             //MessengerInstance.Register<KeyValuePair<FaveTaskCommandEnum, Task>>(this, _doTaskCommand);
         }
 
@@ -62,8 +65,35 @@ namespace Staff_time.ViewModel
         }
         #endregion
 
+        #region Edit Task
+
+        private readonly ICommand _editTaskCommand;
+        public ICommand EditTaskCommand
+        {
+            get
+            {
+                return _editTaskCommand;
+            }
+        }
+
+        private bool CanEditTask(object obj)
+        {
+            return SelectedTaskNode != null && dialog == null;
+        }
+        private void EditTask(object obj)
+        {
+            FilterTaskText = "";
+            FilterTree(obj);
+
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(AllVM, SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit, SelectedTaskNode));
+            dialog.Show();
+        }
+
+        #endregion
 
         #region Tree
+        private ViewModel.TasksAllViewModel AllVM { get; set; }
+
         private ObservableCollection<TreeNode> _treeRoots;
         public ObservableCollection<TreeNode> TreeRoots
         {
@@ -107,6 +137,8 @@ namespace Staff_time.ViewModel
             set
             {
                 SetField<TreeNode>(ref _selectedTaskNode, value);
+                if (value != null)
+                    HaveRight = (GlobalInfo.CurrentUser.ID == SelectedTaskNode.Task.ResponsibleID) || (GlobalInfo.CurrentUser.LEVEL.LevelName.ToLower() == "editor");
             }
         }
 
@@ -121,6 +153,20 @@ namespace Staff_time.ViewModel
                 _selectedTaskNode.IsSelected = true;
         }
 
+        private bool _isFilterEmpty;
+        public bool IsFilterEmpty
+        {
+            get
+            {
+                return _isFilterEmpty;
+            }
+            set
+            {
+                _isFilterEmpty = value;
+                RaisePropertyChanged("IsFilterEmpty");
+            }
+        }
+
         private string _filterTaskText;
         public string FilterTaskText
         {
@@ -131,6 +177,10 @@ namespace Staff_time.ViewModel
             set
             {
                 _filterTaskText = value;
+                if (_filterTaskText == "" || _filterTaskText == null || _filterTaskText == "Поиск...")
+                    IsFilterEmpty = true;
+                else
+                    IsFilterEmpty = false;
                 RaisePropertyChanged("FilterTaskText");
             }
         }
@@ -204,8 +254,9 @@ namespace Staff_time.ViewModel
 
         private void ShowTree(object obj)
         {
-            var allVM = new ViewModel.TasksAllViewModel(this, TreeRoots, SelectedTaskNode);
-            var dialog = new View.AllTreeDialog(allVM);
+            //AllVM = new ViewModel.TasksAllViewModel(this, TreeRoots, SelectedTaskNode);
+            AllVM._generate_Full_Tree(SelectedTaskNode);
+            var dialog = new View.AllTreeDialog(AllVM);
             dialog.ShowDialog();
             //выделение узла, что и в основном дереве:
 
@@ -431,6 +482,19 @@ namespace Staff_time.ViewModel
 
         #region Do Task: Edit
 
+        private bool _haveRight;
+        public bool HaveRight
+        {
+            get
+            {
+                return _haveRight;
+            }
+            set
+            {
+                SetField(ref _haveRight, value);
+            }
+        }
+
         private readonly ICommand _deleteTaskCommand;
         public ICommand DeleteTaskCommand
         {
@@ -446,6 +510,9 @@ namespace Staff_time.ViewModel
         }
         private void DeleteFaveTask(object obj)
         {
+            FilterTaskText = "";
+            FilterTree(obj);
+            TasksVM.FilterFaveTaskText = "";
             var dialogResult = System.Windows.MessageBox.Show("Вы уверены, что хотите удалить задачу из избранного?", "Подтверждение",
                 MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (dialogResult == MessageBoxResult.No)
