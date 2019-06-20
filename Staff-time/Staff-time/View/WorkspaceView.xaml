@@ -10,7 +10,7 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" >
     <UserControl.Resources>
 
         <DataTemplate DataType="{x:Type vm:WorkInTab}" x:Name="workBlock">
@@ -38,6 +38,7 @@
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="24"></RowDefinition>
             <RowDefinition ></RowDefinition>
+            <RowDefinition MaxHeight="50"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -76,16 +77,6 @@
             </Button>
         </StackPanel>
 
-        <!--<TextBlock Margin="5,0" IsEnabled="False" Text="  " Background="Gray"></TextBlock>
-            <TextBlock IsEnabled="False" Text="Общее время дня: " ></TextBlock>
-            <TextBlock IsEnabled="False" Text="{Binding SumHours}" FontWeight="DemiBold" TextAlignment="Center" MinWidth="14"></TextBlock>
-            <TextBlock IsEnabled="False" Text=" часов "></TextBlock>
-            <TextBlock IsEnabled="False" Text="{Binding SumMinutes}" FontWeight="DemiBold" TextAlignment="Center" MinWidth="20"></TextBlock>
-            <TextBlock IsEnabled="False" Text=" минут "></TextBlock>
-            <TextBlock IsEnabled="False" Text="  " Background="Gray"></TextBlock>-->
-
-
-
         <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
             <Button Name="EditPlanTimeBtn" Margin="0,0,5,0" Click="EditPlanTime" Cursor="Hand" HorizontalAlignment="Left" ToolTip="Редактировать планируемое время" Background="White"  ToolTipService.ShowOnDisabled="True">
                 <Image Source="../Resources/edit.ico"></Image>
@@ -116,7 +107,7 @@
 
         <!--</StackPanel>-->
 
-        <TabControl Margin="0,5,0,0" ItemsSource="{Binding WeekTabs}" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" Grid.Row="1" Grid.Column="0">
+        <TabControl Margin="0,5,0,0" ItemsSource="{Binding WeekTabs}" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" Grid.Row="1" Grid.RowSpan="2" Grid.Column="0">
             <TabControl.Resources>
                 <vm:TabItemHeaderConverter x:Key="tabItemHeaderConverter"></vm:TabItemHeaderConverter>
             </TabControl.Resources>
@@ -149,8 +140,7 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
-
-        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="0,25, 0, 0">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Margin="0,25, 0, 0">
             <Button Margin ="5"  Command="{Binding CollapseAllWorksCommand}" ToolTip="Свернуть всё" Background="White" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../Resources/collapse.ico"></Image>
             </Button>
@@ -162,6 +152,11 @@
             </Button>
             <Button Margin ="5" Name="SortNameButton" Command="{Binding SortWorksByNameCommand}" ToolTip="Сортировать работы по имени задачи" Background="White" ToolTipService.ShowOnDisabled="True">
                 <Image Source="{Binding NameSortSource}"/>
+            </Button>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Grid.Row="2" Grid.Column="1">
+            <Button Margin="5" Click="OpenChemic_Click" VerticalAlignment="Bottom"  ToolTip="Открыть легкий химик на БД трудозатрат" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../Resources/chemic.ico"></Image>
             </Button>
         </StackPanel>
     </Grid>

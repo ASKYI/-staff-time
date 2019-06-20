@@ -1,7 +1,9 @@
-﻿using Staff_time.Model.UserModel;
+﻿using Microsoft.Win32;
+using Staff_time.Model.UserModel;
 using Staff_time.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +47,7 @@ namespace Staff_time.View
         //    }
         //}
 
+
         private void PrevWeek(object sender, EventArgs e)
         {
             var oldDate = ((ViewModel.WorkspaceViewModel)DataContext).SelectedDate_Picker;
@@ -57,6 +60,26 @@ namespace Staff_time.View
             var oldDate = ((ViewModel.WorkspaceViewModel)DataContext).SelectedDate_Picker;
             oldDate = oldDate.AddDays(7);
             ((ViewModel.WorkspaceViewModel)DataContext).SelectedDate_Picker = oldDate;
+        }
+
+        private void OpenChemic_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var connString = "Provider=SQLNCLI11.1;Password=1;User ID=TaskManagementDBFinal;Data Source=MSSQL2012-WIN12;Application Name=LISChemic;MARS Connection=True";
+                RegistryKey currentUserKey = Registry.CurrentUser;
+                RegistryKey softWareKey = currentUserKey.OpenSubKey("SOFTWARE", true);
+                RegistryKey stuffTimeKey = softWareKey.OpenSubKey("НИИ ВН", true);
+                var chemicConnectionKey = stuffTimeKey.OpenSubKey("АРМ «Химик-аналитик»", true);
+                chemicConnectionKey.SetValue("Connect", connString);
+
+                string folderPath = @"\\13.1.77.200\Share\Programmers\_Лёгкий_ЛИС\Chemic.exe";
+                System.Diagnostics.Process.Start(folderPath);
+            }
+            catch
+            {
+
+            }
         }
 
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)

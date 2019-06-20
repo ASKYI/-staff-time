@@ -96,6 +96,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
@@ -452,6 +453,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\chemic.ico" />
     <Resource Include="Resources\validationOK.ico" />
     <Resource Include="Resources\TimeCheck.ico" />
     <Resource Include="Resources\duplicate.ico" />
