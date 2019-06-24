@@ -193,6 +193,12 @@
                                                 <GridViewColumnHeader Tag="DateTransfer" Click="ColumnHeader_Click">Дата</GridViewColumnHeader>
                                             </GridViewColumn.Header>
                                         </GridViewColumn>
+                                        <GridViewColumn
+                                  DisplayMemberBinding="{Binding Note}">
+                                            <GridViewColumn.Header>
+                                                <GridViewColumnHeader Tag="Note" Click="ColumnHeader_Click">Примечание</GridViewColumnHeader>
+                                            </GridViewColumn.Header>
+                                        </GridViewColumn>
                                     </GridView>
                                 </ListView.View>
                                 <ListView.ItemContainerStyle>
@@ -213,5 +219,4 @@
             </Grid>
         </Border>
     </Grid>
-
 </UserControl>

@@ -19,6 +19,7 @@ namespace Staff_time.Model
         public int ToUserID { get; set; }
         public int TaskID { get; set; }
         public System.DateTime TransferDateTime { get; set; }
+        public string Note { get; set; }
     
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }

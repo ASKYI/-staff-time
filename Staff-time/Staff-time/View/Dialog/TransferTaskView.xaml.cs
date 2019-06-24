@@ -25,10 +25,15 @@ namespace Staff_time.View.Dialog
     {
 
         public List<UserChecked> users { get; set; }
+        public string Note { get; set; }
         int transferedTaskID;
+        DateTime requestDate { get; set; }
 
-        public TransferTaskView(int taskID)
+        public TransferTaskView(int taskID, DateTime? dt = null)
         {
+            if (dt == null)
+                dt = DateTime.Now;
+            requestDate = (DateTime)dt;
             transferedTaskID = taskID;
             var usersOrigin = Context.usersWork.Read_AllUsers();
             usersOrigin = usersOrigin.Where(u => u.LevelID >= TasksVM.DictionaryFull[taskID].Task.LevelID).ToList();
@@ -49,7 +54,7 @@ namespace Staff_time.View.Dialog
             {
                 if (_user.IsChecked)
                 {
-                    TasksVM.TransferTask(GlobalInfo.CurrentUser.ID, _user.user.ID, transferedTaskID);
+                    TasksVM.TransferTask(GlobalInfo.CurrentUser.ID, _user.user.ID, transferedTaskID, requestDate, Note);
                     transferedCnt++;
                 }
             }

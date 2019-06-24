@@ -52,14 +52,15 @@ namespace Staff_time.View
         {
             var oldDate = ((ViewModel.WorkspaceViewModel)DataContext).SelectedDate_Picker;
             oldDate = oldDate.AddDays(-7);
-            ((ViewModel.WorkspaceViewModel)DataContext).SelectedDate_Picker = oldDate;
+            ((ViewModel.WorkspaceViewModel)DataContext).SetDate(oldDate);
         }
 
         private void NextWeek(object sender, EventArgs e)
         {
             var oldDate = ((ViewModel.WorkspaceViewModel)DataContext).SelectedDate_Picker;
             oldDate = oldDate.AddDays(7);
-            ((ViewModel.WorkspaceViewModel)DataContext).SelectedDate_Picker = oldDate;
+            ((ViewModel.WorkspaceViewModel)DataContext).SetDate(oldDate);
+            
         }
 
         private void OpenChemic_Click(object sender, EventArgs e)

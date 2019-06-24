@@ -281,9 +281,9 @@ namespace Staff_time.ViewModel
         }
 
 
-        public static void TransferTask(int fromUserID, int toUserID, int taskID)
+        public static void TransferTask(int fromUserID, int toUserID, int taskID, DateTime dt, string Note)
         {
-            Context.requestWork.AddRequest(fromUserID, toUserID, taskID);
+            Context.requestWork.AddRequest(fromUserID, toUserID, taskID, dt, Note);
         }
 
         public static void AddFave(Task task)

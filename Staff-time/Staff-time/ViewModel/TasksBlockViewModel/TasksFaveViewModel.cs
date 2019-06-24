@@ -254,6 +254,8 @@ namespace Staff_time.ViewModel
 
         private void ShowTree(object obj)
         {
+            FilterTaskText = "";
+            FilterTree(obj);
             //AllVM = new ViewModel.TasksAllViewModel(this, TreeRoots, SelectedTaskNode);
             AllVM._generate_Full_Tree(SelectedTaskNode);
             var dialog = new View.AllTreeDialog(AllVM);
@@ -744,7 +746,7 @@ namespace Staff_time.ViewModel
             RequestsList = new ObservableCollection<RequestItem>();
             var requests = Context.requestWork.Read_AllRequests();
             foreach (var req in requests)
-                RequestsList.Add(new RequestItem(req.ID, req.FromUserID, req.TaskID, req.TransferDateTime));
+                RequestsList.Add(new RequestItem(req.ID, req.FromUserID, req.TaskID, req.TransferDateTime, req.Note));
             SelectedRequests = new List<RequestItem>();
         }
 
@@ -788,9 +790,10 @@ namespace Staff_time.ViewModel
         public string TaskName { get; set; }
         public string FullPathTask { get; set; }
         public int TaskID { get; set; }
+        public string Note { get; set; }
         public DateTime DateTransfer { get; set; }
 
-        public RequestItem(int _id, int _fromUserID, int _taskID, DateTime dt)
+        public RequestItem(int _id, int _fromUserID, int _taskID, DateTime dt, string _note)
         {
             ID = _id;
             TaskID = _taskID;
@@ -798,6 +801,7 @@ namespace Staff_time.ViewModel
             FromUser = Context.usersWork.GetUserNameByID(_fromUserID);
             TaskName = TasksVM.DictionaryFull[_taskID].Task.TaskName;
             DateTransfer = dt;
+            Note = _note;
         }
     }
 }

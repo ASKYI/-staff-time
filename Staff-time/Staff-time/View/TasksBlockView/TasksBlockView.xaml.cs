@@ -34,7 +34,8 @@ namespace Staff_time.View
             columnsSortOrder = new Dictionary<string, int>();
             columnsSortOrder.Add("FromUser", -1);
             columnsSortOrder.Add("TaskName", -1);
-            columnsSortOrder.Add("DateTransfer", 1);
+            columnsSortOrder.Add("DateTransfer", 0);
+            columnsSortOrder.Add("Note", -1);
             ((ViewModel.TasksFaveViewModel)DataContext).FilterTaskText = "Поиск...";//подсказка
             FilterTBox.Foreground = Brushes.Gray;
         }
@@ -109,19 +110,6 @@ namespace Staff_time.View
             ContextMenu menu = new ContextMenu();
             MenuItem item = new MenuItem();
 
-            //item.Header = "Добавить задачу рядом";
-            //item.Command = context.AddNearTaskCommand;
-            //menu.Items.Add(item);
-
-            //item = new MenuItem();
-            //item.Header = "Добавить подзадачу";
-            //item.Command = context.AddChildTaskCommand;
-            //menu.Items.Add(item);
-
-            //item = new MenuItem();
-            //item.Header = "Удалить задачу";
-            //item.Command = context.DeleteTaskCommand;
-            //menu.Items.Add(item);
             item = new MenuItem();
             item.Header = "Просмотр информации о задаче";
             item.Command = context.ShowTaskCommand;

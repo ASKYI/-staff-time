@@ -93,7 +93,6 @@ namespace Staff_time.ViewModel
             RaisePropertyChanged("MinutesShort");
             RaisePropertyChanged("Hours");
             RaisePropertyChanged("TimeLast");
-
         }
 
         public void FillTimeRanges()
@@ -207,7 +206,6 @@ namespace Staff_time.ViewModel
         private string _path;
         private void _generate_path()
         {
-            //int max_k = Block_Width / 200;
             int maxLength = Math.Max((BlockWidth - 130) / 7, 40);
             if (!TasksVM.DictionaryFull.ContainsKey(Work.TaskID))
             {
@@ -427,7 +425,7 @@ namespace Staff_time.ViewModel
                 MessageBox.Show("У работы отсутствует родительская задача! Данная работа не может быть передана", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            TransferTaskView dlg = new TransferTaskView(Work.TaskID);
+            TransferTaskView dlg = new TransferTaskView(Work.TaskID, chosenDate);
             dlg.Show();
         }
 

@@ -90,6 +90,7 @@
           <Property Name="ToUserID" Type="int" Nullable="false" />
           <Property Name="TaskID" Type="int" Nullable="false" />
           <Property Name="TransferDateTime" Type="datetime" Nullable="false" />
+          <Property Name="Note" Type="nvarchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="Tasks">
           <Key>
@@ -1031,6 +1032,7 @@
           <NavigationProperty Name="User" Relationship="TaskManagmentDBModel.FK_Requests_Users" FromRole="Request" ToRole="User" />
           <NavigationProperty Name="User1" Relationship="TaskManagmentDBModel.FK_Users_Requests" FromRole="Request" ToRole="User" />
           <NavigationProperty Name="Task" Relationship="TaskManagmentDBModel.FK_Requests_Tasks" FromRole="Request" ToRole="Task" />
+          <Property Name="Note" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Requests_Users">
           <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="1">
@@ -1529,6 +1531,7 @@
           <EntitySetMapping Name="Requests">
             <EntityTypeMapping TypeName="TaskManagmentDBModel.Request">
               <MappingFragment StoreEntitySet="Requests">
+                <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="TransferDateTime" ColumnName="TransferDateTime" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
                 <ScalarProperty Name="ToUserID" ColumnName="ToUserID" />

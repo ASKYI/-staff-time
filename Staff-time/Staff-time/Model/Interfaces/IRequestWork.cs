@@ -12,6 +12,6 @@ namespace Staff_time.Model.Interfaces
         //void RefreshRequests();
 
         void DeleteRequests(List<int> requestsIds);
-        void AddRequest(int fromUserID, int toUserID, int taskID);
+        void AddRequest(int fromUserID, int toUserID, int taskID, DateTime dt, string Note);
     }
 }

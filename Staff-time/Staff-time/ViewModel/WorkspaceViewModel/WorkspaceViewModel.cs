@@ -100,8 +100,6 @@ namespace Staff_time.ViewModel
         {
             get { return MainWindow.IsEnable; }
         }
-
-
         private int _selectedTabIndex;
         public int SelectedTabIndex
         {
@@ -126,7 +124,11 @@ namespace Staff_time.ViewModel
                 }
             }
         }
-
+        public void SetDate(DateTime dt)
+        {
+            SelectedDate_Picker = dt;
+            chosenDate = dt;
+        }
 
         #endregion
 
@@ -364,14 +366,16 @@ namespace Staff_time.ViewModel
         {
             //показать окно с диапазонами
             var timeRanges = new List<WorkTimeRange>();
+            var paths = new Dictionary<int, string>(); 
             foreach (var workTab in WeekTabs[SelectedTabIndex].WorksInTab)
             {
                 int curWorkID = workTab.WorkBlockContext.Work.ID;
                 var workRanges = WorksVM.GetTimeRanges(curWorkID);
+                paths.Add(workTab.WorkBlockContext.Work.ID, workTab.WorkBlockContext.FullPath);
                 timeRanges.AddRange(workRanges);
             }
 
-            var WorksRangesWnd = new WorkTimeRangesView(timeRanges, PlanningTime);
+            var WorksRangesWnd = new WorkTimeRangesView(timeRanges, paths, PlanningTime);
             WorksRangesWnd.ShowDialog();
             if (WorksRangesWnd.WasEdited)
             {
@@ -384,6 +388,7 @@ namespace Staff_time.ViewModel
                 {
                     workTab.WorkBlockContext.FillTimeRanges();
                     newSumTime += workTab.WorkBlockContext.Minutes;
+                    workTab.WorkBlockContext.WorkVM.UpdateWork();
                 }
                 SumTime = newSumTime;
                 Mouse.SetCursor(Cursors.Arrow);

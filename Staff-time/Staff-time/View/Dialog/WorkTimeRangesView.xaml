@@ -48,7 +48,7 @@
                     <Border BorderBrush="#DEF0F3" BorderThickness="2" CornerRadius="3">
                         <StackPanel Orientation="Horizontal">
                             <TextBox IsReadOnly="True" Width="250" Height="20" HorizontalAlignment="Right" Text="{Binding range.Work.WorkName}" 
-                                 FontWeight="Bold" FontFamily="Arial" VerticalAlignment="Center">
+                                ToolTip="{Binding WorkPath}"  FontWeight="Bold" FontFamily="Arial" VerticalAlignment="Center">
                                 <TextBox.Style>
                                     <Style>
                                         <Style.Triggers>

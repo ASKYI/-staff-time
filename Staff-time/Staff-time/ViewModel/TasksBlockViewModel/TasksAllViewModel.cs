@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.ComponentModel;
 using GalaSoft.MvvmLight.Messaging;
 using Staff_time.Model.UserModel;
+using Staff_time.View.Dialog;
 
 namespace Staff_time.ViewModel
 {
@@ -31,6 +32,7 @@ namespace Staff_time.ViewModel
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDeleteTask);
             _editTaskCommand = new RelayCommand(EditTask, CanEditTask);
+            _transferTaskCommand = new RelayCommand(TransferTask, CanTransferTask);
             _showTaskCommand = new RelayCommand(ShowTask, CanShowTask);
             _moveUpCommand = new RelayCommand(MoveUp, CanMoveUp);
             _moveDownCommand = new RelayCommand(MoveDown, CanMoveDown);
@@ -604,6 +606,25 @@ namespace Staff_time.ViewModel
         #endregion
 
         #region Commands       
+
+        private readonly ICommand _transferTaskCommand;
+        public ICommand TransferTaskCommand
+        {
+            get
+            {
+                return _transferTaskCommand;
+            }
+        }
+        private bool CanTransferTask(object obj)
+        {
+            return SelectedTaskNode != null && dialog == null && MainWindow.IsEnable;
+        }
+
+        private void TransferTask(object obj)
+        {
+            TransferTaskView dlg = new TransferTaskView(SelectedTaskNode.Task.ID);
+            dlg.Show();
+        }
 
         public ICommand AcceptCommand { get; set; }
         public ICommand CancelCommand { get; set; }

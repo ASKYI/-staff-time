@@ -26,10 +26,10 @@ namespace Staff_time.View.Dialog
     /// </summary>
     public partial class WorkTimeRangesView : Window, INotifyPropertyChanged
     {
-        public WorkTimeRangesView(List<WorkTimeRange> _ranges, double _planningTime)
+        public WorkTimeRangesView(List<WorkTimeRange> _ranges, Dictionary<int, string> paths, double _planningTime)
         {
             WorksTimeRanges = new List<WorkTimeRangeSelected>();
-            _ranges.ForEach(r => WorksTimeRanges.Add(new WorkTimeRangeSelected() { range = r, Selected = false }));
+            _ranges.ForEach(r => WorksTimeRanges.Add(new WorkTimeRangeSelected() { range = r, Selected = false, WorkPath = paths[r.Work.ID] }));
             PlanningTime = _planningTime;
             IdealBrakeRanges = new List<IdealRange>();
             IdealBrakeRanges.Add(new IdealRange() { StartHours = 10, StartMinutes = 0, EndHours = 10, EndMinutes = 30 });
@@ -51,6 +51,7 @@ namespace Staff_time.View.Dialog
         public class WorkTimeRangeSelected : INotifyPropertyChanged
         {
             public WorkTimeRange range { get; set; }
+            public string WorkPath { get; set; }
             private bool _selected;
             public bool Selected
             {

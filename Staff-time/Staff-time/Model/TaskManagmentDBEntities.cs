@@ -195,13 +195,14 @@ namespace Staff_time.Model
             }
         }
 
-        public void AddRequest(int fromUserID, int toUserID, int taskID)
+        public void AddRequest(int fromUserID, int toUserID, int taskID, DateTime dt, string Note)
         {
             Request _request = new Request();
             _request.FromUserID = fromUserID;
             _request.ToUserID = toUserID;
             _request.TaskID = taskID;
-            _request.TransferDateTime = DateTime.Now;
+            _request.TransferDateTime = dt;
+            _request.Note = Note;
             Requests.AddOrUpdate(_request);
             SaveChanges();
         }
@@ -471,13 +472,15 @@ namespace Staff_time.Model
             var oldAttrIds = _work.AttrValues.Select(a => a.AttrID).ToList();
             List<int> attrIDs = (from a in WorkTypeAttrs where a.WorkTypeID == typeID select a.AttrID).ToList();
             attrIDs.RemoveAll(a => oldAttrIds.Contains(a)); //Удаляем те атрибуты, что была, добавлять будем только новые
+            List<AttrValue> vals = new List<AttrValue>();
             foreach (var a in attrIDs)
             {
                 AttrValue value = new AttrValue();
                 value.WorkID = _work.ID;
                 value.AttrID = a;           // todo почему здесь не заполняется поле DataType ? 
-                AttrValues.Add(value);
+                vals.Add(value);
             }
+            AttrValues.AddRange(vals);
             try
             {
                 SaveChanges();
@@ -564,7 +567,7 @@ namespace Staff_time.Model
         #region IRequestWork
         public List<Request> Read_AllRequests()
         {
-            return Requests.Where(r => r.ToUserID == GlobalInfo.CurrentUser.ID).OrderByDescending(r => r.TransferDateTime).ToList();
+            return Requests.Where(r => r.ToUserID == GlobalInfo.CurrentUser.ID).OrderBy(r => r.TransferDateTime).ToList();
         }
         //public void RefreshRequests()
         //{

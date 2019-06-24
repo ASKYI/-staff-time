@@ -110,6 +110,11 @@ namespace Staff_time.View
                 menu.Items.Add(item);
             }
 
+            item = new MenuItem();
+            item.Header = "Передать задачу";
+            item.Command = context.TransferTaskCommand;
+            menu.Items.Add(item);
+
             if (GlobalInfo.CurrentUser.LEVEL.LevelName.ToLower() == "editor")
             {
                 item = new MenuItem();

@@ -46,10 +46,19 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
             <RowDefinition Height="50*"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
         </Grid.RowDefinitions>
-        <ListBox x:Name="lst" Grid.Row="0" ItemsSource="{Binding users}">
+        <TextBlock Text="Примечание:" Grid.Row="0"></TextBlock>
+        <ScrollViewer  Grid.Row="1" >
+            <TextBox TextWrapping="Wrap" Text="{Binding Note}" AcceptsReturn="True" MinLines="5" MinHeight="50"></TextBox>
+        </ScrollViewer>
+        <TextBlock Text="Выберите пользователей:" Grid.Row="2"></TextBlock>
+
+        <ListBox x:Name="lst" Grid.Row="3" ItemsSource="{Binding users}" Margin="0,0,0,0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -59,7 +68,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Margin="0,0,0,5" Grid.Row="1" VerticalAlignment="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Margin="0,0,0,5" Grid.Row="4" VerticalAlignment="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Name="OkButton" Content="Передать" Width="70" Background="White" Click="Ok_Click"></Button>
             <Button Name="CancelButton" Margin="10, 0" Content="Отмена" Width="70" Background="White" Click="Cancel_Click"></Button>
         </StackPanel>
