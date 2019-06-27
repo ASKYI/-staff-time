@@ -101,6 +101,8 @@ namespace Staff_time.ViewModel
         }
         public static void UpdateTimeRanges(List<WorkTimeRange> list, int workID)
         {
+            list.ForEach(r => r.EndTime = new DateTime(1899, 12, 30, r.EndTime.Hour, r.EndTime.Minute, 0));
+            list.ForEach(r => r.StartTime = new DateTime(1899, 12, 30, r.StartTime.Hour, r.StartTime.Minute, 0));
             Context.workWork.UpdateTimeRanges(list, workID);
         }
 

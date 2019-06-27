@@ -46,6 +46,7 @@ namespace Staff_time.Model
         public virtual DbSet<Property> Properties { get; set; }
         public virtual DbSet<WorkTimeRange> WorkTimeRanges { get; set; }
         public virtual DbSet<Work> Works { get; set; }
+        public virtual DbSet<LogTable> LogTables { get; set; }
     
         public virtual int RepareUserTree(Nullable<int> taskId)
         {

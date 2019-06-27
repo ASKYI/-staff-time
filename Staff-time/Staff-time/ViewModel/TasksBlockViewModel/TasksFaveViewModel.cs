@@ -655,8 +655,10 @@ namespace Staff_time.ViewModel
 
         void RefreshRequest(object obj)
         {
+            Mouse.SetCursor(Cursors.Wait);
             Context.ReloadContext();
             FillRequests();
+            Mouse.SetCursor(Cursors.Arrow);
         }
 
         private readonly ICommand _deleteRequestCommand;
@@ -725,6 +727,7 @@ namespace Staff_time.ViewModel
             if (TasksVM.IsFave(taskID))
                 return;
             var taskNode = TasksVM.DictionaryFull[taskID];
+
             // Добавим всех родителей, если их нет в избранном
             List<TreeNode> toAddInFave = new List<TreeNode>();
             var parent = taskNode.ParentNode;
@@ -739,6 +742,8 @@ namespace Staff_time.ViewModel
 
             // Добавим себя
             TasksVM.AddFave(taskNode.Task);
+            if (taskNode.Task.ParentTaskID == null)
+                TreeRoots.Add(taskNode);
         }
 
         private void FillRequests()

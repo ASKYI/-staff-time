@@ -28,7 +28,7 @@ namespace Staff_time
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string version = "2.37";
+        static string version = "2.4";
         MainViewModel context;
         private static bool _isEnable;
         public static bool IsEnable
@@ -47,7 +47,10 @@ namespace Staff_time
         {
             SplashScreen splashScreen = new SplashScreen("Resources/appImage.png");
             splashScreen.Show(true);
-            Context.Init();
+            if (Context.IsContextExist())
+                Context.ReloadContext();
+            else
+                Context.Init();
             IsEnable = true;
             bool? isOK = Authorization.Login();
 

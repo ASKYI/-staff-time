@@ -128,6 +128,8 @@ namespace Staff_time.ViewModel
                         pv.TaskID = EditingTask.ID;
                         pv.DataType = prop.DataType;
                         propValInfo = new PropValueInfo(pv, parentListTaskID, listValues);
+                        if (EditingTask.TaskTypeID == TaskTypesCb.First(t => t.TypeName.ToLower() == "обращение").ID && EditingTask.ParentTaskID != null)
+                            pv.ValueInt = Context.taskWork.GetMaxAppealsNumber((int)EditingTask.ParentTaskID, EditingTask.TaskTypeID) + 1;
                         tmpList.Add(propValInfo);
                     }
                 }

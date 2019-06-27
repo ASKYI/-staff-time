@@ -17,7 +17,7 @@ namespace Staff_time.Model.Interfaces
         void Update_UserTaskExpended(int taskID, int curUserID, bool isExpanded);
 
         //Возвращает список правильно созданных (верный тип) задач в правильном порядке
-        List<Task> Read_AllTasks();
+        List<Task> Read_AllTasks(List<int> existTaskIDs);
 
         //Возвращает список ID корневых задач
         List<int> Read_RootTasks();
@@ -57,5 +57,8 @@ namespace Staff_time.Model.Interfaces
 
         //Убрать задачу из избранного
         void Delete_TaskFromFave(int taskID);
+
+        //Максимальный номер обращения из текущего уровня в дереве
+        int GetMaxAppealsNumber(int parentTaskID, int appealTypeID);
     }
 }

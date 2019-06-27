@@ -142,6 +142,7 @@
     <Compile Include="Model\Interfaces\IListWork.cs" />
     <Compile Include="Model\Interfaces\IProcedureWork.cs" />
     <Compile Include="Model\Interfaces\IPropertyWork.cs" />
+    <Compile Include="Model\Interfaces\ILogWork.cs" />
     <Compile Include="Model\Interfaces\IRequestWork.cs" />
     <Compile Include="Model\Interfaces\ITaskWork.cs" />
     <Compile Include="Model\Interfaces\ITimeTableWork.cs" />
@@ -155,6 +156,9 @@
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\ListsValue.cs">
+      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\LogTable.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\PropertiesList.cs">
@@ -438,7 +442,9 @@
     <None Include="Model\TaskManagmentDB.edmx.diagram">
       <DependentUpon>TaskManagmentDB.edmx</DependentUpon>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

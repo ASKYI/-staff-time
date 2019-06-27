@@ -49,6 +49,17 @@
           <Property Name="ListID" Type="int" Nullable="false" />
           <Property Name="Val" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
+        <EntityType Name="LogTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="TaskName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ChangeDate" Type="datetime" Nullable="false" />
+          <Property Name="OperationType" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Properties">
           <Key>
             <PropertyRef Name="ID" />
@@ -554,6 +565,7 @@
           <EntitySet Name="LEVELS" EntityType="Self.LEVELS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Lists" EntityType="Self.Lists" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ListsValues" EntityType="Self.ListsValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogTable" EntityType="Self.LogTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Properties" EntityType="Self.Properties" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PropertiesList" EntityType="Self.PropertiesList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PropValues" EntityType="Self.PropValues" Schema="dbo" store:Type="Tables" />
@@ -977,6 +989,7 @@
             <End Role="Work" EntitySet="Works" />
             <End Role="WorkTimeRange" EntitySet="WorkTimeRanges" />
           </AssociationSet>
+          <EntitySet Name="LogTables" EntityType="TaskManagmentDBModel.LogTable" />
           </EntityContainer>
         <EntityType Name="LEVEL">
           <Key>
@@ -1425,6 +1438,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="LogTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="ChangeDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OperationType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="TaskName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1636,6 +1660,18 @@
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="WorkName" ColumnName="WorkName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogTables">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.LogTable">
+              <MappingFragment StoreEntitySet="LogTable">
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="OperationType" ColumnName="OperationType" />
+                <ScalarProperty Name="ChangeDate" ColumnName="ChangeDate" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

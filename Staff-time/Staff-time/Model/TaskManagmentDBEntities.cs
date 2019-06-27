@@ -18,7 +18,7 @@ using System.Globalization;
 namespace Staff_time.Model
 {
     public partial class TaskManagmentDBEntities : DbContext,
-        ITaskWork, IWorkWork, IAttrWork, ITypesWork, IUserWork, ILevelWork, ITimeTableWork, IProcedureWork, IRequestWork, IPropertyWork, IListWork
+        ITaskWork, IWorkWork, IAttrWork, ITypesWork, IUserWork, ILevelWork, ITimeTableWork, IProcedureWork, IRequestWork, IPropertyWork, IListWork, ILogWork
     {
         #region IUserWork
         public List<User> Read_AllUsers()
@@ -34,6 +34,7 @@ namespace Staff_time.Model
 
         public void SaveCurrentUser()
         {
+            ChangeTracker.DetectChanges();
             SaveChanges();
         }
 
@@ -90,6 +91,7 @@ namespace Staff_time.Model
                 //throw new ArgumentNullException("timeTable");
             }
             timeTable.PlanningTime = tm;
+            ChangeTracker.DetectChanges();
             TimeTables.AddOrUpdate(timeTable);
             SaveChanges();
         }
@@ -100,7 +102,11 @@ namespace Staff_time.Model
 
         public void Create_Task(Task task) // todo здесь надо подобрать более точное название, Register или Add, по сути ведь Task уже создан, так что точно не Create
         {
+            ChangeTracker.DetectChanges();
             Tasks.Add(task);
+            SaveChanges();
+            WriteLog(task.ID, task.TaskName, DateTime.Now, "INSERT");
+            ChangeTracker.DetectChanges();
             SaveChanges();
         }
         public void Create_TaskToFave(int taskID, int curUserID)
@@ -109,7 +115,10 @@ namespace Staff_time.Model
             if (maxIndex == null)
                 maxIndex = 0;
             maxIndex++;
+            ChangeTracker.DetectChanges();
             UserTasks.Add(new UserTask() { TaskID = taskID, UserID = curUserID, IndexNumber = maxIndex });
+            var taskName = Tasks.Where(t => t.ID == taskID).Select(t => t.TaskName).FirstOrDefault();
+            WriteLog(taskID, taskName, DateTime.Now, "INSERT_FAVE");
             SaveChanges();
         }
 
@@ -119,17 +128,18 @@ namespace Staff_time.Model
             if (userTask != null)
             {
                 userTask.IsExpanded = isExpanded;
+                ChangeTracker.DetectChanges();
                 UserTasks.AddOrUpdate();
 
                 SaveChanges();
             }
         }
 
-        public List<Task> Read_AllTasks()
+        public List<Task> Read_AllTasks(List<int> existTaskIDs)
         {
             TaskFactory taskFactory = new TaskFactory();
 
-            var allPossibleTasksToFave = Tasks.Where(t => (t.LevelID <= GlobalInfo.CurrentUser.LevelID));
+            var allPossibleTasksToFave = Tasks.Where(t => (!existTaskIDs.Contains(t.ID) && t.LevelID <= GlobalInfo.CurrentUser.LevelID));
             List<Task> tasksDB = new List<Task>(allPossibleTasksToFave.OrderBy(t => t.IndexNumber));
             List<Task> tasks = new List<Task>();
 
@@ -157,8 +167,9 @@ namespace Staff_time.Model
             var index = userTask1.IndexNumber;
             userTask1.IndexNumber = userTask2.IndexNumber;
             userTask2.IndexNumber = index;
-
+            ChangeTracker.DetectChanges();
             UserTasks.AddOrUpdate();
+
             SaveChanges();
             //var task1_number = (from t in UserTasks where t.UserID == curUser && t.TaskID == task1.ID select t.IndexNumber).ToList();
             //var task2_number = (from t in UserTasks where t.UserID == curUser && t.TaskID == task2.ID select t.IndexNumber).ToList();
@@ -203,6 +214,8 @@ namespace Staff_time.Model
             _request.TaskID = taskID;
             _request.TransferDateTime = dt;
             _request.Note = Note;
+          
+            ChangeTracker.DetectChanges();
             Requests.AddOrUpdate(_request);
             SaveChanges();
         }
@@ -252,6 +265,8 @@ namespace Staff_time.Model
 
         public void Update_Task(Task task)
         {
+            WriteLog(task.ID, task.TaskName, DateTime.Now, "UPDATE");
+            ChangeTracker.DetectChanges();
             foreach (var pv in task.PropValues)
             {
                 var delPV = PropValues.FirstOrDefault(p => p.PropID == pv.PropID && p.TaskID == pv.TaskID);
@@ -263,16 +278,20 @@ namespace Staff_time.Model
                 }
                 PropValues.AddOrUpdate(delPV);
             }
-
+            
             Tasks.AddOrUpdate(task);
             SaveChanges();
         }
 
         public bool Delete_Task(int taskID)
         {
+            ChangeTracker.DetectChanges();
+
             Task taskBD = Tasks.Where(t => t.ID == taskID).FirstOrDefault();
             if (taskBD == null)
                 return true;
+            WriteLog(taskID, taskBD.TaskName, DateTime.Now, "DELETE");
+
             var userDeleteTask = UserTasks.Where(ut => ut.TaskID == taskBD.ID).ToList();
             if (userDeleteTask.Count > 0)
             {
@@ -295,11 +314,16 @@ namespace Staff_time.Model
 
             if (taskBD != null)
                 Tasks.Remove(taskBD);
+            
             SaveChanges();
             return true;
         }
         public void Delete_TaskFromFave(int taskID)
         {
+            var taskName = Tasks.Where(t => t.ID == taskID).Select(t => t.TaskName).FirstOrDefault();
+
+            WriteLog(taskID, taskName, DateTime.Now, "DELETE_FAVE");
+
             UserTask userTaskDB = UserTasks.Where(t => t.TaskID == taskID && t.UserID == GlobalInfo.CurrentUser.ID).FirstOrDefault();
 
             //List<Task> childTasksBD = (from t in Tasks where t.ParentTaskID == taskID select t).ToList();
@@ -312,13 +336,26 @@ namespace Staff_time.Model
             //    Delete_AttrValuesFields_ForWork(w.ID);
             //    Works.Remove(w);
             //}
+            ChangeTracker.DetectChanges();
 
             if (userTaskDB != null)
                 UserTasks.Remove(userTaskDB);
             SaveChanges();
         }
+        public int GetMaxAppealsNumber(int parentTaskID, int appealTypeID)
+        {
+            ChangeTracker.DetectChanges();
+            var all_appeals = Tasks.Where(t => t.TaskTypeID == appealTypeID && t.ParentTaskID == parentTaskID).Select(t => t.ID).ToList();
+            var prop_values = PropValues.Where(pv => pv.Property.PropName.ToLower() == "Номер обращения" && all_appeals.Contains(pv.TaskID) &&
+            pv.ValueInt != null).ToList();
+
+            if (prop_values.Count > 0)
+                return prop_values.Max(pv => (int)pv.ValueInt);
+            return 0;
+        }
 
         #endregion
+
 
         #region IWorkWork
 
@@ -326,6 +363,8 @@ namespace Staff_time.Model
         {
             try
             {
+                ChangeTracker.DetectChanges();
+
                 Work w = new Work(work);
                 Works.Add(w);
 
@@ -381,18 +420,20 @@ namespace Staff_time.Model
                 oldTypeID = workDB.WorkTypeID;
                 newTypeID = work.WorkTypeID;
             }
-
+            ChangeTracker.DetectChanges();
             Works.AddOrUpdate(work);
 
             // todo была ошибка, проверить в истории
             if (oldTypeID != newTypeID) //При изменении типа! Удалить-перенести атрибуты типа
                 Update_AttrValuesFields_ForWork(work, (WorkTypeEnum)oldTypeID, (WorkTypeEnum)newTypeID);
-
+          
             SaveChanges();
         }
 
         public void Delete_Work(int workID)
         {
+            ChangeTracker.DetectChanges();
+
             Delete_AttrValuesFields_ForWork(workID); //Удаление атрибутов работы
             var workDB = Works.Where(x => x.ID == workID).FirstOrDefault();
             if (workDB != null)
@@ -418,6 +459,7 @@ namespace Staff_time.Model
                     WorkTimeRanges.RemoveRange(extraWorkRng);
                 WorkTimeRanges.AddOrUpdate(list.ToArray());
             }
+            ChangeTracker.DetectChanges();
             SaveChanges();
         }
 
@@ -448,6 +490,7 @@ namespace Staff_time.Model
         public void UpdateListValues(List<ListsValue> list, int taskID, int listID)
         {
             var oldVal = ListsValues.Where(lv => lv.ListID == listID && lv.TaskID == taskID).ToList();
+            ChangeTracker.DetectChanges();
             oldVal = oldVal.Except(list).ToList();
             if (oldVal.Count > 0)
                 ListsValues.RemoveRange(oldVal);
@@ -457,6 +500,7 @@ namespace Staff_time.Model
 
         public void UpdateLists(List<List> lst)
         {
+            ChangeTracker.DetectChanges();
             Lists.AddOrUpdate(lst.ToArray());
             SaveChanges();
         }
@@ -468,6 +512,7 @@ namespace Staff_time.Model
         #region IAttrWork
         public void Create_AttrValuesFields_ForWork(Work _work, WorkTypeEnum type)
         {
+            ChangeTracker.DetectChanges();
             int typeID = (int)type;
             var oldAttrIds = _work.AttrValues.Select(a => a.AttrID).ToList();
             List<int> attrIDs = (from a in WorkTypeAttrs where a.WorkTypeID == typeID select a.AttrID).ToList();
@@ -515,6 +560,7 @@ namespace Staff_time.Model
         {
             foreach (var v in values)
             {
+                ChangeTracker.DetectChanges();
                 AttrValues.AddOrUpdate(v);
                 SaveChanges();
             }
@@ -536,17 +582,20 @@ namespace Staff_time.Model
         #region IProcedureWork
         public void RepareUserFave(int taskID)
         {
+            ChangeTracker.DetectChanges();
             RepareUserTree(taskID);
             SaveChanges();
         }
         public void UpdateTasksIndexNumbers(int indexStart)
         {
+            ChangeTracker.DetectChanges();
             UpdateTaskIndexNumbersAfterAppend(indexStart);
             SaveChanges();
         }
 
         public void ReloadLastDay()
         {
+            ChangeTracker.DetectChanges();
             var curDate = DateTime.Now;
             var prevDate = curDate.AddDays(-1);
             GenerateTaskResults2(prevDate);
@@ -569,13 +618,10 @@ namespace Staff_time.Model
         {
             return Requests.Where(r => r.ToUserID == GlobalInfo.CurrentUser.ID).OrderBy(r => r.TransferDateTime).ToList();
         }
-        //public void RefreshRequests()
-        //{
-        //    Context.RefreshEntity(Request);
-        //}
 
         public void DeleteRequests(List<int> requestsIds)
         {
+            ChangeTracker.DetectChanges();
             var requestsForDelete = Requests.Where(r => requestsIds.Contains(r.ID));
             Requests.RemoveRange(requestsForDelete);
             SaveChanges();
@@ -583,5 +629,17 @@ namespace Staff_time.Model
 
         #endregion //IRequestWork
 
+        #region ILogWork
+        public void WriteLog(int taskID, string taskName, DateTime dt, string operType)
+        {
+            LogTable newRow = new LogTable();
+            newRow.TaskID = taskID;
+            newRow.TaskName = taskName;
+            newRow.UserID = GlobalInfo.CurrentUser.ID;
+            newRow.OperationType = operType;
+            newRow.ChangeDate = dt;
+            LogTables.Add(newRow);
+        }
+        #endregion //ILogWork
     }
 }

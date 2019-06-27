@@ -241,9 +241,10 @@ namespace Staff_time.ViewModel
             //В таком случае создается узел с пустым значением задачи, которая заполнится, когда задача встретится.
             //В бд невозможно добавить ссылку на несуществующую задачу 
 
-          
-            List<Task> tasksBD = Context.taskWork.Read_AllTasks();
-            DictionaryFull = new Dictionary<int, TreeNode>();
+            var existTaskIDs = DictionaryFull != null ? DictionaryFull.Select(n => n.Key).ToList() : new List<int>();
+            List<Task> tasksBD = Context.taskWork.Read_AllTasks(existTaskIDs);
+            if (DictionaryFull == null)
+                DictionaryFull = new Dictionary<int, TreeNode>();
             FillTreeDictionaryByTasks(DictionaryFull, tasksBD, true);
             DictionaryFull = DictionaryFull.OrderBy(pair => pair.Value.Task.IndexNumber).ToDictionary(pair => pair.Key, pair => pair.Value); // todo не думал что у dictionary есть порядок
 
@@ -256,11 +257,13 @@ namespace Staff_time.ViewModel
 
         public static void Add(Task task)
         {
+            Mouse.SetCursor(Cursors.Wait);
             //DB
             Context.taskWork.Create_Task(task);
             //Context.taskWork.Create_TaskToFave(task.ID, GlobalInfo.CurrentUser.ID);
             //task.IndexNumber = task.ID; //todo indexNumber уже должен быть заполнен
-            Context.taskWork.Update_Task(task);
+            if (task.PropValues != null && task.PropValues.Count > 0)
+                Context.taskWork.Update_Task(task);
 
             //Добавим в избранное
 
@@ -278,6 +281,7 @@ namespace Staff_time.ViewModel
             }
 
             newNode.FullPath = generate_PathForTask(task.ID);
+            Mouse.SetCursor(Cursors.Arrow);
         }
 
 

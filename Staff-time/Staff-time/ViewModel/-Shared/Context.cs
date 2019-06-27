@@ -11,6 +11,8 @@ using GalaSoft.MvvmLight;
 
 using System.Data.Entity.Infrastructure;
 using System.Runtime.CompilerServices;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 
 namespace Staff_time.ViewModel
 {
@@ -28,17 +30,22 @@ namespace Staff_time.ViewModel
         public static IRequestWork requestWork;
         public static IPropertyWork propertyWork;
         public static IListWork listWork;
-        
+        public static ILogWork logWork;
 
+        public static bool IsContextExist() { return _context != null; }
 
-        private static bool _init_tracker = false;
+        public static bool _init_tracker = false;
 
         public static void ReloadContext()
         {
+            var refreshableObjects = _context.ChangeTracker.Entries().Where(e => e.State != EntityState.Unchanged).Select(c => c.Entity).ToList();
+            var context = ((IObjectContextAdapter)_context).ObjectContext;
+            context.Refresh(RefreshMode.StoreWins, refreshableObjects);
+
             TasksVM.Init_Full_tracker = false;
             TasksVM.InitFullTree();
-            _init_tracker = false;
-            Init();
+            //_init_tracker = false;
+            //Init();
         }
         public static void Init()
         {
@@ -47,7 +54,9 @@ namespace Staff_time.ViewModel
             _init_tracker = true;
 
             _context = new TaskManagmentDBEntities();
-            taskWork = _context;
+            _context.Configuration.AutoDetectChangesEnabled = false;
+
+              taskWork = _context;
             workWork = _context;
             attrWork = _context;
             typesWork = _context;
@@ -58,6 +67,7 @@ namespace Staff_time.ViewModel
             requestWork = _context;
             propertyWork = _context;
             listWork = _context;
+            logWork = _context;
         }
     }
 }
