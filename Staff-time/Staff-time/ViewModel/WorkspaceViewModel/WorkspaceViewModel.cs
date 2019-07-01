@@ -170,9 +170,9 @@ namespace Staff_time.ViewModel
 
                 if (cur.Date == date.Date)
                 {
-                    if (!TimeByPlanDate.ContainsKey(chosenDate))
-                        TimeByPlanDate.Add(chosenDate, Context.timeTableWork.Read_TimeByDate(chosenDate));
-                    PlanningTime = TimeByPlanDate[chosenDate];
+                    if (!TimeByPlanDate.ContainsKey(cur.Date))
+                        TimeByPlanDate.Add(cur.Date, Context.timeTableWork.Read_TimeByDate(cur.Date));
+                    PlanningTime = TimeByPlanDate[cur.Date];
 
                     if (SelectedTabIndex != i)
                         SelectedTabIndex = i;
