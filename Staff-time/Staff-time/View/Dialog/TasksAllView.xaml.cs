@@ -102,6 +102,11 @@ namespace Staff_time.View
             item.Command = context.AddChildTaskCommand;
             menu.Items.Add(item);
 
+            item = new MenuItem();
+            item.Header = "Дублировать задачу";
+            item.Command = context.DuplicateTaskCommand;
+            menu.Items.Add(item);
+
             if ((GlobalInfo.CurrentUser.ID == curNode.Task.ResponsibleID) || GlobalInfo.CurrentUser.LEVEL.LevelName.ToLower() == "editor")
             {
                 item = new MenuItem();

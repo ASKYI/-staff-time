@@ -22,7 +22,7 @@
         <AssociationConnector Association="TaskManagmentDBModel.FK_LEVELS_LEVELS" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_Users_Levels" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.TimeTable" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="TaskManagmentDBModel.Request" Width="1.5" PointX="15.875" PointY="4.625" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.Request" Width="1.5" PointX="16.25" PointY="4.625" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_Requests_Users" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_Users_Requests" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.PropValue" Width="1.5" PointX="15.875" PointY="0.75" />

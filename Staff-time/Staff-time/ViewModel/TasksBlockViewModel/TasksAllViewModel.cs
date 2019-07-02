@@ -30,6 +30,7 @@ namespace Staff_time.ViewModel
 
             _addNearTaskCommand = new RelayCommand(AddNearTask, CanAddNearTask);
             _addChildTaskCommand = new RelayCommand(AddChildTask, CanAddChildTask);
+            _duplicateTaskCommand = new RelayCommand(DuplicateTask, CanDuplicateTask);
             _deleteTaskCommand = new RelayCommand(DeleteTask, CanDeleteTask);
             _editTaskCommand = new RelayCommand(EditTask, CanEditTask);
             _transferTaskCommand = new RelayCommand(TransferTask, CanTransferTask);
@@ -296,6 +297,7 @@ namespace Staff_time.ViewModel
                 return _addChildTaskCommand;
             }
         }
+           
 
         private bool CanAddChildTask(object obj)
         {
@@ -320,9 +322,31 @@ namespace Staff_time.ViewModel
             dialog = new View.AddDialogWindow(new TaskDialogViewModel(this, newTask, AllTreeRoots, TaskCommandEnum.Add, SelectedTaskNode));
             dialog.Show();
         }
+
+        private readonly ICommand _duplicateTaskCommand;
+        public ICommand DuplicateTaskCommand
+        {
+            get
+            {
+                return _duplicateTaskCommand;
+            }
+        }
+        private bool CanDuplicateTask(object obj)
+        {
+            return SelectedTaskNode != null && dialog == null;
+        }
+        private void DuplicateTask(object obj)
+        {
+            FilterTaskText = "";
+            FilterTree(obj);
+           
+
+            dialog = new View.DuplicateTaskDialogView(AllTreeRoots);
+            dialog.Show();
+        }
         #endregion
 
-        
+
         #region Show Task
 
         private readonly ICommand _showTaskCommand;
