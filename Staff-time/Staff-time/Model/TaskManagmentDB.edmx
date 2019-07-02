@@ -556,6 +556,11 @@
         <Function Name="RepareUserTree" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="taskId" Type="int" Mode="In" />
         </Function>
+        <Function Name="TaskDuplicate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TaskIDFrom" Type="int" Mode="In" />
+          <Parameter Name="TaskIDTo" Type="int" Mode="In" />
+          <Parameter Name="userID" Type="int" Mode="In" />
+        </Function>
         <Function Name="UpdateTaskIndexNumbersAfterAppend" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="NextIndexNumber" Type="int" Mode="In" />
         </Function>
@@ -990,6 +995,11 @@
             <End Role="WorkTimeRange" EntitySet="WorkTimeRanges" />
           </AssociationSet>
           <EntitySet Name="LogTables" EntityType="TaskManagmentDBModel.LogTable" />
+          <FunctionImport Name="TaskDuplicate">
+            <Parameter Name="TaskIDFrom" Mode="In" Type="Int32" />
+            <Parameter Name="TaskIDTo" Mode="In" Type="Int32" />
+            <Parameter Name="userID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="LEVEL">
           <Key>
@@ -1675,6 +1685,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="TaskDuplicate" FunctionName="Хранилище TaskManagmentDBModel.TaskDuplicate" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -341,7 +341,7 @@ namespace Staff_time.ViewModel
             FilterTree(obj);
            
 
-            dialog = new View.DuplicateTaskDialogView(AllTreeRoots);
+            dialog = new View.DuplicateTaskDialogView(SelectedTaskNode.Task.ID, AllTreeRoots);
             dialog.Show();
         }
         #endregion

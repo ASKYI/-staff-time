@@ -586,6 +586,13 @@ namespace Staff_time.Model
             RepareUserTree(taskID);
             SaveChanges();
         }
+
+        public void DuplicateTask(int taskFromID, int taskToID, int userID)
+        {
+            ChangeTracker.DetectChanges();
+            TaskDuplicate(taskFromID, taskToID, userID);
+        }
+
         public void UpdateTasksIndexNumbers(int indexStart)
         {
             ChangeTracker.DetectChanges();

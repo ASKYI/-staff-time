@@ -84,5 +84,22 @@ namespace Staff_time.Model
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GenerateTaskResults2Changed");
         }
+    
+        public virtual int TaskDuplicate(Nullable<int> taskIDFrom, Nullable<int> taskIDTo, Nullable<int> userID)
+        {
+            var taskIDFromParameter = taskIDFrom.HasValue ?
+                new ObjectParameter("TaskIDFrom", taskIDFrom) :
+                new ObjectParameter("TaskIDFrom", typeof(int));
+    
+            var taskIDToParameter = taskIDTo.HasValue ?
+                new ObjectParameter("TaskIDTo", taskIDTo) :
+                new ObjectParameter("TaskIDTo", typeof(int));
+    
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("TaskDuplicate", taskIDFromParameter, taskIDToParameter, userIDParameter);
+        }
     }
 }
