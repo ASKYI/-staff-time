@@ -35,6 +35,7 @@ namespace Staff_time.View.Dialog
 
         public EditListView(Property prop)
         {
+            Topmost = true;
             InitializeComponent();
             DataContext = this;
             EditingProperty = prop;

@@ -38,6 +38,7 @@ namespace Staff_time.View.Dialog
 
         public EditParentListView(List<ListsValue> lst, int taskID, int listID)
         {
+            Topmost = true;
             InitializeComponent();
             DataContext = this;
             TaskID = taskID;
