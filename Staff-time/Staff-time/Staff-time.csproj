@@ -236,6 +236,7 @@
     <Compile Include="ViewModel\TasksBlockViewModel\TaskPropVMs\TaskPropViewModelBase.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TasksAllViewModel.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeAppeal.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeIntegration.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeDirection.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodePlan.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeRevision.cs" />

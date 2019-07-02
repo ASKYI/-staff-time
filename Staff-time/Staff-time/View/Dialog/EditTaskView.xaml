@@ -85,7 +85,7 @@
                     <TextBlock TextWrapping="Wrap" Text="Описание: " Grid.Column="0"></TextBlock>
 
                     <ScrollViewer  Grid.Column="1" >
-                        <TextBox IsReadOnly="{Binding IsReadOnly}" Text="{Binding EditingTask.Descriptions}" IsEnabled="{Binding IsEditEnabled}"
+                        <TextBox IsReadOnly="{Binding IsReadOnly}" AcceptsReturn="True" Text="{Binding EditingTask.Descriptions}" IsEnabled="{Binding IsEditEnabled}"
                                  TextWrapping="Wrap" MinLines="5" MinHeight="100"></TextBox>
                     </ScrollViewer>
                 </Grid>

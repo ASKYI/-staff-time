@@ -17,6 +17,8 @@ namespace Staff_time.ViewModel
                     return new TreeNode();
                 case TaskTypeEnum.TaskCustomer:
                     return new TreeNodeCustomer();
+                case TaskTypeEnum.TaskIntegration:
+                    return new TreeNodeIntegration();
                 case TaskTypeEnum.TaskDirection:
                     return new TreeNodeDirection();
                 case TaskTypeEnum.TaskAppeal:
@@ -39,6 +41,8 @@ namespace Staff_time.ViewModel
                     return new TreeNode(treeNode);
                 case TaskTypeEnum.TaskCustomer:
                     return new TreeNodeCustomer(treeNode);
+                case TaskTypeEnum.TaskIntegration:
+                    return new TreeNodeIntegration(treeNode);
                 case TaskTypeEnum.TaskDirection:
                     return new TreeNodeDirection(treeNode);
                 case TaskTypeEnum.TaskAppeal:
@@ -62,6 +66,8 @@ namespace Staff_time.ViewModel
                     return new TreeNode(task);
                 case TaskTypeEnum.TaskCustomer:
                     return new TreeNodeCustomer(task);
+                case TaskTypeEnum.TaskIntegration:
+                    return new TreeNodeIntegration(task);
                 case TaskTypeEnum.TaskDirection:
                     return new TreeNodeDirection(task);
                 case TaskTypeEnum.TaskAppeal:
