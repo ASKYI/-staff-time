@@ -210,3 +210,5 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/Staff-time/Staff-time/View/Dialog/DuplicateTaskView.xaml.cs
+/Staff-time/Staff-time/View/Dialog/DuplicateTaskView.xaml
