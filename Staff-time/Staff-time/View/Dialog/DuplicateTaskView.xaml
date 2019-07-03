@@ -10,7 +10,7 @@
         xmlns:v="clr-namespace:Staff_time.View" 
         
         mc:Ignorable="d"
-        Title="Выбор задачи" Height="450" Width="300" Topmost="True" WindowStartupLocation="CenterScreen">
+        Title="Выбор целевой родительской задачи" Height="450" Width="400" Topmost="True" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <!--Отображение узлов дерева-->
@@ -67,8 +67,8 @@
         </ScrollViewer>
 
         <StackPanel Margin="2" HorizontalAlignment="Right" Grid.Row="1" Orientation="Horizontal">
-            <Button Content="Ок" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="120" HorizontalAlignment="Right"></Button>
-            <Button Content="Отмена" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="120" HorizontalAlignment="Right"></Button>
+            <Button Content="Ок" Margin="2" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="120" HorizontalAlignment="Right"></Button>
+            <Button Content="Отмена" Margin="2" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="120" HorizontalAlignment="Right"></Button>
         </StackPanel>
     </Grid>
 </Window>
