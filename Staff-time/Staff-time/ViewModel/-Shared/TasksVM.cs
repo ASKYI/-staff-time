@@ -437,37 +437,49 @@ namespace Staff_time.ViewModel
 
         public static bool DeleteWithChildren(int taskID)
         {
-            //DB
-            if (Context.taskWork.Delete_Task(taskID) == false)
-                return false;
-
-            ////Works
-            //List<int> works = Context.workWork.Read_WorksForTask(taskID);
-            //foreach (var id in works)
-            //{
-            //    Work w = WorksVM.DictionaryFull[id].Work;
-            //    WorksVM.Delete(w.ID);
-            //    //MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>
-            //    //    (new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, w));
-            //}
-
-            //VM
-            TreeNode delNode = DictionaryFull[taskID];
-
-            TreeNode parentNode = delNode.ParentNode;
-            int? parentID = delNode.Task.ParentTaskID; // todo ?
-
-            foreach (var n in delNode.TreeNodes)
+            try
             {
-                DeleteAlone(n.Task.ID);
+                Mouse.SetCursor(Cursors.Wait);
+
+                //DB
+                if (Context.taskWork.Delete_Task(taskID) == false)
+                    return false;
+
+                ////Works
+                //List<int> works = Context.workWork.Read_WorksForTask(taskID);
+                //foreach (var id in works)
+                //{
+                //    Work w = WorksVM.DictionaryFull[id].Work;
+                //    WorksVM.Delete(w.ID);
+                //    //MessengerInstance.Send<KeyValuePair<WorkCommandEnum, Work>>
+                //    //    (new KeyValuePair<WorkCommandEnum, Work>(WorkCommandEnum.Delete, w));
+                //}
+
+                //VM
+                TreeNode delNode = DictionaryFull[taskID];
+
+                TreeNode parentNode = delNode.ParentNode;
+                int? parentID = delNode.Task.ParentTaskID; // todo ?
+
+                foreach (var n in delNode.TreeNodes)
+                {
+                    DeleteAlone(n.Task.ID);
+                }
+
+                if (parentNode != null)         // todo можно так parentNode?.TreeNodes?.Remove(delNode);
+                    parentNode.TreeNodes.Remove(delNode);
+                DictionaryFull.Remove(taskID);
+                DeleteFaveWithChildren(taskID);
+                Mouse.SetCursor(Cursors.Arrow);
+
+                return true;
             }
-
-            if (parentNode != null)         // todo можно так parentNode?.TreeNodes?.Remove(delNode);
-                parentNode.TreeNodes.Remove(delNode);
-            DictionaryFull.Remove(taskID);
-            DeleteFaveWithChildren(taskID);
-
-            return true;
+            catch (Exception exp)
+            {
+                Mouse.SetCursor(Cursors.Arrow);
+                MessageBox.Show(exp.Message, "Ошибка удаления задачи");
+                return false;
+            }
         }
 
         public static void DeleteFaveAlone(int taskID)
