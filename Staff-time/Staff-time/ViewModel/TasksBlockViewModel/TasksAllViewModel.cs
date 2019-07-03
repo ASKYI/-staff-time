@@ -339,13 +339,11 @@ namespace Staff_time.ViewModel
         {
             FilterTaskText = "";
             FilterTree(obj);
-           
 
-            dialog = new View.DuplicateTaskDialogView(SelectedTaskNode.Task.ID, AllTreeRoots);
-            dialog.Show();
+            var dlg = new View.DuplicateTaskDialogView(SelectedTaskNode.Task.ID, AllTreeRoots);
+            dlg.ShowDialog();
         }
         #endregion
-
 
         #region Show Task
 

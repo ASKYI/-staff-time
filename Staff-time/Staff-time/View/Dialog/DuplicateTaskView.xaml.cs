@@ -53,18 +53,25 @@ namespace Staff_time.View
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedTaskNode == null)
+            try
             {
-                if (MessageBox.Show("Необходимо выбрать узел в дереве для дублирования. Сейчас узел не выбран, дублировать в корень?",
-                    "Дублирование задачи", MessageBoxButton.YesNoCancel, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (SelectedTaskNode == null)
                 {
-                    Context.procedureWork.DuplicateTask(TaskFromID, 0, GlobalInfo.CurrentUser.ID);
+                    MessageBox.Show("Необходимо выбрать новую родительскую задачу в дереве для дублирования!",
+                        "Дублирование задачи", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
                 }
-            }
-            else
+                Mouse.SetCursor(Cursors.Wait);
                 Context.procedureWork.DuplicateTask(TaskFromID, SelectedTaskNode.Task.ID, GlobalInfo.CurrentUser.ID);
-            Context.ReloadContext();
-            this.Close();
+                Context.ReloadContext();
+                Mouse.SetCursor(Cursors.Arrow);
+                this.Close();
+            }
+            catch (Exception exp)
+            {
+                Mouse.SetCursor(Cursors.Arrow);
+                MessageBox.Show(exp.Message, "Ошибка дублирования", MessageBoxButton.OK);
+            }
         }
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)

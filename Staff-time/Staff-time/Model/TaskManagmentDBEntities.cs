@@ -589,6 +589,21 @@ namespace Staff_time.Model
 
         public void DuplicateTask(int taskFromID, int taskToID, int userID)
         {
+            Task taskFrom = Tasks.Where(t => t.ID == taskFromID).FirstOrDefault();
+            if (taskFrom == null)
+                return;
+
+            Task taskTo = Tasks.Where(t => t.ID == taskToID).FirstOrDefault();
+            if (taskTo != null)
+            {
+                WriteLog(taskFromID, taskFrom.TaskName, DateTime.Now, "DUPLICATE_THIS");
+                WriteLog(taskToID, taskTo.TaskName, DateTime.Now, "DUPLICATE_TO_HERE");
+            }
+            else
+                WriteLog(taskFromID, taskFrom.TaskName, DateTime.Now, "DUPLICATE_TO_ROOT");
+
+            SaveChanges();
+
             ChangeTracker.DetectChanges();
             TaskDuplicate(taskFromID, taskToID, userID);
         }
