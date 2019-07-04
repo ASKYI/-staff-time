@@ -44,7 +44,7 @@
 
                     <ScrollViewer  Grid.Column="1" >
                         <TextBox IsReadOnly="{Binding IsReadOnly}" AcceptsReturn="True" Text="{Binding EditingTask.Descriptions}"
-                                 TextWrapping="Wrap" MinLines="5" MinHeight="100"></TextBox>
+                                 TextWrapping="Wrap" MinLines="5" MinHeight="100" MaxHeight="100"></TextBox>
                     </ScrollViewer>
                 </Grid>
 

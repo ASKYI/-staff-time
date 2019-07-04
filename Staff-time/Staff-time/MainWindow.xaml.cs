@@ -28,7 +28,7 @@ namespace Staff_time
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string version = "2.4";
+        static string version = "2.41";
         MainViewModel context;
         private static bool _isEnable;
         public static bool IsEnable
