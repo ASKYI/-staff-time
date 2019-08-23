@@ -622,6 +622,8 @@ namespace Staff_time.ViewModel
 
         private void TransferTask(object obj)
         {
+            FilterTaskText = "";
+            FilterTree(obj);
             TransferTaskView dlg = new TransferTaskView(SelectedTaskNode.Task.ID);
             dlg.Show();
         }

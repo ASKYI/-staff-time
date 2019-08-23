@@ -20,6 +20,7 @@ namespace Staff_time.Model
         public TaskManagmentDBEntities()
             : base("name=TaskManagmentDBEntities")
         {
+            ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 1000;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -51,7 +51,7 @@
                  Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/repair.ico"></Image>
             </Button>
-            <Button  Margin ="5,0,0,0" Click="ReloadLastDayClick" ToolTip="Обновить за последний день" Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
+            <Button  Margin ="5,0,0,0" Click="ReloadLastDayClick" ToolTip="Обновить за текущий день" Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/oneday.ico"></Image>
             </Button>
             <Button  Margin ="5,0,0,0" Click="ReloadAllDaysClick" ToolTip="Обновить за всё время" Background="White" Style="{StaticResource ButtonStyle}" ToolTipService.ShowOnDisabled="True">

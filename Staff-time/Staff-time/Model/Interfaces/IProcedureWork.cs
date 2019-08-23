@@ -11,7 +11,7 @@ namespace Staff_time.Model.Interfaces
         void RepareUserFave(int taskID);
         void UpdateTasksIndexNumbers(int indexStart);
 
-        void ReloadLastDay();
+        void ReloadCurDay();
         void ReloadAllDays();
         void RepairInconsistances();
     }

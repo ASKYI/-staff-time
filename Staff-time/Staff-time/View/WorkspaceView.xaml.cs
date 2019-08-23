@@ -67,14 +67,14 @@ namespace Staff_time.View
         {
             try
             {
-                var connString = "Provider=SQLNCLI11.1;Password=1;User ID=TaskManagementDBFinal;Data Source=MSSQL2012-WIN12;Application Name=LISChemic;MARS Connection=True";
+                var connString = "Provider=SQLNCLI11.1;Password=1;User ID=TaskManagementChemic;Data Source=MSSQL2012-WIN12;Application Name=LISChemic;MARS Connection=True";
                 RegistryKey currentUserKey = Registry.CurrentUser;
                 RegistryKey softWareKey = currentUserKey.OpenSubKey("SOFTWARE", true);
                 RegistryKey stuffTimeKey = softWareKey.OpenSubKey("НИИ ВН", true);
                 var chemicConnectionKey = stuffTimeKey.OpenSubKey("АРМ «Химик-аналитик»", true);
                 chemicConnectionKey.SetValue("Connect", connString);
 
-                string folderPath = @"\\13.1.77.200\Share\Programmers\_Лёгкий_ЛИС\Chemic.exe";
+                string folderPath = @"\\13.1.77.200\Share\Programmers\_Картотека_UM\Chemic15.exe";
                 System.Diagnostics.Process.Start(folderPath);
             }
             catch

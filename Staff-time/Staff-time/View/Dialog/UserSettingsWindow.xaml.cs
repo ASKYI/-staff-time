@@ -81,7 +81,7 @@ namespace Staff_time.View
         public void ReloadLastDayClick(object sender, EventArgs e)
         {
             Mouse.SetCursor(Cursors.Wait);
-            Context.procedureWork.ReloadLastDay();
+            Context.procedureWork.ReloadCurDay();
             Mouse.SetCursor(Cursors.Arrow);
         }
 

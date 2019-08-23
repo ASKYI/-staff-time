@@ -10,7 +10,7 @@
         xmlns:v="clr-namespace:Staff_time.View" 
         
         mc:Ignorable="d"
-        Title="Выбор задачи" Height="450" Width="300" Topmost="True">
+        Title="Выбор задачи" Height="450" Width="400" MaxHeight="580" Topmost="True">
 
     <Window.Resources>
         <!--Отображение узлов дерева-->
@@ -47,27 +47,25 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*" MaxHeight="550"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
         </Grid.RowDefinitions>
 
 
-        <ScrollViewer Grid.Row="0">
-            <StackPanel>
-                <v:ExtendedTreeView Margin="3"
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"  PreviewMouseWheel="TreeViewScrollViewer_PreviewMouseWheel">
+            <v:ExtendedTreeView Margin="3" Grid.Row="0"
                          SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" 
                          ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
-                    <local:ExtendedTreeView.Resources>
-                        <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
-                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"></Setter>
-                        </Style>
-                    </local:ExtendedTreeView.Resources>
-                </v:ExtendedTreeView>
-            </StackPanel>
+                <local:ExtendedTreeView.Resources>
+                    <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"></Setter>
+                    </Style>
+                </local:ExtendedTreeView.Resources>
+            </v:ExtendedTreeView>
         </ScrollViewer>
 
         <StackPanel Margin="2" HorizontalAlignment="Right" Grid.Row="1" Orientation="Horizontal">
-            <Button Content="Ок" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="120" HorizontalAlignment="Right"></Button>
+            <Button Content="Ок" Margin="5,0,5,0" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="120" HorizontalAlignment="Right"></Button>
             <Button Content="Отмена" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="120" HorizontalAlignment="Right"></Button>
         </StackPanel>
     </Grid>

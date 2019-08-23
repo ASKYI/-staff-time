@@ -290,8 +290,8 @@ namespace Staff_time.Model
             Task taskBD = Tasks.Where(t => t.ID == taskID).FirstOrDefault();
             if (taskBD == null)
                 return true;
-            WriteLog(taskID, taskBD.TaskName, DateTime.Now, "DELETE");
-
+    
+            //Проверим, есть ли задача в избранном у пользователей
             var userDeleteTask = UserTasks.Where(ut => ut.TaskID == taskBD.ID).ToList();
             if (userDeleteTask.Count > 0)
             {
@@ -301,6 +301,18 @@ namespace Staff_time.Model
             MessageBoxButton.OK, MessageBoxImage.Information);
                 return false;
             }
+
+            //Проверим, есть ли у пользователей работы по задаче
+            var worksDeleteTask = Works.Where(w => w.TaskID == taskBD.ID).ToList();
+            if (worksDeleteTask.Count > 0)
+            {
+                var users = worksDeleteTask.Select(w => w.User.UserName);
+                var usersNames = String.Join("\n", users);
+                if (System.Windows.MessageBox.Show($"По задаче '{taskBD.TaskName}' есть работы у следующих пользователей:\n{usersNames}. Продолжить удаление?", "Предупреждение",
+            MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+                return false;
+            }
+
             List<Task> childTasksBD = (from t in Tasks where t.ParentTaskID == taskID select t).ToList();
             foreach (var t in childTasksBD)
                 t.ParentTaskID = taskBD.ParentTaskID;
@@ -314,7 +326,8 @@ namespace Staff_time.Model
 
             if (taskBD != null)
                 Tasks.Remove(taskBD);
-            
+
+            WriteLog(taskID, taskBD.TaskName, DateTime.Now, "DELETE");
             SaveChanges();
             return true;
         }
@@ -593,12 +606,11 @@ namespace Staff_time.Model
             SaveChanges();
         }
 
-        public void ReloadLastDay()
+        public void ReloadCurDay()
         {
             ChangeTracker.DetectChanges();
             var curDate = DateTime.Now;
-            var prevDate = curDate.AddDays(-1);
-            GenerateTaskResults2(prevDate);
+            GenerateTaskResults2(curDate);
             SaveChanges();
         }
         public void ReloadAllDays()

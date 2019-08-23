@@ -55,6 +55,12 @@ namespace Staff_time.View
                 //    ((ViewModel.WorkBlockControlViewModel)DataContext).EndTime = res;
                 return;
             }
+            if (e.Key == Key.Add)
+            {
+                ((ViewModel.WorkBlockControlViewModel)DataContext).AddWorkRangeCommand.Execute(null);
+                return;
+            }
+
             var text = textBoxTime.Text;
             var curInsertPos = textBoxTime.CaretIndex;
             switch (curInsertPos)

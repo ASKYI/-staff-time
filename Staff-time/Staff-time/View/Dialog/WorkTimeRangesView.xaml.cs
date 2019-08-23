@@ -211,18 +211,6 @@ namespace Staff_time.View.Dialog
             int cnt = 0;
             foreach (var brakeRange in brakes)
             {
-                //if (cnt >= IdealBrakeRanges.Count)
-                //{
-                //    var badRange = WorksTimeRanges.LastOrDefault();
-                //    if (badRange != null)
-                //    {
-                //        ReasonText = "Перерывы не совпадают";
-                //        badRange.Selected = true;
-                //        LastSelected = badRange;
-                //        IsCorrect = false;
-                //    }
-                //    return;
-                //}
                 if (cnt == IdealBrakeRanges.Count || brakeRange.Key.Hour != IdealBrakeRanges[cnt].StartHours || brakeRange.Key.Minute != IdealBrakeRanges[cnt].StartMinutes ||
                     brakeRange.Value.Hour != IdealBrakeRanges[cnt].EndHours || brakeRange.Value.Minute != IdealBrakeRanges[cnt].EndMinutes)
                 {
@@ -234,8 +222,8 @@ namespace Staff_time.View.Dialog
                     {
                         badRange.Selected = true;
                         LastSelected = badRange;
-                        IsCorrect = false;
                     }
+                    IsCorrect = false;
                     return;
                 }
                 cnt++;
@@ -249,8 +237,8 @@ namespace Staff_time.View.Dialog
                 {
                     badRange.Selected = true;
                     LastSelected = badRange;
-                    IsCorrect = false;
                 }
+                IsCorrect = false;
                 return;
             }
             if (sumTime != PlanningTime * 60)

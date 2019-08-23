@@ -31,6 +31,13 @@ namespace Staff_time.View
             Closing += ((ViewModel.WorkDialogViewModel)DataContext).OnWindowClosing;
         }
 
+        private void TreeViewScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
+
         private void OK_Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

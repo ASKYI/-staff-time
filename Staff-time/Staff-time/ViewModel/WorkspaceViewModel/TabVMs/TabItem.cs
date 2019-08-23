@@ -180,7 +180,7 @@ namespace Staff_time.ViewModel
 
         private void _doWorkCommand(MessageWorkObject obj)
         {
-            if (obj.dt != Date && obj._commandType != WorkCommandEnum.Update)
+            if ((obj.dt.Year != Date.Year || obj.dt.Month != Date.Month || obj.dt.Day != Date.Day) && obj._commandType != WorkCommandEnum.Update)
                 return;
             dialog = null;
 
@@ -190,7 +190,7 @@ namespace Staff_time.ViewModel
             if (command == WorkCommandEnum.None)
                 return;
             if (command == WorkCommandEnum.Add
-                && work.StartDate.Date == Date.Date)
+                && (work.StartDate.Date.Year == Date.Date.Year && work.StartDate.Date.Month == Date.Date.Month && work.StartDate.Date.Day == Date.Date.Day))
             {
                 var newWorkID = WorksVM.Add(work);
                 Work newWork = WorksVM.Dictionary[newWorkID].Work;
