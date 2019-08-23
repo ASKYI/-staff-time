@@ -73,7 +73,8 @@ namespace Staff_time.ViewModel
 
 
         private Task _task;
-        public Task Task {
+        public Task Task
+        {
             get { return _task; }
             set
             {
@@ -94,7 +95,7 @@ namespace Staff_time.ViewModel
         //        RaisePropertyChanged("TaskForPropValues");
         //    }
         //}
-        
+
 
         private Nullable<int> _indexNumber;
         public Nullable<int> IndexNumber
@@ -105,7 +106,7 @@ namespace Staff_time.ViewModel
                 _indexNumber = value;
             }
         }
-        
+
         public List<string> FullPath { get; set; }
         public string FullPathAsString
         {

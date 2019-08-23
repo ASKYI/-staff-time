@@ -264,6 +264,9 @@
     <Compile Include="View\Dialog\DuplicateTaskView.xaml.cs">
       <DependentUpon>DuplicateTaskView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Dialog\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Dialog\WorkTimeRangesView.xaml.cs">
       <DependentUpon>WorkTimeRangesView.xaml</DependentUpon>
     </Compile>
@@ -335,6 +338,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\Dialog\DuplicateTaskView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Dialog\AboutWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -467,6 +474,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\info.ico" />
     <Resource Include="Resources\chemic.ico" />
     <Resource Include="Resources\validationOK.ico" />
     <Resource Include="Resources\TimeCheck.ico" />

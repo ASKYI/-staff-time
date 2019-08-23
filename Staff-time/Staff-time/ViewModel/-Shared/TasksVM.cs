@@ -187,7 +187,10 @@ namespace Staff_time.ViewModel
                     int parentId = (int)task.ParentTaskID;
 
                     if (!curDictionary.ContainsKey(parentId))
-                        curDictionary.Add(parentId, new TreeNode());
+                    {
+                        var typeID = tasksBD.First(t => t.ID == parentId).TaskTypeID;
+                        curDictionary.Add(parentId, treeNodeFactory.CreateTreeNode((TaskTypeEnum)typeID));
+                    }
 
                     TreeNode parentTreeNode = curDictionary[parentId];
                     parentTreeNode.AddChild(treeNode);

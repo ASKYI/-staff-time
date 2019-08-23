@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Staff_time.View"
-            
+             xmlns:helpers="clr-namespace:Staff_time.Helpers"
+             
              xmlns:converters="clr-namespace:WpfTestBench.Converters"
              xmlns:vm="clr-namespace:Staff_time.ViewModel"
              xmlns:m="clr-namespace:Staff_time.Model"
@@ -54,9 +55,14 @@
                     <ColumnDefinition Width="25"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <xctk:MaskedTextBox Name="MaskTBoxStart" Mask="00:00" Grid.Column="0" Background="LightYellow" KeyDown="KeyDownStart" MouseDoubleClick="DoubleClickTime" Text="{Binding StartTime, StringFormat=HH:mm, UpdateSourceTrigger=LostFocus}" HorizontalAlignment="Right" IsEnabled="{Binding IsEnabled}" GotFocus="TimeGotFocus" />
+                <xctk:MaskedTextBox Name="MaskTBoxStart" Mask="00:00" Grid.Column="0" Background="LightYellow" KeyDown="KeyDownStart"
+                                    MouseDoubleClick="DoubleClickTime" Text="{Binding StartTime, StringFormat=HH:mm, UpdateSourceTrigger=LostFocus}" 
+                                    HorizontalAlignment="Right" IsEnabled="{Binding IsEnabled}" GotFocus="TimeGotFocus"
+                                    helpers:FocusExtension.IsFocused="{Binding IsFocused}" />
                 <TextBlock Text="-" Margin="2, 0, 2, 0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                <xctk:MaskedTextBox Name="MaskTBoxEnd" Mask="00:00" Grid.Column="2" Background="LightYellow" KeyDown="KeyDownStart" MouseDoubleClick="DoubleClickTime" Text="{Binding EndTime, StringFormat=HH:mm, UpdateSourceTrigger=LostFocus}" HorizontalAlignment="Left" IsEnabled="{Binding IsEnabled}" GotFocus="TimeGotFocus"/>
+                <xctk:MaskedTextBox Name="MaskTBoxEnd" Mask="00:00" Grid.Column="2" Background="LightYellow" KeyDown="KeyDownStart"
+                                    MouseDoubleClick="DoubleClickTime" Text="{Binding EndTime, StringFormat=HH:mm, UpdateSourceTrigger=LostFocus}" 
+                                    HorizontalAlignment="Left" IsEnabled="{Binding IsEnabled}" GotFocus="TimeGotFocus"/>
 
                 <Button Grid.Column="3" Height="20" Width="20" ToolTip="Удалить диапазон" Command="{Binding Tag,
                     RelativeSource={RelativeSource FindAncestor, AncestorType=ItemsControl}}" CommandParameter="{Binding}" Background="White">
@@ -125,20 +131,32 @@
             <ToolTip Content="{Binding FullPath}"></ToolTip>
         </Expander.ToolTip>
         <Expander.Header>
-            <Grid Width="{Binding ActualWidth, ElementName=WorkExpander, Converter={converters:GridWidthConverter}, ConverterParameter='50'}">
+            <Grid Width="{Binding ActualWidth, ElementName=WorkExpander, Converter={converters:GridWidthConverter}, ConverterParameter='30'}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="70"></ColumnDefinition>
-                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="250"></ColumnDefinition>
+                    <ColumnDefinition Width="120"></ColumnDefinition>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                    <ColumnDefinition Width="95"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
                 <Border Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="0">
-                    <TextBlock Height="20"  Text="{Binding Path}"/>
+                    <TextBlock Height="20" ToolTip="{Binding PathTruncated}" Text="{Binding PathTruncated}"/>
                 </Border>
-                <Border Margin="5, 0, 0, 0" Width="65" HorizontalAlignment="Right" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3"  Grid.Column="1">
+                 <Border  Margin="4, 0, 0, 0" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="1">
+                    <TextBlock Height="20" ToolTip="{Binding PathSecondLevel}"  Text="{Binding PathSecondLevel}"/>
+                </Border>
+                
+                <Border  Margin="4, 0, 0, 0" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="2">
+                    <TextBlock Height="20" ToolTip="{Binding PathFirstLevel}"  Text="{Binding PathFirstLevel}"/>
+                </Border>
+
+                <Border Margin="4, 0, 0, 0"  Width="46" HorizontalAlignment="Right" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" 
+                        CornerRadius="3"  Grid.Column="3">
                     <TextBlock Height="20" HorizontalAlignment="Center" Text="{Binding LastRangeTime, StringFormat=HH:mm}"/>
                 </Border>
-                <Border Margin="5, 0, 0, 0" Width="95" HorizontalAlignment="Left" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="2">
+                <Border Margin="4, 0, 0, 0" Width="80" HorizontalAlignment="Left" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" 
+                        CornerRadius="3" Grid.Column="4">
                     <TextBlock Height="20" HorizontalAlignment="Center" Text="{Binding TimeLast}"/>
                 </Border>
             </Grid>
@@ -183,7 +201,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="135"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <ItemsControl Grid.Column="0" ItemsSource="{Binding Path=WorkTimeRanges,Mode=TwoWay}" 
+                        <ItemsControl Grid.Column="0" ItemsSource="{Binding Path=WorkTimeRanges,Mode=TwoWay}"
                                     ItemTemplate="{StaticResource dynamicRangeTemplate}"
                                     Tag="{Binding DeleteWorkRangeCommand}" 
                                     KeyboardNavigation.IsTabStop="False" IsEnabled="{Binding IsEnabled}">
@@ -240,9 +258,10 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <DatePicker Grid.Column="1" IsDropDownOpen="False" HorizontalAlignment="Right"
                             SelectedDate="{Binding Work.StartDate}"
+                            ToolTip="Перенести на другую дату"
                             IsEnabled="{Binding IsEnabled}"></DatePicker>
-                <Button Content="Перепривязать" Margin="2, 0, 2,0" Command="{Binding ChangeTaskCommand}" Width="100" IsEnabled="{Binding IsEnabled}" Background="LightGray" HorizontalAlignment="Right"></Button>
-                <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="70" Background="LightGray" Margin="2, 0, 2,0" HorizontalAlignment="Right" IsEnabled="{Binding IsEnabled}"></Button>
+                <Button Content="Перепривязать" Margin="2, 0, 2,0" Command="{Binding ChangeTaskCommand}" Width="100" IsEnabled="{Binding IsEnabled}" ToolTip="Перепривязать к другой задаче" Background="LightGray" HorizontalAlignment="Right"></Button>
+                <Button Content="Удалить" Command="{Binding DeleteCommand}" Width="70" Background="LightGray" Margin="2, 0, 2,0" HorizontalAlignment="Right" ToolTip="Удалить работу" IsEnabled="{Binding IsEnabled}"></Button>
                 <Button Name="ApplyBtn" Content="Применить" Command="{Binding ApplyCommand}" Width="70" Style="{StaticResource ApplyButtonStyle}" Margin="2, 0, 2,0" HorizontalAlignment="Right"></Button>
                 <Button Name="CancelBtn" Content="Отмена" Command="{Binding CancelCommand}" Width="60" Style="{StaticResource CancelButtonStyle}" Margin="2, 0, 2,0" HorizontalAlignment="Right"></Button>
             </StackPanel>

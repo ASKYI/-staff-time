@@ -36,6 +36,10 @@ namespace Staff_time.ViewModel
 
         public static bool _init_tracker = false;
 
+        public static string GetConnString()
+        {
+            return _context.Database.Connection.ConnectionString;
+        }
         public static void ReloadContext()
         {
             var refreshableObjects = _context.ChangeTracker.Entries().Where(e => e.State != EntityState.Unchanged).Select(c => c.Entity).ToList();

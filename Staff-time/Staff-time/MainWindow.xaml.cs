@@ -112,6 +112,14 @@ namespace Staff_time
             TimeStatisticsWindow dlg = new TimeStatisticsWindow();
             dlg.ShowDialog();
         }
+
+
+        public void About_Program_Click(object sender, EventArgs e)
+        {
+            AboutWindow dlg = new AboutWindow();
+            dlg.ShowDialog();
+        }
+
         public void ShowUserSettings(object sender, EventArgs e)
         {
             UserSettingsWindow dlg = new UserSettingsWindow();

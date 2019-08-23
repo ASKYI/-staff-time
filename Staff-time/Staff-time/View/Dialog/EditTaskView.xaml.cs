@@ -43,6 +43,12 @@ namespace Staff_time.View
             this.Close();
         }
 
+        private void TreeViewScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
 
         //void SelTaskTypeChanged(object sender, SelectionChangedEventArgs args)
         //{

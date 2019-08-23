@@ -78,7 +78,7 @@ namespace Staff_time.ViewModel
 
         private bool CanEditTask(object obj)
         {
-            return SelectedTaskNode != null && dialog == null;
+            return SelectedTaskNode != null && dialog == null && MainWindow.IsEnable;
         }
         private void EditTask(object obj)
         {
@@ -275,12 +275,18 @@ namespace Staff_time.ViewModel
             _generate_Tree();
         }
 
-        private void AddWork(object obj)
+        private void AddWork(object dt)
         {
             Work work = new Work();
             work.WorkName = "";
             work.TaskID = SelectedTaskNode.Task.ID;
-            work.StartDate = chosenDate.Date;
+            if (dt == null)
+                work.StartDate = new DateTime(chosenDate.Year, chosenDate.Month, chosenDate.Day, 0, 0, 0);
+            else
+            {
+                var newDt = (DateTime)dt;
+                work.StartDate = new DateTime(chosenDate.Year, chosenDate.Month, chosenDate.Day, newDt.Hour, newDt.Minute, newDt.Second);
+            }
             //work.StartTime = new DateTime(1899, 12, 30, DateTime.Now.Hour, DateTime.Now.Minute, 0);
             work.UserID = GlobalInfo.CurrentUser.ID;
 
@@ -706,16 +712,18 @@ namespace Staff_time.ViewModel
             Mouse.SetCursor(Cursors.Wait);
 
             List<int> requestsIds = new List<int>();
+            DateTime workDt = new DateTime();
 
             foreach (var selItem in SelectedRequests)
             {
                 requestsIds.Add(selItem.ID);
+                workDt = selItem.DateTransfer;
                 RequestsList.Remove(selItem);
                 AddToFave(selItem.TaskID);
                 SelectedTaskNode = TasksVM.Dictionary[selItem.TaskID];
             }
             SelectedTaskNode.IsExpanded = true;
-            AddWork(null);
+            AddWork(workDt);
 
             if (requestsIds.Count > 0)
                 Context.requestWork.DeleteRequests(requestsIds);

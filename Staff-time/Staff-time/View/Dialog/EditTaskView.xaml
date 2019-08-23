@@ -84,9 +84,9 @@
 
                     <TextBlock TextWrapping="Wrap" Text="Описание: " Grid.Column="0"></TextBlock>
 
-                    <ScrollViewer  Grid.Column="1" >
+                    <ScrollViewer  Grid.Column="1" MaxHeight ="100" MinHeight="100">
                         <TextBox IsReadOnly="{Binding IsReadOnly}" AcceptsReturn="True" Text="{Binding EditingTask.Descriptions}" IsEnabled="{Binding IsEditEnabled}"
-                                 TextWrapping="Wrap" MinLines="5" MinHeight="100"></TextBox>
+                                 TextWrapping="Wrap" MinLines="5"></TextBox>
                     </ScrollViewer>
                 </Grid>
 
@@ -135,7 +135,7 @@
                 <Expander.ToolTip>
                     <ToolTip Content="Выбрать задачу-родителя"></ToolTip>
                 </Expander.ToolTip>
-                <ScrollViewer   VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+                <ScrollViewer   VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"  PreviewMouseWheel="TreeViewScrollViewer_PreviewMouseWheel">
                     <StackPanel>
                         <v:ExtendedTreeView Grid.Row ="0" Grid.Column="1" Margin="3"
                                     SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" 

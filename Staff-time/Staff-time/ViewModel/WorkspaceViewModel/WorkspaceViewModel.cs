@@ -78,6 +78,7 @@ namespace Staff_time.ViewModel
                 //    isTheSameWeek = DatesAreInTheSameWeek(_selectedDate_Picker, value);
                 SetField(ref _selectedDate_Picker, value);
 
+                chosenDate = value;
                 //if (!isTheSameWeek)
                 Generate_Week(_selectedDate_Picker);
                 //else
@@ -127,7 +128,6 @@ namespace Staff_time.ViewModel
         public void SetDate(DateTime dt)
         {
             SelectedDate_Picker = dt;
-            chosenDate = dt;
         }
 
         #endregion

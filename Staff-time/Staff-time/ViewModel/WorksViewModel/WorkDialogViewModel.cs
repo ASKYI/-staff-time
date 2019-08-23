@@ -28,7 +28,7 @@ namespace Staff_time.ViewModel
             AcceptCommand = new RelayCommand(Accept, CanAccept);
             CancelCommand = new RelayCommand(Cancel, CanCancel);
 
-            WorkVM.IsEdititig = false;
+            //WorkVM.IsEdititig = false;
         }
 
         private WorkControlViewModelBase _workVM;
@@ -112,8 +112,9 @@ namespace Staff_time.ViewModel
             if (SelectedTaskNode == null)
                 return;
             WorkVM.Work.TaskID = SelectedTaskNode.Task.ID;
-            MessengerInstance.Send<MessageWorkObject>(new MessageWorkObject
-                (WorkCommandEnum.Update, WorkVM.Work, chosenDate));
+            //MessengerInstance.Send<MessageWorkObject>(new MessageWorkObject
+            //    (WorkCommandEnum.Update, WorkVM.Work, chosenDate));
+            ApplyChanges();
         }
 
         private bool CanCancel(object obj)

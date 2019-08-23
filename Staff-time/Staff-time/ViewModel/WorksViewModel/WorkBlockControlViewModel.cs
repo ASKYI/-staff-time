@@ -203,13 +203,12 @@ namespace Staff_time.ViewModel
             }
         }
 
-        private string _path;
         private void _generate_path()
         {
             int maxLength = Math.Max((BlockWidth - 130) / 7, 40);
             if (!TasksVM.DictionaryFull.ContainsKey(Work.TaskID))
             {
-                _path = Work.WorkName;
+                PathTruncated = Work.WorkName;
                 return;
             }
             TreeNode taskNode = TasksVM.DictionaryFull[Work.TaskID];
@@ -217,7 +216,10 @@ namespace Staff_time.ViewModel
             StringBuilder stringPath = new StringBuilder();
             stringPath.Append(Work.WorkName + "<-");
 
-            for (int i = taskNode.FullPath.Count - 1; i >= 0; --i)
+            PathFirstLevel = taskNode.FullPath != null ? taskNode.FullPath[0] : "";
+            PathSecondLevel = taskNode.FullPath.Count > 1 ? taskNode.FullPath[1] : "";
+
+            for (int i = taskNode.FullPath.Count - 1; i >= 2; --i)
             {
                 stringPath.Append(taskNode.FullPath[i]);
                 if (stringPath.Length > maxLength)
@@ -227,23 +229,30 @@ namespace Staff_time.ViewModel
                     stringPath.Append("...");
                     break;
                 }
-                stringPath.Append("<-");
+                if (i != 0)
+                    stringPath.Append("<-");
             }
-
-            //if (stringPath.Length > maxLength)
-            //    stringPath.Append("...");
-
-            _path = stringPath.ToString();
+            PathTruncated = stringPath.ToString();
         }
 
-        public string Path
+        private string _pathTruncated;
+        public string PathTruncated
         {
             get
             {
-                _generate_path();
-                return _path;
+                //_generate_path();
+                return _pathTruncated;
+            }
+            set
+            {
+                _pathTruncated = value;
+                RaisePropertyChanged("PathTruncated");
             }
         }
+       
+        public string PathFirstLevel { get; set; }
+
+        public string PathSecondLevel { get; set; }
 
         public string TimeRange
         {
@@ -372,8 +381,17 @@ namespace Staff_time.ViewModel
         {
             TimeRange rng = new TimeRange();
             rng.UpdateParentWorkTime = timeHandler;
-            rng.StartTime = new DateTime(1899, 12, 30, DateTime.Now.Hour, DateTime.Now.Minute, 0); ;
-            rng.EndTime = new DateTime(1899, 12, 30, DateTime.Now.Hour, DateTime.Now.Minute, 0); ;
+
+            DateTime newDt = DateTime.Now;
+            var oldDt = WorkVM.Work.StartDate;
+            if (oldDt.Hour != 0 || oldDt.Minute != 0)
+            {
+                newDt = (DateTime)WorkVM.Work.StartDate;
+                WorkVM.Work.StartDate = new DateTime(oldDt.Year, oldDt.Month, oldDt.Day, 0, 0, 0);
+            }
+            rng.StartTime = new DateTime(1899, 12, 30, newDt.Hour, newDt.Minute, 0);
+            rng.EndTime = new DateTime(1899, 12, 30, newDt.Hour, newDt.Minute, 0);
+            rng.IsFocused = true;
             WorkTimeRanges.Add(rng);
             RaisePropertyChanged("IsWorkTimeEnabled");
         }
@@ -425,7 +443,9 @@ namespace Staff_time.ViewModel
                 MessageBox.Show("У работы отсутствует родительская задача! Данная работа не может быть передана", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            TransferTaskView dlg = new TransferTaskView(Work.TaskID, chosenDate);
+            var dt = new DateTime(chosenDate.Year, chosenDate.Month, chosenDate.Day, WorkTimeRanges[0].StartTime.Hour,
+                WorkTimeRanges[0].StartTime.Minute, WorkTimeRanges[0].StartTime.Second);
+            TransferTaskView dlg = new TransferTaskView(Work.TaskID, dt);
             dlg.Show();
         }
 
@@ -503,6 +523,7 @@ namespace Staff_time.ViewModel
                 if (lastRngIndex >= 0)
                     LastRangeTime = sortWorkRanges[lastRngIndex].EndTime;
 
+                _generate_path();
                 RaisePropertyChanged("MinutesShort");
                 RaisePropertyChanged("Hours");
                 RaisePropertyChanged("TimeLast");
@@ -590,7 +611,6 @@ namespace Staff_time.ViewModel
         }
         private void ChangeTask(object obj)
         {
-            ApplyChanges();
             dialog = new View.WorkDialogView(new WorkDialogViewModel(_workVM));
             dialog.Show();
         }
@@ -691,6 +711,8 @@ namespace Staff_time.ViewModel
                 NotifyPropertyChanged("EndTime");
             }
         }
+
+        public bool IsFocused { get; set; }
 
         #region INotifyPropertyChanged
 
