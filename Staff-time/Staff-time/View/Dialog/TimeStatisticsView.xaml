@@ -10,7 +10,7 @@
         xmlns:vm="clr-namespace:Staff_time.ViewModel"  
         xmlns:v="clr-namespace:Staff_time.View"  
         
-        Title="Мои трудозатраты за месяц" Width="480" MinWidth="300" MinHeight="200" Height="650"
+        Title="Мои трудозатраты за месяц" Width="505" MinWidth="300" MinHeight="200" Height="650"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid>
@@ -42,39 +42,51 @@
             <Button Margin="5,0" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Width="40" Height="40" HorizontalAlignment="Left" Click="ReloadList" ToolTip="Обновить">
                 <Image Source="../../Resources/refresh.ico"></Image>
             </Button>
-            
+
             <TextBlock  Margin="5,5,0,0" Text="Суммарно за месяц: " Grid.Column="0" Grid.Row="2"></TextBlock>
             <TextBox Grid.Column="1" Height="20" IsReadOnly="True" FontWeight="DemiBold" HorizontalContentAlignment="Center" Grid.Row="2" Text="{Binding SumTime, StringFormat=N2}"></TextBox>
             <TextBlock  Margin="5,5,0,0" Text="Суммарно план: " Grid.Column="0" Grid.Row="3"></TextBlock>
             <TextBox Grid.Column="1" Height="20" IsReadOnly="True" FontWeight="DemiBold" HorizontalContentAlignment="Center" Grid.Row="3" Text="{Binding SumTimePlan, StringFormat=N2}"></TextBox>
             <TextBlock  Margin="5,5,0,0" Text="Переработка: " Grid.Column="0" Grid.Row="4"></TextBlock>
             <TextBox Grid.Column="1" Height="20" IsReadOnly="True" FontWeight="DemiBold" HorizontalContentAlignment="Center" Grid.Row="4" Text="{Binding DiffTime, StringFormat=N2}"></TextBox>
+            <Button Margin="5,2,2,2" Grid.Column="2" Grid.Row="4" Click="SetReasonForAbsence">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../../Resources/absent.ico"></Image>
+                    <TextBlock Text="Причина отсутствия" />
+                </StackPanel>
+            </Button>
 
             <ListView ItemsSource="{Binding WorksList}" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn
-                                  DisplayMemberBinding="{Binding WeekDay }" Width="100" >
+                                  DisplayMemberBinding="{Binding WeekDay }" Width="85" >
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="WeekDay">День недели</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                         <GridViewColumn
-                                  DisplayMemberBinding="{Binding Date }" Width="100">
+                                  DisplayMemberBinding="{Binding Date }" Width="84">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="StartDate">Дата</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                         <GridViewColumn
-                                  DisplayMemberBinding="{Binding Time, StringFormat={}{0:0.##}}" Width="90">
+                                  DisplayMemberBinding="{Binding Time, StringFormat={}{0:0.##}}" Width="83">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="Minutes">Время факт.</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                         <GridViewColumn
-                                  DisplayMemberBinding="{Binding PlanTime}" Width="90">
+                                  DisplayMemberBinding="{Binding PlanTime}" Width="83">
                             <GridViewColumn.Header>
                                 <GridViewColumnHeader Tag="Minutes">Время план.</GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn
+                                  DisplayMemberBinding="{Binding Reason}" Width="121">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Tag="Minutes">Причина отсутствия</GridViewColumnHeader>
                             </GridViewColumn.Header>
                         </GridViewColumn>
                     </GridView>

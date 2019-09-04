@@ -37,7 +37,7 @@ namespace Staff_time.ViewModel
 
         #region INotifyPropertyChanged
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public new event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String aPropertyName)
         {
             if (PropertyChanged != null)
@@ -395,7 +395,7 @@ namespace Staff_time.ViewModel
             }
         }
 
-        private readonly ICommand _sortWorksByStartTimeCommand;
+        private ICommand _sortWorksByStartTimeCommand;
         public ICommand SortWorksByStartTimeCommand
         {
             get
@@ -410,7 +410,7 @@ namespace Staff_time.ViewModel
             WeekTabs[SelectedTabIndex].SortByTime(TimeSortDirection);
         }
 
-        private readonly ICommand _sortWorksByNameCommand;
+        private ICommand _sortWorksByNameCommand;
 
         public ICommand SortWorksByNameCommand
         {

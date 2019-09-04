@@ -17,13 +17,14 @@ using Staff_time.Model.UserModel;
 using Staff_time.ViewModel.TasksBlockViewModel.TaskPropVMs;
 using GalaSoft.MvvmLight.Threading;
 using System.Windows.Threading;
+using Staff_time.Helpers;
 
 namespace Staff_time.ViewModel
 {
     public class TaskDialogViewModel : MainViewModel
     {
         private TasksAllViewModel ALLVM { get; set; }
-        public TaskDialogViewModel(TasksAllViewModel allVM, Task task, ObservableCollection<TreeNode> roots, TaskCommandEnum command, TreeNode editNodeParent = null, bool _isEnabled = true)
+        public TaskDialogViewModel(TasksAllViewModel allVM, Task task, TaskCommandEnum command, TreeNode editNodeParent = null, bool _isEnabled = true)
         {
             ALLVM = allVM;
             _generate_TaskTypesCb();
@@ -43,7 +44,8 @@ namespace Staff_time.ViewModel
 
             if (command == TaskCommandEnum.Edit)
             {
-                _generate_Tree(roots);
+                var treeNode = TasksVM.DictionaryFull[EditingTask.ID];
+                _generate_Tree(treeNode);
                 Message = "Выбрать задачу-родителя";
                 SelLevel = levels.FirstOrDefault(l => l.LevelID == task.LevelID);
                 ResponsibleUser = users.FirstOrDefault(u => u.ID == task.ResponsibleID);
@@ -54,6 +56,7 @@ namespace Staff_time.ViewModel
 
             AcceptCommand = new RelayCommand(Accept, CanAccept); // todo чем чётче мы показываем намерения, тем легче программа 
             CancelCommand = new RelayCommand(Cancel, CanCancel); // в данном случае у нас return true всегда, наглядней было бы CancelCommand = new RelayCommand(Cancel, (_) => true);
+            _filterTaskCommand = new RelayCommand(FilterTree, (_) => true);
         }
 
         private Task _task; //TaskNode
@@ -128,8 +131,8 @@ namespace Staff_time.ViewModel
                         pv.TaskID = EditingTask.ID;
                         pv.DataType = prop.DataType;
                         propValInfo = new PropValueInfo(pv, parentListTaskID, listValues);
-                        //if (EditingTask.TaskTypeID == TaskTypesCb.First(t => t.TypeName.ToLower() == "обращение").ID && EditingTask.ParentTaskID != null)
-                        //    pv.ValueInt = Context.taskWork.GetMaxAppealsNumber((int)EditingTask.ParentTaskID, EditingTask.TaskTypeID) + 1;
+                        if (EditingTask.TaskTypeID == TaskTypesCb.First(t => t.TypeName.ToLower() == "обращение").ID && EditingTask.ParentTaskID != null)
+                            pv.ValueInt = Context.procedureWork.GetLastAppealNumber((int)EditingTask.ParentTaskID) + 1;
                         tmpList.Add(propValInfo);
                     }
                 }
@@ -178,6 +181,76 @@ namespace Staff_time.ViewModel
         //    }
         //    PropValuesCollection = tmpList;
         //}
+
+        #region filter
+        private bool _isFilterEmpty;
+        public bool IsFilterEmpty
+        {
+            get
+            {
+                return _isFilterEmpty;
+            }
+            set
+            {
+                _isFilterEmpty = value;
+                RaisePropertyChanged("IsFilterEmpty");
+            }
+        }
+
+
+        private string _filterTaskText;
+        public string FilterTaskText
+        {
+            get
+            {
+                return _filterTaskText;
+            }
+            set
+            {
+                _filterTaskText = value;
+                if (_filterTaskText == "" || _filterTaskText == null || _filterTaskText == "Поиск...")
+                    IsFilterEmpty = true;
+                else
+                    IsFilterEmpty = false;
+                RaisePropertyChanged("FilterTaskText");
+            }
+        }
+
+        private readonly ICommand _filterTaskCommand;
+        public ICommand FilterTaskCommand
+        {
+            get
+            {
+                return _filterTaskCommand;
+            }
+        }
+        private void FilterTree(object obj)
+        {
+            var oldSelectedNode = SelectedTaskNode;
+            TasksVM.FilterFullTaskText = _filterTaskText;
+
+            _generate_Tree(SelectedTaskNode);
+
+            //Восстановить развертку
+            if (oldSelectedNode == null)
+                return;
+
+            int oldSelectedNodeTaskID = oldSelectedNode.Task.ID;
+            var parent = oldSelectedNode.ParentNode;
+            while (parent != null)
+            {
+                parent.IsExpanded = true;
+                parent = parent.ParentNode;
+            }
+            var dictItem = TasksVM.DictionaryFull.FirstOrDefault(nd => nd.Key == oldSelectedNodeTaskID);
+            if (dictItem.Value != null)
+            {
+                SelectedTaskNode = dictItem.Value;
+                SelectedTaskNode.IsExpanded = true;
+            }
+        }
+
+        #endregion filter
 
         private Task _editingTask;
         public Task EditingTask
@@ -269,13 +342,32 @@ namespace Staff_time.ViewModel
         }
 
         private TreeNode _root = new TreeNode() { Task = new Task() { TaskName = "Задачи" }, IsExpanded = true };
-        private void _generate_Tree(ObservableCollection<TreeNode> roots)
+        private void _generate_Tree(TreeNode selectedTaskNode)
         {
             TreeRoots = new ObservableCollection<TreeNode>();
-            TreeRoots.Add(_root);
+            foreach (var taskNode in TasksVM.DictionaryFull)
+            {
+                if (taskNode.Value.ParentNode == null)
+                    TreeRoots.Add(taskNode.Value);
+                if (selectedTaskNode != null && TreeHelper.IsEqualTreeNodes(selectedTaskNode, taskNode.Value))
+                {
+                    var curNode = taskNode.Value;
+                    curNode.IsExpanded = true;
+                    curNode.IsSelected = true;
+                    while (curNode.ParentNode != null)
+                    {
+                        curNode = curNode.ParentNode;
+                        curNode.IsExpanded = true;
+                    }
+                }
+            }
 
-            foreach (var r in roots)
-                TreeRoots[0].AddChild(r);
+
+            //TreeRoots = new ObservableCollection<TreeNode>();
+            //TreeRoots.Add(_root);
+
+            //foreach (var r in roots)
+            //    TreeRoots[0].AddChild(r);
         }
 
         private TreeNode _selectedTaskNode;

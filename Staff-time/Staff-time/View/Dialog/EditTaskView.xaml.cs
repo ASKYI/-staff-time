@@ -50,6 +50,40 @@ namespace Staff_time.View
             e.Handled = true;
         }
 
+
+        private void Filter_GotFocus(object sender, EventArgs e)
+        {
+            if (((ViewModel.TaskDialogViewModel)DataContext).FilterTaskText == "Поиск...")
+                ((ViewModel.TaskDialogViewModel)DataContext).FilterTaskText = "";
+            else
+                FilterTBox.Dispatcher.BeginInvoke(new Action(() => FilterTBox.SelectAll()));
+
+            FilterTBox.Foreground = Brushes.Black;
+        }
+        private void FilterClick(object sender, EventArgs e)
+        {
+            if (((ViewModel.TaskDialogViewModel)DataContext).FilterTaskText != "" && ((ViewModel.TaskDialogViewModel)DataContext).FilterTaskText != null)
+                FilterTBox.Background = new SolidColorBrush(Color.FromRgb(222, 240, 243));
+            else
+                FilterTBox.Background = Brushes.White;
+        }
+        private void ClearFilterClick(object sender, EventArgs e)
+        {
+            FilterTBox.Text = "";
+            FilterTBox.Background = Brushes.White;
+            ((ViewModel.TaskDialogViewModel)DataContext).FilterTaskCommand.Execute(sender);
+        }
+
+        private void OnKeyDownFilter(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ((ViewModel.TaskDialogViewModel)DataContext).FilterTaskCommand.Execute(sender);
+                return;
+            }
+        }
+
+
         //void SelTaskTypeChanged(object sender, SelectionChangedEventArgs args)
         //{
         //    ComboBox combo = (ComboBox)sender;

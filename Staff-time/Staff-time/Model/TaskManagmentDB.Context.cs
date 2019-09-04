@@ -20,7 +20,6 @@ namespace Staff_time.Model
         public TaskManagmentDBEntities()
             : base("name=TaskManagmentDBEntities")
         {
-            ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 1000;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -48,6 +47,8 @@ namespace Staff_time.Model
         public virtual DbSet<WorkTimeRange> WorkTimeRanges { get; set; }
         public virtual DbSet<Work> Works { get; set; }
         public virtual DbSet<LogTable> LogTables { get; set; }
+        public virtual DbSet<Reason> Reasons { get; set; }
+        public virtual DbSet<WorkAbsence> WorkAbsences { get; set; }
     
         public virtual int RepareUserTree(Nullable<int> taskId)
         {
@@ -102,5 +103,14 @@ namespace Staff_time.Model
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("TaskDuplicate", taskIDFromParameter, taskIDToParameter, userIDParameter);
         }
+
+        //public virtual int GetMaxAppealNumber(Nullable<int> taskID)
+        //{
+        //    var task_ID = taskID.HasValue ?
+        //        new ObjectParameter("t_ID", taskID) :
+        //        new ObjectParameter("t_ID", typeof(int));
+
+        //    return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetMaxAppealNumber", task_ID);
+        //}
     }
 }

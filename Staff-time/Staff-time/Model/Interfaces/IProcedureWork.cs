@@ -15,5 +15,8 @@ namespace Staff_time.Model.Interfaces
         void ReloadCurDay();
         void ReloadAllDays();
         void RepairInconsistances();
+
+        //Максимальный номер обращения из текущего уровня в дереве
+        int GetLastAppealNumber(int parentTaskID);
     }
 }

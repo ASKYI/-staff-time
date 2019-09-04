@@ -14,7 +14,7 @@
         
         Icon="../../Resources/edit.ico"
         mc:Ignorable="d"
-        Title="Редактирование задачи" Width="700" MinWidth="500" MinHeight="450" Height="590"
+        Title="Редактирование задачи" Width="700" MinWidth="500" MinHeight="450" Height="640"
         WindowStartupLocation="CenterScreen"
        >
 
@@ -59,7 +59,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="250"></RowDefinition>
+                <RowDefinition Height="300"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="100"></RowDefinition>
                 <RowDefinition Height="25"></RowDefinition>
@@ -72,7 +72,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock TextWrapping="Wrap" Text="Имя задачи: " Grid.Column="0"></TextBlock>
+                    <TextBlock TextWrapping="Wrap" Text="Наименование: " Grid.Column="0"></TextBlock>
                     <TextBox IsReadOnly="{Binding IsReadOnly}" TextWrapping="Wrap" Text="{Binding EditingTask.TaskName}" IsEnabled="{Binding IsEditEnabled}" Grid.Column="1"></TextBox>
                 </Grid>
 
@@ -131,23 +131,41 @@
                 </Grid>
             </StackPanel>
 
-            <Expander Margin="3" Padding="5" BorderThickness="3" Grid.Column="1" Grid.Row="0" IsEnabled="{Binding IsEditEnabled}" Header="Выбрать задачу-родителя">
+            <Expander  BorderThickness="3" Grid.Column="1" Grid.Row="0" IsEnabled="{Binding IsEditEnabled}" Header="Выбрать задачу-родителя">
                 <Expander.ToolTip>
                     <ToolTip Content="Выбрать задачу-родителя"></ToolTip>
                 </Expander.ToolTip>
-                <ScrollViewer   VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"  PreviewMouseWheel="TreeViewScrollViewer_PreviewMouseWheel">
-                    <StackPanel>
-                        <v:ExtendedTreeView Grid.Row ="0" Grid.Column="1" Margin="3"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" Height="25" >
+                        <TextBox Margin ="2,0,0,0" Name="FilterTBox" FontStyle="Italic" KeyDown="OnKeyDownFilter" FontSize="16" Width="200" Text="{Binding FilterTaskText, UpdateSourceTrigger=PropertyChanged}" GotFocus="Filter_GotFocus"></TextBox>
+                            <Button  Margin ="2,0,0,0" Command="{Binding FilterTaskCommand}" Click="FilterClick" ToolTip="Фильтровать дерево" Background="White" ToolTipService.ShowOnDisabled="True">
+                                <Image Source="../../Resources/filter.ico"></Image>
+                            </Button>
+                            <Button Name="ClearFilterBtn" Margin ="2,0,0,0" Click="ClearFilterClick" ToolTip="Сбросить фильтр" Background="White"
+                    IsEnabled="{Binding ElementName=FilterTBox, Path=Text.Length, Mode=OneWay}" ToolTipService.ShowOnDisabled="True">
+                                <Image Source="../../Resources/delete.ico"></Image>
+                            </Button>
+                        </StackPanel>
+
+                    <ScrollViewer Grid.Row ="1"  VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"  PreviewMouseWheel="TreeViewScrollViewer_PreviewMouseWheel">
+                            <StackPanel>
+                                <v:ExtendedTreeView Grid.Row ="1" Grid.Column="0" Margin="3"
                                     SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" 
                                     ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
-                            <local:ExtendedTreeView.Resources>
-                                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
-                                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"></Setter>
-                                </Style>
-                            </local:ExtendedTreeView.Resources>
-                        </v:ExtendedTreeView>
-                    </StackPanel>
-                </ScrollViewer>
+                                    <local:ExtendedTreeView.Resources>
+                                        <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"></Setter>
+                                        </Style>
+                                    </local:ExtendedTreeView.Resources>
+                                </v:ExtendedTreeView>
+                            </StackPanel>
+                        </ScrollViewer>
+                </Grid>
             </Expander>
 
             <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >

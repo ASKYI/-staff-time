@@ -175,7 +175,6 @@ namespace Staff_time.ViewModel
         public bool MouseLeft;
 
         #region Path
-
         public string FullPath
         {
             get
@@ -205,7 +204,7 @@ namespace Staff_time.ViewModel
 
         private void _generate_path()
         {
-            int maxLength = Math.Max((BlockWidth - 130) / 7, 40);
+            int maxLength = Math.Max((BlockWidth - 520) / 7 - 3, 10);
             if (!TasksVM.DictionaryFull.ContainsKey(Work.TaskID))
             {
                 PathTruncated = Work.WorkName;
@@ -658,6 +657,7 @@ namespace Staff_time.ViewModel
             set
             {
                 _blockWidth = value;
+                _generate_path();
                 RaisePropertyChanged("Path");
             }
         }

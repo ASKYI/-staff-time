@@ -53,6 +53,10 @@
         <AssociationConnector Association="TaskManagmentDBModel.FK_Works_WorkTypes" />
         <AssociationConnector Association="TaskManagmentDBModel.FK_WorkTimeRange_Works" />
         <EntityTypeShape EntityType="TaskManagmentDBModel.LogTable" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.Reason" Width="1.5" PointX="10.375" PointY="1.25" />
+        <EntityTypeShape EntityType="TaskManagmentDBModel.WorkAbsence" Width="1.5" PointX="12.625" PointY="1" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_WorkAbsence_Reasons" />
+        <AssociationConnector Association="TaskManagmentDBModel.FK_WorkAbsence_Users" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

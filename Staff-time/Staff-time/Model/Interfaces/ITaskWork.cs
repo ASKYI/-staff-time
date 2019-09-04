@@ -57,8 +57,5 @@ namespace Staff_time.Model.Interfaces
 
         //Убрать задачу из избранного
         void Delete_TaskFromFave(int taskID);
-
-        //Максимальный номер обращения из текущего уровня в дереве
-        int GetMaxAppealsNumber(int parentTaskID, int appealTypeID);
     }
 }

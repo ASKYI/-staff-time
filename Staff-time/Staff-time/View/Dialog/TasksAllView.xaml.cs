@@ -85,6 +85,18 @@ namespace Staff_time.View
             this.Close();
         }
 
+        private void  AllTreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var curNode = ((TreeViewItem)sender).DataContext as ViewModel.TreeNode;
+            if (curNode.TreeNodes.Count == 0)
+            {
+                if (curNode.Task.ResponsibleID == GlobalInfo.CurrentUser.ID ||  (GlobalInfo.CurrentUser.LEVEL.LevelName.ToLower() == "editor"))
+                    context.EditTaskCommand.Execute(sender);
+                else
+                    context.ShowTaskCommand.Execute(sender);
+            }
+        }
+
         private void AllTreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var curNode = ((TreeViewItem)sender).DataContext as ViewModel.TreeNode;

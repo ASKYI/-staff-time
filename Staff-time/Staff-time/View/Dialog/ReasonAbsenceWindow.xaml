@@ -1,0 +1,40 @@
+﻿<Window x:Class="Staff_time.View.ReasonAbsenceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Staff_time.View.Dialog"
+        mc:Ignorable="d"
+        xmlns:converters="clr-namespace:WpfTestBench.Converters"
+        xmlns:m="clr-namespace:Staff_time.Model"
+        xmlns:vm="clr-namespace:Staff_time.ViewModel"  
+        xmlns:v="clr-namespace:Staff_time.View"  
+        
+        Title="Причина отсутствия" Width="330" MinWidth="300" MaxWidth="330" MaxHeight="270" MinHeight="200" Height="270"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="180"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95"></ColumnDefinition>
+                <ColumnDefinition Width="220"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Причина:" Grid.Row="0" Grid.Column="0"/>
+            <ComboBox Margin="20,0" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Reasons}" DisplayMemberPath="ReasonText"
+                       SelectedItem="{Binding SelectedReason}" />
+            <TextBlock Text="Даты отсутствия:" Grid.Row="1" Grid.Column="0"/>
+
+            <Calendar Language="ru-RU" FirstDayOfWeek="Monday" Name="calendar" SelectionMode="MultipleRange" Grid.Row="1" Grid.Column="1" 
+                      Margin="0,0,0,10"/>
+
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Применить" IsCancel="True" Width="120" Click="Apply_Click"></Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

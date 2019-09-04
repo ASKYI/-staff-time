@@ -30,11 +30,16 @@ namespace Staff_time.View
         public UserSettingsWindow()
         {
             InitializeComponent();
-            UserOptions = new UserSettings(GlobalInfo.UserOptions);
 
-            base.DataContext = this;
+            UserOptions = new UserSettings(GlobalInfo.UserOptions);
+            user = GlobalInfo.CurrentUser;
+            WorkModes = new List<string>() { "полный день", "1/2 ставки", "студент", "гибкий график" };
+
+            this.DataContext = this;
         }
 
+        public List<string> WorkModes { get; set; }
+        public User user { get; set; }
         public UserSettings UserOptions { get; set; }
         public bool IsEditor
         {

@@ -170,7 +170,7 @@ namespace Staff_time.ViewModel
 
         #region INotifyPropertyChanged
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public new event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(String aPropertyName)
         {
             if (PropertyChanged != null)

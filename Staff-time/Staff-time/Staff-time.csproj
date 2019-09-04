@@ -129,6 +129,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\DumpMaker.cs" />
     <Compile Include="Helpers\Helpers.cs" />
     <Compile Include="Model\Attribute.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
@@ -170,6 +171,9 @@
     <Compile Include="Model\PropValue.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Reason.cs">
+      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Request.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
@@ -191,8 +195,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TaskManagmentDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\TaskManagmentDB1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaskManagmentDB.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Model\TaskManagmentDBEntities.cs" />
     <Compile Include="Model\TaskModel\Tasks\TaskAppeal.cs" />
+    <Compile Include="Model\TaskModel\Tasks\TaskClassification.cs" />
     <Compile Include="Model\TaskModel\Tasks\TaskDirection.cs" />
     <Compile Include="Model\TaskModel\Tasks\TaskPlan.cs" />
     <Compile Include="Model\TaskModel\Tasks\TaskRevision.cs" />
@@ -216,6 +226,9 @@
     <Compile Include="Model\Work.cs">
       <DependentUpon>TaskManagmentDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\WorkAbsence.cs">
+      <DependentUpon>TaskManagmentDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\WorkModel\IWorkFactory.cs" />
     <Compile Include="Model\WorkModel\WorkFactory.cs" />
     <Compile Include="Model\WorkModel\Works\Work.cs" />
@@ -236,6 +249,7 @@
     <Compile Include="ViewModel\TasksBlockViewModel\TaskPropVMs\TaskPropViewModelBase.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TasksAllViewModel.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeAppeal.cs" />
+    <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeClassification.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeIntegration.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodeDirection.cs" />
     <Compile Include="ViewModel\TasksBlockViewModel\TreeNodeVMs\TreeNodes\TreeNodePlan.cs" />
@@ -261,6 +275,9 @@
     <Compile Include="ViewModel\WorksViewModel\WorkControlVMs\WorkControlViewModelBase.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkDialogViewModel.cs" />
     <Compile Include="ViewModel\WorksViewModel\WorkIDDependency.cs" />
+    <Compile Include="View\Dialog\ReasonAbsenceWindow.xaml.cs">
+      <DependentUpon>ReasonAbsenceWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Dialog\DuplicateTaskView.xaml.cs">
       <DependentUpon>DuplicateTaskView.xaml</DependentUpon>
     </Compile>
@@ -337,6 +354,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Dialog\ReasonAbsenceWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Dialog\DuplicateTaskView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -452,7 +473,7 @@
     </EmbeddedResource>
     <EntityDeploy Include="Model\TaskManagmentDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TaskManagmentDB.Designer.cs</LastGenOutput>
+      <LastGenOutput>TaskManagmentDB1.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="Model\TaskManagmentDB.edmx.diagram">
       <DependentUpon>TaskManagmentDB.edmx</DependentUpon>
@@ -474,6 +495,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\absent.ico" />
     <Resource Include="Resources\info.ico" />
     <Resource Include="Resources\chemic.ico" />
     <Resource Include="Resources\validationOK.ico" />

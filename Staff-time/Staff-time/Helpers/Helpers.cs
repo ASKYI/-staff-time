@@ -24,6 +24,19 @@ namespace Staff_time.Helpers
         }
     }
 
+    public static class TreeHelper
+    {
+        public static bool IsEqualTreeNodes(TreeNode a, TreeNode b)
+        {
+            if (a.Task.TaskName.ToLower() != b.Task.TaskName.ToLower())
+                return false;
+            if (a.Task.ParentTaskID != b.Task.ParentTaskID)
+                return false;
+
+            return true;
+        }
+    }
+
     public static class FocusExtension
     {
         public static bool GetIsFocused(DependencyObject obj)

@@ -15,6 +15,8 @@ namespace Staff_time.Model
                     return new Task();
                 case TaskTypeEnum.TaskCustomer:
                     return new TaskCustomer();
+                case TaskTypeEnum.TaskClassification:
+                    return new TaskClassification();
                 case TaskTypeEnum.TaskDirection:
                     return new TaskDirection();
                 case TaskTypeEnum.TaskAppeal:
@@ -37,6 +39,8 @@ namespace Staff_time.Model
                     return new Task(task);
                 case TaskTypeEnum.TaskCustomer:
                     return new TaskCustomer(task);
+                case TaskTypeEnum.TaskClassification:
+                    return new TaskClassification(task);
                 case TaskTypeEnum.TaskDirection:
                     return new TaskDirection(task);
                 case TaskTypeEnum.TaskAppeal:

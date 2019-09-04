@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Staff_time.Helpers;
 using Staff_time.Model;
 using Staff_time.Model.UserModel;
 using Staff_time.View;
@@ -28,7 +29,7 @@ namespace Staff_time
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string version = "2.5";
+        static string version = "3.2";
         MainViewModel context;
         private static bool _isEnable;
         public static bool IsEnable
@@ -45,6 +46,8 @@ namespace Staff_time
         }
         public MainWindow()
         {
+            AppDomain.CurrentDomain.UnhandledException += DumpMaker.CurrentDomain_UnhandledException;
+
             SplashScreen splashScreen = new SplashScreen("Resources/appImage.png");
             splashScreen.Show(true);
             if (Context.IsContextExist())

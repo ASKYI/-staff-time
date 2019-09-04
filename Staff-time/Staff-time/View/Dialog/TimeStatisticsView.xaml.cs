@@ -36,6 +36,12 @@ namespace Staff_time.View
             base.DataContext = this;
         }
 
+        public void SetReasonForAbsence(object sender, EventArgs e)
+        {
+            ReasonAbsenceWindow dlg = new ReasonAbsenceWindow();
+            dlg.ShowDialog();
+        }
+
         public void ReloadList(object sender, EventArgs e)
         {
             int yearInt = int.Parse(YearsList[SelectedYearIndex]);
@@ -47,6 +53,7 @@ namespace Staff_time.View
             var wrk = WorksVM.Dictionary.Select(p => p.Value.Work).Where(w => w.StartDate >= periodBegin && w.StartDate <= periodEnd &&
            w.UserID == GlobalInfo.CurrentUser.ID);
 
+
             WorksList = monthPlanTime.GroupJoin(wrk, p => p.Date, w => w.StartDate, (mpt, w) => new { tt = mpt, work = w })
             .DefaultIfEmpty()
             .Where(q => q.tt.PlanningTime > 0.0 || q.work.Sum(m => m.Minutes) > 0)
@@ -56,6 +63,13 @@ namespace Staff_time.View
                 Time = tmp.work.Sum(q => q.Minutes) / 60.0,
                 PlanTime = tmp.tt.PlanningTime
             }).ToList();
+
+            var userAbsences = Context.workWork.GetUserReasonAbsence();
+            foreach (var day in WorksList)
+            {
+                var reason = userAbsences.FirstOrDefault(ua => ua.AbsenceDate == day.DateTm);
+                day.Reason = reason != null ? reason.Reason.ReasonText : "";
+            }
 
             SumTime = WorksList.Sum(w => w.Time);
             SumTimePlan = WorksList.Sum(w => w.PlanTime);
@@ -128,6 +142,8 @@ namespace Staff_time.View
             public double Time { get; set; }
             public double PlanTime { get; set; }
             public DateTime DateTm { get; set; }
+
+            public string Reason { get; set; }
 
             public string Date
             {

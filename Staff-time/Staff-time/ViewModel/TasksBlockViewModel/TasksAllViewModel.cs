@@ -11,6 +11,7 @@ using System.ComponentModel;
 using GalaSoft.MvvmLight.Messaging;
 using Staff_time.Model.UserModel;
 using Staff_time.View.Dialog;
+using Staff_time.Helpers;
 
 namespace Staff_time.ViewModel
 {
@@ -124,7 +125,7 @@ namespace Staff_time.ViewModel
             {
                 if (taskNode.Value.ParentNode == null)
                     AllTreeRoots.Add(taskNode.Value);
-                if (selectedTaskNode != null && IsEqualTreeNodes(selectedTaskNode, taskNode.Value))
+                if (selectedTaskNode != null && TreeHelper.IsEqualTreeNodes(selectedTaskNode, taskNode.Value))
                 {
                     var curNode = taskNode.Value;
                     curNode.IsExpanded = true;
@@ -164,15 +165,6 @@ namespace Staff_time.ViewModel
         //    }
         //}
 
-        private bool IsEqualTreeNodes(TreeNode a, TreeNode b)
-        {
-            if (a.Task.TaskName.ToLower() != b.Task.TaskName.ToLower())
-                return false;
-            if (a.Task.ParentTaskID != b.Task.ParentTaskID)
-                return false;
-
-            return true;
-        }
 
         public void ChangeSelection(TreeNode value) //Нельзя в сетер - будет переполнение стека
         {
@@ -286,7 +278,7 @@ namespace Staff_time.ViewModel
             }
             newTask.IndexNumber = newIndexNumber;
 
-            dialog = new View.AddDialogWindow(new TaskDialogViewModel(this, newTask, AllTreeRoots, TaskCommandEnum.Add, SelectedTaskNode.ParentNode));
+            dialog = new View.AddDialogWindow(new TaskDialogViewModel(this, newTask, TaskCommandEnum.Add, SelectedTaskNode.ParentNode));
             dialog.Show();
         }
         private readonly ICommand _addChildTaskCommand;
@@ -319,7 +311,7 @@ namespace Staff_time.ViewModel
                 newIndexNumber = (int)SelectedTaskNode.Task.IndexNumber + 1;
             newTask.IndexNumber = newIndexNumber;
 
-            dialog = new View.AddDialogWindow(new TaskDialogViewModel(this, newTask, AllTreeRoots, TaskCommandEnum.Add, SelectedTaskNode));
+            dialog = new View.AddDialogWindow(new TaskDialogViewModel(this, newTask, TaskCommandEnum.Add, SelectedTaskNode));
             dialog.Show();
         }
 
@@ -340,7 +332,7 @@ namespace Staff_time.ViewModel
             FilterTaskText = "";
             FilterTree(obj);
 
-            var dlg = new View.DuplicateTaskDialogView(SelectedTaskNode.Task.ID, AllTreeRoots);
+            var dlg = new View.DuplicateTaskDialogView(SelectedTaskNode.Task.ID);
             dlg.ShowDialog();
         }
         #endregion
@@ -363,7 +355,7 @@ namespace Staff_time.ViewModel
         private void ShowTask(object obj)
         {
             var isEnabled = false;
-            dialog = new View.EditDialogWindow(new TaskDialogViewModel(this, SelectedTaskNode.Task, AllTreeRoots, TaskCommandEnum.Edit, SelectedTaskNode, isEnabled));
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(this, SelectedTaskNode.Task, TaskCommandEnum.Edit, SelectedTaskNode, isEnabled));
             dialog.Show();
         }
 
@@ -388,7 +380,7 @@ namespace Staff_time.ViewModel
         {
             FilterTaskText = "";
             FilterTree(obj);
-            dialog = new View.EditDialogWindow(new TaskDialogViewModel(this, SelectedTaskNode.Task, AllTreeRoots, TaskCommandEnum.Edit, SelectedTaskNode));
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(this, SelectedTaskNode.Task, TaskCommandEnum.Edit, SelectedTaskNode));
             dialog.Show();
         }
 

@@ -34,5 +34,10 @@ namespace Staff_time.Model.Interfaces
         List<WorkTimeRange> GetTimeRanges(int workID);
         //Обновление
         void UpdateTimeRanges(List<WorkTimeRange> list, int workID);
+
+        //Причины отсутствия
+        List<Reason> GetReasonAbsence();
+        List<WorkAbsence> GetUserReasonAbsence();
+        void UpdateReasonAbsence(List<DateTime> dt, int? reasonID);
     }
 }

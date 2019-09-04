@@ -23,7 +23,7 @@
           <Property Name="DataType" Type="int" Nullable="false" />
           <Property Name="ValueText" Type="nvarchar(max)" />
           <Property Name="ValueInt" Type="int" />
-          <Property Name="ValueDate" Type="date" />
+          <Property Name="ValueDate" Type="datetime" />
           <Property Name="ValueTime" Type="time" Precision="7" />
         </EntityType>
         <EntityType Name="LEVELS">
@@ -92,6 +92,13 @@
           <Property Name="ValueDate" Type="date" />
           <Property Name="ValueTime" Type="time" Precision="7" />
         </EntityType>
+        <EntityType Name="Reasons">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReasonText" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
         <EntityType Name="Requests">
           <Key>
             <PropertyRef Name="ID" />
@@ -132,7 +139,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="TypeName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="TimeTable">
           <Key>
@@ -151,6 +158,8 @@
           <Property Name="LevelID" Type="int" Nullable="false" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" />
           <Property Name="Settings" Type="xml" />
+          <Property Name="WorkMode" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
         </EntityType>
         <EntityType Name="UserTasks">
           <Key>
@@ -161,6 +170,15 @@
           <Property Name="TaskID" Type="int" Nullable="false" />
           <Property Name="IsExpanded" Type="bit" />
           <Property Name="IndexNumber" Type="int" />
+        </EntityType>
+        <EntityType Name="WorkAbsence">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ReasonID" Type="int" Nullable="false" />
+          <Property Name="AbsenceDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Works">
           <Key>
@@ -213,7 +231,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AttrValues_Works">
-          <End Role="Works" Type="Self.Works" Multiplicity="1" />
+          <End Role="Works" Type="Self.Works" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="AttrValues" Type="Self.AttrValues" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Works">
@@ -472,6 +492,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WorkAbsence_Reasons">
+          <End Role="Reasons" Type="Self.Reasons" Multiplicity="1" />
+          <End Role="WorkAbsence" Type="Self.WorkAbsence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reasons">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkAbsence">
+              <PropertyRef Name="ReasonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkAbsence_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="WorkAbsence" Type="Self.WorkAbsence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkAbsence">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Works_Tasks">
           <End Role="Tasks" Type="Self.Tasks" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -553,6 +597,9 @@
         </Function>
         <Function Name="GenerateTaskResults2All" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GenerateTaskResults2Changed" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetMaxAppealNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="t_ID" Type="int" Mode="In" />
+        </Function>
         <Function Name="RepareUserTree" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="taskId" Type="int" Mode="In" />
         </Function>
@@ -574,6 +621,7 @@
           <EntitySet Name="Properties" EntityType="Self.Properties" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PropertiesList" EntityType="Self.PropertiesList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PropValues" EntityType="Self.PropValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reasons" EntityType="Self.Reasons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Requests" EntityType="Self.Requests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskTypeProps" EntityType="Self.TaskTypeProps" Schema="dbo" store:Type="Tables" />
@@ -581,6 +629,7 @@
           <EntitySet Name="TimeTable" EntityType="Self.TimeTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserTasks" EntityType="Self.UserTasks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkAbsence" EntityType="Self.WorkAbsence" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Works" EntityType="Self.Works" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkTimeRange" EntityType="Self.WorkTimeRange" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkTypeAttrs" EntityType="Self.WorkTypeAttrs" Schema="dbo" store:Type="Tables" />
@@ -669,6 +718,14 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="UserTasks" EntitySet="UserTasks" />
           </AssociationSet>
+          <AssociationSet Name="FK_WorkAbsence_Reasons" Association="Self.FK_WorkAbsence_Reasons">
+            <End Role="Reasons" EntitySet="Reasons" />
+            <End Role="WorkAbsence" EntitySet="WorkAbsence" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkAbsence_Users" Association="Self.FK_WorkAbsence_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="WorkAbsence" EntitySet="WorkAbsence" />
+          </AssociationSet>
           <AssociationSet Name="FK_Works_Tasks" Association="Self.FK_Works_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="Works" EntitySet="Works" />
@@ -718,7 +775,7 @@
           <Property Name="DataType" Type="Int32" Nullable="false" />
           <Property Name="ValueText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ValueInt" Type="Int32" />
-          <Property Name="ValueDate" Type="DateTime" Precision="0" />
+          <Property Name="ValueDate" Type="DateTime" Precision="3" />
           <Property Name="ValueTime" Type="Time" Precision="7" />
           <NavigationProperty Name="Attribute" Relationship="Self.FK_AttrValues_Attributes1" FromRole="AttrValues" ToRole="Attributes" />
           <NavigationProperty Name="Work" Relationship="TaskManagmentDBModel.FK_AttrValues_Works" FromRole="AttrValue" ToRole="Work" />
@@ -758,6 +815,9 @@
           <NavigationProperty Name="Tasks" Relationship="TaskManagmentDBModel.FK_Tasks_Users" FromRole="User" ToRole="Task" />
           <Property Name="Settings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Works" Relationship="TaskManagmentDBModel.FK_Works_Users" FromRole="User" ToRole="Work" />
+          <Property Name="WorkMode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="WorkAbsences" Relationship="TaskManagmentDBModel.FK_WorkAbsence_Users" FromRole="User" ToRole="WorkAbsence" />
           </EntityType>
         <EntityType Name="UserTask">
           <Key>
@@ -1000,6 +1060,16 @@
             <Parameter Name="TaskIDTo" Mode="In" Type="Int32" />
             <Parameter Name="userID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="Reasons" EntityType="TaskManagmentDBModel.Reason" />
+          <EntitySet Name="WorkAbsences" EntityType="TaskManagmentDBModel.WorkAbsence" />
+          <AssociationSet Name="FK_WorkAbsence_Reasons" Association="TaskManagmentDBModel.FK_WorkAbsence_Reasons">
+            <End Role="Reason" EntitySet="Reasons" />
+            <End Role="WorkAbsence" EntitySet="WorkAbsences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkAbsence_Users" Association="TaskManagmentDBModel.FK_WorkAbsence_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="WorkAbsence" EntitySet="WorkAbsences" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="LEVEL">
           <Key>
@@ -1459,6 +1529,49 @@
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="TaskName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Reason">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReasonText" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="WorkAbsences" Relationship="TaskManagmentDBModel.FK_WorkAbsence_Reasons" FromRole="Reason" ToRole="WorkAbsence" />
+        </EntityType>
+        <EntityType Name="WorkAbsence">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ReasonID" Type="Int32" Nullable="false" />
+          <Property Name="AbsenceDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Reason" Relationship="TaskManagmentDBModel.FK_WorkAbsence_Reasons" FromRole="WorkAbsence" ToRole="Reason" />
+          <NavigationProperty Name="User" Relationship="TaskManagmentDBModel.FK_WorkAbsence_Users" FromRole="WorkAbsence" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_WorkAbsence_Reasons">
+          <End Type="TaskManagmentDBModel.Reason" Role="Reason" Multiplicity="1" />
+          <End Type="TaskManagmentDBModel.WorkAbsence" Role="WorkAbsence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reason">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkAbsence">
+              <PropertyRef Name="ReasonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkAbsence_Users">
+          <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="TaskManagmentDBModel.WorkAbsence" Role="WorkAbsence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkAbsence">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1508,6 +1621,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="TaskManagmentDBModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="WorkMode" ColumnName="WorkMode" />
                 <ScalarProperty Name="Settings" ColumnName="Settings" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="LevelID" ColumnName="LevelID" />
@@ -1681,6 +1796,24 @@
                 <ScalarProperty Name="OperationType" ColumnName="OperationType" />
                 <ScalarProperty Name="ChangeDate" ColumnName="ChangeDate" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reasons">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.Reason">
+              <MappingFragment StoreEntitySet="Reasons">
+                <ScalarProperty Name="ReasonText" ColumnName="ReasonText" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkAbsences">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.WorkAbsence">
+              <MappingFragment StoreEntitySet="WorkAbsence">
+                <ScalarProperty Name="AbsenceDate" ColumnName="AbsenceDate" />
+                <ScalarProperty Name="ReasonID" ColumnName="ReasonID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

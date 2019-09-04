@@ -85,7 +85,7 @@ namespace Staff_time.ViewModel
             FilterTaskText = "";
             FilterTree(obj);
 
-            dialog = new View.EditDialogWindow(new TaskDialogViewModel(AllVM, SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit, SelectedTaskNode));
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(AllVM, SelectedTaskNode.Task, TaskCommandEnum.Edit, SelectedTaskNode));
             dialog.Show();
         }
 
@@ -277,6 +277,12 @@ namespace Staff_time.ViewModel
 
         private void AddWork(object dt)
         {
+            if (SelectedTaskNode.Task.TaskType.TypeName.ToLower() == "классификация")
+            {
+                MessageBox.Show("Нельзя добавить работу для задачи с типом 'Классификация'", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
             Work work = new Work();
             work.WorkName = "";
             work.TaskID = SelectedTaskNode.Task.ID;
@@ -604,6 +610,11 @@ namespace Staff_time.ViewModel
 
         private void TransferTask(object obj)
         {
+            if (SelectedTaskNode.Task.TaskType.TypeName.ToLower() == "классификация")
+            {
+                MessageBox.Show("Нельзя передать задачу с типом 'Классификация'", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             //Показываем диалог с пользователями
             TransferTaskView dlg = new TransferTaskView(SelectedTaskNode.Task.ID);
             dlg.Show();
@@ -645,7 +656,7 @@ namespace Staff_time.ViewModel
         private void ShowTask(object obj)
         {
             bool isEnabled = false;
-            dialog = new View.EditDialogWindow(new TaskDialogViewModel(null, SelectedTaskNode.Task, TreeRoots, TaskCommandEnum.Edit, SelectedTaskNode, isEnabled));
+            dialog = new View.EditDialogWindow(new TaskDialogViewModel(null, SelectedTaskNode.Task, TaskCommandEnum.Edit, SelectedTaskNode, isEnabled));
             dialog.Show();
         }
         

@@ -141,10 +141,10 @@
                 </Grid.ColumnDefinitions>
 
                 <Border Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="0">
-                    <TextBlock Height="20" ToolTip="{Binding PathTruncated}" Text="{Binding PathTruncated}"/>
+                    <TextBlock Height="20" ToolTip="{Binding FullPath}" Text="{Binding PathTruncated}"/>
                 </Border>
                  <Border  Margin="4, 0, 0, 0" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="1">
-                    <TextBlock Height="20" ToolTip="{Binding PathSecondLevel}"  Text="{Binding PathSecondLevel}"/>
+                    <TextBlock Height="20" ToolTip="{Binding PathTruncated}"  Text="{Binding PathSecondLevel}"/>
                 </Border>
                 
                 <Border  Margin="4, 0, 0, 0" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="2">
@@ -168,7 +168,7 @@
                     <ColumnDefinition Width="350"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Имя работы: " Grid.Column="0"></TextBlock>
+                <TextBlock Text="Наименование: " Grid.Column="0"></TextBlock>
                 <TextBox Name="WorkNameTextBox" Height="25" TextWrapping="Wrap" IsReadOnly="{Binding IsReadOnly}"  
                           MaxLength="50" Text="{Binding Work.WorkName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }" GotFocus="TimeGotFocus" Grid.Column="1"></TextBox>
             </Grid>

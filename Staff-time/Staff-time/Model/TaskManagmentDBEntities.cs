@@ -193,7 +193,7 @@ namespace Staff_time.Model
         }
         public List<Property> GetAllProperties(int tasktTypeID)
         {
-            return TaskTypeProps.Where(tp => tp.TaskTypeID == tasktTypeID).Select(tp => tp.Property).ToList();
+            return TaskTypeProps.Where(tp => tp.TaskTypeID == tasktTypeID).Select(tp => tp.Property).OrderBy(tp => tp.ID).ToList();
         }
 
         public void DeleteProperties(List<PropValue> deleteList)
@@ -214,7 +214,7 @@ namespace Staff_time.Model
             _request.TaskID = taskID;
             _request.TransferDateTime = dt;
             _request.Note = Note;
-          
+
             ChangeTracker.DetectChanges();
             Requests.AddOrUpdate(_request);
             SaveChanges();
@@ -278,7 +278,7 @@ namespace Staff_time.Model
                 }
                 PropValues.AddOrUpdate(delPV);
             }
-            
+
             Tasks.AddOrUpdate(task);
             SaveChanges();
         }
@@ -290,7 +290,7 @@ namespace Staff_time.Model
             Task taskBD = Tasks.Where(t => t.ID == taskID).FirstOrDefault();
             if (taskBD == null)
                 return true;
-    
+
             //Проверим, есть ли задача в избранном у пользователей
             var userDeleteTask = UserTasks.Where(ut => ut.TaskID == taskBD.ID).ToList();
             if (userDeleteTask.Count > 0)
@@ -310,7 +310,7 @@ namespace Staff_time.Model
                 var usersNames = String.Join("\n", users);
                 if (System.Windows.MessageBox.Show($"По задаче '{taskBD.TaskName}' есть работы у следующих пользователей:\n{usersNames}. Продолжить удаление?", "Предупреждение",
             MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
-                return false;
+                    return false;
             }
 
             List<Task> childTasksBD = (from t in Tasks where t.ParentTaskID == taskID select t).ToList();
@@ -355,18 +355,7 @@ namespace Staff_time.Model
                 UserTasks.Remove(userTaskDB);
             SaveChanges();
         }
-        public int GetMaxAppealsNumber(int parentTaskID, int appealTypeID)
-        {
-            ChangeTracker.DetectChanges();
-            var all_appeals = Tasks.Where(t => t.TaskTypeID == appealTypeID && t.ParentTaskID == parentTaskID).Select(t => t.ID).ToList();
-            var prop_values = PropValues.Where(pv => pv.Property.PropName.ToLower() == "Номер обращения" && all_appeals.Contains(pv.TaskID) &&
-            pv.ValueInt != null).ToList();
-
-            if (prop_values.Count > 0)
-                return prop_values.Max(pv => (int)pv.ValueInt);
-            return 0;
-        }
-
+       
         #endregion
 
 
@@ -439,7 +428,7 @@ namespace Staff_time.Model
             // todo была ошибка, проверить в истории
             if (oldTypeID != newTypeID) //При изменении типа! Удалить-перенести атрибуты типа
                 Update_AttrValuesFields_ForWork(work, (WorkTypeEnum)oldTypeID, (WorkTypeEnum)newTypeID);
-          
+
             SaveChanges();
         }
 
@@ -473,6 +462,55 @@ namespace Staff_time.Model
                 WorkTimeRanges.AddOrUpdate(list.ToArray());
             }
             ChangeTracker.DetectChanges();
+            SaveChanges();
+        }
+
+        public List<Reason> GetReasonAbsence()
+        {
+            return Reasons.OrderBy(r => r.ID).ToList();
+        }
+        public List<WorkAbsence> GetUserReasonAbsence()
+        {
+            return WorkAbsences.Where(wa => wa.UserID == GlobalInfo.CurrentUser.ID).ToList();
+        }
+
+        public void UpdateReasonAbsence(List<DateTime> dates, int? reasonID)
+        {
+            ChangeTracker.DetectChanges();
+            if (reasonID == null)
+            {
+                var userResonsToDelete = WorkAbsences.Where(wa => dates.Contains(wa.AbsenceDate) && wa.UserID == GlobalInfo.CurrentUser.ID);
+                WorkAbsences.RemoveRange(userResonsToDelete);
+                SaveChanges();
+                return;
+            }
+
+            foreach (var dt in dates)
+            {
+                var old = WorkAbsences.Where(wa => wa.AbsenceDate == dt && wa.UserID == GlobalInfo.CurrentUser.ID).ToList();
+                if (old.Count > 1)
+                {
+                    MessageBox.Show("Не может быть больше одного дня с причиной", "Ошибка");
+                    return;
+                }
+
+                if (old.Count == 1)
+                {
+                    if (old[0].ReasonID != reasonID)
+                    {
+                        old[0].ReasonID = (int)reasonID;
+                        WorkAbsences.AddOrUpdate(old[0]);
+                    }
+                }
+                else
+                {
+                    WorkAbsence newWorkAbsence = new WorkAbsence();
+                    newWorkAbsence.ReasonID = (int)reasonID;
+                    newWorkAbsence.UserID = GlobalInfo.CurrentUser.ID;
+                    newWorkAbsence.AbsenceDate = dt;
+                    WorkAbsences.AddOrUpdate(newWorkAbsence);
+                }
+            }
             SaveChanges();
         }
 
@@ -642,6 +680,12 @@ namespace Staff_time.Model
         public void RepairInconsistances()
         {
             GenerateTaskResults2Changed();
+        }
+
+        public int GetLastAppealNumber(int taskID)
+        {
+            var numbr =  Database.SqlQuery<int?>("select dbo.GetMaxAppealNumber(@t_ID) t_ID", new System.Data.SqlClient.SqlParameter("@t_ID", taskID)).Single();
+            return numbr != null ? (int)numbr : 0;
         }
 
         #endregion //IProcedureWork
