@@ -287,6 +287,10 @@ namespace Staff_time.ViewModel
             Mouse.SetCursor(Cursors.Arrow);
         }
 
+        public static List<string> GetAllWorksNames(int taskID)
+        {
+            return Context.taskWork.GetAllWorksNames(taskID);
+        }
 
         public static void TransferTask(int fromUserID, int toUserID, int taskID, DateTime dt, string Note)
         {

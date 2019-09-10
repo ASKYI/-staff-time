@@ -47,6 +47,8 @@ namespace Staff_time.ViewModel
                 RaisePropertyChanged("IsWorkTimeEnabled");
             }, (_) => true);
 
+            WorkNames = TasksVM.GetAllWorksNames(WorkVM.Work.TaskID);
+
             //SaveHotCommand.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
             //DeleteHotCommand.InputGestures.Add(new KeyGesture(Key.Delete, ModifierKeys.Control));
 
@@ -459,6 +461,19 @@ namespace Staff_time.ViewModel
         #endregion //time
 
         #region Edit
+        private List<string> _workNames;
+        public List<string> WorkNames
+        {
+            get
+            {
+                return _workNames;
+            }
+            set
+            {
+                _workNames = value;
+                RaisePropertyChanged("WorkNames");
+            }
+        }
 
         public Boolean IsEditing
         {

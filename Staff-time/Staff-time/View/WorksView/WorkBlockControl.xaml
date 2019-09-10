@@ -169,8 +169,11 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="Наименование: " Grid.Column="0"></TextBlock>
-                <TextBox Name="WorkNameTextBox" Height="25" TextWrapping="Wrap" IsReadOnly="{Binding IsReadOnly}"  
-                          MaxLength="50" Text="{Binding Work.WorkName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }" GotFocus="TimeGotFocus" Grid.Column="1"></TextBox>
+                <!--<TextBox Name="WorkNameTextBox" Height="25" TextWrapping="Wrap" IsReadOnly="{Binding IsReadOnly}"  
+                          MaxLength="50" Text="{Binding Work.WorkName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }" GotFocus="TimeGotFocus" Grid.Column="1"/>-->
+                <ComboBox Name="WorkNameCombo"  ItemsSource="{Binding WorkNames}" IsEditable="True" Height="25" IsReadOnly="{Binding IsReadOnly}" 
+                          Text="{Binding Work.WorkName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" 
+                          KeyUp ="WorkNameCombo_KeyUp"/>
             </Grid>
 
             <StackPanel Orientation="Horizontal">

@@ -32,7 +32,7 @@ namespace Staff_time.View
 
         public void Window_loaded(object sender, RoutedEventArgs e)
         {
-            WorkNameTextBox.Focus();
+            WorkNameCombo.Focus();
         }
 
         public void Description_KeyDown(object sender, KeyEventArgs e)
@@ -103,6 +103,11 @@ namespace Staff_time.View
         {
             TextBox text = sender as TextBox;
             text.Dispatcher.BeginInvoke(new Action(() => text.SelectAll()));
+        }
+
+        private void WorkNameCombo_KeyUp(object sender, EventArgs e)
+        {
+            WorkNameCombo.IsDropDownOpen = true;
         }
 
         //private void TimeStartLostFocus(object sender, RoutedEventArgs e)

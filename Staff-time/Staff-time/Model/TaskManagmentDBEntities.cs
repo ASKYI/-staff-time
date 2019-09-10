@@ -355,7 +355,13 @@ namespace Staff_time.Model
                 UserTasks.Remove(userTaskDB);
             SaveChanges();
         }
-       
+
+        public List<string> GetAllWorksNames(int taskID)
+        {
+            return Works.Where(w => w.TaskID == taskID).Select(w => w.WorkName).Distinct().ToList();
+        }
+
+
         #endregion
 
 

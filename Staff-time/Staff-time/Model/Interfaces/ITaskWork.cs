@@ -57,5 +57,8 @@ namespace Staff_time.Model.Interfaces
 
         //Убрать задачу из избранного
         void Delete_TaskFromFave(int taskID);
+
+        //Возвращает все имена работ для этой задачи
+        List<string> GetAllWorksNames(int taskID);
     }
 }
