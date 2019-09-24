@@ -126,9 +126,26 @@ namespace Staff_time.ViewModel
                 if (taskNode.Value.ParentNode == null)
                     TreeRoots.Add(taskNode.Value);
                 taskNode.Value.IndexNumber = pos;
-                pos++;
+               pos++;
             }
+
+            //Queue<TreeNode> queue = new Queue<TreeNode>();
+            //int ind = 0;
+            //for (int j = 0; j < TreeRoots.Count; ++j)
+            //{
+            //    ind++;
+            //    dfs(TreeRoots[j], ind);
+            //}
         }
+
+        //Dictionary<int, int> used = new Dictionary<int, int>();
+        //void dfs(TreeNode v, int pos)
+        //{
+        //    used[v.Task.ID] = pos;
+        //    for (int i = 0; i < v.TreeNodes.Count; ++i)
+        //        if (!used.ContainsKey(v.TreeNodes[i].Task.ID))
+        //            dfs(v.TreeNodes[i], pos++);
+        //}
 
         private TreeNode _selectedTaskNode;
         public TreeNode SelectedTaskNode
@@ -277,7 +294,7 @@ namespace Staff_time.ViewModel
 
         private void AddWork(object dt)
         {
-            if (SelectedTaskNode.Task.TaskType.TypeName.ToLower() == "классификация")
+            if (SelectedTaskNode.Task.TaskTypeID == 0) //классификация
             {
                 MessageBox.Show("Нельзя добавить работу для задачи с типом 'Классификация'", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
@@ -610,7 +627,7 @@ namespace Staff_time.ViewModel
 
         private void TransferTask(object obj)
         {
-            if (SelectedTaskNode.Task.TaskType.TypeName.ToLower() == "классификация")
+            if (SelectedTaskNode.Task.TaskTypeID == 0) //классификация
             {
                 MessageBox.Show("Нельзя передать задачу с типом 'Классификация'", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;

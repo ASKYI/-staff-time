@@ -11,6 +11,16 @@ using System.Windows.Controls;
 
 namespace Staff_time.Helpers
 {
+    enum DatatypeStuff : int
+    {
+        STRING = 0,         //Строка
+        DOUBLE,             //число (дробное)
+        DATA,               //дата
+        TIME,               //время
+        TEXTDOC,            //тестовый документ
+        LIST,               //список (type == true (польз. список), false - константный список
+        FOLDER,             //папка (применяется для перехода в папку (заказчики)
+    }
     public class MessageWorkObject
     {
         public WorkCommandEnum _commandType { get; set; }

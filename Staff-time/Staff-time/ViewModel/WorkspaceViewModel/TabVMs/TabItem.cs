@@ -237,7 +237,7 @@ namespace Staff_time.ViewModel
 
                     if (newWork.StartDate.Date == Date.Date)
                     {
-                        //WorksInTab[index].WorkBlockContext = new WorkBlockControlViewModel(newWork.ID, false);
+                        WorksInTab[index].WorkBlockContext = new WorkBlockControlViewModel(newWork.ID, false);
                         MainWindow.IsEnable = true;
                         WorksInTab[index].WorkBlockContext.IsEditing = false;
 

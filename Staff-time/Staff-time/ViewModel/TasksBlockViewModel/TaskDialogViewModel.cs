@@ -36,6 +36,13 @@ namespace Staff_time.ViewModel
 
             SelectedTaskTypeIndex = task.TaskTypeID;
 
+            if (command == TaskCommandEnum.Add)
+            {
+                var taskTypeObj = TaskTypesCb.FirstOrDefault(tp => tp.TypeName.ToLower() == "задача");
+                if (taskTypeObj != null)
+                    SelectedTaskTypeIndex = TaskTypesCb.IndexOf(taskTypeObj);
+            }
+
             levels = Context.levelWork.Read_AllLevelsLowerMe();
             SelLevel = levels[0];
 
@@ -112,7 +119,7 @@ namespace Staff_time.ViewModel
                             parentNode = parentNode.ParentNode;
                         if (parentNode == null)
                         {
-                            MessageBox.Show($"Ошибка! У свойства {prop.PropName} не найден родитель с типом задачи {prop.TaskTypeID} (Заказчик), из которого подгружается список. Данные свойства не будут отображены", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            MessageBox.Show($"Ошибка! У свойства {prop.PropName} не найден родитель с типом задачи Заказчик, из которого подгружается список. Данные свойства не будут отображены", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                             continue;
                         }
                         parentListTaskID = parentNode.Task.ID;
@@ -426,9 +433,7 @@ namespace Staff_time.ViewModel
             TaskTypesCb = new ObservableCollection<TaskType>();
             List<TaskType> types = Context.typesWork.Read_TaskTypes();
             foreach (var t in types)
-            {
                 TaskTypesCb.Add(t);
-            }
         }
 
         #endregion

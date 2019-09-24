@@ -155,7 +155,7 @@ namespace Staff_time.ViewModel
 
         private static void FillTreeDictionaryByTasks(Dictionary<int, TreeNode> curDictionary, List<Task> tasksBD, bool isFullTree)
         {
-            //tasksBD = tasksBD.OrderBy(t => t.ID).ToList();
+            //tasksBD = tasksBD.OrderBy(t => t.IndexNumber).ToList();
             TreeNodeFactory treeNodeFactory = new TreeNodeFactory();
             int indexNumber = 1;
             foreach (Task taskTmp in tasksBD)
@@ -202,11 +202,12 @@ namespace Staff_time.ViewModel
         private static void FillExpandedFlag(Dictionary<int, TreeNode> curDictionary)
         {
             //var userFaveTasksID = Context.taskWork.Read_FaveTasksID(GlobalInfo.CurrentUser.ID);
-            for (int i = 0; i < curDictionary.Count; ++i)
-            {
-                var curDictItem = curDictionary.ElementAt(i);
-                curDictItem.Value.IsExpanded = Context.taskWork.IsExpanded(curDictItem.Key, GlobalInfo.CurrentUser.ID);
-            }
+            curDictionary.ToList().ForEach(node => node.Value.IsExpanded = Context.taskWork.IsExpanded(node.Key, GlobalInfo.CurrentUser.ID));
+            //for (int i = 0; i < curDictionary.Count; ++i)
+            //{
+            //    var curDictItem = curDictionary.ElementAt(i);
+            //    curDictItem.Value.IsExpanded = Context.taskWork.IsExpanded(curDictItem.Key, GlobalInfo.CurrentUser.ID);
+            //}
         }
 
         public static void InitFave()

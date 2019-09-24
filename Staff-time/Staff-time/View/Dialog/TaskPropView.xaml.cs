@@ -111,7 +111,38 @@ namespace Staff_time.View.Dialog
                 bindingExpr.UpdateTarget();
             }
         }
+
         public void ShowDoc(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var obj = (Button)sender;
+                var path = ((PropValueInfo)obj.DataContext).propVal.ValueText;
+                if (path == null || path.Length == 0)
+                    return;
+                Process.Start(path);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка");
+            }
+        }
+
+        public void OpenFolder(object sender, RoutedEventArgs e)
+        {
+            var obj = (Button)sender;
+            System.Windows.Forms.FolderBrowserDialog openfolderDialog = new System.Windows.Forms.FolderBrowserDialog();
+            openfolderDialog.SelectedPath = "Z:\\Договора_Города";
+            if (openfolderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                ((PropValueInfo)obj.DataContext).propVal.ValueText = openfolderDialog.SelectedPath;
+                var folderTextBox = FindVisualChild<TextBox>(obj.Parent); //ищем TextBox с выводом пути к файлу
+                BindingExpression bindingExpr = BindingOperations.GetBindingExpression(folderTextBox, TextBox.TextProperty);
+                bindingExpr.UpdateTarget();
+            }
+        }
+
+        public void ShowFolder(object sender, RoutedEventArgs e)
         {
             try
             {

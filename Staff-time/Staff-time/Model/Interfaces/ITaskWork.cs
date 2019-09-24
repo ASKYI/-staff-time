@@ -60,5 +60,7 @@ namespace Staff_time.Model.Interfaces
 
         //Возвращает все имена работ для этой задачи
         List<string> GetAllWorksNames(int taskID);
+        //Индексацию сделать, чтобы правильная нумерация была
+        void UpdateUserTaskIndexNumber(int taksID, int pos);
     }
 }

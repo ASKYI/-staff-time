@@ -38,7 +38,7 @@ namespace Staff_time.View
 
         public void SetReasonForAbsence(object sender, EventArgs e)
         {
-            ReasonAbsenceWindow dlg = new ReasonAbsenceWindow();
+            ReasonAbsenceWindow dlg = new ReasonAbsenceWindow(int.Parse(YearsList[SelectedYearIndex]), SelectedMonthIndex + 1);
             dlg.ShowDialog();
         }
 

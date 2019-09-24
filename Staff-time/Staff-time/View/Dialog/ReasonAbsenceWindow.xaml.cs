@@ -23,7 +23,7 @@ namespace Staff_time.View
     public partial class ReasonAbsenceWindow : Window, IDialogView
     {
         public List<Reason> Reasons { get; set; }
-        public ReasonAbsenceWindow()
+        public ReasonAbsenceWindow(int year, int month)
         {
             InitializeComponent();
             Reason emptyReason = new Reason();
@@ -33,6 +33,8 @@ namespace Staff_time.View
             Reasons.Add(emptyReason);
             Reasons.AddRange(Context.workWork.GetReasonAbsence());
             SelectedReason = Reasons[0];
+            calendar.DisplayDate = new DateTime(year, month, 1);
+            calendar.SelectedDate = new DateTime(year, month, 1);
             base.DataContext = this;
         }
         public Reason SelectedReason { get; set; }
@@ -41,9 +43,15 @@ namespace Staff_time.View
         {
             Mouse.SetCursor(Cursors.Wait);
             if (SelectedReason == null || SelectedReason.ID == 0) //Очистка на эти даты
+            {
                 Context.workWork.UpdateReasonAbsence(calendar.SelectedDates.ToList(), null);
+                MessageBox.Show("Причина отсутствия успешно сброшена!", "Сброс причины отсутствия", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
             else
+            {
                 Context.workWork.UpdateReasonAbsence(calendar.SelectedDates.ToList(), SelectedReason.ID);
+                MessageBox.Show($"Причина '{SelectedReason.ReasonText}' успешно установлена!", "Установка причины отсутствия", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
 
             Mouse.SetCursor(Cursors.Arrow);
             Close();

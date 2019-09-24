@@ -143,10 +143,10 @@
                 <Border Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="0">
                     <TextBlock Height="20" ToolTip="{Binding FullPath}" Text="{Binding PathTruncated}"/>
                 </Border>
-                 <Border  Margin="4, 0, 0, 0" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="1">
+                <Border  Margin="4, 0, 0, 0" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="1">
                     <TextBlock Height="20" ToolTip="{Binding PathTruncated}"  Text="{Binding PathSecondLevel}"/>
                 </Border>
-                
+
                 <Border  Margin="4, 0, 0, 0" Background="#DEF0F3" BorderBrush="LightGray" BorderThickness="2" CornerRadius="3" Grid.Column="2">
                     <TextBlock Height="20" ToolTip="{Binding PathFirstLevel}"  Text="{Binding PathFirstLevel}"/>
                 </Border>
@@ -172,8 +172,8 @@
                 <!--<TextBox Name="WorkNameTextBox" Height="25" TextWrapping="Wrap" IsReadOnly="{Binding IsReadOnly}"  
                           MaxLength="50" Text="{Binding Work.WorkName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }" GotFocus="TimeGotFocus" Grid.Column="1"/>-->
                 <ComboBox Name="WorkNameCombo"  ItemsSource="{Binding WorkNames}" IsEditable="True" Height="25" IsReadOnly="{Binding IsReadOnly}" 
-                          Text="{Binding Work.WorkName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" 
-                          KeyUp ="WorkNameCombo_KeyUp"/>
+                          Text="{Binding Work.WorkName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"
+                          KeyUp ="WorkNameCombo_KeyUp" Loaded="ComboBox_Loaded" StaysOpenOnEdit="True"/>
             </Grid>
 
             <StackPanel Orientation="Horizontal">
@@ -243,7 +243,7 @@
                     <ColumnDefinition Width="140"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Описание: " Grid.Column="0"></TextBlock>
-                <TextBox TextWrapping="Wrap" GotFocus="TimeGotFocus" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" MinLines="3" MaxLines="3" IsReadOnly="{Binding IsReadOnly}" Grid.Column="1" Text="{Binding Work.Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }"></TextBox>
+                <TextBox Name="DescTextBox" TextWrapping="Wrap" GotFocus="TimeGotFocus" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" MinLines="3" MaxLines="3" IsReadOnly="{Binding IsReadOnly}" Grid.Column="1" Text="{Binding Work.Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged }"></TextBox>
 
                 <TextBlock Text="Тип работы: " HorizontalAlignment="Right"  Grid.Column="2"></TextBlock>
                 <ComboBox Grid.Column="3"

@@ -11,15 +11,15 @@
         xmlns:vm="clr-namespace:Staff_time.ViewModel"  
         xmlns:v="clr-namespace:Staff_time.View"  
         
-        Title="Новая задача" Width="700" MinWidth="500" MinHeight="450" Height="590"
+        Title="Новая задача" Width="700" MinWidth="500" MinHeight="450" Height="640"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid>
             <!--todo второй грид лишний, можно было бы у первого настроить столбцы  -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="250"></RowDefinition>
-                <RowDefinition Height="190*"></RowDefinition>
-                <RowDefinition Height="100"></RowDefinition>
+                <RowDefinition Height="240*"></RowDefinition>
+                <RowDefinition Height="110"></RowDefinition>
                 <RowDefinition Height="25"></RowDefinition>
             </Grid.RowDefinitions>
 
@@ -91,7 +91,7 @@
                 <local:TaskPropView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
                                     PropValues="{Binding DataContext.PropValuesCollection, ElementName=addTaskBlock, Mode=TwoWay}" 
                                     CanEdit="{Binding DataContext.IsEditEnabled, ElementName=addTaskBlock}"
-                Height="{Binding Path=ActualHeight, ElementName=EditTaskBlock, Converter={converters:GridWidthConverter}, ConverterParameter='400'}">
+                Height="{Binding Path=ActualHeight, ElementName=EditTaskBlock, Converter={converters:GridWidthConverter}, ConverterParameter='200'}">
                     <!--ID="{Binding Path=DataContext.EditingTask.ID, ElementName=EditTaskBlock}">-->
             </local:TaskPropView>
 

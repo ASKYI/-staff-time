@@ -23,7 +23,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <TextBlock Margin="5" Grid.Row="0" FontFamily="Arial" FontWeight="DemiBold" FontSize="14">Списки</TextBlock>
-            <ScrollViewer Grid.Row="1" VerticalAlignment="Top" MaxHeight="100">
+            <ScrollViewer Grid.Row="1" VerticalAlignment="Top" MaxHeight="80">
                 <ItemsControl Name="PropLists" Grid.Column="0" ItemsSource="{Binding Path=Lists,Mode=TwoWay}" 
                        KeyboardNavigation.IsTabStop="False">
                     <ItemsControl.ItemTemplate>

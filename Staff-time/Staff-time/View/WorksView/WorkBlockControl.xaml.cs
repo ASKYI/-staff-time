@@ -105,9 +105,34 @@ namespace Staff_time.View
             text.Dispatcher.BeginInvoke(new Action(() => text.SelectAll()));
         }
 
-        private void WorkNameCombo_KeyUp(object sender, EventArgs e)
+        private void WorkNameCombo_KeyUp(object sender, KeyEventArgs e)
         {
-            WorkNameCombo.IsDropDownOpen = true;
+            if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
+                DescTextBox.Focus();
+                return;
+            }
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+                return;
+            }
+            e.Handled = true;
+            //WorkNameCombo.IsDropDownOpen = true;
+        }
+
+        private void ComboBox_Loaded(object sender, EventArgs e)
+        {
+            var obj = (ComboBox)sender;
+            if (obj != null)
+            {
+                var myTextBox = (TextBox)obj.Template.FindName("PART_EditableTextBox", obj);
+                if (myTextBox != null)
+                {
+                    myTextBox.MaxLength = 50;
+                }
+            }
         }
 
         //private void TimeStartLostFocus(object sender, RoutedEventArgs e)

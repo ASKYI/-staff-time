@@ -63,7 +63,7 @@ namespace Staff_time.Model
         public List<List> GetListIDWithTaskType(int taskTypeID)
         {
             //выгружаем все списки для типа задачи и типа свойства 5 (списки), где ListType = true (список от родителя)
-            return Properties.Where(p => p.DataType == 5 && p.ListType == true && p.TaskTypeID == taskTypeID).Select(p => p.List).ToList();
+            return Properties.Where(p => p.DataType == 5 && p.ListType == true && p.TaskTypeID == taskTypeID).Select(p => p.List).Distinct().ToList();
         }
 
 
@@ -360,6 +360,17 @@ namespace Staff_time.Model
         {
             return Works.Where(w => w.TaskID == taskID).Select(w => w.WorkName).Distinct().ToList();
         }
+        public void UpdateUserTaskIndexNumber(int taskID, int pos)
+        {
+            ChangeTracker.DetectChanges();
+            var usertask = UserTasks.FirstOrDefault(ut => ut.TaskID == taskID && ut.UserID == GlobalInfo.CurrentUser.ID);
+            if (usertask != null)
+            {
+                usertask.IndexNumber = pos;
+                UserTasks.AddOrUpdate(usertask);
+                SaveChanges();
+            }
+        }
 
 
         #endregion
@@ -398,7 +409,7 @@ namespace Staff_time.Model
             WorkFactory taskFactory = new WorkFactory();
             foreach (Work w in worksDB)
             {
-                works.Add(taskFactory.CreateWork(w));
+                 works.Add(taskFactory.CreateWork(w));
             }
             return works;
         }

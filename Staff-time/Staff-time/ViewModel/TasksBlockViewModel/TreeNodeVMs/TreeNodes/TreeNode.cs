@@ -32,8 +32,8 @@ namespace Staff_time.ViewModel
             TreeNodes = new ObservableCollection<TreeNode>();
             foreach (var node in treeNode.TreeNodes)
                 TreeNodes.Add((TreeNode)node.MemberwiseClone());
-            IndexNumber = IndexNumber;
-            IsExpanded = IsExpanded;
+            IndexNumber = treeNode.IndexNumber;
+            IsExpanded = treeNode.IsExpanded;
         }
 
         //public void InitTaskControl(int taskID, int taskTypeID)

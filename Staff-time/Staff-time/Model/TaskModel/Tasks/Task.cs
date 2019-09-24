@@ -25,7 +25,7 @@ namespace Staff_time.Model
 
 
             this.TaskType = task.TaskType;
-            this.PropValues = task.PropValues;
+            this.PropValues = task.PropValues; //todo очень долго, копирование коллекции
         }
 
         public object Clone()

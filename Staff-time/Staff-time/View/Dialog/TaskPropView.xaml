@@ -16,7 +16,7 @@
 
     <UserControl.Resources>
         <local:DateTimeToDateConverter x:Key="myDateConverter" />
-
+        
         <DataTemplate x:Key="textBoxTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -84,6 +84,29 @@
                 </Grid>
             </StackPanel>
         </DataTemplate>
+        
+        <DataTemplate x:Key="folderTemplate">
+            <StackPanel HorizontalAlignment="Stretch">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="25"></ColumnDefinition>
+                        <ColumnDefinition Width="25"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBox TextWrapping="Wrap" x:Name="TextBoxfolderName"  Grid.Column="0" FontSize="14" FontFamily="Arial" Background="LightYellow" Margin="1,1"
+                             Text="{Binding propVal.ValueText, Mode=TwoWay}" IsReadOnly="True"></TextBox>
+
+                    <Button Grid.Column="1" Margin="1" Height="23" Width="23" VerticalContentAlignment="Stretch" BorderThickness="1"  Click="OpenFolder"
+                            HorizontalContentAlignment="Stretch" ToolTip="Выбрать папку">
+                        <Image Source="../../Resources/file.ico" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+                    </Button>
+                    <Button Grid.Column="2" Margin="1" Height="23" Width="23"  VerticalContentAlignment="Stretch" BorderThickness="1" Click="ShowFolder"
+                            HorizontalContentAlignment="Stretch" ToolTip="Показать папку">
+                        <Image Source="../../Resources/file-show.ico" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+                    </Button>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
 
         <DataTemplate x:Key="listConstTemplate">
             <Grid>
@@ -146,7 +169,7 @@
                     <ColumnDefinition Width="250"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBox Text="{Binding propVal.Property.PropName}" TextWrapping="Wrap" AcceptsReturn="True" FontSize="14" FontFamily="Arial" FontWeight="DemiBold" Margin="1,1" IsReadOnly="True" Grid.Column="0" Background="#99D8DF"/>
+                <TextBox Text="{Binding propVal.Property.PropName}" TextWrapping="Wrap" AcceptsReturn="True" IsReadOnly="True" FontSize="14" FontFamily="Arial" FontWeight="DemiBold" Margin="1,1" Grid.Column="0" Background="#99D8DF"/>
                 <ContentControl Content="{Binding}" Grid.Column="1">
                     <ContentControl.Style>
                         <Style TargetType="{x:Type ContentControl}">
@@ -154,22 +177,30 @@
                                 <!--Text-->
                                 <DataTrigger Binding="{Binding Path=propVal.Property.DataType}" Value="0">
                                     <Setter Property="ContentTemplate" Value="{StaticResource textBoxTemplate}"/>
+                                    <Setter Property="IsEnabled" Value="{Binding Path=Tag, RelativeSource={RelativeSource  AncestorType={x:Type ItemsControl}}}"/>
                                 </DataTrigger>
                                 <!--Int-->
                                 <DataTrigger Binding="{Binding Path=propVal.Property.DataType}" Value="1">
                                     <Setter Property="ContentTemplate" Value="{StaticResource numericBoxTemplate}"/>
+                                    <Setter Property="IsEnabled" Value="{Binding Path=Tag, RelativeSource={RelativeSource  AncestorType={x:Type ItemsControl}}}"/>
+
                                 </DataTrigger>
                                 <!--Date-->
                                 <DataTrigger Binding="{Binding Path=propVal.Property.DataType}" Value="2">
                                     <Setter Property="ContentTemplate" Value="{StaticResource dateTemplate}"/>
+                                    <Setter Property="IsEnabled" Value="{Binding Path=Tag, RelativeSource={RelativeSource  AncestorType={x:Type ItemsControl}}}"/>
+
                                 </DataTrigger>
                                 <!--Time-->
                                 <DataTrigger Binding="{Binding Path=propVal.Property.DataType}" Value="3">
                                     <Setter Property="ContentTemplate" Value="{StaticResource timeTemplate}"/>
+                                    <Setter Property="IsEnabled" Value="{Binding Path=Tag, RelativeSource={RelativeSource  AncestorType={x:Type ItemsControl}}}"/>
+
                                 </DataTrigger>
                                 <!--TextDoc-->
                                 <DataTrigger Binding="{Binding Path=propVal.Property.DataType}" Value="4">
                                     <Setter Property="ContentTemplate" Value="{StaticResource docTemplate}"/>
+                                    <Setter Property="IsEnabled" Value="{Binding Path=Tag, RelativeSource={RelativeSource  AncestorType={x:Type ItemsControl}}}"/>
                                 </DataTrigger>
                                 <!--ListConst-->
                                 <MultiDataTrigger>
@@ -178,6 +209,7 @@
                                         <Condition Binding="{Binding Path=propVal.Property.ListType}" Value="False" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="ContentTemplate" Value="{StaticResource listConstTemplate}"/>
+                                    <Setter Property="IsEnabled" Value="{Binding Path=Tag, RelativeSource={RelativeSource  AncestorType={x:Type ItemsControl}}}"/>
                                 </MultiDataTrigger>
 
                                 <!--ListCustom-->
@@ -187,7 +219,13 @@
                                         <Condition Binding="{Binding Path=propVal.Property.ListType}" Value="True" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="ContentTemplate" Value="{StaticResource listCustomTemplate}"/>
+                                    <Setter Property="IsEnabled" Value="{Binding Path=Tag, RelativeSource={RelativeSource  AncestorType={x:Type ItemsControl}}}"/>
                                 </MultiDataTrigger>
+
+                                <DataTrigger Binding="{Binding Path=propVal.Property.DataType}" Value="6">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource folderTemplate}"/>
+                                    <Setter Property="IsEnabled" Value="true"/>
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </ContentControl.Style>
@@ -210,7 +248,7 @@
                 <ItemsControl Grid.Column="0" ItemsSource="{Binding Path=PropValues,Mode=TwoWay}" 
                        ItemTemplate="{StaticResource dynamicTemplate}"
                        KeyboardNavigation.IsTabStop="False"
-                              IsEnabled="{Binding CanEdit}">
+                          Tag="{Binding CanEdit}"    >
                 </ItemsControl>
             </ScrollViewer>
         </Grid>
