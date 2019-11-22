@@ -14,10 +14,18 @@
 
     <Window.Resources>
         <!--Отображение узлов дерева-->
-        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}" ItemsSource="{Binding TreeNodes}">
-            <Border BorderBrush="LightGreen" BorderThickness="2">
-                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeAppeal}" ItemsSource="{Binding TreeNodes}">
+            <Border x:Name="TaskBorder" BorderBrush="Gold" BorderThickness="2">
+                <TextBlock Text="{Binding Task.TaskName}" ></TextBlock>
             </Border>
+            <HierarchicalDataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Path=Status}" Value="В работе">
+                    <Setter TargetName="TaskBorder" Property="Border.BorderBrush" Value="Red"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Status}" Value="Завершено">
+                    <Setter TargetName="TaskBorder" Property="Border.BorderBrush" Value="YellowGreen"/>
+                </DataTrigger>
+            </HierarchicalDataTemplate.Triggers>
         </HierarchicalDataTemplate>
 
         <!--<HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
@@ -32,11 +40,11 @@
             </Border>
         </HierarchicalDataTemplate>-->
 
-        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}" ItemsSource="{Binding TreeNodes}">
+        <!--<HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="LightYellow" BorderThickness="2">
                 <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
             </Border>
-        </HierarchicalDataTemplate>
+        </HierarchicalDataTemplate>-->
 
         <HierarchicalDataTemplate DataType="{x:Type vm:TreeNode}" ItemsSource="{Binding TreeNodes}">
             <Border BorderBrush="LightGray" BorderThickness="2">

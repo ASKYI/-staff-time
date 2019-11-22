@@ -70,7 +70,20 @@ namespace Staff_time.ViewModel
         //        }
         //    }
         //}
-
+        public string Status
+        {
+            get
+            {
+                var status = Task.PropValues.Select(pv => pv.Property).FirstOrDefault(p => p.PropName.ToLower() == "статус");
+                if (status != null)
+                {
+                    var statusVal = Task.PropValues.FirstOrDefault(pv => pv.PropID == status.ID);
+                    if (statusVal != null)
+                        return statusVal.ValueText;
+                }
+                return "";
+            }
+        }
 
         private Task _task;
         public Task Task

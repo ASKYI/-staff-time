@@ -13,10 +13,18 @@
 
     <UserControl.Resources>
         <!--Отображение дерева-->
-        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeCustomer}" ItemsSource="{Binding TreeNodes}">
-            <Border BorderBrush="LightGreen" BorderThickness="2">
-                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeAppeal}" ItemsSource="{Binding TreeNodes}">
+            <Border x:Name="TaskBorder" BorderBrush="Gold" BorderThickness="2">
+                <TextBlock Text="{Binding Task.TaskName}" ></TextBlock>
             </Border>
+            <HierarchicalDataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Path=Status}" Value="В работе">
+                    <Setter TargetName="TaskBorder" Property="Border.BorderBrush" Value="Red"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Status}" Value="Завершено">
+                    <Setter TargetName="TaskBorder" Property="Border.BorderBrush" Value="YellowGreen"/>
+                </DataTrigger>
+            </HierarchicalDataTemplate.Triggers>
         </HierarchicalDataTemplate>
 
         <!--<HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
@@ -117,6 +125,11 @@
             <Button Name="ClearFilterBtn" Margin ="2,0,0,0" Click="ClearFilterClick" ToolTip="Сбросить фильтр" Background="White" Style="{StaticResource ButtonStyle}"
                     IsEnabled="{Binding ElementName=FilterTBox, Path=Text.Length, Mode=OneWay}" ToolTipService.ShowOnDisabled="True">
                 <Image Source="../../Resources/delete.ico"></Image>
+            </Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" >
+            <Button Command="{Binding OpenChemicCommand}" VerticalAlignment="Bottom" ToolTip="Открыть ЛИС и запустить документ на БД трудозатрат" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/chemic.ico"></Image>
             </Button>
         </StackPanel>
 

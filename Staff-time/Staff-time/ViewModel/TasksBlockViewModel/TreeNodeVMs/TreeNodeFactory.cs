@@ -13,7 +13,7 @@ namespace Staff_time.ViewModel
         {
             switch (type)
             {
-                case TaskTypeEnum.TaskNone:
+                case TaskTypeEnum.TaskTask:
                     return new TreeNode();
                 case TaskTypeEnum.TaskCustomer:
                     return new TreeNodeCustomer();
@@ -39,7 +39,7 @@ namespace Staff_time.ViewModel
             TaskTypeEnum type = (TaskTypeEnum)treeNode.Task.TaskTypeID;
             switch (type)
             {
-                case TaskTypeEnum.TaskNone:
+                case TaskTypeEnum.TaskTask:
                     return new TreeNode(treeNode);
                 case TaskTypeEnum.TaskCustomer:
                     return new TreeNodeCustomer(treeNode);
@@ -66,7 +66,7 @@ namespace Staff_time.ViewModel
             TaskTypeEnum type = (TaskTypeEnum)task.TaskTypeID;
             switch (type)
             {
-                case TaskTypeEnum.TaskNone:
+                case TaskTypeEnum.TaskTask:
                     return new TreeNode(task);
                 case TaskTypeEnum.TaskCustomer:
                     return new TreeNodeCustomer(task);

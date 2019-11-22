@@ -11,7 +11,7 @@ namespace Staff_time.Model
         {
             switch (type)
             {
-                case TaskTypeEnum.TaskNone:
+                case TaskTypeEnum.TaskTask:
                     return new Task();
                 case TaskTypeEnum.TaskCustomer:
                     return new TaskCustomer();
@@ -35,7 +35,7 @@ namespace Staff_time.Model
             TaskTypeEnum type = (TaskTypeEnum)task.TaskTypeID;
             switch (type)
             {
-                case TaskTypeEnum.TaskNone:
+                case TaskTypeEnum.TaskTask:
                     return new Task(task);
                 case TaskTypeEnum.TaskCustomer:
                     return new TaskCustomer(task);

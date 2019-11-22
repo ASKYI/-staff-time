@@ -43,6 +43,7 @@ namespace Staff_time.View.Dialog
                 var userChecked = new UserChecked(_user, false);
                 users.Add(userChecked);
             }
+            Topmost = true;
             InitializeComponent();
             DataContext = this;
         }

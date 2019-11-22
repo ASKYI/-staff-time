@@ -17,7 +17,7 @@
         <Grid>
             <!--todo второй грид лишний, можно было бы у первого настроить столбцы  -->
             <Grid.RowDefinitions>
-                <RowDefinition Height="250"></RowDefinition>
+                <RowDefinition Height="270"></RowDefinition>
                 <RowDefinition Height="240*"></RowDefinition>
                 <RowDefinition Height="110"></RowDefinition>
                 <RowDefinition Height="25"></RowDefinition>
@@ -75,7 +75,7 @@
                         <ColumnDefinition Width="100"></ColumnDefinition>
                         <ColumnDefinition Width="240"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock  Text="Уровень доступа: " Grid.Column="0" ToolTip="Используется для настройки отчетов"></TextBlock>
+                    <TextBlock Margin="0,3,0,0" Text="Уровень доступа: " Grid.Column="0" ToolTip="Используется для настройки отчетов"></TextBlock>
                     <ComboBox Grid.Column="1" ItemsSource="{Binding levels, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelLevel}" DisplayMemberPath="LevelName" ToolTip="Уровень доступа к задаче, видимость у пользователей" Margin="0,2"/>
                 </Grid>
                 <Grid Margin="2">
@@ -83,8 +83,16 @@
                         <ColumnDefinition Width="100"></ColumnDefinition>
                         <ColumnDefinition Width="240"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock  Text="Ответственный: " Grid.Column="0" ToolTip="Ответственный по данной задаче"></TextBlock>
-                    <ComboBox Grid.Column="1" ItemsSource="{Binding users, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ResponsibleUser}" DisplayMemberPath="UserName" ToolTip="Уровень доступа к задаче, видимость у пользователей" Margin="0,2"/>
+                    <TextBlock Text="Создатель задачи: " Grid.Column="0" ToolTip="Создатель данной задачи"></TextBlock>
+                    <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding OwnerUser.UserName}" FontWeight="DemiBold" ToolTip="Имя пользователя, создавшего задачу" />
+                </Grid>
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="240"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,3,0,0" Text="Ответственный: " Grid.Column="0" ToolTip="Ответственный по данной задаче"></TextBlock>
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding users, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ResponsibleUser}" DisplayMemberPath="UserName" ToolTip="Имя ответственного пользователя" Margin="0,2"/>
                 </Grid>
                 <Separator></Separator>
             </StackPanel>
@@ -105,7 +113,7 @@
             <StackPanel Margin="2" HorizontalAlignment="Left" Grid.Row="3" Orientation="Horizontal">
                 <Button Content="Ок" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="120" HorizontalAlignment="Left"></Button>
                 <!--todo для чего? Click="OK_Button_Click"-->
-                <Button Content="Отмена" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="120" HorizontalAlignment="Left"></Button>
+                <Button Margin="5,0,0,0" Content="Отмена" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="120" HorizontalAlignment="Left"></Button>
             </StackPanel>
         </Grid>
     </Grid>

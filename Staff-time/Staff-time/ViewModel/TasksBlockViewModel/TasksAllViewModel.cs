@@ -354,6 +354,8 @@ namespace Staff_time.ViewModel
         }
         private void ShowTask(object obj)
         {
+            FilterTaskText = "";
+            FilterTree(obj);
             var isEnabled = false;
             dialog = new View.EditDialogWindow(new TaskDialogViewModel(this, SelectedTaskNode.Task, TaskCommandEnum.Edit, SelectedTaskNode, isEnabled));
             dialog.Show();

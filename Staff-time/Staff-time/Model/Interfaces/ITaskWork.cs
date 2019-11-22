@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Staff_time.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace Staff_time.Model.Interfaces
         void Create_TaskToFave(int taskID, int curUserID);
 
         //Редактировать задачу в избранном, установить развернутость
-        void Update_UserTaskExpended(int taskID, int curUserID, bool isExpanded);
+        void Update_UserTaskExpended(List<TreeNode> nodes);
 
         //Возвращает список правильно созданных (верный тип) задач в правильном порядке
         List<Task> Read_AllTasks(List<int> existTaskIDs);
@@ -32,7 +33,7 @@ namespace Staff_time.Model.Interfaces
         void DeleteProperties(List<PropValue> deleteList);
 
         //Проверяет, есть ли уже такая задача
-        bool IsExist(string taskName, int? parentTaskID);
+        bool IsExist(int taskID, string taskName, int? parentTaskID);
 
         //меняет местами задачи в избранном пользователя
         void ReplaceUserTasks(Task task1, Task task2);

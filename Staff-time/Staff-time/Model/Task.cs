@@ -36,6 +36,7 @@ namespace Staff_time.Model
         public bool IsMain { get; set; }
         public int ResponsibleID { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
+        public int OwnerID { get; set; }
     
         public virtual LEVEL LEVEL { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

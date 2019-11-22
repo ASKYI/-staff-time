@@ -67,6 +67,7 @@ namespace Staff_time.View
         {
             try
             {
+                Context.logWork.WriteLogWithSave(0, "", DateTime.Now, "OPENLIS");
                 var connString = "Provider=SQLNCLI11.1;Password=1;User ID=TaskManagementChemic;Data Source=MSSQL2012-WIN12;Application Name=LISChemic;MARS Connection=True";
                 RegistryKey currentUserKey = Registry.CurrentUser;
                 RegistryKey softWareKey = currentUserKey.OpenSubKey("SOFTWARE", true);

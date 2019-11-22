@@ -12,6 +12,7 @@ using GalaSoft.MvvmLight.Messaging;
 using Staff_time.Model.UserModel;
 using Staff_time.View.Dialog;
 using Staff_time.Helpers;
+using Microsoft.Win32;
 
 namespace Staff_time.ViewModel
 {
@@ -41,7 +42,7 @@ namespace Staff_time.ViewModel
             _showTaskCommand = new RelayCommand(ShowTask, CanShowTask);
             _moveUpCommand = new RelayCommand(MoveUp, CanMoveUp);
             _moveDownCommand = new RelayCommand(MoveDown, CanMoveDown);
-
+            _openChemicCommand = new RelayCommand(OpenChemic, CanOpenChemic);
             MainWindow.GlobalPropertyChanged += HandleGlobalPropertyChanged;
 
             FillRequests();
@@ -554,6 +555,7 @@ namespace Staff_time.ViewModel
 
             //Roots
             int delTaskID = SelectedTaskNode.Task.ID;
+            int? parentTaskID = SelectedTaskNode.Task.ParentTaskID;
             if (TreeRoots.Contains(SelectedTaskNode))
                 TreeRoots.Remove(SelectedTaskNode);
             //if (TasksVM.Dictionary.ContainsKey(SelectedTaskNode.Task.ID))
@@ -561,9 +563,8 @@ namespace Staff_time.ViewModel
 
 
             TasksVM.DeleteFaveWithChildren(delTaskID);
-
-            if (TasksVM.Dictionary.ContainsKey(delTaskID + 1))
-                ChangeSelection(TasksVM.Dictionary[delTaskID + 1]);
+            if (parentTaskID != null)
+                ChangeSelection(TasksVM.Dictionary[(int)parentTaskID]);
             else
                 ChangeSelection(TasksVM.Dictionary.FirstOrDefault().Value);
             //Mouse.OverrideCursor = Cursors.Arrow;
@@ -676,7 +677,46 @@ namespace Staff_time.ViewModel
             dialog = new View.EditDialogWindow(new TaskDialogViewModel(null, SelectedTaskNode.Task, TaskCommandEnum.Edit, SelectedTaskNode, isEnabled));
             dialog.Show();
         }
+
         
+        private readonly ICommand _openChemicCommand;
+        public ICommand OpenChemicCommand
+        {
+            get
+            {
+                return _openChemicCommand;
+            }
+        }
+        private bool CanOpenChemic(object obj)
+        {
+            return SelectedTaskNode != null && dialog == null && MainWindow.IsEnable;
+        }
+
+        private void OpenChemic(object obj)
+        {
+            try
+            {
+                //Запишем в лог
+                var selTask = SelectedTaskNode.Task;
+                if (selTask == null)
+                    return;
+                Context.logWork.WriteLogWithSave(selTask.ID, selTask.TaskName, DateTime.Now, "OPENLIS");
+
+                var connString = "Provider=SQLNCLI11.1;Password=1;User ID=TaskManagementChemic;Data Source=MSSQL2012-WIN12;Application Name=LISChemic;MARS Connection=True";
+                RegistryKey currentUserKey = Registry.CurrentUser;
+                RegistryKey softWareKey = currentUserKey.OpenSubKey("SOFTWARE", true);
+                RegistryKey stuffTimeKey = softWareKey.OpenSubKey("НИИ ВН", true);
+                var chemicConnectionKey = stuffTimeKey.OpenSubKey("АРМ «Химик-аналитик»", true);
+                chemicConnectionKey.SetValue("Connect", connString);
+
+                string folderPath = @"\\13.1.77.200\Share\Programmers\_Картотека_UM\Chemic.exe";
+                System.Diagnostics.Process.Start(folderPath);
+            }
+            catch
+            {
+
+            }
+        }
 
         private readonly ICommand _refreshRequestCommand;
         public ICommand RefreshRequestCommand
@@ -744,6 +784,11 @@ namespace Staff_time.ViewModel
 
             foreach (var selItem in SelectedRequests)
             {
+                if (!TasksVM.DictionaryFull.ContainsKey(selItem.TaskID))
+                {
+                    MessageBox.Show($"Задача '{selItem.TaskName}' ({selItem.TaskID}) удалена из общего дерева и взять её в работу нельзя!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
                 requestsIds.Add(selItem.ID);
                 workDt = selItem.DateTransfer;
                 RequestsList.Remove(selItem);
@@ -755,6 +800,7 @@ namespace Staff_time.ViewModel
 
             if (requestsIds.Count > 0)
                 Context.requestWork.DeleteRequests(requestsIds);
+            _generate_Tree();
             Mouse.SetCursor(Cursors.Arrow);
         }
 
@@ -762,6 +808,7 @@ namespace Staff_time.ViewModel
         {
             if (TasksVM.IsFave(taskID))
                 return;
+   
             var taskNode = TasksVM.DictionaryFull[taskID];
 
             // Добавим всех родителей, если их нет в избранном

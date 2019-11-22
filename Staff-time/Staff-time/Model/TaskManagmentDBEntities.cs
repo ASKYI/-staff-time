@@ -23,7 +23,7 @@ namespace Staff_time.Model
         #region IUserWork
         public List<User> Read_AllUsers()
         {
-            return Users.OrderBy(u => u.UserName).ToList();
+            return Users.Where(u => u.IsActive == true).OrderBy(u => u.UserName).ToList();
         }
 
         public string GetUserNameByID(int _userID)
@@ -122,17 +122,23 @@ namespace Staff_time.Model
             SaveChanges();
         }
 
-        public void Update_UserTaskExpended(int taskID, int curUserID, bool isExpanded)
+        public void Update_UserTaskExpended(List<TreeNode> nodes)
         {
-            var userTask = UserTasks.Where(ut => ut.TaskID == taskID && ut.UserID == curUserID).FirstOrDefault();
-            if (userTask != null)
+            foreach (var node in nodes)
             {
-                userTask.IsExpanded = isExpanded;
-                ChangeTracker.DetectChanges();
-                UserTasks.AddOrUpdate();
-
-                SaveChanges();
+                int taskID = node.Task.ID;
+                var userTask = UserTasks.Where(ut => ut.TaskID == taskID && ut.UserID == GlobalInfo.CurrentUser.ID).FirstOrDefault();
+                if (userTask != null)
+                {
+                    if (userTask.IsExpanded != node.IsExpanded)
+                    {
+                        userTask.IsExpanded = node.IsExpanded;
+                        UserTasks.AddOrUpdate();
+                    }
+                }
             }
+            ChangeTracker.DetectChanges();
+            SaveChanges();
         }
 
         public List<Task> Read_AllTasks(List<int> existTaskIDs)
@@ -220,13 +226,13 @@ namespace Staff_time.Model
             SaveChanges();
         }
 
-        public bool IsExist(string taskName, int? parentTaskID)
+        public bool IsExist(int taskID, string taskName, int? parentTaskID)
         {
             List<Task> tasks = new List<Task>();
             if (parentTaskID == null || (int)parentTaskID > 0)
-                tasks = Tasks.Where(t => t.TaskName.ToLower() == taskName.ToLower() && t.ParentTaskID == parentTaskID).ToList();
+                tasks = Tasks.Where(t => t.ID != taskID && t.TaskName.ToLower() == taskName.ToLower() && t.ParentTaskID == parentTaskID).ToList();
             else
-                tasks = Tasks.Where(t => t.TaskName.ToLower() == taskName.ToLower()).ToList();
+                tasks = Tasks.Where(t => t.ID != taskID && t.TaskName.ToLower() == taskName.ToLower() && (t.ParentTaskID == null || t.ParentTaskID <= 0)).ToList();
             return tasks.Count != 0;
         }
 
@@ -655,25 +661,25 @@ namespace Staff_time.Model
             SaveChanges();
         }
 
-        public void DuplicateTask(int taskFromID, int taskToID, int userID)
+        public void DuplicateTask(int copyTaskID, int taskToID, int userID)
         {
-            Task taskFrom = Tasks.Where(t => t.ID == taskFromID).FirstOrDefault();
-            if (taskFrom == null)
+            Task copyTask = Tasks.Where(t => t.ID == copyTaskID).FirstOrDefault();
+            if (copyTask == null)
                 return;
 
             Task taskTo = Tasks.Where(t => t.ID == taskToID).FirstOrDefault();
             if (taskTo != null)
             {
-                WriteLog(taskFromID, taskFrom.TaskName, DateTime.Now, "DUPLICATE_THIS");
+                WriteLog(copyTaskID, copyTask.TaskName, DateTime.Now, "DUPLICATE_THIS");
                 WriteLog(taskToID, taskTo.TaskName, DateTime.Now, "DUPLICATE_TO_HERE");
             }
             else
-                WriteLog(taskFromID, taskFrom.TaskName, DateTime.Now, "DUPLICATE_TO_ROOT");
+                WriteLog(copyTaskID, copyTask.TaskName, DateTime.Now, "DUPLICATE_TO_ROOT");
 
             SaveChanges();
 
             ChangeTracker.DetectChanges();
-            TaskDuplicate(taskFromID, taskToID, userID);
+            TaskDuplicate(copyTaskID, taskToID, userID);
         }
 
         public void UpdateTasksIndexNumbers(int indexStart)
@@ -725,6 +731,11 @@ namespace Staff_time.Model
         #endregion //IRequestWork
 
         #region ILogWork
+        public void WriteLogWithSave(int taskID, string taskName, DateTime dt, string operType)
+        {
+            WriteLog(taskID, taskName, dt, operType);
+            SaveChanges();
+        }
         public void WriteLog(int taskID, string taskName, DateTime dt, string operType)
         {
             LogTable newRow = new LogTable();

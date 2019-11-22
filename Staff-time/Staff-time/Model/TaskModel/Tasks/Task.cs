@@ -22,6 +22,7 @@ namespace Staff_time.Model
             this.LevelID = 1; // todo Настя подумать GlobalInfo.CurrentUser.LevelID;
             this.IsMain = task.IsMain;
             this.ResponsibleID = task.ResponsibleID;
+            this.OwnerID = task.OwnerID;
 
 
             this.TaskType = task.TaskType;

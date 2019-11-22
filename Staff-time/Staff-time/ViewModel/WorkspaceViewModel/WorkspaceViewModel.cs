@@ -395,14 +395,14 @@ namespace Staff_time.ViewModel
             }
         }
 
-        private ICommand _sortWorksByStartTimeCommand;
-        public ICommand SortWorksByStartTimeCommand
-        {
-            get
-            {
-                return _sortWorksByStartTimeCommand;
-            }
-        }
+        //private ICommand _sortWorksByStartTimeCommand;
+        //public ICommand SortWorksByStartTimeCommand
+        //{
+        //    get
+        //    {
+        //        return _sortWorksByStartTimeCommand;
+        //    }
+        //}
 
         private void SortWorksByStartTime(object obj)
         {

@@ -103,14 +103,5 @@ namespace Staff_time.Model
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("TaskDuplicate", taskIDFromParameter, taskIDToParameter, userIDParameter);
         }
-
-        //public virtual int GetMaxAppealNumber(Nullable<int> taskID)
-        //{
-        //    var task_ID = taskID.HasValue ?
-        //        new ObjectParameter("t_ID", taskID) :
-        //        new ObjectParameter("t_ID", typeof(int));
-
-        //    return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("GetMaxAppealNumber", task_ID);
-        //}
     }
 }

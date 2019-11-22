@@ -48,6 +48,7 @@ namespace Staff_time.ViewModel
 
             users = Context.usersWork.Read_AllUsers();
             ResponsibleUser = GlobalInfo.CurrentUser;
+            OwnerUser = GlobalInfo.CurrentUser;
 
             if (command == TaskCommandEnum.Edit)
             {
@@ -56,6 +57,7 @@ namespace Staff_time.ViewModel
                 Message = "Выбрать задачу-родителя";
                 SelLevel = levels.FirstOrDefault(l => l.LevelID == task.LevelID);
                 ResponsibleUser = users.FirstOrDefault(u => u.ID == task.ResponsibleID);
+                OwnerUser = users.FirstOrDefault(u => u.ID == task.OwnerID);
             }
             _command = command;
             Command = (int)_command;
@@ -138,7 +140,8 @@ namespace Staff_time.ViewModel
                         pv.TaskID = EditingTask.ID;
                         pv.DataType = prop.DataType;
                         propValInfo = new PropValueInfo(pv, parentListTaskID, listValues);
-                        if (EditingTask.TaskTypeID == TaskTypesCb.First(t => t.TypeName.ToLower() == "обращение").ID && EditingTask.ParentTaskID != null)
+                        if (EditingTask.TaskTypeID == TaskTypesCb.First(t => t.TypeName.ToLower() == "обращение").ID && EditingTask.ParentTaskID != null &&
+                            prop.PropName.ToLower() == "номер обращения")
                             pv.ValueInt = Context.procedureWork.GetLastAppealNumber((int)EditingTask.ParentTaskID) + 1;
                         tmpList.Add(propValInfo);
                     }
@@ -295,6 +298,20 @@ namespace Staff_time.ViewModel
             {
                 _responsibleUser = value;
                 _editingTask.ResponsibleID = _responsibleUser.ID;
+            }
+        }
+
+        private User _ownerUser;
+        public User OwnerUser
+        {
+            get
+            {
+                return _ownerUser;
+            }
+            set
+            {
+                _ownerUser = value;
+                _editingTask.OwnerID = _ownerUser.ID;
             }
         }
 
@@ -500,6 +517,11 @@ namespace Staff_time.ViewModel
                     MessageBox.Show("Нельзя назначить новым родителем потомка или самого себя");
                     return;
                 }
+                if (TasksVM.IsExist(_editingTask.ID, _editingTask.TaskName, _editingTask.ParentTaskID))
+                {
+                    MessageBox.Show("Задача с таким именем на данном уровне уже существует!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
                 if (_task.ResponsibleID != _editingTask.ResponsibleID)
                 {
                     var dialogResult = System.Windows.MessageBox.Show("Обновить ответственного у ВСЕХ дочерних задач на текущего?", "Подтверждение",
@@ -529,9 +551,9 @@ namespace Staff_time.ViewModel
                 //        int aa = 1;
                 //    }
                 //int parentTaskID = _editingTask.ParentTaskID == null ? 0 : (int)_editingTask.ParentTaskID;
-                if (TasksVM.IsExist(_editingTask.TaskName, _editingTask.ParentTaskID))
+                if (TasksVM.IsExist(_editingTask.ID, _editingTask.TaskName, _editingTask.ParentTaskID))
                 {
-                    MessageBox.Show("Задача с таким именем уже существует!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Задача с таким именем на данном уровне уже существует!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
                 Context.procedureWork.UpdateTasksIndexNumbers((int)_editingTask.IndexNumber); // обновим индексы с текущего

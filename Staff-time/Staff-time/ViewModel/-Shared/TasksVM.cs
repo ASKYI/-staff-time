@@ -579,11 +579,7 @@ namespace Staff_time.ViewModel
 
         public static void SaveCollapse(ObservableCollection<TreeNode> treeRoots)
         {
-            foreach (var elem in TasksVM.Dictionary)
-            {
-                var node = elem.Value;
-                Context.taskWork.Update_UserTaskExpended(node.Task.ID, GlobalInfo.CurrentUser.ID, node.IsExpanded);
-            }
+            Context.taskWork.Update_UserTaskExpended(TasksVM.Dictionary.Select(n => n.Value).ToList());
 
             //Queue<TreeNode> nodeToExpended = new Queue<TreeNode>();
 
@@ -675,9 +671,9 @@ namespace Staff_time.ViewModel
         {
             return Context.taskWork.IsFave(taskID);
         }
-        public static bool IsExist(string taskName, int? parentTaskID)
+        public static bool IsExist(int taskID, string taskName, int? parentTaskID)
         {
-            return Context.taskWork.IsExist(taskName, parentTaskID);
+            return Context.taskWork.IsExist(taskID, taskName, parentTaskID);
         }
 
         public static void ReplaceUserTasks(Task task1, Task task2)
