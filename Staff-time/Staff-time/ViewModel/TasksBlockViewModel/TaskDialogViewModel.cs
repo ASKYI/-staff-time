@@ -486,26 +486,15 @@ namespace Staff_time.ViewModel
 
         public void Accept(object obj)
         {
-            ////Обновить в БД значения родительских списков
-            //var pvLists = PropValuesCollection.Where(pvi => pvi.propVal.Property.DataType == 5 && pvi.propVal.Property.ListType == true).ToList();
-            //foreach (var pvi in pvLists)
-            //{
-            //    var list = pvi.listsValues;
-            //    var listID = pvi.propVal.Property.ListID;
-            //    var parentTaskID = pvi.parentListTaskID;
-            //    Context.listWork.UpdateListValues(list, parentTaskID, (int)listID);
-            //}
-            ////Обновить в БД значения своих списков
-            //var taskLists = TaskLists.Select(tl => tl.list).ToList();
-            //Context.listWork.UpdateLists(taskLists);
-            
-            //foreach (var listInfo in TaskLists)
-            //{
-            //    var list = listInfo.listsValues;
-            //    var listID = listInfo.list.ID;
-            //    var parentTaskID = listInfo.TaskID;
-            //    Context.listWork.UpdateListValues(list, parentTaskID, (int)listID);
-            //}
+            if (ALLVM == null) //мы запустили на просмотр задачу
+            {
+                if (dialog != null)
+                {
+                    dialog.Close();
+                    dialog = null;
+                    return;
+                }
+            }
 
             ////Значения доп. полей почистить
             //FilterPropValues();
