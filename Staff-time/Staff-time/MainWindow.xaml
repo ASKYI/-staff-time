@@ -5,26 +5,78 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Staff_time"
         
-        xmlns:view="clr-namespace:Staff_time.View"
-        
+        xmlns:view="clr-namespace:Staff_time.View"     
         mc:Ignorable="d"
-        Title="" Height="450" Width="800" Icon="pilot.ico">
+        
+        xmlns:m="clr-namespace:Staff_time.Model"
+        xmlns:vm="clr-namespace:Staff_time.ViewModel"  
+        
+        MouseDown="TasksBlockView_MouseDown"  
+        
+        Title="" Height="450" Width="800" MinWidth="900" MinHeight="370"
+        Icon="Resources/appImage.ico" WindowStartupLocation="CenterScreen" WindowState="Maximized"
+        Loaded="Window_Loaded" StateChanged="Window_State_Changed"
+        Background="#99D8DF"
+        
+>
+    <Window.Resources>
+        <Style TargetType="{x:Type Window}">
+            <Setter Property="FontFamily" Value="Arial" />
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="2.5*"></ColumnDefinition>
+            <ColumnDefinition Width="360" MinWidth="360"></ColumnDefinition>
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="515*" MinWidth="515"></ColumnDefinition>
+            <!--<ColumnDefinition Width="43*"/>-->
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="7*"></RowDefinition>
+            <RowDefinition Height="27"></RowDefinition>
+            <RowDefinition Height="27"></RowDefinition>
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
-        <view:TasksView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"></view:TasksView>
-        
-        <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="3" BorderBrush="Gray" BorderThickness="2">
-            <view:WorkspaceView ></view:WorkspaceView>
+
+        <Menu Width="70" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="0" Background="Transparent" >
+            <MenuItem Header="Инфо" FontWeight="DemiBold">
+                <MenuItem.Icon>
+                    <Image Source="Resources/info.ico"/>
+                </MenuItem.Icon>
+                <MenuItem Header="О программе" Click="About_Program_Click"></MenuItem>
+                <Separator />
+            </MenuItem>
+        </Menu>
+
+        <StackPanel Margin="0, 0, 0, 5" Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
+            <Button HorizontalAlignment="Left" Background="#DEF0F3" Click="ShowUserSettings">
+                <Image Source="Resources/login.png"></Image>
+            </Button>
+            <TextBlock Margin="2" Text="{Binding chosenUser.UserName}" Background="#DEF0F3" FontSize="14" FontFamily="Arial" HorizontalAlignment="Left"></TextBlock>
+        </StackPanel>
+
+        <StackPanel Margin="0, 0, 0, 5" Orientation="Horizontal" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Right">
+            <Button Width="60" Content="Выйти" Click="LogoutEvent" Cursor="Hand" ></Button>
+        </StackPanel>
+
+        <StackPanel Margin="0, 0, 0, 5" Orientation="Horizontal" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left">
+            <Button Width="140" Content="Трудозатраты за месяц" Click="ShowTimeStatistics" Background="Salmon" Cursor="Hand"  ></Button>
+        </StackPanel>
+
+        <!--<StackPanel>
+        <TextBlock Margin="2" Text="1111111" FontSize="18" FontWeight="DemiBold" FontFamily="Arial" Background="LightSkyBlue" HorizontalAlignment="Left"></TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Right">
+            <Button Margin="2" Width="60" Content="Выйти" Click="LogoutEvent" ></Button>
+        </StackPanel>-->
+
+
+        <view:TasksBlockView Grid.Column="0" Grid.Row="2" Grid.RowSpan="2"/>
+        <GridSplitter Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Width="5" HorizontalAlignment="Stretch" Background="Gray">
+        </GridSplitter>
+
+        <Border Grid.Column="2" Grid.Row="3" Grid.RowSpan="2" Margin="3" Background="#DEF0F3" BorderBrush="Gray" BorderThickness="2">
+            <view:WorkspaceView/>
         </Border>
-        
-        <!--<view:FaveView Grid.Column="1" Grid.Row="1"></view:FaveView>-->
     </Grid>
 </Window>
+    

@@ -24,6 +24,7 @@ namespace Staff_time.ViewModel
         }
 
         #region ICommand Members
+
         public bool CanExecute(object parameter)
         {
             return _canExecute == null ? true : _canExecute(parameter);
@@ -45,6 +46,7 @@ namespace Staff_time.ViewModel
         {
             _execute(parameter);
         }
+
         #endregion
     }
 }

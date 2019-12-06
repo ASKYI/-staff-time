@@ -8,7 +8,7 @@ namespace Staff_time.Model
 {
     #region Tasks
     // Нет Заказчик Предприятие Договор Направление
-    public enum TaskTypeEnum { TaskNone, TaskCustomer, TaskСompany, TaskСontract, TaskSpecialty }
+    public enum TaskTypeEnum { TaskClassification, TaskCustomer, TaskDirection, TaskAppeal, TaskContract, TaskRevision, TaskPlan, TaskIntegration, TaskTask }
     #endregion
 
     #region Works

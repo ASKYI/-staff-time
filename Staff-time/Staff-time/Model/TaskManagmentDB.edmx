@@ -1,0 +1,1854 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище TaskManagmentDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attributes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AttrValues">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AttrID" Type="int" Nullable="false" />
+          <Property Name="WorkID" Type="int" Nullable="false" />
+          <Property Name="DataType" Type="int" Nullable="false" />
+          <Property Name="ValueText" Type="nvarchar(max)" />
+          <Property Name="ValueInt" Type="int" />
+          <Property Name="ValueDate" Type="datetime" />
+          <Property Name="ValueTime" Type="time" Precision="7" />
+        </EntityType>
+        <EntityType Name="LEVELS">
+          <Key>
+            <PropertyRef Name="LevelID" />
+          </Key>
+          <Property Name="LevelID" Type="int" Nullable="false" />
+          <Property Name="LevelName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lists">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nam" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ListsValues">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="ListID" Type="int" Nullable="false" />
+          <Property Name="Val" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LogTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="TaskName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ChangeDate" Type="datetime" Nullable="false" />
+          <Property Name="OperationType" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Properties">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataType" Type="int" Nullable="false" />
+          <Property Name="PropName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ListType" Type="bit" />
+          <Property Name="ListID" Type="int" />
+          <Property Name="TaskTypeID" Type="int" />
+        </EntityType>
+        <EntityType Name="PropertiesList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PropID" Type="int" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PropValues">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataType" Type="int" Nullable="false" />
+          <Property Name="PropID" Type="int" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="ValueText" Type="nvarchar(max)" />
+          <Property Name="ValueInt" Type="int" />
+          <Property Name="ValueDate" Type="date" />
+          <Property Name="ValueTime" Type="time" Precision="7" />
+        </EntityType>
+        <EntityType Name="Reasons">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReasonText" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Requests">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FromUserID" Type="int" Nullable="false" />
+          <Property Name="ToUserID" Type="int" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="TransferDateTime" Type="datetime" Nullable="false" />
+          <Property Name="Note" Type="nvarchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="TaskName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="TaskTypeID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentTaskID" Type="int" />
+          <Property Name="CreateDate" Type="date" />
+          <Property Name="WorkTypeID" Type="int" Nullable="false" />
+          <Property Name="Descriptions" Type="varchar(max)" />
+          <Property Name="IndexNumber" Type="int" />
+          <Property Name="LevelID" Type="int" />
+          <Property Name="IsMain" Type="bit" Nullable="false" />
+          <Property Name="ResponsibleID" Type="int" Nullable="false" />
+          <Property Name="OwnerID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaskTypeProps">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskTypeID" Type="int" Nullable="false" />
+          <Property Name="PropID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaskTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="TypeName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TimeTable">
+          <Key>
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="PlanningTime" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="8" />
+          <Property Name="LevelID" Type="int" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="Settings" Type="xml" />
+          <Property Name="WorkMode" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="UserTasks">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="IsExpanded" Type="bit" />
+          <Property Name="IndexNumber" Type="int" />
+        </EntityType>
+        <EntityType Name="WorkAbsence">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ReasonID" Type="int" Nullable="false" />
+          <Property Name="AbsenceDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Works">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="WorkName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="WorkTypeID" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="Minutes" Type="int" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="WorkTimeRange">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="WorkID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkTypeAttrs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WorkTypeID" Type="int" Nullable="false" />
+          <Property Name="AttrID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="TypeName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AttrValues_Attributes1">
+          <End Role="Attributes" Type="Self.Attributes" Multiplicity="1" />
+          <End Role="AttrValues" Type="Self.AttrValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttrValues">
+              <PropertyRef Name="AttrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AttrValues_Works">
+          <End Role="Works" Type="Self.Works" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AttrValues" Type="Self.AttrValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Works">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttrValues">
+              <PropertyRef Name="WorkID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListsValues_Lists">
+          <End Role="Lists" Type="Self.Lists" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ListsValues" Type="Self.ListsValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lists">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ListsValues">
+              <PropertyRef Name="ListID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListsValues_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ListsValues" Type="Self.ListsValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ListsValues">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Properties_Lists">
+          <End Role="Lists" Type="Self.Lists" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Properties" Type="Self.Properties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lists">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Properties">
+              <PropertyRef Name="ListID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PropertiesList_Properties">
+          <End Role="Properties" Type="Self.Properties" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PropertiesList" Type="Self.PropertiesList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Properties">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PropertiesList">
+              <PropertyRef Name="PropID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PropValues_Properties">
+          <End Role="Properties" Type="Self.Properties" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PropValues" Type="Self.PropValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Properties">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PropValues">
+              <PropertyRef Name="PropID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PropValues_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PropValues" Type="Self.PropValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PropValues">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="ToUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Levels">
+          <End Role="LEVELS" Type="Self.LEVELS" Multiplicity="0..1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LEVELS">
+              <PropertyRef Name="LevelID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="LevelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="0..1" />
+          <End Role="Tasks1" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks1">
+              <PropertyRef Name="ParentTaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_TaskTypes">
+          <End Role="TaskTypes" Type="Self.TaskTypes" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="TaskTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="ResponsibleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_WorkTypes">
+          <End Role="WorkTypes" Type="Self.WorkTypes" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="WorkTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskTypeProps_Properties">
+          <End Role="Properties" Type="Self.Properties" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TaskTypeProps" Type="Self.TaskTypeProps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Properties">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TaskTypeProps">
+              <PropertyRef Name="PropID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskTypeProps_TaskTypes">
+          <End Role="TaskTypes" Type="Self.TaskTypes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TaskTypeProps" Type="Self.TaskTypeProps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TaskTypeProps">
+              <PropertyRef Name="TaskTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Levels">
+          <End Role="LEVELS" Type="Self.LEVELS" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LEVELS">
+              <PropertyRef Name="LevelID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="LevelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Requests">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="FromUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTasks_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserTasks" Type="Self.UserTasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserTasks">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTasks_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserTasks" Type="Self.UserTasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserTasks">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkAbsence_Reasons">
+          <End Role="Reasons" Type="Self.Reasons" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WorkAbsence" Type="Self.WorkAbsence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reasons">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkAbsence">
+              <PropertyRef Name="ReasonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkAbsence_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WorkAbsence" Type="Self.WorkAbsence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkAbsence">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Works_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Works" Type="Self.Works" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Works">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Works_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Works" Type="Self.Works" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Works">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Works_WorkTypes">
+          <End Role="WorkTypes" Type="Self.WorkTypes" Multiplicity="1" />
+          <End Role="Works" Type="Self.Works" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Works">
+              <PropertyRef Name="WorkTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkTimeRange_Works">
+          <End Role="Works" Type="Self.Works" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WorkTimeRange" Type="Self.WorkTimeRange" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Works">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkTimeRange">
+              <PropertyRef Name="WorkID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkTypeAttrs_Attributes">
+          <End Role="Attributes" Type="Self.Attributes" Multiplicity="1" />
+          <End Role="WorkTypeAttrs" Type="Self.WorkTypeAttrs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkTypeAttrs">
+              <PropertyRef Name="AttrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkTypeAttrs_WorkTypes">
+          <End Role="WorkTypes" Type="Self.WorkTypes" Multiplicity="1" />
+          <End Role="WorkTypeAttrs" Type="Self.WorkTypeAttrs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkTypeAttrs">
+              <PropertyRef Name="WorkTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GenerateTaskResults2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="d" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="GenerateTaskResults2All" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GenerateTaskResults2Changed" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetMaxAppealNumber" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="t_ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="RepareUserTree" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="taskId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="TaskDuplicate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TaskIDFrom" Type="int" Mode="In" />
+          <Parameter Name="TaskIDTo" Type="int" Mode="In" />
+          <Parameter Name="userID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateTaskIndexNumbersAfterAppend" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NextIndexNumber" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="Хранилище TaskManagmentDBModelContainer">
+          <EntitySet Name="Attributes" EntityType="Self.Attributes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AttrValues" EntityType="Self.AttrValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LEVELS" EntityType="Self.LEVELS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lists" EntityType="Self.Lists" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListsValues" EntityType="Self.ListsValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogTable" EntityType="Self.LogTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Properties" EntityType="Self.Properties" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PropertiesList" EntityType="Self.PropertiesList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PropValues" EntityType="Self.PropValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reasons" EntityType="Self.Reasons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Requests" EntityType="Self.Requests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskTypeProps" EntityType="Self.TaskTypeProps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskTypes" EntityType="Self.TaskTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimeTable" EntityType="Self.TimeTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserTasks" EntityType="Self.UserTasks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkAbsence" EntityType="Self.WorkAbsence" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Works" EntityType="Self.Works" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkTimeRange" EntityType="Self.WorkTimeRange" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkTypeAttrs" EntityType="Self.WorkTypeAttrs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkTypes" EntityType="Self.WorkTypes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AttrValues_Attributes1" Association="Self.FK_AttrValues_Attributes1">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="AttrValues" EntitySet="AttrValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AttrValues_Works" Association="Self.FK_AttrValues_Works">
+            <End Role="Works" EntitySet="Works" />
+            <End Role="AttrValues" EntitySet="AttrValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListsValues_Lists" Association="Self.FK_ListsValues_Lists">
+            <End Role="Lists" EntitySet="Lists" />
+            <End Role="ListsValues" EntitySet="ListsValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListsValues_Tasks" Association="Self.FK_ListsValues_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="ListsValues" EntitySet="ListsValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Properties_Lists" Association="Self.FK_Properties_Lists">
+            <End Role="Lists" EntitySet="Lists" />
+            <End Role="Properties" EntitySet="Properties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PropertiesList_Properties" Association="Self.FK_PropertiesList_Properties">
+            <End Role="Properties" EntitySet="Properties" />
+            <End Role="PropertiesList" EntitySet="PropertiesList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PropValues_Properties" Association="Self.FK_PropValues_Properties">
+            <End Role="Properties" EntitySet="Properties" />
+            <End Role="PropValues" EntitySet="PropValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PropValues_Tasks" Association="Self.FK_PropValues_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="PropValues" EntitySet="PropValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Tasks" Association="Self.FK_Requests_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Users" Association="Self.FK_Requests_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Levels" Association="Self.FK_Tasks_Levels">
+            <End Role="LEVELS" EntitySet="LEVELS" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Tasks" Association="Self.FK_Tasks_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="Tasks1" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_TaskTypes" Association="Self.FK_Tasks_TaskTypes">
+            <End Role="TaskTypes" EntitySet="TaskTypes" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Users" Association="Self.FK_Tasks_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_WorkTypes" Association="Self.FK_Tasks_WorkTypes">
+            <End Role="WorkTypes" EntitySet="WorkTypes" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskTypeProps_Properties" Association="Self.FK_TaskTypeProps_Properties">
+            <End Role="Properties" EntitySet="Properties" />
+            <End Role="TaskTypeProps" EntitySet="TaskTypeProps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskTypeProps_TaskTypes" Association="Self.FK_TaskTypeProps_TaskTypes">
+            <End Role="TaskTypes" EntitySet="TaskTypes" />
+            <End Role="TaskTypeProps" EntitySet="TaskTypeProps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Levels" Association="Self.FK_Users_Levels">
+            <End Role="LEVELS" EntitySet="LEVELS" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Requests" Association="Self.FK_Users_Requests">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTasks_Tasks" Association="Self.FK_UserTasks_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="UserTasks" EntitySet="UserTasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTasks_Users" Association="Self.FK_UserTasks_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserTasks" EntitySet="UserTasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkAbsence_Reasons" Association="Self.FK_WorkAbsence_Reasons">
+            <End Role="Reasons" EntitySet="Reasons" />
+            <End Role="WorkAbsence" EntitySet="WorkAbsence" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkAbsence_Users" Association="Self.FK_WorkAbsence_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="WorkAbsence" EntitySet="WorkAbsence" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Works_Tasks" Association="Self.FK_Works_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="Works" EntitySet="Works" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Works_Users" Association="Self.FK_Works_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Works" EntitySet="Works" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Works_WorkTypes" Association="Self.FK_Works_WorkTypes">
+            <End Role="WorkTypes" EntitySet="WorkTypes" />
+            <End Role="Works" EntitySet="Works" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkTimeRange_Works" Association="Self.FK_WorkTimeRange_Works">
+            <End Role="Works" EntitySet="Works" />
+            <End Role="WorkTimeRange" EntitySet="WorkTimeRange" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkTypeAttrs_Attributes" Association="Self.FK_WorkTypeAttrs_Attributes">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="WorkTypeAttrs" EntitySet="WorkTypeAttrs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkTypeAttrs_WorkTypes" Association="Self.FK_WorkTypeAttrs_WorkTypes">
+            <End Role="WorkTypes" EntitySet="WorkTypes" />
+            <End Role="WorkTypeAttrs" EntitySet="WorkTypeAttrs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TaskManagmentDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Attribute">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AttrValues" Relationship="Self.FK_AttrValues_Attributes1" FromRole="Attributes" ToRole="AttrValues" />
+          <NavigationProperty Name="WorkTypeAttrs" Relationship="Self.FK_WorkTypeAttrs_Attributes" FromRole="Attributes" ToRole="WorkTypeAttrs" />
+        </EntityType>
+        <EntityType Name="AttrValue">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AttrID" Type="Int32" Nullable="false" />
+          <Property Name="WorkID" Type="Int32" Nullable="false" />
+          <Property Name="DataType" Type="Int32" Nullable="false" />
+          <Property Name="ValueText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ValueInt" Type="Int32" />
+          <Property Name="ValueDate" Type="DateTime" Precision="3" />
+          <Property Name="ValueTime" Type="Time" Precision="7" />
+          <NavigationProperty Name="Attribute" Relationship="Self.FK_AttrValues_Attributes1" FromRole="AttrValues" ToRole="Attributes" />
+          <NavigationProperty Name="Work" Relationship="TaskManagmentDBModel.FK_AttrValues_Works" FromRole="AttrValue" ToRole="Work" />
+        </EntityType>
+        <EntityType Name="TaskTypeProp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskTypeID" Type="Int32" Nullable="false" />
+          <Property Name="PropID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TaskType" Relationship="Self.FK_TaskTypeProps_TaskTypes" FromRole="TaskTypeProps" ToRole="TaskTypes" />
+          <NavigationProperty Name="Property" Relationship="TaskManagmentDBModel.FK_TaskTypeProps_Properties" FromRole="TaskTypeProp" ToRole="Property" />
+        </EntityType>
+        <EntityType Name="TaskType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TaskTypeProps" Relationship="Self.FK_TaskTypeProps_TaskTypes" FromRole="TaskTypes" ToRole="TaskTypeProps" />
+          <NavigationProperty Name="Tasks" Relationship="TaskManagmentDBModel.FK_Tasks_TaskTypes" FromRole="TaskType" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="UserTasks" Relationship="Self.FK_UserTasks_Users" FromRole="Users" ToRole="UserTasks" />
+          <Property Name="Password" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="LevelID" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="LEVEL" Relationship="TaskManagmentDBModel.FK_Users_Levels" FromRole="User" ToRole="LEVEL" />
+          <NavigationProperty Name="Requests" Relationship="TaskManagmentDBModel.FK_Requests_Users" FromRole="User" ToRole="Request" />
+          <NavigationProperty Name="Requests1" Relationship="TaskManagmentDBModel.FK_Users_Requests" FromRole="User" ToRole="Request" />
+          <NavigationProperty Name="Tasks" Relationship="TaskManagmentDBModel.FK_Tasks_Users" FromRole="User" ToRole="Task" />
+          <Property Name="Settings" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Works" Relationship="TaskManagmentDBModel.FK_Works_Users" FromRole="User" ToRole="Work" />
+          <Property Name="WorkMode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="WorkAbsences" Relationship="TaskManagmentDBModel.FK_WorkAbsence_Users" FromRole="User" ToRole="WorkAbsence" />
+          </EntityType>
+        <EntityType Name="UserTask">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_UserTasks_Users" FromRole="UserTasks" ToRole="Users" />
+          <Property Name="IsExpanded" Type="Boolean" />
+          <Property Name="IndexNumber" Type="Int32" />
+          <NavigationProperty Name="Task" Relationship="TaskManagmentDBModel.FK_UserTasks_Tasks" FromRole="UserTask" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="WorkTypeAttr">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WorkTypeID" Type="Int32" Nullable="false" />
+          <Property Name="AttrID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Attribute" Relationship="Self.FK_WorkTypeAttrs_Attributes" FromRole="WorkTypeAttrs" ToRole="Attributes" />
+          <NavigationProperty Name="WorkType" Relationship="Self.FK_WorkTypeAttrs_WorkTypes" FromRole="WorkTypeAttrs" ToRole="WorkTypes" />
+        </EntityType>
+        <EntityType Name="WorkType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="WorkTypeAttrs" Relationship="Self.FK_WorkTypeAttrs_WorkTypes" FromRole="WorkTypes" ToRole="WorkTypeAttrs" />
+          <NavigationProperty Name="Tasks" Relationship="TaskManagmentDBModel.FK_Tasks_WorkTypes" FromRole="WorkType" ToRole="Task" />
+          <NavigationProperty Name="Works" Relationship="TaskManagmentDBModel.FK_Works_WorkTypes" FromRole="WorkType" ToRole="Work" />
+        </EntityType>
+        <Association Name="FK_AttrValues_Attributes1">
+          <End Role="Attributes" Type="Self.Attribute" Multiplicity="1" />
+          <End Role="AttrValues" Type="Self.AttrValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttrValues">
+              <PropertyRef Name="AttrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkTypeAttrs_Attributes">
+          <End Role="Attributes" Type="Self.Attribute" Multiplicity="1" />
+          <End Role="WorkTypeAttrs" Type="Self.WorkTypeAttr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Attributes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkTypeAttrs">
+              <PropertyRef Name="AttrID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskTypeProps_TaskTypes">
+          <End Role="TaskTypes" Type="Self.TaskType" Multiplicity="1" />
+          <End Role="TaskTypeProps" Type="Self.TaskTypeProp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TaskTypeProps">
+              <PropertyRef Name="TaskTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTasks_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="UserTasks" Type="Self.UserTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserTasks">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkTypeAttrs_WorkTypes">
+          <End Role="WorkTypes" Type="Self.WorkType" Multiplicity="1" />
+          <End Role="WorkTypeAttrs" Type="Self.WorkTypeAttr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkTypeAttrs">
+              <PropertyRef Name="WorkTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TaskManagmentDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attributes" EntityType="Self.Attribute" />
+          <EntitySet Name="AttrValues" EntityType="Self.AttrValue" />
+          <EntitySet Name="TaskTypeProps" EntityType="Self.TaskTypeProp" />
+          <EntitySet Name="TaskTypes" EntityType="Self.TaskType" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserTasks" EntityType="Self.UserTask" />
+          <EntitySet Name="WorkTypeAttrs" EntityType="Self.WorkTypeAttr" />
+          <EntitySet Name="WorkTypes" EntityType="Self.WorkType" />
+          <AssociationSet Name="FK_AttrValues_Attributes1" Association="Self.FK_AttrValues_Attributes1">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="AttrValues" EntitySet="AttrValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkTypeAttrs_Attributes" Association="Self.FK_WorkTypeAttrs_Attributes">
+            <End Role="Attributes" EntitySet="Attributes" />
+            <End Role="WorkTypeAttrs" EntitySet="WorkTypeAttrs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskTypeProps_TaskTypes" Association="Self.FK_TaskTypeProps_TaskTypes">
+            <End Role="TaskTypes" EntitySet="TaskTypes" />
+            <End Role="TaskTypeProps" EntitySet="TaskTypeProps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTasks_Users" Association="Self.FK_UserTasks_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserTasks" EntitySet="UserTasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkTypeAttrs_WorkTypes" Association="Self.FK_WorkTypeAttrs_WorkTypes">
+            <End Role="WorkTypes" EntitySet="WorkTypes" />
+            <End Role="WorkTypeAttrs" EntitySet="WorkTypeAttrs" />
+          </AssociationSet>
+          <EntitySet Name="LEVELS" EntityType="TaskManagmentDBModel.LEVEL" />
+          <AssociationSet Name="FK_LEVELS_LEVELS" Association="TaskManagmentDBModel.FK_LEVELS_LEVELS">
+            <End Role="LEVEL" EntitySet="LEVELS" />
+            <End Role="LEVEL1" EntitySet="LEVELS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Levels" Association="TaskManagmentDBModel.FK_Users_Levels">
+            <End Role="LEVEL" EntitySet="LEVELS" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="TimeTables" EntityType="TaskManagmentDBModel.TimeTable" />
+          <FunctionImport Name="RepareUserTree">
+          <Parameter Name="taskId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Requests" EntityType="TaskManagmentDBModel.Request" />
+          <AssociationSet Name="FK_Requests_Users" Association="TaskManagmentDBModel.FK_Requests_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Request" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Requests" Association="TaskManagmentDBModel.FK_Users_Requests">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Request" EntitySet="Requests" />
+          </AssociationSet>
+          <EntitySet Name="PropValues" EntityType="TaskManagmentDBModel.PropValue" />
+          <EntitySet Name="Tasks" EntityType="TaskManagmentDBModel.Task" />
+          <AssociationSet Name="FK_Tasks_Levels" Association="TaskManagmentDBModel.FK_Tasks_Levels">
+            <End Role="LEVEL" EntitySet="LEVELS" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PropValues_Tasks" Association="TaskManagmentDBModel.FK_PropValues_Tasks">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="PropValue" EntitySet="PropValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Tasks" Association="TaskManagmentDBModel.FK_Requests_Tasks">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="Request" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Tasks" Association="TaskManagmentDBModel.FK_Tasks_Tasks">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="Task1" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_TaskTypes" Association="TaskManagmentDBModel.FK_Tasks_TaskTypes">
+            <End Role="TaskType" EntitySet="TaskTypes" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Users" Association="TaskManagmentDBModel.FK_Tasks_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_WorkTypes" Association="TaskManagmentDBModel.FK_Tasks_WorkTypes">
+            <End Role="WorkType" EntitySet="WorkTypes" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTasks_Tasks" Association="TaskManagmentDBModel.FK_UserTasks_Tasks">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="UserTask" EntitySet="UserTasks" />
+          </AssociationSet>
+          <EntitySet Name="PropertiesLists" EntityType="TaskManagmentDBModel.PropertiesList" />
+          <FunctionImport Name="UpdateTaskIndexNumbersAfterAppend">
+          <Parameter Name="NextIndexNumber" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Lists" EntityType="TaskManagmentDBModel.List" />
+          <EntitySet Name="ListsValues" EntityType="TaskManagmentDBModel.ListsValue" />
+          <AssociationSet Name="FK_ListsValues_Lists" Association="TaskManagmentDBModel.FK_ListsValues_Lists">
+            <End Role="List" EntitySet="Lists" />
+            <End Role="ListsValue" EntitySet="ListsValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListsValues_Tasks" Association="TaskManagmentDBModel.FK_ListsValues_Tasks">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="ListsValue" EntitySet="ListsValues" />
+          </AssociationSet>
+          <EntitySet Name="Properties" EntityType="TaskManagmentDBModel.Property" />
+          <AssociationSet Name="FK_Properties_Lists" Association="TaskManagmentDBModel.FK_Properties_Lists">
+            <End Role="List" EntitySet="Lists" />
+            <End Role="Property" EntitySet="Properties" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PropertiesList_Properties" Association="TaskManagmentDBModel.FK_PropertiesList_Properties">
+            <End Role="Property" EntitySet="Properties" />
+            <End Role="PropertiesList" EntitySet="PropertiesLists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PropValues_Properties" Association="TaskManagmentDBModel.FK_PropValues_Properties">
+            <End Role="Property" EntitySet="Properties" />
+            <End Role="PropValue" EntitySet="PropValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskTypeProps_Properties" Association="TaskManagmentDBModel.FK_TaskTypeProps_Properties">
+            <End Role="Property" EntitySet="Properties" />
+            <End Role="TaskTypeProp" EntitySet="TaskTypeProps" />
+          </AssociationSet>
+          <FunctionImport Name="GenerateTaskResults2">
+          <Parameter Name="d" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="GenerateTaskResults2All" />
+          <FunctionImport Name="GenerateTaskResults2Changed" />
+          <EntitySet Name="WorkTimeRanges" EntityType="TaskManagmentDBModel.WorkTimeRange" />
+          <EntitySet Name="Works" EntityType="TaskManagmentDBModel.Work" />
+          <AssociationSet Name="FK_AttrValues_Works" Association="TaskManagmentDBModel.FK_AttrValues_Works">
+            <End Role="Work" EntitySet="Works" />
+            <End Role="AttrValue" EntitySet="AttrValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Works_Tasks" Association="TaskManagmentDBModel.FK_Works_Tasks">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="Work" EntitySet="Works" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Works_Users" Association="TaskManagmentDBModel.FK_Works_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Work" EntitySet="Works" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Works_WorkTypes" Association="TaskManagmentDBModel.FK_Works_WorkTypes">
+            <End Role="WorkType" EntitySet="WorkTypes" />
+            <End Role="Work" EntitySet="Works" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkTimeRange_Works" Association="TaskManagmentDBModel.FK_WorkTimeRange_Works">
+            <End Role="Work" EntitySet="Works" />
+            <End Role="WorkTimeRange" EntitySet="WorkTimeRanges" />
+          </AssociationSet>
+          <EntitySet Name="LogTables" EntityType="TaskManagmentDBModel.LogTable" />
+          <FunctionImport Name="TaskDuplicate">
+            <Parameter Name="TaskIDFrom" Mode="In" Type="Int32" />
+            <Parameter Name="TaskIDTo" Mode="In" Type="Int32" />
+            <Parameter Name="userID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Reasons" EntityType="TaskManagmentDBModel.Reason" />
+          <EntitySet Name="WorkAbsences" EntityType="TaskManagmentDBModel.WorkAbsence" />
+          <AssociationSet Name="FK_WorkAbsence_Reasons" Association="TaskManagmentDBModel.FK_WorkAbsence_Reasons">
+            <End Role="Reason" EntitySet="Reasons" />
+            <End Role="WorkAbsence" EntitySet="WorkAbsences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkAbsence_Users" Association="TaskManagmentDBModel.FK_WorkAbsence_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="WorkAbsence" EntitySet="WorkAbsences" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="LEVEL">
+          <Key>
+            <PropertyRef Name="LevelID" />
+          </Key>
+          <Property Name="LevelID" Type="Int32" Nullable="false" />
+          <Property Name="LevelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="LEVELS1" Relationship="TaskManagmentDBModel.FK_LEVELS_LEVELS" FromRole="LEVEL" ToRole="LEVEL1" />
+          <NavigationProperty Name="LEVEL1" Relationship="TaskManagmentDBModel.FK_LEVELS_LEVELS" FromRole="LEVEL1" ToRole="LEVEL" />
+          <NavigationProperty Name="Users" Relationship="TaskManagmentDBModel.FK_Users_Levels" FromRole="LEVEL" ToRole="User" />
+          <NavigationProperty Name="Tasks" Relationship="TaskManagmentDBModel.FK_Tasks_Levels" FromRole="LEVEL" ToRole="Task" />
+        </EntityType>
+        <Association Name="FK_LEVELS_LEVELS">
+          <End Type="TaskManagmentDBModel.LEVEL" Role="LEVEL" Multiplicity="1" />
+          <End Type="TaskManagmentDBModel.LEVEL" Role="LEVEL1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="LEVEL">
+              <PropertyRef Name="LevelID" />
+            </Principal>
+            <Dependent Role="LEVEL1">
+              <PropertyRef Name="LevelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Levels">
+          <End Type="TaskManagmentDBModel.LEVEL" Role="LEVEL" Multiplicity="1" />
+          <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LEVEL">
+              <PropertyRef Name="LevelID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="LevelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TimeTable">
+          <Key>
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PlanningTime" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Request">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FromUserID" Type="Int32" Nullable="false" />
+          <Property Name="ToUserID" Type="Int32" Nullable="false" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="TransferDateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="TaskManagmentDBModel.FK_Requests_Users" FromRole="Request" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="TaskManagmentDBModel.FK_Users_Requests" FromRole="Request" ToRole="User" />
+          <NavigationProperty Name="Task" Relationship="TaskManagmentDBModel.FK_Requests_Tasks" FromRole="Request" ToRole="Task" />
+          <Property Name="Note" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Requests_Users">
+          <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TaskManagmentDBModel.Request" Role="Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="ToUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Requests">
+          <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="TaskManagmentDBModel.Request" Role="Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="FromUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PropValue">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataType" Type="Int32" Nullable="false" />
+          <Property Name="PropID" Type="Int32" Nullable="false" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="ValueText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ValueInt" Type="Int32" />
+          <Property Name="ValueDate" Type="DateTime" Precision="0" />
+          <Property Name="ValueTime" Type="Time" Precision="7" />
+          <NavigationProperty Name="Task" Relationship="TaskManagmentDBModel.FK_PropValues_Tasks" FromRole="PropValue" ToRole="Task" />
+          <NavigationProperty Name="Property" Relationship="TaskManagmentDBModel.FK_PropValues_Properties" FromRole="PropValue" ToRole="Property" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="TaskName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TaskTypeID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentTaskID" Type="Int32" />
+          <Property Name="WorkTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Descriptions" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IndexNumber" Type="Int32" />
+          <Property Name="LevelID" Type="Int32" />
+          <Property Name="IsMain" Type="Boolean" Nullable="false" />
+          <Property Name="ResponsibleID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LEVEL" Relationship="TaskManagmentDBModel.FK_Tasks_Levels" FromRole="Task" ToRole="LEVEL" />
+          <NavigationProperty Name="PropValues" Relationship="TaskManagmentDBModel.FK_PropValues_Tasks" FromRole="Task" ToRole="PropValue" />
+          <NavigationProperty Name="Requests" Relationship="TaskManagmentDBModel.FK_Requests_Tasks" FromRole="Task" ToRole="Request" />
+          <NavigationProperty Name="Tasks1" Relationship="TaskManagmentDBModel.FK_Tasks_Tasks" FromRole="Task" ToRole="Task1" />
+          <NavigationProperty Name="Task1" Relationship="TaskManagmentDBModel.FK_Tasks_Tasks" FromRole="Task1" ToRole="Task" />
+          <NavigationProperty Name="TaskType" Relationship="TaskManagmentDBModel.FK_Tasks_TaskTypes" FromRole="Task" ToRole="TaskType" />
+          <NavigationProperty Name="User" Relationship="TaskManagmentDBModel.FK_Tasks_Users" FromRole="Task" ToRole="User" />
+          <NavigationProperty Name="WorkType" Relationship="TaskManagmentDBModel.FK_Tasks_WorkTypes" FromRole="Task" ToRole="WorkType" />
+          <NavigationProperty Name="UserTasks" Relationship="TaskManagmentDBModel.FK_UserTasks_Tasks" FromRole="Task" ToRole="UserTask" />
+          <Property Name="CreateDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="ListsValues" Relationship="TaskManagmentDBModel.FK_ListsValues_Tasks" FromRole="Task" ToRole="ListsValue" />
+          <NavigationProperty Name="Works" Relationship="TaskManagmentDBModel.FK_Works_Tasks" FromRole="Task" ToRole="Work" />
+          <Property Name="OwnerID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Tasks_Levels">
+          <End Type="TaskManagmentDBModel.LEVEL" Role="LEVEL" Multiplicity="0..1" />
+          <End Type="TaskManagmentDBModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LEVEL">
+              <PropertyRef Name="LevelID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="LevelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PropValues_Tasks">
+          <End Type="TaskManagmentDBModel.Task" Role="Task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TaskManagmentDBModel.PropValue" Role="PropValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PropValue">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Tasks">
+          <End Type="TaskManagmentDBModel.Task" Role="Task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TaskManagmentDBModel.Request" Role="Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Tasks">
+          <End Type="TaskManagmentDBModel.Task" Role="Task" Multiplicity="0..1" />
+          <End Type="TaskManagmentDBModel.Task" Role="Task1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task1">
+              <PropertyRef Name="ParentTaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_TaskTypes">
+          <End Type="TaskManagmentDBModel.TaskType" Role="TaskType" Multiplicity="1" />
+          <End Type="TaskManagmentDBModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="TaskTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Users">
+          <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="TaskManagmentDBModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="ResponsibleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_WorkTypes">
+          <End Type="TaskManagmentDBModel.WorkType" Role="WorkType" Multiplicity="1" />
+          <End Type="TaskManagmentDBModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="WorkTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTasks_Tasks">
+          <End Type="TaskManagmentDBModel.Task" Role="Task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TaskManagmentDBModel.UserTask" Role="UserTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserTask">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PropertiesList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="PropID" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Property" Relationship="TaskManagmentDBModel.FK_PropertiesList_Properties" FromRole="PropertiesList" ToRole="Property" />
+        </EntityType>
+        <EntityType Name="List">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nam" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ListsValues" Relationship="TaskManagmentDBModel.FK_ListsValues_Lists" FromRole="List" ToRole="ListsValue" />
+          <NavigationProperty Name="Properties" Relationship="TaskManagmentDBModel.FK_Properties_Lists" FromRole="List" ToRole="Property" />
+        </EntityType>
+        <EntityType Name="ListsValue">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="ListID" Type="Int32" Nullable="false" />
+          <Property Name="Val" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="List" Relationship="TaskManagmentDBModel.FK_ListsValues_Lists" FromRole="ListsValue" ToRole="List" />
+          <NavigationProperty Name="Task" Relationship="TaskManagmentDBModel.FK_ListsValues_Tasks" FromRole="ListsValue" ToRole="Task" />
+        </EntityType>
+        <Association Name="FK_ListsValues_Lists">
+          <End Type="TaskManagmentDBModel.List" Role="List" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TaskManagmentDBModel.ListsValue" Role="ListsValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="List">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ListsValue">
+              <PropertyRef Name="ListID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListsValues_Tasks">
+          <End Type="TaskManagmentDBModel.Task" Role="Task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TaskManagmentDBModel.ListsValue" Role="ListsValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ListsValue">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Property">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataType" Type="Int32" Nullable="false" />
+          <Property Name="PropName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ListType" Type="Boolean" />
+          <Property Name="ListID" Type="Int32" />
+          <Property Name="TaskTypeID" Type="Int32" />
+          <NavigationProperty Name="List" Relationship="TaskManagmentDBModel.FK_Properties_Lists" FromRole="Property" ToRole="List" />
+          <NavigationProperty Name="PropertiesLists" Relationship="TaskManagmentDBModel.FK_PropertiesList_Properties" FromRole="Property" ToRole="PropertiesList" />
+          <NavigationProperty Name="PropValues" Relationship="TaskManagmentDBModel.FK_PropValues_Properties" FromRole="Property" ToRole="PropValue" />
+          <NavigationProperty Name="TaskTypeProps" Relationship="TaskManagmentDBModel.FK_TaskTypeProps_Properties" FromRole="Property" ToRole="TaskTypeProp" />
+        </EntityType>
+        <Association Name="FK_Properties_Lists">
+          <End Type="TaskManagmentDBModel.List" Role="List" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TaskManagmentDBModel.Property" Role="Property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="List">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Property">
+              <PropertyRef Name="ListID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PropertiesList_Properties">
+          <End Type="TaskManagmentDBModel.Property" Role="Property" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TaskManagmentDBModel.PropertiesList" Role="PropertiesList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PropertiesList">
+              <PropertyRef Name="PropID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PropValues_Properties">
+          <End Type="TaskManagmentDBModel.Property" Role="Property" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TaskManagmentDBModel.PropValue" Role="PropValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PropValue">
+              <PropertyRef Name="PropID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskTypeProps_Properties">
+          <End Type="TaskManagmentDBModel.Property" Role="Property" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TaskManagmentDBModel.TaskTypeProp" Role="TaskTypeProp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Property">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TaskTypeProp">
+              <PropertyRef Name="PropID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="WorkTimeRange">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="WorkID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Work" Relationship="TaskManagmentDBModel.FK_WorkTimeRange_Works" FromRole="WorkTimeRange" ToRole="Work" />
+        </EntityType>
+        <EntityType Name="Work">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="WorkName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="WorkTypeID" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Minutes" Type="Int32" Nullable="false" />
+          <Property Name="StartTime" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AttrValues" Relationship="TaskManagmentDBModel.FK_AttrValues_Works" FromRole="Work" ToRole="AttrValue" />
+          <NavigationProperty Name="Task" Relationship="TaskManagmentDBModel.FK_Works_Tasks" FromRole="Work" ToRole="Task" />
+          <NavigationProperty Name="User" Relationship="TaskManagmentDBModel.FK_Works_Users" FromRole="Work" ToRole="User" />
+          <NavigationProperty Name="WorkType" Relationship="TaskManagmentDBModel.FK_Works_WorkTypes" FromRole="Work" ToRole="WorkType" />
+          <NavigationProperty Name="WorkTimeRanges" Relationship="TaskManagmentDBModel.FK_WorkTimeRange_Works" FromRole="Work" ToRole="WorkTimeRange" />
+        </EntityType>
+        <Association Name="FK_AttrValues_Works">
+          <End Type="TaskManagmentDBModel.Work" Role="Work" Multiplicity="1" />
+          <End Type="TaskManagmentDBModel.AttrValue" Role="AttrValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Work">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttrValue">
+              <PropertyRef Name="WorkID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Works_Tasks">
+          <End Type="TaskManagmentDBModel.Task" Role="Task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TaskManagmentDBModel.Work" Role="Work" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Work">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Works_Users">
+          <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="TaskManagmentDBModel.Work" Role="Work" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Work">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Works_WorkTypes">
+          <End Type="TaskManagmentDBModel.WorkType" Role="WorkType" Multiplicity="1" />
+          <End Type="TaskManagmentDBModel.Work" Role="Work" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Work">
+              <PropertyRef Name="WorkTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkTimeRange_Works">
+          <End Type="TaskManagmentDBModel.Work" Role="Work" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TaskManagmentDBModel.WorkTimeRange" Role="WorkTimeRange" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Work">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkTimeRange">
+              <PropertyRef Name="WorkID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="LogTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="ChangeDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OperationType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="TaskName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Reason">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReasonText" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="WorkAbsences" Relationship="TaskManagmentDBModel.FK_WorkAbsence_Reasons" FromRole="Reason" ToRole="WorkAbsence" />
+        </EntityType>
+        <EntityType Name="WorkAbsence">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ReasonID" Type="Int32" Nullable="false" />
+          <Property Name="AbsenceDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Reason" Relationship="TaskManagmentDBModel.FK_WorkAbsence_Reasons" FromRole="WorkAbsence" ToRole="Reason" />
+          <NavigationProperty Name="User" Relationship="TaskManagmentDBModel.FK_WorkAbsence_Users" FromRole="WorkAbsence" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_WorkAbsence_Reasons">
+          <End Type="TaskManagmentDBModel.Reason" Role="Reason" Multiplicity="1" />
+          <End Type="TaskManagmentDBModel.WorkAbsence" Role="WorkAbsence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reason">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkAbsence">
+              <PropertyRef Name="ReasonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkAbsence_Users">
+          <End Type="TaskManagmentDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="TaskManagmentDBModel.WorkAbsence" Role="WorkAbsence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WorkAbsence">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище TaskManagmentDBModelContainer" CdmEntityContainer="TaskManagmentDBEntities">
+          <EntitySetMapping Name="Attributes">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.Attribute">
+              <MappingFragment StoreEntitySet="Attributes">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DateType" ColumnName="DateType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AttrValues">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.AttrValue">
+              <MappingFragment StoreEntitySet="AttrValues">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AttrID" ColumnName="AttrID" />
+                <ScalarProperty Name="WorkID" ColumnName="WorkID" />
+                <ScalarProperty Name="DataType" ColumnName="DataType" />
+                <ScalarProperty Name="ValueText" ColumnName="ValueText" />
+                <ScalarProperty Name="ValueInt" ColumnName="ValueInt" />
+                <ScalarProperty Name="ValueDate" ColumnName="ValueDate" />
+                <ScalarProperty Name="ValueTime" ColumnName="ValueTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskTypeProps">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.TaskTypeProp">
+              <MappingFragment StoreEntitySet="TaskTypeProps">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TaskTypeID" ColumnName="TaskTypeID" />
+                <ScalarProperty Name="PropID" ColumnName="PropID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskTypes">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.TaskType">
+              <MappingFragment StoreEntitySet="TaskTypes">
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="WorkMode" ColumnName="WorkMode" />
+                <ScalarProperty Name="Settings" ColumnName="Settings" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTasks">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.UserTask">
+              <MappingFragment StoreEntitySet="UserTasks">
+                <ScalarProperty Name="IndexNumber" ColumnName="IndexNumber" />
+                <ScalarProperty Name="IsExpanded" ColumnName="IsExpanded" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkTypeAttrs">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.WorkTypeAttr">
+              <MappingFragment StoreEntitySet="WorkTypeAttrs">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="WorkTypeID" ColumnName="WorkTypeID" />
+                <ScalarProperty Name="AttrID" ColumnName="AttrID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkTypes">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.WorkType">
+              <MappingFragment StoreEntitySet="WorkTypes">
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LEVELS">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.LEVEL">
+              <MappingFragment StoreEntitySet="LEVELS">
+                <ScalarProperty Name="LevelName" ColumnName="LevelName" />
+                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeTables">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.TimeTable">
+              <MappingFragment StoreEntitySet="TimeTable">
+                <ScalarProperty Name="PlanningTime" ColumnName="PlanningTime" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="RepareUserTree" FunctionName="Хранилище TaskManagmentDBModel.RepareUserTree" />
+          <EntitySetMapping Name="Requests">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.Request">
+              <MappingFragment StoreEntitySet="Requests">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="TransferDateTime" ColumnName="TransferDateTime" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="ToUserID" ColumnName="ToUserID" />
+                <ScalarProperty Name="FromUserID" ColumnName="FromUserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PropValues">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.PropValue">
+              <MappingFragment StoreEntitySet="PropValues">
+                <ScalarProperty Name="ValueTime" ColumnName="ValueTime" />
+                <ScalarProperty Name="ValueDate" ColumnName="ValueDate" />
+                <ScalarProperty Name="ValueInt" ColumnName="ValueInt" />
+                <ScalarProperty Name="ValueText" ColumnName="ValueText" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="PropID" ColumnName="PropID" />
+                <ScalarProperty Name="DataType" ColumnName="DataType" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.Task">
+              <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ResponsibleID" ColumnName="ResponsibleID" />
+                <ScalarProperty Name="IsMain" ColumnName="IsMain" />
+                <ScalarProperty Name="LevelID" ColumnName="LevelID" />
+                <ScalarProperty Name="IndexNumber" ColumnName="IndexNumber" />
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+                <ScalarProperty Name="WorkTypeID" ColumnName="WorkTypeID" />
+                <ScalarProperty Name="ParentTaskID" ColumnName="ParentTaskID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TaskTypeID" ColumnName="TaskTypeID" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PropertiesLists">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.PropertiesList">
+              <MappingFragment StoreEntitySet="PropertiesList">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="PropID" ColumnName="PropID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="UpdateTaskIndexNumbersAfterAppend" FunctionName="Хранилище TaskManagmentDBModel.UpdateTaskIndexNumbersAfterAppend" />
+          <EntitySetMapping Name="Lists">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.List">
+              <MappingFragment StoreEntitySet="Lists">
+                <ScalarProperty Name="Nam" ColumnName="Nam" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListsValues">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.ListsValue">
+              <MappingFragment StoreEntitySet="ListsValues">
+                <ScalarProperty Name="Val" ColumnName="Val" />
+                <ScalarProperty Name="ListID" ColumnName="ListID" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Properties">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.Property">
+              <MappingFragment StoreEntitySet="Properties">
+                <ScalarProperty Name="TaskTypeID" ColumnName="TaskTypeID" />
+                <ScalarProperty Name="ListID" ColumnName="ListID" />
+                <ScalarProperty Name="ListType" ColumnName="ListType" />
+                <ScalarProperty Name="PropName" ColumnName="PropName" />
+                <ScalarProperty Name="DataType" ColumnName="DataType" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GenerateTaskResults2" FunctionName="Хранилище TaskManagmentDBModel.GenerateTaskResults2" />
+          <FunctionImportMapping FunctionImportName="GenerateTaskResults2All" FunctionName="Хранилище TaskManagmentDBModel.GenerateTaskResults2All" />
+          <FunctionImportMapping FunctionImportName="GenerateTaskResults2Changed" FunctionName="Хранилище TaskManagmentDBModel.GenerateTaskResults2Changed" />
+          <EntitySetMapping Name="WorkTimeRanges">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.WorkTimeRange">
+              <MappingFragment StoreEntitySet="WorkTimeRange">
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="WorkID" ColumnName="WorkID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Works">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.Work">
+              <MappingFragment StoreEntitySet="Works">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="Minutes" ColumnName="Minutes" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="WorkTypeID" ColumnName="WorkTypeID" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="WorkName" ColumnName="WorkName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogTables">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.LogTable">
+              <MappingFragment StoreEntitySet="LogTable">
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="OperationType" ColumnName="OperationType" />
+                <ScalarProperty Name="ChangeDate" ColumnName="ChangeDate" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reasons">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.Reason">
+              <MappingFragment StoreEntitySet="Reasons">
+                <ScalarProperty Name="ReasonText" ColumnName="ReasonText" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkAbsences">
+            <EntityTypeMapping TypeName="TaskManagmentDBModel.WorkAbsence">
+              <MappingFragment StoreEntitySet="WorkAbsence">
+                <ScalarProperty Name="AbsenceDate" ColumnName="AbsenceDate" />
+                <ScalarProperty Name="ReasonID" ColumnName="ReasonID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="TaskDuplicate" FunctionName="Хранилище TaskManagmentDBModel.TaskDuplicate" />
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

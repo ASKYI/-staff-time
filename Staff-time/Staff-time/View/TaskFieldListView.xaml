@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="Staff_time.View.TaskFieldListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Staff_time.View"
+             mc:Ignorable="d" >
+    <StackPanel Orientation="Horizontal">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"></ColumnDefinition>
+                <ColumnDefinition Width="120"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{Binding PropVal.ValueText}" FontSize="14" FontWeight="SemiBold" Margin="0,0,2,0" Grid.Column="0" Background="#FFFFA9"></TextBox>
+            <!--<ComboBox Grid.Column="1" FontSize="14" FontWeight="SemiBold" Background="#CAFFCA" SelectedValue="{Binding PropVal.ValueText}"
+                                ItemsSource="{Binding ListValues}"></ComboBox>-->
+        </Grid>
+    </StackPanel>
+
+</UserControl>

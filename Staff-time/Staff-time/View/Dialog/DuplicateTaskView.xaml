@@ -1,0 +1,93 @@
+﻿<Window x:Class="Staff_time.View.DuplicateTaskDialogView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Staff_time.View"
+        
+        xmlns:m="clr-namespace:Staff_time.Model"
+        xmlns:vm="clr-namespace:Staff_time.ViewModel"  
+        xmlns:v="clr-namespace:Staff_time.View" 
+        
+        mc:Ignorable="d"
+        Title="Выбор целевой родительской задачи" Height="450" Width="400" Topmost="True" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <!--Отображение узлов дерева-->
+        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeAppeal}" ItemsSource="{Binding TreeNodes}">
+            <Border x:Name="TaskBorder" BorderBrush="Gold" BorderThickness="2">
+                <TextBlock Text="{Binding Task.TaskName}" ></TextBlock>
+            </Border>
+            <HierarchicalDataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Path=Status}" Value="В работе">
+                    <Setter TargetName="TaskBorder" Property="Border.BorderBrush" Value="Red"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Status}" Value="Завершено">
+                    <Setter TargetName="TaskBorder" Property="Border.BorderBrush" Value="YellowGreen"/>
+                </DataTrigger>
+            </HierarchicalDataTemplate.Triggers>
+        </HierarchicalDataTemplate>
+
+        <!--<HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeSpecialty}" ItemsSource="{Binding TreeNodes}">
+            <Border BorderBrush="Azure" BorderThickness="2">
+                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+            </Border>
+        </HierarchicalDataTemplate>-->
+
+        <!--<HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСompany}" ItemsSource="{Binding TreeNodes}">
+            <Border BorderBrush="LightGoldenrodYellow" BorderThickness="2">
+                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+            </Border>
+        </HierarchicalDataTemplate>-->
+
+        <!--<HierarchicalDataTemplate DataType="{x:Type vm:TreeNodeСontract}" ItemsSource="{Binding TreeNodes}">
+            <Border BorderBrush="LightYellow" BorderThickness="2">
+                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+            </Border>
+        </HierarchicalDataTemplate>-->
+
+        <HierarchicalDataTemplate DataType="{x:Type vm:TreeNode}" ItemsSource="{Binding TreeNodes}">
+            <Border BorderBrush="LightGray" BorderThickness="2">
+                <TextBlock Text="{Binding Task.TaskName}"></TextBlock>
+            </Border>
+        </HierarchicalDataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" Height="25" >
+            <TextBox Margin ="2,0,0,0" Name="FilterTBox" FontStyle="Italic" KeyDown="OnKeyDownFilter" FontSize="16" Width="200" Text="{Binding FilterTaskText, UpdateSourceTrigger=PropertyChanged}" GotFocus="Filter_GotFocus"></TextBox>
+            <Button  Margin ="2,0,0,0" Click="FilterClick" ToolTip="Фильтровать дерево" Background="White" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/filter.ico"></Image>
+            </Button>
+            <Button Name="ClearFilterBtn" Margin ="2,0,0,0" Click="ClearFilterClick" ToolTip="Сбросить фильтр" Background="White"
+                    IsEnabled="{Binding ElementName=FilterTBox, Path=Text.Length, Mode=OneWay}" ToolTipService.ShowOnDisabled="True">
+                <Image Source="../../Resources/delete.ico"></Image>
+            </Button>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <v:ExtendedTreeView Margin="3"
+                         SelectedItem="{Binding Path=SelectedTaskNode, Mode=TwoWay}" 
+                         ItemsSource="{Binding TreeRoots}" VerticalAlignment="Stretch"  HorizontalAlignment="Stretch">
+                    <local:ExtendedTreeView.Resources>
+                        <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"></Setter>
+                        </Style>
+                    </local:ExtendedTreeView.Resources>
+                </v:ExtendedTreeView>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Margin="2" HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal">
+            <Button Content="Ок" Margin="2" Click="OK_Button_Click" Command="{Binding AcceptCommand}" Width="120" HorizontalAlignment="Right"></Button>
+            <Button Content="Отмена" Margin="2" Click="Cancel_Button_Click" Command="{Binding CancelCommand}" Width="120" HorizontalAlignment="Right"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -11,16 +11,22 @@ namespace Staff_time.Model
         {
             switch (type)
             {
-                case TaskTypeEnum.TaskNone:
+                case TaskTypeEnum.TaskTask:
                     return new Task();
                 case TaskTypeEnum.TaskCustomer:
                     return new TaskCustomer();
-                case TaskTypeEnum.TaskSpecialty:
-                    return new TaskSpecialty();
-                case TaskTypeEnum.TaskСompany:
-                    return new TaskCompany();
-                case TaskTypeEnum.TaskСontract:
+                case TaskTypeEnum.TaskClassification:
+                    return new TaskClassification();
+                case TaskTypeEnum.TaskDirection:
+                    return new TaskDirection();
+                case TaskTypeEnum.TaskAppeal:
+                    return new TaskAppeal();
+                case TaskTypeEnum.TaskContract:
                     return new TaskContract();
+                case TaskTypeEnum.TaskRevision:
+                    return new TaskRevision();
+                case TaskTypeEnum.TaskPlan:
+                    return new TaskPlan();
             }
             return null;
         }
@@ -29,18 +35,24 @@ namespace Staff_time.Model
             TaskTypeEnum type = (TaskTypeEnum)task.TaskTypeID;
             switch (type)
             {
-                case TaskTypeEnum.TaskNone:
+                case TaskTypeEnum.TaskTask:
                     return new Task(task);
                 case TaskTypeEnum.TaskCustomer:
                     return new TaskCustomer(task);
-                case TaskTypeEnum.TaskSpecialty:
-                    return new TaskSpecialty(task);
-                case TaskTypeEnum.TaskСompany:
-                    return new TaskCompany(task);
-                case TaskTypeEnum.TaskСontract:
+                case TaskTypeEnum.TaskClassification:
+                    return new TaskClassification(task);
+                case TaskTypeEnum.TaskDirection:
+                    return new TaskDirection(task);
+                case TaskTypeEnum.TaskAppeal:
+                    return new TaskAppeal(task);
+                case TaskTypeEnum.TaskContract:
                     return new TaskContract(task);
+                case TaskTypeEnum.TaskRevision:
+                    return new TaskRevision(task);
+                case TaskTypeEnum.TaskPlan:
+                    return new TaskPlan(task);
             }
-            return null;
+            return new Task(task);
         }
     }
 }
