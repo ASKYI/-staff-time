@@ -1,4 +1,4 @@
-delete from timetable
+--delete from timetable
 DECLARE  @InStartDate DATE;
 DECLARE  @InStopDate DATE;
 DECLARE  @tm FLOAT;
