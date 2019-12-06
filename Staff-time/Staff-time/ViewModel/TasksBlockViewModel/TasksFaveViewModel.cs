@@ -777,6 +777,8 @@ namespace Staff_time.ViewModel
 
         void ApplyRequest(object obj)
         {
+            FilterTaskText = "";
+            FilterTree(obj);
             Mouse.SetCursor(Cursors.Wait);
 
             List<int> requestsIds = new List<int>();

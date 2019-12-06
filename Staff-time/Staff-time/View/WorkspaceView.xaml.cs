@@ -75,7 +75,7 @@ namespace Staff_time.View
                 var chemicConnectionKey = stuffTimeKey.OpenSubKey("АРМ «Химик-аналитик»", true);
                 chemicConnectionKey.SetValue("Connect", connString);
 
-                string folderPath = @"\\13.1.77.200\Share\Programmers\_Картотека_UM\Chemic15.exe";
+                string folderPath = @"\\13.1.77.200\Share\Programmers\_Картотека_UM\Chemic.exe";
                 System.Diagnostics.Process.Start(folderPath);
             }
             catch
